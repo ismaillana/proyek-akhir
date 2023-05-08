@@ -51,8 +51,8 @@
                         <th class="text-center">Nama Jurusan</th>
                         <th class="text-center">Aksi</th>
                     </tr>
-                    <tr class="text-center">
-                        @foreach ($jurusan as $item)
+                    @foreach ($jurusan as $item)
+                        <tr class="text-center">
                             <td>
                                 {{ $loop->iteration }}
                             </td>
@@ -67,8 +67,8 @@
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
-                        @endforeach
-                    </tr>
+                        </tr>
+                    @endforeach
                     </table>
                 </div>
                 <div class="float-right">
@@ -113,16 +113,16 @@
 
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN' : $('meta[name"csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
             $(document).on('click', '.delete', function() {
                 let url = $(this).val();
-                consol.log(url);
+                console.log(url);
                 swal({
                         title: "Apakah anda yakin?",
-                        text: "Setelah dihapus, Anda tidak dapat memulihkan data ini lagi!",
+                        text: "Setelah dihapus, Anda tidak dapat memulihkan Data ini lagi!",
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,
@@ -135,13 +135,13 @@
                                 dataType: 'json',
                                 success: function(response) {
                                     swal(response.status, {
-                                        icon: "success",
-                                    })
-                                    .then((result) => {
-                                        location.reload();
-                                    });
+                                            icon: "success",
+                                        })
+                                        .then((result) => {
+                                            location.reload();
+                                        });
                                 }
-                            });                          
+                            });
                         }
                     })
             });
