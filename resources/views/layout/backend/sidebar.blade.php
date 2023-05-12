@@ -13,13 +13,31 @@
                 <span>Dashboard</span></a>
           </li>
           <li class="menu-header">Master Data</li>
-          <li class="nav-item dropdown">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> 
-                <span>Master Data</span></a>
+          <li class="nav-item dropdown {{ request()->is('menu-admin/jurusan*') ? 'active' : ''}} ||
+            {{ request()->is('menu-admin/prodi*') ? 'active' : ''}} ||
+            {{ request()->is('menu-admin/mahasiswa*') ? 'active' : ''}} ||
+            {{ request()->is('menu-admin/alumni*') ? 'active' : ''}} ||
+            {{ request()->is('menu-admin/instansi*') ? 'active' : ''}} ||">
+            <a class="nav-link has-dropdown" data-toggle="dropdown">
+              <i class="fas fa-columns"></i> 
+                <span>Master Data</span>
+            </a>
             <ul class="dropdown-menu">
-              <li><a class="nav-link" href="{{route('jurusan.index')}}">Jurusan</a></li>
-              <li><a class="nav-link" href="layout-transparent.html">Program Studi</a></li>
-              <li><a class="nav-link" href="layout-top-navigation.html">Mahasiswa</a></li>
+              <li class="{{ request()->is('menu-admin/jurusan*') ? 'active' : ''}}">
+                <a class="nav-link" href="{{route('jurusan.index')}}">
+                  Jurusan
+                </a>
+              </li>
+              <li class="{{ request()->is('menu-admin/prodi*') ? 'active' : ''}}">
+                <a class="nav-link" href="{{route('prodi.index')}}">
+                  Program Studi
+                </a>
+              </li>
+              <li class="{{ request()->is('menu-admin/mahasiswa*') ? 'active' : ''}}">
+                <a class="nav-link" href="{{route('mahasiswa.index')}}">
+                  Mahasiswa
+                </a>
+              </li>
               <li><a class="nav-link" href="layout-top-navigation.html">Alumni</a></li>
               <li><a class="nav-link" href="layout-top-navigation.html">Instansi</a></li>
               <li><a class="nav-link" href="layout-top-navigation.html">Koor.PKL Jurusan</a></li>

@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JurusanController;
+use App\Http\Controllers\ProdiController;
+use App\Http\Controllers\MahasiswaController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,4 +23,6 @@ Route::get('/', function () {
 
 Route::prefix('menu-admin')->group(function () {
     Route::resource('jurusan', JurusanController::class);
+    Route::resource('prodi', ProdiController::class);
+    Route::resource('mahasiswa', MahasiswaController::class);
 });

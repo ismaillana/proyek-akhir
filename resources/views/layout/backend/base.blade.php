@@ -17,6 +17,10 @@
   <link rel="stylesheet" href="{{asset('/node_modules/weathericons/css/weather-icons-wind.min.css')}}">
   <link rel="stylesheet" href="{{asset('/node_modules/summernote/dist/summernote-bs4.css')}}">
   <link rel="stylesheet" href="{{asset('/node_modules/izitoast/dist/css/iziToast.min.css')}}">
+  <link rel="stylesheet" href="{{asset('/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{asset('/node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{asset('/node_modules/selectric/public/selectric.css')}}">
+  <link rel="stylesheet" href="{{asset('/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}">
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{asset('/assets/css/style.css')}}">
@@ -67,6 +71,12 @@
   <script src="{{asset('/node_modules/summernote/dist/summernote-bs4.js')}}"></script>
   <script src="{{asset('/node_modules/chocolat/dist/js/jquery.chocolat.min.js')}}"></script>
   <script src="{{asset('/node_modules/izitoast/dist/js/iziToast.min.js')}}"></script>
+  <script src="{{asset('/node_modules/datatables/media/js/jquery.dataTables.min.js')}}"></script>
+  <script src="{{asset('/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+  <script src="{{asset('/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js')}}"></script>
+  <script src="{{asset('/node_modules/selectric/public/jquery.selectric.min.js')}}"></script>
+  <script src="{{asset('/node_modules/jquery_upload_preview/assets/js/jquery.uploadPreview.min.js')}}"></script>
+  <script src="{{asset('/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js')}}"></script>
 
   <!-- Template JS File -->
   <script src="{{asset('/assets/js/scripts.js')}}"></script>
@@ -74,7 +84,9 @@
 
   <!-- Page Specific JS File -->
   <script src="{{asset('/assets/js/page/modules-toastr.js')}}"></script>
+  <script src="{{asset('/assets/js/page/modules-datatables.js')}}"></script>
   <script src="{{asset('/assets/js/page/index-0.js')}}"></script>
+  <script src="{{asset('/assets/js/page/features-post-create.js')}}"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script>
       $(document).ready(function() {
