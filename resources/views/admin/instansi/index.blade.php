@@ -3,7 +3,7 @@
 <div class="main-content">
     <section class="section">
       <div class="section-header">
-        <h1>Tabel Data Mahasiswa</h1>
+        <h1>Tabel Data Instansi</h1>
       </div>
 
       <div class="section-body">
@@ -13,10 +13,10 @@
               <div class="card-header">
                 <div class="d-flex justify-content-between w-100">
                     <h4>
-                        Data Mahasiswa
+                        Data Instansi
                     </h4>
 
-                    <a href="{{ route('mahasiswa.create') }}"
+                    <a href="{{ route('instansi.create') }}"
                         class="btn btn-outline-success btn-lg d-flex align-items-center ">
                         <i class="fa fa-plus pr-2"></i>
                         Tambah
@@ -32,16 +32,10 @@
                             #
                         </th>
                         <th class="text-center">
-                            Nama Mahasiswa
+                            Nama Perusahaan
                         </th>
                         <th class="text-center">
-                            NIM
-                        </th>
-                        <th class="text-center">
-                            Angkatan
-                        </th>
-                        <th class="text-center">
-                            Status
+                            Alamat
                         </th>
                         <th class="text-center">
                             Aksi
@@ -49,23 +43,15 @@
                       </tr>
                     </thead>
                     <tbody>
-                    @foreach ($mahasiswa as $item)
+                    @foreach ($instansi as $item)
                         <tr class="text-center">
                             <td>
                                 {{$loop->iteration}}
                             </td>
-                            <td>{{ $item->user->name}}</td>
-                            <td>{{ $item->nim}}</td>
-                            <td>{{ $item->angkatan}}</td>
+                            <td>{{ $item->nama_perusahaan}}</td>
+                            <td>{{ $item->alamat}}</td>
                             <td>
-                                @if ($item->status == 'Mahasiswa Aktif')
-                                    <span class="badge badge-success">Mahasiswa Aktif</span>
-                                @else
-                                    <span class="badge badge-warning">Alumni</span>
-                                @endif
-                            </td>
-                            <td>
-                                <a href="{{ route('mahasiswa.show', Crypt::encryptString($item->id)) }}"
+                                <a href="{{ route('instansi.show', Crypt::encryptString($item->id)) }}"
                                     class="btn btn-sm btn-outline-secondary" title="Detail">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                         width="16" height="16" viewBox="0 0 24 24"
@@ -75,11 +61,11 @@
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 </a>
-                                <a href="{{ route('mahasiswa.edit', $item->id) }}" title="Edit" 
+                                <a href="{{ route('instansi.edit', $item->id) }}" title="Edit" 
                                     class="btn btn-sm btn-outline-warning">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <button value="{{ route('mahasiswa.destroy', $item->id) }}"
+                                <button value="{{ route('instansi.destroy', $item->id) }}"
                                     class="btn btn-sm btn-outline-danger delete" title="Hapus"> 
                                     <i class="fas fa-trash"></i>
                                 </button>

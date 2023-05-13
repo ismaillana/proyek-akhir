@@ -4,7 +4,7 @@
     <section class="section">
       <div class="section-header">
         <div class="section-header-back">
-          <a href="{{route('mahasiswa.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+          <a href="{{route('alumni.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
         </div>
         <h1>
             @if (@$mahasiswa->exists)
@@ -24,11 +24,11 @@
 
       @if (@$mahasiswa->exists)
         <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST"
-            action="{{route('mahasiswa.update', $mahasiswa) }}">
+            action="{{route('alumni.update', $mahasiswa) }}">
             @method('put')
       @else
         <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST" 
-            action="{{route('mahasiswa.store')}}">
+            action="{{route('alumni.store')}}">
       @endif
         {{ csrf_field() }}
         <div class="section-body">

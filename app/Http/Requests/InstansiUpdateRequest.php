@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class MahasiswaRequest extends FormRequest
+class InstansiUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +23,9 @@ class MahasiswaRequest extends FormRequest
     {
         $rules = [
             'name'              => 'required',
-            'email'             => 'required|email|unique:users,email',
-            'nomor_induk'       => 'required|unique:users,nomor_induk',
+            'email'             => 'required|email|unique:users,email,'. $this->instansi->user->id,
             'wa'                => 'required',
-            'angkatan'          => 'required',
-            'jurusan_id'        => 'required',
-            'program_studi_id'  => 'required'
+            'alamat'            => 'required',
         ];
         return $rules;
     }
@@ -37,15 +33,11 @@ class MahasiswaRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required'         => 'Nama Mahasiswa Wajib Diisi',
+            'name.required'         => 'Nama Instansi Wajib Diisi',
             'email.required'        => 'Email Wajib Diisi',
             'email.email'           => 'Format Email Harus Sesuai',
-            'nomor_induk.required'  => 'NIM Wajib Diisi',
-            'nomor_induk.unique'    => 'NIM Sudah Ada',
             'wa.required'           => 'No WhatsApp Wajib Diisi',
-            'angkatan.required'     => 'Tahun Angkatan Wajib Diisi',
-            'jurusan_id.required'   => 'Jurusan Wajib Diisi',
-            'program_studi_id.required' => 'Program Studi Wajib Diisi',
+            'alamat.required'     => 'Alamat Wajib Diisi',
             'email.unique' => 'Email Sudah Digunakan'
 
         ];

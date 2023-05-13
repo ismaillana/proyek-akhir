@@ -4,30 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Mahasiswa;
+use App\Models\AdminJurusan;
 use App\Models\Jurusan;
-use App\Models\ProgramStudi;
 
-use App\Http\Requests\MahasiswaRequest;
-use App\Http\Requests\MahasiswaUpdateRequest;
+use App\Http\Requests\AdminJurusanRequest;
+use App\Http\Requests\AdminJurusanUpdateRequest;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 
-class MahasiswaController extends Controller
+class AdminJurusanController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $mahasiswa = Mahasiswa::where('status', 'Mahasiswa Aktif' || 'Keluar')
-        ->get();
+        $adminJurusan = AdminJurusan::get();
 
-        return view ('admin.mahasiswa.index', [
-            'mahasiswa' => $mahasiswa
+        return view ('admin.admin-jurusan.index', [
+            'adminJurusan'  => $adminJurusan
         ]);
     }
 
@@ -37,18 +35,16 @@ class MahasiswaController extends Controller
     public function create()
     {
         $jurusan    =   Jurusan::get();
-        $prodi      =   ProgramStudi::get();
         
-        return view ('admin.mahasiswa.form', [
+        return view ('admin.admin-jurusan.form', [
             'jurusan'   =>  $jurusan,
-            'prodi'     =>  $prodi
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(MahasiswaRequest $request)
+    public function store(AdminJurusanRequest $request)
     {
         DB::beginTransaction();
 
@@ -65,25 +61,22 @@ class MahasiswaController extends Controller
 
             $data = [
                 'user_id'           => $user->id,
-                'nim'               => $user->nomor_induk,
-                'angkatan'          => $request->angkatan,
+                'nip'               => $user->nomor_induk,
                 'jurusan_id'        => $request->jurusan_id,
-                'program_studi_id'  => $request->program_studi_id,
-                'status'            => $request->status
             ];
 
-            $image = Mahasiswa::saveImage($request);
+            $image = AdminJurusan::saveImage($request);
 
             $data['image'] = $image;
 
-            $mahasiswa = Mahasiswa::create($data);
+            $adminJurusan = AdminJurusan::create($data);
 
             DB::commit();
 
-            return redirect()->route('mahasiswa.index')->with('success', 'Data Berhasil Ditambah');
+            return redirect()->route('admin-jurusan.index')->with('success', 'Data Berhasil Ditambah');
         } catch (\Throwable $th) {
             DB::rollback();
-            return back()->withError('Mahasiswa Gagal Ditambah');
+            return back()->withError('Admin Jurusan Gagal Ditambah');
         }
     }
 
@@ -100,46 +93,41 @@ class MahasiswaController extends Controller
      */
     public function edit(string $id)
     {
-        $mahasiswa = Mahasiswa::findOrFail($id);
+        $adminJurusan = AdminJurusan::findOrFail($id);
         $jurusan = Jurusan::oldest('name')->get();
-        $prodi = ProgramStudi::oldest('name')->get();
 
-        return view ('admin.mahasiswa.form', [
-            'mahasiswa' => $mahasiswa,
+        return view ('admin.admin-jurusan.form', [
+            'adminJurusan' => $adminJurusan,
             'jurusan'   => $jurusan,
-            'prodi'     => $prodi
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(MahasiswaUpdateRequest $request, Mahasiswa $mahasiswa)
+    public function update(AdminJurusanUpdateRequest $request, AdminJurusan $adminJurusan)
     {
         $data = [
-            'nim'               => $request->nomor_induk,
-            'angkatan'          => $request->angkatan,
+            'nip'               => $request->nomor_induk,
             'jurusan_id'        => $request->jurusan_id,
-            'program_studi_id'  => $request->program_studi_id,
-            'status'            => $request->status,
         ];
 
-        $image = Mahasiswa::saveImage($request);
+        $image = AdminJurusan::saveImage($request);
 
         if ($image) {
             $data['image'] = $image;
 
             $param = (object) [
                 'type'  => 'image',
-                'id'    => $mahasiswa->id
+                'id'    => $adminJurusan->id
             ];
 
-            Mahasiswa::deleteImage($param);
+            AdminJurusan::deleteImage($param);
         }
 
-        Mahasiswa::where('id', $mahasiswa->id)->update($data);
+        AdminJurusan::where('id', $adminJurusan->id)->update($data);
 
-        User::whereId($mahasiswa->user_id)->update([
+        User::whereId($adminJurusan->user_id)->update([
             'name'        => $request->name,
             'nomor_induk' => $request->nomor_induk,
             'email'       => $request->email,
@@ -147,7 +135,7 @@ class MahasiswaController extends Controller
             // 'password'    => Hash::make($request->nomor_induk)
         ]);
         // return dd($request->all());
-        return redirect()->route('mahasiswa.index')->with('success', 'Data Berhasil Diubah');
+        return redirect()->route('admin-jurusan.index')->with('success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -155,7 +143,7 @@ class MahasiswaController extends Controller
      */
     public function destroy(string $id)
     {
-        $mahasiswa = Mahasiswa::find($id);
+        $adminJurusan = AdminJurusan::find($id);
 
         // $resellerOrder =  ResellerOrder::where('reseller_id', $id)
         //     ->whereNotIn('order_status_id', [8, 9])
@@ -167,16 +155,16 @@ class MahasiswaController extends Controller
 
         $param = (object) [
             'type'  => 'image',
-            'id'    => $mahasiswa->id
+            'id'    => $adminJurusan->id
         ];
 
-        Mahasiswa::deleteImage($param);
+        AdminJurusan::deleteImage($param);
 
         // $this->deleteMahasiswa($id);
 
-        $mahasiswa->delete();
+        $adminJurusan->delete();
 
-        User::where('id', $mahasiswa->user_id)->update(['status' => '0']);
+        User::where('id', $adminJurusan->user_id)->update(['status' => '0']);
 
         return response()->json(['status' => 'Data Berhasil Dihapus']);
     }

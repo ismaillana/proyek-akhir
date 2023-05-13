@@ -4,30 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Mahasiswa;
+use App\Models\koorPkl;
 use App\Models\Jurusan;
-use App\Models\ProgramStudi;
 
-use App\Http\Requests\MahasiswaRequest;
-use App\Http\Requests\MahasiswaUpdateRequest;
+use App\Http\Requests\KoorPKLRequest;
+use App\Http\Requests\KoorPKLUpdateRequest;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
-
-class MahasiswaController extends Controller
+class KoorPKLController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $mahasiswa = Mahasiswa::where('status', 'Mahasiswa Aktif' || 'Keluar')
-        ->get();
+        $koorPKL = koorPkl::get();
 
-        return view ('admin.mahasiswa.index', [
-            'mahasiswa' => $mahasiswa
+        return view ('admin.koor-pkl.index', [
+            'koorPKL'  => $koorPKL
         ]);
     }
 
@@ -37,18 +34,16 @@ class MahasiswaController extends Controller
     public function create()
     {
         $jurusan    =   Jurusan::get();
-        $prodi      =   ProgramStudi::get();
         
-        return view ('admin.mahasiswa.form', [
+        return view ('admin.koor-pkl.form', [
             'jurusan'   =>  $jurusan,
-            'prodi'     =>  $prodi
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(MahasiswaRequest $request)
+    public function store(KoorPKLRequest $request)
     {
         DB::beginTransaction();
 
@@ -65,25 +60,22 @@ class MahasiswaController extends Controller
 
             $data = [
                 'user_id'           => $user->id,
-                'nim'               => $user->nomor_induk,
-                'angkatan'          => $request->angkatan,
+                'nip'               => $user->nomor_induk,
                 'jurusan_id'        => $request->jurusan_id,
-                'program_studi_id'  => $request->program_studi_id,
-                'status'            => $request->status
             ];
 
-            $image = Mahasiswa::saveImage($request);
+            $image = koorPkl::saveImage($request);
 
             $data['image'] = $image;
 
-            $mahasiswa = Mahasiswa::create($data);
+            $koorPKL = koorPkl::create($data);
 
             DB::commit();
 
-            return redirect()->route('mahasiswa.index')->with('success', 'Data Berhasil Ditambah');
+            return redirect()->route('koor-pkl.index')->with('success', 'Data Berhasil Ditambah');
         } catch (\Throwable $th) {
             DB::rollback();
-            return back()->withError('Mahasiswa Gagal Ditambah');
+            return back()->withError('Koordinator PKL Gagal Ditambah');
         }
     }
 
@@ -100,46 +92,42 @@ class MahasiswaController extends Controller
      */
     public function edit(string $id)
     {
-        $mahasiswa = Mahasiswa::findOrFail($id);
+        $koorPKL = koorPkl::findOrFail($id);
         $jurusan = Jurusan::oldest('name')->get();
-        $prodi = ProgramStudi::oldest('name')->get();
 
-        return view ('admin.mahasiswa.form', [
-            'mahasiswa' => $mahasiswa,
+        return view ('admin.koor-pkl.form', [
+            'koorPKL' => $koorPKL,
             'jurusan'   => $jurusan,
-            'prodi'     => $prodi
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(MahasiswaUpdateRequest $request, Mahasiswa $mahasiswa)
+    public function update(KoorPKLUpdateRequest $request, koorPkl $koorPKL)
     {
         $data = [
-            'nim'               => $request->nomor_induk,
-            'angkatan'          => $request->angkatan,
+            'nip'               => $request->nomor_induk,
             'jurusan_id'        => $request->jurusan_id,
-            'program_studi_id'  => $request->program_studi_id,
-            'status'            => $request->status,
+            'image'             => $request->image
         ];
 
-        $image = Mahasiswa::saveImage($request);
+        $image = koorPkl::saveImage($request);
 
         if ($image) {
             $data['image'] = $image;
 
-            $param = (object) [
-                'type'  => 'image',
-                'id'    => $mahasiswa->id
-            ];
+            // $param = (object) [
+            //     'type'  => 'image',
+            //     'id'    => $koorPKL->id
+            // ];
 
-            Mahasiswa::deleteImage($param);
+            KoorPkl::deleteImage($koorPKL);
         }
 
-        Mahasiswa::where('id', $mahasiswa->id)->update($data);
+        koorPkl::where('id', $koorPKL->id)->update($data);
 
-        User::whereId($mahasiswa->user_id)->update([
+        User::whereId($koorPKL->user_id)->update([
             'name'        => $request->name,
             'nomor_induk' => $request->nomor_induk,
             'email'       => $request->email,
@@ -147,7 +135,7 @@ class MahasiswaController extends Controller
             // 'password'    => Hash::make($request->nomor_induk)
         ]);
         // return dd($request->all());
-        return redirect()->route('mahasiswa.index')->with('success', 'Data Berhasil Diubah');
+        return redirect()->route('koor-pkl.index')->with('success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -155,7 +143,7 @@ class MahasiswaController extends Controller
      */
     public function destroy(string $id)
     {
-        $mahasiswa = Mahasiswa::find($id);
+        $koorPKL = KoorPkl::find($id);
 
         // $resellerOrder =  ResellerOrder::where('reseller_id', $id)
         //     ->whereNotIn('order_status_id', [8, 9])
@@ -167,16 +155,16 @@ class MahasiswaController extends Controller
 
         $param = (object) [
             'type'  => 'image',
-            'id'    => $mahasiswa->id
+            'id'    => $koorPKL->id
         ];
 
-        Mahasiswa::deleteImage($param);
+        KoorPkl::deleteImage($param);
 
         // $this->deleteMahasiswa($id);
 
-        $mahasiswa->delete();
+        $koorPKL->delete();
 
-        User::where('id', $mahasiswa->user_id)->update(['status' => '0']);
+        User::where('id', $koorPKL->user_id)->update(['status' => '0']);
 
         return response()->json(['status' => 'Data Berhasil Dihapus']);
     }

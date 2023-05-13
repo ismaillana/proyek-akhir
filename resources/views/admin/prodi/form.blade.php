@@ -45,17 +45,19 @@
                         </label>
 
                         <div class="col-sm-12 col-md-7">
-                            <select name="jurusan_id" id="jurusan_id"
-                                class="form-control @error('jurusan_id')
-                                is-invalid @enderror">
-                                <option value="" selected="" disabled="">Pilih Jurusan</option>
-                                @foreach ($jurusan as $item)
-                                    <option value="{{ $item->id }}"
-                                        {{ old('jurusan_id', @$prodi->jurusan_id) == $item->id ? 'selected' : '' }}>
-                                        {{ $item->name }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <div class="input-group">
+                                <select name="jurusan_id" id="jurusan_id" class="form-control select2"
+                                    class="form-control @error('jurusan_id')
+                                    is-invalid @enderror">
+                                    <option disabled selected>Pilih Jurusan</option>
+                                    @foreach ($jurusan as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ old('jurusan_id', @$prodi->jurusan_id) == $item->id ? 'selected' : '' }}>
+                                            {{ $item->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
                             @if ($errors->has('jurusan_id'))
                                 <span class="text-danger">

@@ -19,9 +19,8 @@
   <link rel="stylesheet" href="{{asset('/node_modules/izitoast/dist/css/iziToast.min.css')}}">
   <link rel="stylesheet" href="{{asset('/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('/node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css')}}">
-  <link rel="stylesheet" href="{{asset('/node_modules/selectric/public/selectric.css')}}">
-  <link rel="stylesheet" href="{{asset('/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}">
-
+  <!-- Dropify -->
+  <link rel="stylesheet" href="{{ asset('/node_modules/dropify/dist/css/dropify.min.css') }}">
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{asset('/assets/css/style.css')}}">
   <link rel="stylesheet" href="{{asset('/assets/css/components.css')}}">
@@ -74,9 +73,9 @@
   <script src="{{asset('/node_modules/datatables/media/js/jquery.dataTables.min.js')}}"></script>
   <script src="{{asset('/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
   <script src="{{asset('/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js')}}"></script>
-  <script src="{{asset('/node_modules/selectric/public/jquery.selectric.min.js')}}"></script>
-  <script src="{{asset('/node_modules/jquery_upload_preview/assets/js/jquery.uploadPreview.min.js')}}"></script>
-  <script src="{{asset('/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js')}}"></script>
+  
+  {{-- dropify --}}
+  <script src="{{ asset('/node_modules/dropify/dist/js/dropify.min.js') }}"></script>
 
   <!-- Template JS File -->
   <script src="{{asset('/assets/js/scripts.js')}}"></script>

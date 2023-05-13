@@ -28,7 +28,7 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table->string('image')->nullable();
-            $table->enum('status', ['Mahasiswa Aktif', 'Keluar', 'Alumni'])->nullable();
+            $table->enum('status', ['Mahasiswa Aktif', 'Keluar', 'Alumni'])->default('Mahasiswa Aktif')->nullable();
             $table->timestamps();
         });
     }

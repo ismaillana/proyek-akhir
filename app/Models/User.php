@@ -47,4 +47,34 @@ class User extends Authenticatable
     {
         return $this->hasMany(Mahasiswa::class);
     }
+
+    /**
+     * Get all of the Instansi for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function instansi(): HasMany
+    {
+        return $this->hasMany(Instansi::class);
+    }
+
+    /**
+     * Get all of the Admin Jurusan for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function adminJurusan(): HasMany
+    {
+        return $this->hasMany(AdminJurusan::class);
+    }
+
+    /**
+     * Get all of the Admin Jurusan for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function koorPKL(): HasMany
+    {
+        return $this->hasMany(koorPkl::class);
+    }
 }

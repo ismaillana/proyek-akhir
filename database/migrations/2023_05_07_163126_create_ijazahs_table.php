@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('ijazahs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('mahasiswa_id')
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+            $table->string('no_ijazah');
+            $table->string('tahun_lulus');
             $table->timestamps();
         });
     }

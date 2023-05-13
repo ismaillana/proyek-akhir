@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ijazah extends Model
+class TempatPKL extends Model
 {
     use HasFactory;
 
@@ -15,16 +15,4 @@ class Ijazah extends Model
      * @var array<int, string>
      */
     protected $guarded = ['id'];
-    
-    /**
-     * Get the user that owns the Mahasiswa
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function mahasiswa()
-    {
-        return $this->belongsTo(Mahasiswa::class);
-    }
-
-    
 }

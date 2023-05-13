@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class MahasiswaRequest extends FormRequest
+
+class MahasiswaUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,11 @@ class MahasiswaRequest extends FormRequest
     {
         $rules = [
             'name'              => 'required',
-            'email'             => 'required|email|unique:users,email',
-            'nomor_induk'       => 'required|unique:users,nomor_induk',
+            // 'email'             => ['required|email', Rule::unique('users', 'email')->ignore($this->mahasiswa->user->id)],
+            'email'             => 'required|email|unique:users,email,'  . $this->mahasiswa->user->id,
+            // 'nomor_induk'       => ['required', Rule::unique('users', 'nomor_induk')->ignore($this->mahasiswa->user->id)],
+           
+            'nomor_induk'       => 'required|unique:users,nomor_induk,' . $this->mahasiswa->user->id,
             'wa'                => 'required',
             'angkatan'          => 'required',
             'jurusan_id'        => 'required',

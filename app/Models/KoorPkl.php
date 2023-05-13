@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Image;
 
-class Mahasiswa extends Model
+class koorPkl extends Model
 {
     use HasFactory;
 
@@ -46,26 +46,6 @@ class Mahasiswa extends Model
     }
 
     /**
-     * Get the user that owns the Mahasiswa
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function programStudi()
-    {
-        return $this->belongsTo(ProgramStudi::class);
-    }
-
-    /**
-     * Get all of the comments for the Jurusan
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function ijazah(): HasMany
-    {
-        return $this->hasMany(Ijazah::class);
-    }
-
-    /**
      * Save image.
      *
      * @param  $request
@@ -80,7 +60,7 @@ class Mahasiswa extends Model
 
             $ext = $file->getClientOriginalExtension();
             $filename = date('YmdHis') . uniqid() . '.' . $ext;
-            $file->storeAs('public/image/mahasiswa/', $filename);
+            $file->storeAs('public/image/koor-pkl/', $filename);
         }
 
         return $filename;
@@ -94,7 +74,7 @@ class Mahasiswa extends Model
     public function getImageUrlAttribute()
     {
         if ($this->image) {
-            return asset('storage/public/image/mahasiswa/' . $this->image);
+            return asset('storage/public/image/koor-pkl/' . $this->image);
         }
         
         return null;
@@ -106,14 +86,18 @@ class Mahasiswa extends Model
      * @param  $id
      * @return void
      */
-    public static function deleteImage(object $param)
+    public static function deleteImage($id)
     {
-        $mahasiswa = Mahasiswa::firstWhere('id', $param->id);
-        if ($mahasiswa->image != null) {
-            $path = 'public/image/mahasiswa/' . $mahasiswa->image;
-            if (Storage::exists($path)) {
-                Storage::delete('public/image/mahasiswa/' . $mahasiswa->image);
+        $koorPKL = koorPkl::firstWhere('id', $id);
+
+        // if ($param->type == 'image') {
+            if ($koorPKL->image != null) {
+                $path = 'public/image/koor-pkl/' . $koorPKL->image;
+
+                if (Storage::exists($path)) {
+                    Storage::delete('public/image/koor-pkl/' . $koorPKL->image);
+                }
             }
-        }
+        // }
     }
 }
