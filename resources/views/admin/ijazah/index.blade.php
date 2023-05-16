@@ -51,9 +51,9 @@
                             <td>
                                 {{$loop->iteration}}
                             </td>
-                            <td>{{$item->user->name}}</td>
-                            <td>{{$item->user->no_ijazah}}</td>
-                            <td>{{$item->user->tahun_lulus}}</td>
+                            <td>{{$item->mahasiswa->user->name}}</td>
+                            <td>{{$item->no_ijazah}}</td>
+                            <td>{{$item->tahun_lulus}}</td>
                             <td>
                                 <a href="{{ route('ijazah.edit', $item->id) }}" class="btn btn-sm btn-outline-warning">
                                     <i class="fas fa-pencil-alt"></i>

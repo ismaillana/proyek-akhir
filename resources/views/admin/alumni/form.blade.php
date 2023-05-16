@@ -7,7 +7,7 @@
           <a href="{{route('alumni.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
         </div>
         <h1>
-            @if (@$mahasiswa->exists)
+            @if (@$alumni->exists)
                 Edit
                 @php
                     $aksi = 'Edit';
@@ -18,13 +18,13 @@
                     $aksi = 'Tambah'
                 @endphp
             @endif
-            Data Mahasiswa
+            Data Alumni
         </h1>
       </div>
 
-      @if (@$mahasiswa->exists)
+      @if (@$alumni->exists)
         <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST"
-            action="{{route('alumni.update', $mahasiswa) }}">
+            action="{{route('alumni.update', $alumni) }}">
             @method('put')
       @else
         <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST" 
@@ -36,18 +36,18 @@
             <div class="col-12">
                 <div class="card">
                 <div class="card-header">
-                    <h4>Form Mahasiswa</h4>
+                    <h4>Form Alumni</h4>
                 </div>
                 <div class="card-body">
                     <div class="form-group row mb-4">
                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                            Nama Mahasiswa<sup class="text-danger">*</sup>
+                            Nama Alumni<sup class="text-danger">*</sup>
                         </label>
 
                         <div class="col-sm-12 col-md-7">
                             <input type="text" class="form-control @error('name')is-invalid @enderror"
-                            id="name" name="name" placeholder="Masukkan Nama Mahasiswa" 
-                            value="{{ old('name', @$mahasiswa->user->name) }}">
+                            id="name" name="name" placeholder="Masukkan Nama Alumni" 
+                            value="{{ old('name', @$alumni->user->name) }}">
                             @if ($errors->has('name'))
                                 <span class="text-danger">{{ $errors->first('name') }}</span>
                             @endif
@@ -62,7 +62,7 @@
                         <div class="col-sm-12 col-md-7">
                             <input type="number" class="form-control @error('nomor_induk')is-invalid @enderror"
                             id="nomor_induk" name="nomor_induk" placeholder="Masukkan NIM" 
-                            value="{{ old('nomor_induk', @$mahasiswa->user->nomor_induk) }}">
+                            value="{{ old('nomor_induk', @$alumni->user->nomor_induk) }}">
                             @if ($errors->has('nomor_induk'))
                                 <span class="text-danger">{{ $errors->first('nomor_induk') }}</span>
                             @endif
@@ -77,7 +77,7 @@
                         <div class="col-sm-12 col-md-7">
                             <input type="email" class="form-control @error('email')is-invalid @enderror"
                             id="email" name="email" placeholder="Masukkan Email" 
-                            value="{{ old('email', @$mahasiswa->user->email) }}">
+                            value="{{ old('email', @$alumni->user->email) }}">
                             @if ($errors->has('email'))
                                 <span class="text-danger">{{ $errors->first('email') }}</span>
                             @endif
@@ -98,7 +98,7 @@
 
                                 <input type="number" class="form-control @error('wa') is-invalid @enderror"
                                     id="wa" name="wa" placeholder="Masukan Nomer Whatsapp "
-                                    value="{{ old('wa', Str::substr(@$mahasiswa->user->wa, 2)) }}">
+                                    value="{{ old('wa', Str::substr(@$alumni->user->wa, 2)) }}">
                             </div>
                             @if ($errors->has('wa'))
                                 <span class="text-danger">{{ $errors->first('wa') }}</span>
@@ -119,7 +119,7 @@
                             
                                 <input type="number" class="form-control @error('angkatan')is-invalid @enderror"
                                 id="angkatan" name="angkatan" placeholder="Masukkan Nama Program Studi" 
-                                value="{{ old('angkatan', @$mahasiswa->angkatan )}}">
+                                value="{{ old('angkatan', @$alumni->angkatan )}}">
                             </div>
 
                             @if ($errors->has('angkatan'))
@@ -140,7 +140,7 @@
                                 <option value="" selected="" disabled="">Pilih Jurusan</option>
                                 @foreach ($jurusan as $item)
                                     <option value="{{ $item->id }}"
-                                        {{ old('jurusan_id', @$mahasiswa->jurusan_id) == $item->id ? 'selected' : '' }}>
+                                        {{ old('jurusan_id', @$alumni->jurusan_id) == $item->id ? 'selected' : '' }}>
                                         {{ $item->name }}
                                     </option>
                                 @endforeach
@@ -166,7 +166,7 @@
                                 <option value="" selected="" disabled="">Pilih Program Studi</option>
                                 @foreach ($prodi as $item)
                                     <option value="{{ $item->id }}"
-                                        {{ old('program_studi_id', @$mahasiswa->program_studi_id) == $item->id ? 'selected' : '' }}>
+                                        {{ old('program_studi_id', @$alumni->program_studi_id) == $item->id ? 'selected' : '' }}>
                                         {{ $item->name }}
                                     </option>
                                 @endforeach
@@ -187,7 +187,7 @@
                         <div class="col-sm-12 col-md-7">
                               <input class="dropify @error('image') is-invalid @enderror" 
                               data-height='250' type="file" name="image" id="image" 
-                              data-default-file="{{ @$mahasiswa->image_url }}">
+                              data-default-file="{{ @$alumni->image_url }}">
                           </div>
                     </div>
 
@@ -203,14 +203,14 @@
                                 <option disabled selected>Pilih Status</option>
                                 {{-- @foreach ($jurusan as $item) --}}
                                     {{-- <option value="{{ $item->status }}"
-                                        {{ old('status', @$mahasiswa->status) == $item->status ? 'selected' : '' }}>
+                                        {{ old('status', @$alumni->status) == $item->status ? 'selected' : '' }}>
                                         {{ $item->status }}
                                     </option> --}}
                                 <option value="Mahasiswa Aktif"
-                                    {{ old('status', @$mahasiswa->status) == 'Mahasiswa Aktif' ? 'selected' : '' }}>
+                                    {{ old('status', @$alumni->status) == 'Mahasiswa Aktif' ? 'selected' : '' }}>
                                         Mahasiswa Aktif</option>
                                 <option value="Alumni"
-                                    {{ old('status', @$mahasiswa->status) == 'Alumni' ? 'selected' : '' }}>
+                                    {{ old('status', @$alumni->status) == 'Alumni' ? 'selected' : '' }}>
                                         Alumni</option>
                                 {{-- @endforeach --}}
                             </select>

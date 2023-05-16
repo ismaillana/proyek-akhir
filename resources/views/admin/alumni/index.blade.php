@@ -46,7 +46,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                    @foreach ($mahasiswa as $item)
+                    @foreach ($alumni as $item)
                         <tr class="text-center">
                             <td>
                                 {{$loop->iteration}}
