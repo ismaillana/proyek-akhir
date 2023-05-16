@@ -26,18 +26,35 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('admin.dashboard');
+    return view('welcome');
 });
 
-Route::prefix('menu-admin')->group(function () {
-    Route::resource('jurusan', JurusanController::class);
-    Route::resource('prodi', ProdiController::class);
-    Route::resource('mahasiswa', MahasiswaController::class);
-    Route::resource('alumni', AlumniController::class);
-    Route::resource('admin-jurusan', AdminJurusanController::class);
-    Route::resource('instansi', InstansiController::class);
-    Route::resource('ijazah', IjazahController::class);
-    Route::resource('koor-pkl', KoorPKLController::class);
-    Route::resource('tempat-pkl', TempatPKLController::class);
-    Route::resource('manajemen-user', UserController::class);
+//Prevent-Back
+Route::group(['middleware' => 'prevent-back-history'],function(){
+//Login
+Auth::routes();
+
+    Route::middleware('auth')->group(function () {
+        //Dashboard
+        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+        
+        Route::group(
+            [
+                'prefix'        => 'menu-admin'
+            ],
+            function () {
+                Route::resource('jurusan', JurusanController::class);
+                Route::resource('prodi', ProdiController::class);
+                Route::resource('mahasiswa', MahasiswaController::class);
+                Route::resource('alumni', AlumniController::class);
+                Route::resource('admin-jurusan', AdminJurusanController::class);
+                Route::resource('instansi', InstansiController::class);
+                Route::resource('ijazah', IjazahController::class);
+                Route::resource('koor-pkl', KoorPKLController::class);
+                Route::resource('tempat-pkl', TempatPKLController::class);
+                Route::resource('manajemen-user', UserController::class);
+        });
+    });
 });
+
+
