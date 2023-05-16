@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\TempatPKL;
+use App\Models\TempatPkl;
+use App\Http\Requests\TempatPklRequest;
 
 class TempatPKLController extends Controller
 {
@@ -12,7 +13,7 @@ class TempatPKLController extends Controller
      */
     public function index()
     {
-        $tempatPKL = TempatPKL::all();
+        $tempatPKL = TempatPkl::all();
 
         return view ('admin.tempat-pkl.index',[
             'tempatPKL' => $tempatPKL
@@ -24,15 +25,22 @@ class TempatPKLController extends Controller
      */
     public function create()
     {
-        //
+        return view ('admin.tempat-pkl.form');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TempatPklRequest $request)
     {
-        //
+        TempatPkl::create([
+            'name'      => $request->name,
+            'alamat'    => $request->alamat,
+            'telepon'   => $request->telepon,
+            'web'       => $request->web
+        ]);
+
+        return redirect()->route('tempat-pkl.index')->with('success', 'Data Berhasil Ditambah');
     }
 
     /**
@@ -48,15 +56,28 @@ class TempatPKLController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $tempatPKL = TempatPkl::find($id);
+
+        return view ('admin.tempat-pkl.form', [
+            'tempatPKL' => $tempatPKL
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(TempatPklRequest $request, string $id)
     {
-        //
+        $data = [
+            'name'      => $request->name,
+            'alamat'    => $request->alamat,
+            'telepon'   => $request->telepon,
+            'web'       => $request->web
+        ];
+
+        TempatPkl::where('id', $id)->update($data);
+
+        return redirect()->route('tempat-pkl.index')->with('success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -64,6 +85,10 @@ class TempatPKLController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $tempatPKL = TempatPkl::find($id);
+
+        $tempatPKL->delete();
+
+        return response()->json(['status' => 'Data Berhasil Dihapus']);
     }
 }
