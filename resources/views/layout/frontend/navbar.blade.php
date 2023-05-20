@@ -212,7 +212,7 @@
             <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#!">Pengajuan</a>
               <ul class="dropdown-menu">
                 <li class="dropdown">
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="{{route('verifikasi-ijazah.create')}}">
                     Cek Keaslian Ijazah
                   </a>
                 </li>

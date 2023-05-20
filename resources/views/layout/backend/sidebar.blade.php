@@ -8,7 +8,7 @@
       </div>
 
       <ul class="sidebar-menu">
-        @role('super-admin')
+        @role('bagian-akademik')
           <li class="menu-header">Dashboard Super Admin</li>
             <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
               <a href="{{route('dashboard')}}" class="nav-link"><i class="fas fa-fire"></i>

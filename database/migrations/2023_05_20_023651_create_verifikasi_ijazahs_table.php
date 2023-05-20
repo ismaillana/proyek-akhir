@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('verifikasi_ijazahs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('instansi_id')
+                ->constrained()
+                ->cascadeOnUpdate();
+            $table->string('name');
+            $table->string('nim');
+            $table->string('no_ijazah');
+            $table->string('tahun_lulus');
+            $table->string('dokumen');
+            $table->ENUM('status', ['Menunggu Konfirmasi', 'Dikonfirmasi', 'Sedang Dalam Kendala', 'Diproses', 'Selesai'])
+            ->default('Menunggu Konfirmasi')
+            ->nullable();
             $table->timestamps();
         });
     }

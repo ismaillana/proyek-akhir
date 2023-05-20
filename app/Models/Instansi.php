@@ -36,6 +36,16 @@ class Instansi extends Model
     }
 
     /**
+     * Get all of the comments for the Aktif Kuliah
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function verifikasiIjazah(): HasMany
+    {
+        return $this->hasMany(VerifikasiIjazah::class);
+    }
+
+    /**
      * Save image.
      *
      * @param  $request

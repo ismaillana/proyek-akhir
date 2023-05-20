@@ -17,6 +17,7 @@ use App\Http\Controllers\AktifKuliahController;
 use App\Http\Controllers\IzinPenelitianController;
 use App\Http\Controllers\JenisLegalisirController;
 use App\Http\Controllers\LegalisirController;
+use App\Http\Controllers\VerifikasiIjazahController;
 
 
 
@@ -48,7 +49,7 @@ Auth::routes();
         
         Route::group(
             [
-                'middleware'    => ['role:super-admin|admin-jurusan|koor-pkl'],
+                'middleware'    => ['role:bagian-akademik|admin-jurusan|koor-pkl'],
                 'prefix'        => 'menu-admin'
             ],
             function () {
@@ -82,6 +83,7 @@ Auth::routes();
                 Route::resource('aktif-kuliah', AktifKuliahController::class);
                 Route::resource('izin-penelitian', IzinPenelitianController::class);
                 Route::resource('legalisir', LegalisirController::class);
+                Route::resource('verifikasi-ijazah', VerifikasiIjazahController::class);
         });
     });
 
