@@ -66,6 +66,7 @@ Auth::routes();
                 Route::resource('manajemen-user', UserController::class);
                 Route::resource('pengajuan-aktif-kuliah', AktifKuliahController::class);
                 Route::resource('pengajuan-izin-penelitian', IzinPenelitianController::class);
+                Route::resource('pengajuan-verifikasi-ijazah', VerifikasiIjazahController::class);
         });
     });
 

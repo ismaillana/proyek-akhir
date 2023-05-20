@@ -101,7 +101,8 @@
           <li class="menu-header">Pengajuan</li>
             <li class="nav-item dropdown
             {{ request()->is('menu-admin/pengajuan-aktif-kuliah*') ? 'active' : ''}} ||
-            {{ request()->is('menu-admin/pengajuan-izin-penelitian*') ? 'active' : ''}} ">
+            {{ request()->is('menu-admin/pengajuan-izin-penelitian*') ? 'active' : ''}} ||
+            {{ request()->is('menu-admin/pengajuan-verifikasi-ijazah*') ? 'active' : ''}} ">
               <a href="#" class="nav-link has-dropdown"><i class="fas fa-th-large"></i> <span>Pengajuan</span></a>
               <ul class="dropdown-menu">
                 <li class="{{ request()->is('menu-admin/pengajuan-aktif-kuliah*') ? 'active' : ''}}">
@@ -116,7 +117,11 @@
                   </a>
                 </li>
                 <li><a class="nav-link beep beep-sidebar" href="components-empty-state.html">Pengantar PKL</a></li>
-                <li><a class="nav-link" href="components-gallery.html">Cek Ijazah</a></li>
+                <li class="{{ request()->is('menu-admin/pengajuan-verifikasi-ijazah*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('pengajuan-verifikasi-ijazah.index')}}">
+                    Verifikasi Ijazah
+                  </a>
+                </li>
                 <li><a class="nav-link beep beep-sidebar" href="components-hero.html">Surat Dispensasi</a></li>
               </ul>
             </li>

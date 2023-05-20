@@ -8,6 +8,10 @@ use App\Models\Instansi;
 
 use App\Http\Requests\VerifikasiIjazahRequest;
 
+use Illuminate\Support\Facades\Storage;
+use File;
+use Repsonse;
+
 class VerifikasiIjazahController extends Controller
 {
     /**
@@ -15,7 +19,11 @@ class VerifikasiIjazahController extends Controller
      */
     public function index()
     {
-        //
+        $verifikasiIjazah = VerifikasiIjazah::get();
+
+        return view ('admin.pengajuan.verifikasi-ijazah.index', [
+            'verifikasiIjazah'  => $verifikasiIjazah
+        ]);
     }
 
     /**
@@ -84,4 +92,5 @@ class VerifikasiIjazahController extends Controller
     {
         //
     }
+
 }
