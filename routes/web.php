@@ -11,6 +11,12 @@ use App\Http\Controllers\IjazahController;
 use App\Http\Controllers\KoorPKLController;
 use App\Http\Controllers\TempatPKLController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AktifKuliahController;
+use App\Http\Controllers\IzinPenelitianController;
+use App\Http\Controllers\JenisLegalisirController;
+use App\Http\Controllers\LegalisirController;
 
 
 
@@ -26,8 +32,10 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('user.home');
 });
+// Route::get('/', [HomeController::class, 'index'])->name('home');
+
 
 //Prevent-Back
 Route::group(['middleware' => 'prevent-back-history'],function(){
@@ -36,16 +44,18 @@ Auth::routes();
 
     Route::middleware('auth')->group(function () {
         //Dashboard
-        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         
         Route::group(
             [
+                'middleware'    => ['role:super-admin|admin-jurusan|koor-pkl'],
                 'prefix'        => 'menu-admin'
             ],
             function () {
                 Route::resource('jurusan', JurusanController::class);
                 Route::resource('prodi', ProdiController::class);
                 Route::resource('mahasiswa', MahasiswaController::class);
+                Route::resource('jenis-legalisir', JenisLegalisirController::class);
                 Route::resource('alumni', AlumniController::class);
                 Route::resource('admin-jurusan', AdminJurusanController::class);
                 Route::resource('instansi', InstansiController::class);
@@ -53,8 +63,28 @@ Auth::routes();
                 Route::resource('koor-pkl', KoorPKLController::class);
                 Route::resource('tempat-pkl', TempatPKLController::class);
                 Route::resource('manajemen-user', UserController::class);
+                Route::resource('pengajuan-aktif-kuliah', AktifKuliahController::class);
+                Route::resource('pengajuan-izin-penelitian', IzinPenelitianController::class);
         });
     });
+
+    // Route::middleware(['role:alumni|mahasiswa|instansi'])->get('/home', [HomeController::class, 'index'])->name('home');
+    
+    Route::middleware('auth')->group(function () {
+        Route::get('/home', [HomeController::class, 'index'])->name('home');
+        
+        Route::group(
+            [
+                'middleware'    => ['role:alumni|mahasiswa|instansi'],
+                'prefix'        => 'pengajuan'
+            ],
+            function () {
+                Route::resource('aktif-kuliah', AktifKuliahController::class);
+                Route::resource('izin-penelitian', IzinPenelitianController::class);
+                Route::resource('legalisir', LegalisirController::class);
+        });
+    });
+
 });
 
 

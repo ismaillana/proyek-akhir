@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="{{asset('/node_modules/izitoast/dist/css/iziToast.min.css')}}">
   <link rel="stylesheet" href="{{asset('/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('/node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css')}}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{{asset('/node_modules/select2/dist/css/select2.min.css')}}">
   <!-- Dropify -->
   <link rel="stylesheet" href="{{ asset('/node_modules/dropify/dist/css/dropify.min.css') }}">
   <!-- Template CSS -->
@@ -73,7 +75,8 @@
   <script src="{{asset('/node_modules/datatables/media/js/jquery.dataTables.min.js')}}"></script>
   <script src="{{asset('/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
   <script src="{{asset('/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js')}}"></script>
-  
+  {{-- Select2 --}}
+  <script src="{{asset('/node_modules/select2/dist/js/select2.full.min.js')}}"></script>
   {{-- dropify --}}
   <script src="{{ asset('/node_modules/dropify/dist/js/dropify.min.js') }}"></script>
 
@@ -83,6 +86,7 @@
 
   <!-- Page Specific JS File -->
   <script src="{{asset('/assets/js/page/modules-toastr.js')}}"></script>
+  <script src="{{asset('/assets/js/page/forms-advanced-forms.js')}}"></script>
   <script src="{{asset('/assets/js/page/modules-datatables.js')}}"></script>
   <script src="{{asset('/assets/js/page/index-0.js')}}"></script>
   <script src="{{asset('/assets/js/page/features-post-create.js')}}"></script>

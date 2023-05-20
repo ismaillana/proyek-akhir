@@ -66,6 +66,36 @@ class Mahasiswa extends Model
     }
 
     /**
+     * Get all of the comments for the Aktif Kuliah
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function aktifKuliah(): HasMany
+    {
+        return $this->hasMany(AktifKuliah::class);
+    }
+
+    /**
+     * Get all of the comments for the Aktif Kuliah
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function izinPenelitian(): HasMany
+    {
+        return $this->hasMany(IzinPenelitian::class);
+    }
+
+    /**
+     * Get all of the comments for the Aktif Kuliah
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function legalisir(): HasMany
+    {
+        return $this->hasMany(Legalisir::class);
+    }
+
+    /**
      * Save image.
      *
      * @param  $request

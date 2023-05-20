@@ -56,7 +56,7 @@ class KoorPKLController extends Controller
                 'password'    => Hash::make($request->nomor_induk)
             ]);
 
-            // $user->assignRole('reseller');
+            $user->assignRole('koor-pkl');
 
             $data = [
                 'user_id'           => $user->id,

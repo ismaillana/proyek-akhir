@@ -27,5 +27,15 @@ class Ijazah extends Model
         return $this->belongsTo(Mahasiswa::class);
     }
 
+    /**
+     * Get all of the comments for the Aktif Kuliah
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function legalisir(): HasMany
+    {
+        return $this->hasMany(Legalisir::class);
+    }
+
     
 }

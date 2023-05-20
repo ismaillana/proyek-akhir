@@ -51,7 +51,7 @@ class InstansiController extends Controller
                 'password'    => Hash::make('123456')
             ]);
 
-            // $user->assignRole('reseller');
+            $user->assignRole('instansi');
 
             $data = [
                 'user_id'           => $user->id,

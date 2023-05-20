@@ -61,7 +61,7 @@ class MahasiswaController extends Controller
                 'password'    => Hash::make($request->nomor_induk)
             ]);
 
-            // $user->assignRole('reseller');
+            // $user->assignRole('mahasiswa');
 
             $data = [
                 'user_id'           => $user->id,
@@ -77,6 +77,14 @@ class MahasiswaController extends Controller
             $data['image'] = $image;
 
             $mahasiswa = Mahasiswa::create($data);
+
+            if ($request->status == 'Alumni') {
+                $user->assignRole('alumni');
+                
+            } else {
+                $user->assignRole('mahasiswa');
+
+            }
 
             DB::commit();
 

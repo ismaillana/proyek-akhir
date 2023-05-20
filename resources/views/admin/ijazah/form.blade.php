@@ -46,8 +46,7 @@
 
                         <div class="col-sm-12 col-md-7">
                             <select name="mahasiswa_id" id="mahasiswa_id"
-                                class="form-control @error('mahasiswa_id')
-                                is-invalid @enderror">
+                                class="form-control select2">
                                 <option value="" selected="" disabled="">Pilih Nama Alumni</option>
                                 @foreach ($alumni as $item)
                                     <option value="{{ $item->id }}"

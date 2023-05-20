@@ -57,7 +57,7 @@ class AdminJurusanController extends Controller
                 'password'    => Hash::make($request->nomor_induk)
             ]);
 
-            // $user->assignRole('reseller');
+            $user->assignRole('admin-jurusan');
 
             $data = [
                 'user_id'           => $user->id,

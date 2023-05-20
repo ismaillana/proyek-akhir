@@ -35,10 +35,10 @@
                             Nama User
                         </th>
                         <th class="text-center">
-                            Nomor Induk
+                            Email
                         </th>
                         <th class="text-center">
-                            Email
+                            Role
                         </th>
                         <th class="text-center">
                             Status
@@ -55,8 +55,22 @@
                                 {{$loop->iteration}}
                             </td>
                             <td>{{ $item->name}}</td>
-                            <td>{{ $item->nomor_induk}}</td>
                             <td>{{ $item->email}}</td>
+                            <td>
+                                @if ($item->getRoleNames()[0] == 'super-admin')
+                                    <div class="badge badge-danger">Super Admin</div>
+                                @elseif ($item->getRoleNames()[0] == 'admin-jurusan')
+                                    <div class="badge badge-info">Admin Jurusan</div>
+                                @elseif ($item->getRoleNames()[0] == 'koor-pkl')
+                                    <div class="badge badge-primary">Koor-PKL</div>
+                                @elseif ($item->getRoleNames()[0] == 'mahasiswa')
+                                    <div class="badge badge-danger">Mahasiswa</div>
+                                @elseif ($item->getRoleNames()[0] == 'alumni')
+                                    <div class="badge badge-secondary">Alumni</div>
+                                @else
+                                    <div class="badge badge-secondary">Instansi</div>
+                                @endif
+                            </td>
                             <td>
                                 @if ($item->status == '1')
                                     <span class="badge badge-success">Aktif</span>

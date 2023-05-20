@@ -5,9 +5,16 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Instansi;
+
+use App\Http\Requests\RegisterRequest;
+
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
@@ -29,7 +36,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -47,14 +54,16 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
+    // protected function validator(array $data)
+    // {
+    //     return Validator::make($data, [
+    //         'name' => ['required', 'string', 'max:255'],
+    //         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+    //         'password' => ['required', 'string', 'min:8', 'confirmed'],
+    //         'wa' => ['required', 'string', 'max:255'],
+    //         'alamat' => ['required', 'string', 'max:255']
+    //     ]);
+    // }
 
     /**
      * Create a new user instance after a valid registration.
@@ -62,12 +71,41 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function register(RegisterRequest $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        // return User::create([
+        //     'name' => $data['name'],
+        //     'email' => $data['email'],
+        //     'password' => Hash::make($data['password']),
+        // ]);
+
+        DB::beginTransaction();
+
+        try {
+
+            $user = User::create([
+                'name'        => $request->name,
+                'email'       => $request->email,
+                'wa'          => 62 . $request->wa,
+                'password'    => Hash::make($request->password)
+            ]);
+
+            $user->assignRole('instansi');
+
+            $data = [
+                'user_id'           => $user->id,
+                'nama_perusahaan'   => $user->name,
+                'alamat'            => $request->alamat,
+            ];
+
+            $instansi = Instansi::create($data);
+
+            DB::commit();
+
+            return back()->with('success', 'Data Berhasil Ditambah');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return back()->withError('Instansi Gagal Ditambah');
+        }
     }
 }
