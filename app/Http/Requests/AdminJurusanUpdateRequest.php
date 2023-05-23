@@ -23,9 +23,9 @@ class AdminJurusanUpdateRequest extends FormRequest
     {
         $rules = [
             'name'              => 'required',
-            // 'email'             => 'required|email|unique:users,email,'  . $this->admin->user->id,
+            'email'             => 'required|email|unique:users,email,'  . $this->admin->user->id,
             'email'             => 'required|email',
-            // 'nomor_induk'       => 'required|unique:users,nomor_induk,'  . $this->admin->user->id,
+            'nomor_induk'       => 'required|unique:users,nomor_induk,'  . $this->admin->user->id,
             'nomor_induk'       => 'required',
 
             'wa'                => 'required',
@@ -41,10 +41,10 @@ class AdminJurusanUpdateRequest extends FormRequest
             'email.required'        => 'Email Wajib Diisi',
             'email.email'           => 'Format Email Harus Sesuai',
             'nomor_induk.required'  => 'NIM Wajib Diisi',
-            // 'nomor_induk.unique'    => 'NIM Sudah Ada',
+            'nomor_induk.unique'    => 'NIM Sudah Ada',
             'wa.required'           => 'No WhatsApp Wajib Diisi',
             'jurusan_id.required'   => 'Jurusan Wajib Diisi',
-            // 'email.unique' => 'Email Sudah Digunakan'
+            'email.unique' => 'Email Sudah Digunakan'
 
         ];
     }

@@ -19,7 +19,7 @@
               {{ request()->is('menu-admin/prodi*') ? 'active' : ''}} ||
               {{ request()->is('menu-admin/ijazah*') ? 'active' : ''}} ||
               {{ request()->is('menu-admin/tempat-pkl*') ? 'active' : ''}} ||
-              {{ request()->is('menu-admin/jeni-legalisir*') ? 'active' : ''}} ">
+              {{ request()->is('menu-admin/jenis-legalisir*') ? 'active' : ''}} ">
               <a class="nav-link has-dropdown" data-toggle="dropdown">
                 <i class="fas fa-columns"></i> 
                   <span>Master Data</span>
@@ -45,7 +45,7 @@
                     Tempat PKL
                   </a>
                 </li>
-                <li class="{{ request()->is('menu-admin/jeni-legalisir*') ? 'active' : ''}}">
+                <li class="{{ request()->is('menu-admin/jenis-legalisir*') ? 'active' : ''}}">
                   <a class="nav-link" href="{{route('jenis-legalisir.index')}}">
                     Jenis Legalisir
                   </a>
@@ -102,7 +102,10 @@
             <li class="nav-item dropdown
             {{ request()->is('menu-admin/pengajuan-aktif-kuliah*') ? 'active' : ''}} ||
             {{ request()->is('menu-admin/pengajuan-izin-penelitian*') ? 'active' : ''}} ||
-            {{ request()->is('menu-admin/pengajuan-verifikasi-ijazah*') ? 'active' : ''}} ">
+            {{ request()->is('menu-admin/pengajuan-verifikasi-ijazah*') ? 'active' : ''}} ||
+            {{ request()->is('menu-admin/pengajuan-legalisir*') ? 'active' : ''}} ||
+            {{ request()->is('menu-admin/pengajuan-dispensasi*') ? 'active' : ''}} ||
+            {{ request()->is('menu-admin/pengajuan-pengantar-pkl*') ? 'active' : ''}}">
               <a href="#" class="nav-link has-dropdown"><i class="fas fa-th-large"></i> <span>Pengajuan</span></a>
               <ul class="dropdown-menu">
                 <li class="{{ request()->is('menu-admin/pengajuan-aktif-kuliah*') ? 'active' : ''}}">
@@ -110,19 +113,31 @@
                     Surat Aktif Kuliah
                   </a>
                 </li>
-                <li ><a class="nav-link beep beep-sidebar" href="components-avatar.html">Legalisir</a></li>
+                <li class="{{ request()->is('menu-admin/pengajuan-legalisir*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('pengajuan-legalisir.index')}}">
+                    Legalisir
+                  </a>
+                </li>
                 <li class="{{ request()->is('menu-admin/pengajuan-izin-penelitian*') ? 'active' : ''}}">
                   <a class="nav-link" href="{{route('pengajuan-izin-penelitian.index')}}">
                     Izin Penelitian
                   </a>
                 </li>
-                <li><a class="nav-link beep beep-sidebar" href="components-empty-state.html">Pengantar PKL</a></li>
+                <li class="{{ request()->is('menu-admin/pengajuan-pengantar-pkl*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('pengajuan-pengantar-pkl.index')}}">
+                    Pengantar PKL
+                  </a>
+                </li>
                 <li class="{{ request()->is('menu-admin/pengajuan-verifikasi-ijazah*') ? 'active' : ''}}">
                   <a class="nav-link" href="{{route('pengajuan-verifikasi-ijazah.index')}}">
                     Verifikasi Ijazah
                   </a>
                 </li>
-                <li><a class="nav-link beep beep-sidebar" href="components-hero.html">Surat Dispensasi</a></li>
+                <li class="{{ request()->is('menu-admin/pengajuan-dispensasi*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('pengajuan-dispensasi.index')}}">
+                    Surat Dispensasi
+                  </a>
+                </li>
               </ul>
             </li>
             <li class="nav-item dropdown">

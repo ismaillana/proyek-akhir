@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('legalisirs', function (Blueprint $table) {
+        Schema::create('dispensasis', function (Blueprint $table) {
             $table->id();
             $table->foreignId('mahasiswa_id')
                 ->constrained()
                 ->cascadeOnUpdate();
-            $table->foreignId('ijazah_id')
-                ->constrained()
-                ->cascadeOnUpdate();
-            $table->json('jenis_legalisir_id');
-            $table->string('keperluan');
-            $table->string('pekerjaan_terakhir');
-            $table->string('tempat_pekerjaan_terakhir');
+            $table->json('nama_mahasiswa');
+            $table->dateTime('mulai');
+            $table->dateTime('selesai');
+            $table->string('kegiatan');
+            $table->string('tempat');
             $table->string('dokumen');
             $table->ENUM('status', ['Menunggu Konfirmasi', 'Diproses', 'Selesai'])
             ->default('Menunggu Konfirmasi')
@@ -36,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('legalisirs');
+        Schema::dropIfExists('dispensasis');
     }
 };

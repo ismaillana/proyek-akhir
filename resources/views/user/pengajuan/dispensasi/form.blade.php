@@ -20,12 +20,12 @@
         <div class="col-xl-10 mx-auto mt-n19">
           
           <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST" 
-            action="{{route('legalisir.store')}}">
+            action="{{route('dispensasi.store')}}">
               {{ csrf_field() }}
           <div class="card">
             <div class="card-header">
                 <h4 class="display-4 mt-3  text-center">
-                    Legalisir
+                    Dispenasasi
                 </h4>
             </div>
 
@@ -37,60 +37,73 @@
 
                               <div class="col-md-12">
                                   <div class="form-floating mb-4">
-                                    <input id="keperluan" type="text" name="keperluan" class="form-control @error('keperluan')is-invalid @enderror" 
-                                      value="{{ old('keperluan', @$legalisir->keperluan) }}" placeholder="Keperluan">
-                                    <label for="form_nama_tempat">
-                                      Keperluan<span class="text-danger">*</span>
+                                    <input id="kegiatan" type="text" name="kegiatan" class="form-control @error('kegiatan')is-invalid @enderror" 
+                                      value="{{ old('kegiatan', @$dispensasi->kegiatan) }}" placeholder="Nama Kegiatan">
+                                    <label for="form_nama_kegiatan">
+                                      Nama Kegiatan<span class="text-danger">*</span>
                                     </label>
-                                    @if ($errors->has('keperluan'))
-                                        <span class="text-danger">{{ $errors->first('keperluan') }}</span>
+                                    @if ($errors->has('kegiatan'))
+                                        <span class="text-danger">{{ $errors->first('kegiatan') }}</span>
                                     @endif
                                   </div>
                               </div>
 
                               <div class="col-md-12">
                                   <div class="form-floating mb-4">
-                                    <input id="pekerjaan_terakhir" type="text" name="pekerjaan_terakhir" class="form-control @error('pekerjaan_terakhir')is-invalid @enderror" 
-                                      value="{{ old('pekerjaan_terakhir', @$legalisir->pekerjaan_terakhir) }}" placeholder="Pekerjaan Terakhir">
+                                    <input id="tempat" type="text" name="tempat" class="form-control @error('tempat')is-invalid @enderror" 
+                                      value="{{ old('tempat', @$dispensasi->tempat) }}" placeholder="Tempat Kegiatan">
                                     <label for="form_nama_tempat">
-                                      Pekerjaan Terakhir<span class="text-danger">*</span>
+                                      Tempat Kegiatan<span class="text-danger">*</span>
                                     </label>
-                                    @if ($errors->has('pekerjaan_terakhir'))
-                                        <span class="text-danger">{{ $errors->first('pekerjaan_terakhir') }}</span>
+                                    @if ($errors->has('tempat'))
+                                        <span class="text-danger">{{ $errors->first('tempat') }}</span>
                                     @endif
                                   </div>
                               </div>
 
                               <div class="col-md-12">
                                   <div class="form-floating mb-4">
-                                    <input id="tempat_pekerjaan_terakhir" type="text" name="tempat_pekerjaan_terakhir" class="form-control @error('tempat_pekerjaan_terakhir')is-invalid @enderror" 
-                                      value="{{ old('tempat_pekerjaan_terakhir', @$legalisir->tempat_pekerjaan_terakhir) }}" placeholder="Tempat Pekerjaan Terakhir">
+                                    <input id="mulai" type="datetime-local" name="mulai" class="form-control @error('mulai')is-invalid @enderror" 
+                                      value="{{ old('mulai', @$dispensasi->mulai) }}" placeholder="Waktu Mulai">
                                     <label for="form_nama_tempat">
-                                      Tempat Pekerjaan Terakhir<span class="text-danger">*</span>
+                                      Waktu Mulai<span class="text-danger">*</span>
                                     </label>
-                                    @if ($errors->has('tempat_pekerjaan_terakhir'))
-                                        <span class="text-danger">{{ $errors->first('tempat_pekerjaan_terakhir') }}</span>
+                                    @if ($errors->has('mulai'))
+                                        <span class="text-danger">{{ $errors->first('mulai') }}</span>
                                     @endif
                                   </div>
                               </div>
+
+                              <div class="col-md-12">
+                                    <div class="form-floating mb-4">
+                                    <input id="selesai" type="datetime-local" name="selesai" class="form-control @error('selesai')is-invalid @enderror" 
+                                        value="{{ old('selesai', @$dispensasi->selesai) }}" placeholder="Waktu Selesai">
+                                    <label for="form_nama_tempat">
+                                        Waktu Selesai<span class="text-danger">*</span>
+                                    </label>
+                                    @if ($errors->has('selesai'))
+                                        <span class="text-danger">{{ $errors->first('selesai') }}</span>
+                                    @endif
+                                    </div>
+                                </div>
 
                               <div class="col-md-12">
                                 <label for="form_name" class="mb-1">
-                                    Jenis Dokumen<span class="text-danger">*</span>
+                                    Nama Mahasiswa<span class="text-danger">*</span>
                                 </label>
-                                  <select class="form-select @error('jenis_legalisir_id')
-                                  is-invalid @enderror" name="jenis_legalisir_id[]"
-                                    id="jenis_legalisir_id" multiple>
-                                    @foreach ($jenisDokumen as $item)
+                                  <select class="form-select @error('nama_mahasiswa')
+                                  is-invalid @enderror" name="nama_mahasiswa[]"
+                                    id="nama_mahasiswa" multiple>
+                                    @foreach ($mahasiswa as $item)
                                         <option value="{{ $item->id }}"
-                                          {{ old('jenis_legalisir_id', @$legalisir->jenis_legalisir_id) == $item->id ? 'selected' : '' }}>
-                                          {{ $item->name }}
+                                          {{ old('nama_mahasiswa', @$dispensasi->nama_mahasiswa) == $item->id ? 'selected' : '' }}>
+                                          {{ $item->user->name }} - {{$item->nim}}
                                         </option>
                                     @endforeach
 
                                   </select>
-                                  @if ($errors->has('jenis_legalisir_id'))
-                                      <span class="text-danger">{{ $errors->first('jenis_legalisir_id') }}</span>
+                                  @if ($errors->has('nama_mahasiswa'))
+                                      <span class="text-danger">{{ $errors->first('nama_mahasiswa') }}</span>
                                   @endif
                               </div>
 
@@ -101,7 +114,7 @@
                                 <div class="form-floating mb-4">
                                     <div class="col-sm-12 col-md-12">
                                     <input id="dokumen" type="file" name="dokumen" class="form-control @error('dokumen')is-invalid @enderror" 
-                                    value="{{ old('dokumen', @$legalisir->dokumen) }}" placeholder="Tahun Lulus">
+                                    value="{{ old('dokumen', @$dispensasi->dokumen) }}" placeholder="Tahun Lulus">
                                     @if ($errors->has('dokumen'))
                                         <span class="text-danger">{{ $errors->first('dokumen') }}</span>
                                     @endif
@@ -136,6 +149,6 @@
 
 @section('script')
 <script>
-  new MultiSelectTag('jenis_legalisir_id')  // id
+  new MultiSelectTag('nama_mahasiswa')  // id
 </script>
 @endsection

@@ -88,7 +88,7 @@
 
                               <div class="col-md-12">
                                 <label for="form_name">
-                                    Tahun Lulus<span class="text-danger">*</span>
+                                    Dokumen<span class="text-danger">*</span>
                                 </label>
                                 <div class="form-floating mb-4">
                                     <div class="col-sm-12 col-md-12">

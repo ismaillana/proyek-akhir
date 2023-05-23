@@ -18,6 +18,8 @@ use App\Http\Controllers\IzinPenelitianController;
 use App\Http\Controllers\JenisLegalisirController;
 use App\Http\Controllers\LegalisirController;
 use App\Http\Controllers\VerifikasiIjazahController;
+use App\Http\Controllers\DispensasiController;
+use App\Http\Controllers\PengantarPklController;
 
 
 
@@ -67,6 +69,9 @@ Auth::routes();
                 Route::resource('pengajuan-aktif-kuliah', AktifKuliahController::class);
                 Route::resource('pengajuan-izin-penelitian', IzinPenelitianController::class);
                 Route::resource('pengajuan-verifikasi-ijazah', VerifikasiIjazahController::class);
+                Route::resource('pengajuan-legalisir', LegalisirController::class);
+                Route::resource('pengajuan-dispensasi', DispensasiController::class);
+                Route::resource('pengajuan-pengantar-pkl', PengantarPklController::class);
         });
     });
 
@@ -85,7 +90,9 @@ Auth::routes();
                 Route::resource('izin-penelitian', IzinPenelitianController::class);
                 Route::resource('legalisir', LegalisirController::class);
                 Route::resource('verifikasi-ijazah', VerifikasiIjazahController::class);
-        });
+                Route::resource('dispensasi', DispensasiController::class);
+                Route::resource('pengantar-pkl', PengantarPklController::class);
+            });
     });
 
 });

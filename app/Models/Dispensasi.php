@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Legalisir extends Model
+class Dispensasi extends Model
 {
     use HasFactory;
 
@@ -22,7 +22,7 @@ class Legalisir extends Model
      * @var array
      */
     protected $casts = [
-        'jenis_legalisir_id' => 'array',
+        'nama_amahasiswa' => 'array',
     ];
     
     /**
@@ -33,26 +33,6 @@ class Legalisir extends Model
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class);
-    }
-
-    /**
-     * Get the user that owns the Mahasiswa
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function ijazah()
-    {
-        return $this->belongsTo(Ijazah::class);
-    }
-
-    /**
-     * Get the user that owns the Mahasiswa
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function jenisLegalisir()
-    {
-        return $this->belongsTo(JenisLegalisir::class);
     }
 
     /**
@@ -70,7 +50,7 @@ class Legalisir extends Model
 
             $ext = $file->getClientOriginalExtension();
             $filename = date('YmdHis') . uniqid() . '.' . $ext;
-            $file->storeAs('public/dokumen/legalisir/', $filename);
+            $file->storeAs('public/dokumen/dispensasi/', $filename);
         }
 
         return $filename;

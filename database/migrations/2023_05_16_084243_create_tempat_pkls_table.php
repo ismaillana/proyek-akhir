@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('tempat_pkls', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('alamat');
-            $table->string('web');
-            $table->string('telepon');
+            $table->string('name')->nullable();
+            $table->string('alamat')->nullable();
+            $table->string('web')->nullable();
+            $table->string('telepon')->nullable();
             $table->timestamps();
         });
     }

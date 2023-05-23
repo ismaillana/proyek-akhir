@@ -130,12 +130,12 @@
                   </a>
                 </li>
                 <li class="dropdown">
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="{{route('pengantar-pkl.create')}}">
                     Surat Pengantar PKL
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="dropdown-item" href="./pricing.html">
+                  <a class="dropdown-item" href="{{route('dispensasi.create')}}">
                     Surat Izin Dispensasi
                   </a>
                 </li>

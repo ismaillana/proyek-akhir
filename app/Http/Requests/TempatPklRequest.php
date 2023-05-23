@@ -24,7 +24,7 @@ class TempatPklRequest extends FormRequest
         $rules = [
             'name'      => 'required',
             'alamat'    => 'required',
-            'telepon'   => 'required',
+            'telepon'   => 'required|numeric',
         ];
         return $rules;
     }
@@ -35,6 +35,7 @@ class TempatPklRequest extends FormRequest
             'name.required'     => 'Nama Tempat PKL Wajib Diisi',
             'alamat.required'     => 'Alamat Wajib Diisi',
             'telepon.required'     => 'Nomor Telepon Wajib Diisi',
+            'telepon.numeric'     => 'Nomor Telepon Harus Berupa Angka',
         ];
     }
 }
