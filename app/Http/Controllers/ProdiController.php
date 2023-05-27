@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Jurusan;
 use App\Models\ProgramStudi;
 use App\Http\Requests\ProdiRequest;
+use Illuminate\Support\Facades\Crypt;
 
 class ProdiController extends Controller
 {
@@ -60,6 +61,12 @@ class ProdiController extends Controller
      */
     public function edit(string $id)
     {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
         $prodi = ProgramStudi::find($id);
         $jurusan = Jurusan::oldest('name')->get();
         

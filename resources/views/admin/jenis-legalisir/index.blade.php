@@ -53,7 +53,7 @@
                               </td>
 
                               <td>
-                                  <a href="{{ route('jenis-legalisir.edit', $item->id) }}" class="btn btn-sm btn-outline-warning">
+                                  <a href="{{ route('jenis-legalisir.edit', Crypt::encryptString($item->id)) }}" class="btn btn-sm btn-outline-warning">
                                       <i class="fas fa-pencil-alt"></i>
                                   </a>
                                   

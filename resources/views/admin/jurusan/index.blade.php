@@ -53,8 +53,8 @@
                               </td>
 
                               <td>
-                                  <a href="{{ route('jurusan.edit', $item->id) }}" class="btn btn-sm btn-outline-warning">
-                                      <i class="fas fa-pencil-alt"></i>
+                                  <a href="{{ route('jurusan.edit', Crypt::encryptString($item->id)) }}" class="btn btn-sm btn-outline-warning">
+                                    <i class="fas fa-pencil-alt"></i>
                                   </a>
                                   
                                   <button value="{{ route('jurusan.destroy', $item->id) }}"

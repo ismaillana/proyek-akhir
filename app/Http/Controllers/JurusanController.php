@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Jurusan;
 use App\Http\Requests\JurusanRequest;
+use Illuminate\Support\Facades\Crypt;
 
 class JurusanController extends Controller
 {
@@ -56,6 +57,12 @@ class JurusanController extends Controller
      */
     public function edit(string $id)
     {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
         $jurusan = Jurusan::find($id);
         return view ('admin.jurusan.form', [
             'jurusan'   =>  $jurusan,

@@ -28,78 +28,94 @@
                   <table class="table table-striped" id="myTable">
                     <thead>
                       <tr>
-                        <th class="text-center">
+                        <th style="width:10%">
                             #
                         </th>
-                        <th class="text-center">
+
+                        <th>
                             Nama User
                         </th>
-                        <th class="text-center">
+
+                        <th>
                             Email
                         </th>
+
                         <th class="text-center">
                             Role
                         </th>
+
                         <th class="text-center">
                             Status
                         </th>
+                        
                         <th class="text-center">
                             Aksi
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                    @foreach ($user as $item)
-                        <tr class="text-center">
-                            <td>
-                                {{$loop->iteration}}
-                            </td>
-                            <td>{{ $item->name}}</td>
-                            <td>{{ $item->email}}</td>
-                            <td>
-                                @if ($item->getRoleNames()[0] == 'super-admin')
-                                    <div class="badge badge-danger">Super Admin</div>
-                                @elseif ($item->getRoleNames()[0] == 'admin-jurusan')
-                                    <div class="badge badge-info">Admin Jurusan</div>
-                                @elseif ($item->getRoleNames()[0] == 'koor-pkl')
-                                    <div class="badge badge-primary">Koor-PKL</div>
-                                @elseif ($item->getRoleNames()[0] == 'mahasiswa')
-                                    <div class="badge badge-danger">Mahasiswa</div>
-                                @elseif ($item->getRoleNames()[0] == 'alumni')
-                                    <div class="badge badge-secondary">Alumni</div>
-                                @else
-                                    <div class="badge badge-secondary">Instansi</div>
-                                @endif
-                            </td>
-                            <td>
-                                @if ($item->status == '1')
-                                    <span class="badge badge-success">Aktif</span>
-                                @else
-                                    <span class="badge badge-danger">Tidak Aktif</span>
-                                @endif
-                            </td>
-                            <td>
-                                <a href="{{ route('manajemen-user.show', Crypt::encryptString($item->id)) }}"
-                                    class="btn btn-sm btn-outline-secondary" title="Detail">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        width="16" height="16" viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </a>
-                                <a href="{{ route('manajemen-user.edit', $item->id) }}" title="Edit" 
-                                    class="btn btn-sm btn-outline-warning">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-                                <button value="{{ route('manajemen-user.destroy', $item->id) }}"
-                                    class="btn btn-sm btn-outline-danger delete" title="Hapus"> 
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    @endforeach
+                        @foreach ($user as $item)
+                            <tr>
+                                <td>
+                                    {{$loop->iteration}}
+                                </td>
+
+                                <td>
+                                    {{ $item->name}}
+                                </td>
+
+                                <td>
+                                    {{ $item->email}}
+                                </td>
+
+                                <td class="text-center">
+                                    @if ($item->getRoleNames()[0] == 'super-admin')
+                                        <div class="badge badge-danger">Super Admin</div>
+                                    @elseif ($item->getRoleNames()[0] == 'admin-jurusan')
+                                        <div class="badge badge-info">Admin Jurusan</div>
+                                    @elseif ($item->getRoleNames()[0] == 'koor-pkl')
+                                        <div class="badge badge-primary">Koor-PKL</div>
+                                    @elseif ($item->getRoleNames()[0] == 'mahasiswa')
+                                        <div class="badge badge-danger">Mahasiswa</div>
+                                    @elseif ($item->getRoleNames()[0] == 'alumni')
+                                        <div class="badge badge-secondary">Alumni</div>
+                                    @else
+                                        <div class="badge badge-secondary">Instansi</div>
+                                    @endif
+                                </td>
+
+                                <td class="text-center">
+                                    @if ($item->status == '1')
+                                        <span class="badge badge-success">Aktif</span>
+                                    @else
+                                        <span class="badge badge-danger">Tidak Aktif</span>
+                                    @endif
+                                </td>
+
+                                <td class="text-center">
+                                    <a href="{{ route('manajemen-user.show', Crypt::encryptString($item->id)) }}"
+                                        class="btn btn-sm btn-outline-secondary" title="Detail">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                            width="16" height="16" viewBox="0 0 24 24"
+                                            stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </a>
+
+                                    <a href="{{ route('manajemen-user.edit', Crypt::encryptString($item->id)) }}" title="Edit" 
+                                        class="btn btn-sm btn-outline-warning">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    
+                                    <button value="{{ route('manajemen-user.destroy', $item->id) }}"
+                                        class="btn btn-sm btn-outline-danger delete" title="Hapus"> 
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                   </table>
                 </div>

@@ -9,6 +9,8 @@ use App\Models\User;
 
 use App\Http\Requests\IjazahRequest;
 
+use Illuminate\Support\Facades\Crypt;
+
 class IjazahController extends Controller
 {
     /**
@@ -64,6 +66,12 @@ class IjazahController extends Controller
      */
     public function edit(string $id)
     {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
         $ijazah = Ijazah::find($id);
         $alumni = Mahasiswa::Oldest('status', 'Alumni')
         ->where('status', 'Alumni')

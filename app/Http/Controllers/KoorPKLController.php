@@ -13,6 +13,7 @@ use App\Http\Requests\KoorPklUpdateRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 class KoorPKLController extends Controller
 {
@@ -94,6 +95,12 @@ class KoorPKLController extends Controller
      */
     public function edit(string $id)
     {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
         $koorPkl = KoorPkl::findOrFail($id);
         $jurusan = Jurusan::oldest('name')->get();
 

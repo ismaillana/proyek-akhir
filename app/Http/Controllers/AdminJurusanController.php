@@ -13,6 +13,7 @@ use App\Http\Requests\AdminJurusanUpdateRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 
 class AdminJurusanController extends Controller
@@ -95,6 +96,12 @@ class AdminJurusanController extends Controller
      */
     public function edit(string $id)
     {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
         $adminJurusan = AdminJurusan::findOrFail($id);
         $jurusan = Jurusan::oldest('name')->get();
 

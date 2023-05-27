@@ -13,6 +13,7 @@ use App\Http\Requests\AlumniUpdateRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 class AlumniController extends Controller
 {
@@ -59,6 +60,12 @@ class AlumniController extends Controller
      */
     public function edit(string $id)
     {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
         $alumni = Mahasiswa::findOrFail($id);
         $jurusan = Jurusan::oldest('name')->get();
         $prodi = ProgramStudi::oldest('name')->get();

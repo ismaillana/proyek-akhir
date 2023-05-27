@@ -14,6 +14,7 @@ use App\Http\Requests\MahasiswaUpdateRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 
 class MahasiswaController extends Controller
@@ -108,6 +109,12 @@ class MahasiswaController extends Controller
      */
     public function edit(string $id)
     {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
         $mahasiswa = Mahasiswa::findOrFail($id);
         $jurusan = Jurusan::oldest('name')->get();
         $prodi = ProgramStudi::oldest('name')->get();

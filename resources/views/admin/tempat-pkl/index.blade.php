@@ -40,7 +40,7 @@
                             Website
                         </th>
 
-                        <th style="width: 10%">
+                        <th class="text-center">
                             Aksi
                         </th>
                       </tr>
@@ -60,7 +60,7 @@
                                     {{ $item->web}}
                                 </td>
 
-                                <td>
+                                <td class="text-center">
                                     <a href="{{ route('tempat-pkl.show', Crypt::encryptString($item->id)) }}"
                                         class="btn btn-sm btn-outline-secondary" title="Detail">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -72,7 +72,7 @@
                                         </svg>
                                     </a>
 
-                                    <a href="{{ route('tempat-pkl.edit', $item->id) }}" title="Edit" 
+                                    <a href="{{ route('tempat-pkl.edit', Crypt::encryptString($item->id)) }}" title="Edit" 
                                         class="btn btn-sm btn-outline-warning">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>

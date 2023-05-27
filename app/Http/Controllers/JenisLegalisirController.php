@@ -7,6 +7,8 @@ use App\Models\JenisLegalisir;
 
 use App\Http\Requests\JenisLegalisirRequest;
 
+use Illuminate\Support\Facades\Crypt;
+
 class JenisLegalisirController extends Controller
 {
     /**
@@ -57,6 +59,12 @@ class JenisLegalisirController extends Controller
      */
     public function edit(string $id)
     {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
         $legalisir = JenisLegalisir::find($id);
         
         return view ('admin.jenis-legalisir.form',[

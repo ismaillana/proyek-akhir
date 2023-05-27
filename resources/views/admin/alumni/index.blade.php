@@ -15,12 +15,6 @@
                     <h4>
                         Data Alumni
                     </h4>
-
-                    {{-- <a href="{{ route('mahasiswa.create') }}"
-                        class="btn btn-outline-success btn-lg d-flex align-items-center ">
-                        <i class="fa fa-plus pr-2"></i>
-                        Tambah
-                    </a> --}}
                 </div>
               </div>
               <div class="card-body">
@@ -28,54 +22,70 @@
                   <table class="table table-striped" id="myTable">
                     <thead>
                       <tr>
-                        <th class="text-center">
+                        <th style="width: 10%">
                             #
                         </th>
-                        <th class="text-center">
+
+                        <th>
                             Nama Alumni
                         </th>
-                        <th class="text-center">
+
+                        <th>
                             NIM
                         </th>
-                        <th class="text-center">
+
+                        <th>
                             Angkatan
                         </th>
+
                         <th class="text-center">
                             Aksi
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                    @foreach ($alumni as $item)
-                        <tr class="text-center">
-                            <td>
-                                {{$loop->iteration}}
-                            </td>
-                            <td>{{ $item->user->name}}</td>
-                            <td>{{ $item->nim}}</td>
-                            <td>{{ $item->angkatan}}</td>
-                            <td>
-                                <a href="{{ route('alumni.show', Crypt::encryptString($item->id)) }}"
-                                    class="btn btn-sm btn-outline-secondary" title="Detail">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        width="16" height="16" viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </a>
-                                <a href="{{ route('alumni.edit', $item->id) }}" title="Edit" 
-                                    class="btn btn-sm btn-outline-warning">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-                                <button value="{{ route('alumni.destroy', $item->id) }}"
-                                    class="btn btn-sm btn-outline-danger delete" title="Hapus"> 
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    @endforeach
+                        @foreach ($alumni as $item)
+                            <tr>
+                                <td>
+                                    {{$loop->iteration}}
+                                </td>
+
+                                <td>
+                                    {{ $item->user->name}}
+                                </td>
+
+                                <td>
+                                    {{ $item->nim}}
+                                </td>
+
+                                <td>
+                                    {{ $item->angkatan}}
+                                </td>
+
+                                <td class="text-center">
+                                    <a href="{{ route('alumni.show', Crypt::encryptString($item->id)) }}"
+                                        class="btn btn-sm btn-outline-secondary" title="Detail">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                            width="16" height="16" viewBox="0 0 24 24"
+                                            stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </a>
+
+                                    <a href="{{ route('alumni.edit', Crypt::encryptString($item->id)) }}" title="Edit" 
+                                        class="btn btn-sm btn-outline-warning">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+
+                                    <button value="{{ route('alumni.destroy', $item->id) }}"
+                                        class="btn btn-sm btn-outline-danger delete" title="Hapus"> 
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                   </table>
                 </div>

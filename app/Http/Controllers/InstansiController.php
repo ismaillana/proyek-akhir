@@ -12,6 +12,7 @@ use App\Http\Requests\InstansiUpdateRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 
 class InstansiController extends Controller
@@ -90,6 +91,12 @@ class InstansiController extends Controller
      */
     public function edit(string $id)
     {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
         $instansi = Instansi::find($id);
 
         return view ('admin.instansi.form', [

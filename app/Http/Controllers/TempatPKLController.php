@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TempatPkl;
 use App\Http\Requests\TempatPklRequest;
+use Illuminate\Support\Facades\Crypt;
 
 class TempatPKLController extends Controller
 {
@@ -59,6 +60,12 @@ class TempatPKLController extends Controller
      */
     public function edit(string $id)
     {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+        
         $tempatPKL = TempatPkl::find($id);
 
         return view ('admin.tempat-pkl.form', [
