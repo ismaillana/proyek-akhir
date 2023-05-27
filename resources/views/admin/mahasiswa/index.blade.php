@@ -15,12 +15,19 @@
                     <h4>
                         Data Mahasiswa
                     </h4>
-
-                    <a href="{{ route('mahasiswa.create') }}"
-                        class="btn btn-outline-success btn-lg d-flex align-items-center ">
-                        <i class="fa fa-plus pr-2"></i>
-                        Tambah
-                    </a>
+                    <div class="d-flex justify-content-between">
+                        <a href="{{route('import-excel')}}"
+                            class="btn btn-outline-info btn-lg d-flex align-items-center mr-1 ">
+                            <i class="fa fa-plus pr-2"></i>
+                            Upload Excel
+                        </a>
+    
+                        <a href="{{ route('mahasiswa.create') }}"
+                            class="btn btn-outline-success btn-lg d-flex align-items-center ">
+                            <i class="fa fa-plus pr-2"></i>
+                            Tambah
+                        </a>
+                    </div>
                 </div>
               </div>
               <div class="card-body">

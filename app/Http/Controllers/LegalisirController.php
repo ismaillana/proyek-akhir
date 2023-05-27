@@ -47,8 +47,10 @@ class LegalisirController extends Controller
         $user = auth()->user();
 
         $alumni       = Mahasiswa::whereUserId($user->id)->first();
-
+        
         $ijazah       = Ijazah::whereMahasiswaId($alumni->id)->first();
+        
+        $dokumen = Legalisir::saveDokumen($request);
         
         $data = ([
             'mahasiswa_id'              => $alumni->id,
@@ -56,14 +58,10 @@ class LegalisirController extends Controller
             'keperluan'                 => $request->keperluan,
             'pekerjaan_terakhir'        => $request->pekerjaan_terakhir,
             'tempat_pekerjaan_terakhir' => $request->tempat_pekerjaan_terakhir,
-            'dokumen'                   => $request->dokumen,
-            'jenis_legalisir_id'        => json_encode($request->jenis_legalisir_id)
+            'dokumen'                   => $dokumen,
+            'jenis_legalisir_id'        => $request->jenis_legalisir_id
         ]);
-
-        $dokumen = Legalisir::saveDokumen($request);
-
-        $data['dokumen'] = $dokumen;
-
+        
         Legalisir::create($data);
 
         return redirect()->back();

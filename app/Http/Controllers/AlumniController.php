@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Jurusan;
 use App\Models\ProgramStudi;
+use Spatie\Permission\Models\Role;
 
 use App\Http\Requests\AlumniUpdateRequest;
 
@@ -22,7 +23,8 @@ class AlumniController extends Controller
      */
     public function index()
     {
-        $alumni = Mahasiswa::where('status', 'Alumni')
+        $alumni = Mahasiswa::latest()
+        ->where('status', 'Alumni')
         ->get();
 
         return view ('admin.alumni.index', [
@@ -61,11 +63,15 @@ class AlumniController extends Controller
         $alumni = Mahasiswa::findOrFail($id);
         $jurusan = Jurusan::oldest('name')->get();
         $prodi = ProgramStudi::oldest('name')->get();
+        $roles     =   Role::oldest('name')->get();
+
+        // dd($roles);
 
         return view ('admin.alumni.detail', [
             'alumni' => $alumni,
             'jurusan'   => $jurusan,
             'prodi'     => $prodi,
+            'roles'     =>  $roles,
             'title'         => 'Alumni'
         ]);
     }
@@ -84,11 +90,13 @@ class AlumniController extends Controller
         $alumni = Mahasiswa::findOrFail($id);
         $jurusan = Jurusan::oldest('name')->get();
         $prodi = ProgramStudi::oldest('name')->get();
+        $roles     =   Role::oldest('name')->get();
 
         return view ('admin.alumni.form', [
             'alumni' => $alumni,
             'jurusan'   => $jurusan,
             'prodi'     => $prodi,
+            'roles'     =>  $roles,
             'title'         => 'Alumni'
         ]);
     }
@@ -130,12 +138,18 @@ class AlumniController extends Controller
 
         Mahasiswa::where('id', $alumni->id)->update($data);
 
+        $roles = Role::findOrFail($request->roles);
+
         User::whereId($alumni->user_id)->update([
             'name'        => $request->name,
             'nomor_induk' => $request->nomor_induk,
             'wa'          => 62 . $request->wa,
-            // 'password'    => Hash::make($request->nomor_induk)
+            'password'    => Hash::make($request->nomor_induk)
         ]);
+
+        $user = User::where('id',$alumni->user_id)->first();
+
+        $user->syncRoles($roles);
        
         return redirect()->route('alumni.index')->with('success', 'Data Berhasil Diubah');
     }

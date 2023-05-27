@@ -46,20 +46,20 @@ class DispensasiController extends Controller
 
         $mahasiswa  = Mahasiswa::whereUserId($user->id)
         ->first();
+        
+        $dokumen = Dispensasi::saveDokumen($request);
 
-       $data = ([
+        $data = ([
             'mahasiswa_id'  => $mahasiswa->id,
             'kegiatan'      => $request->kegiatan,
             'tempat'        => $request->tempat,
             'mulai'         => $request->mulai,
             'selesai'       => $request->selesai,
             'mulai'         => $request->mulai,
-            'dokumen'       => $request->dokumen,
+            'dokumen'       => $dokumen,
+            'nama_mahasiswa'=> $request->nama_mahasiswa
         ]);
 
-        $data['nama_mahasiswa'] =json_encode($request->nama_mahasiswa);
-
-        $dokumen = Dispensasi::saveDokumen($request);
 
         $data['dokumen'] = $dokumen;
 

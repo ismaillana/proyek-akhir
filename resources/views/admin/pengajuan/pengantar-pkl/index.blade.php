@@ -58,7 +58,7 @@
                                 {{@$item->mahasiswa->user->name}}
                             </td>
                             <td>
-                                {{$item->['nama_mahasiswa']}}
+                                {{$item->get_mahasiswa}}
                             </td>
                             <td>
                                 {{$item->nama_perusahaan}}

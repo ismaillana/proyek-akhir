@@ -56,10 +56,8 @@ class PengantarPklController extends Controller
             'web'              => $request->web,
             'telepon'          => $request->telepon,
             'kepada'           => $request->web,
-
+            'nama_mahasiswa'   => $request->nama_mahasiswa
         ]);
-
-        $data['nama_mahasiswa'] =json_encode($request->nama_mahasiswa);
 
         PengantarPkl::create($data);
 

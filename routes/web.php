@@ -72,6 +72,7 @@ Auth::routes();
                 Route::resource('pengajuan-legalisir', LegalisirController::class);
                 Route::resource('pengajuan-dispensasi', DispensasiController::class);
                 Route::resource('pengajuan-pengantar-pkl', PengantarPklController::class);
+                Route::get('import-excel', [MahasiswaController::class, 'createImport'])->name('import-excel');
         });
     });
 

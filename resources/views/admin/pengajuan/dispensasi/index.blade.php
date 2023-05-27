@@ -58,7 +58,7 @@
                                 {{@$item->mahasiswa->user->name}}
                             </td>
                             <td>
-                                {{$item->nama_mahasiswa}}
+                                {{$item->get_mahasiswa}}
                             </td>
                             <td>
                                 <a href="{{ asset('storage/public/dokumen/dispensasi/'. $item->dokumen)}}" download="{{$item->dokumen}}">

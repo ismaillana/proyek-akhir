@@ -17,12 +17,19 @@ class PengantarPkl extends Model
     protected $guarded = ['id'];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['get_mahasiswa'];
+
+    /**
      * The attributes that should be cast.
      *
      * @var array
      */
     protected $casts = [
-        'nama_amahasiswa' => 'array',
+        'nama_mahasiswa' => 'array',
     ];
     
     /**
@@ -33,6 +40,19 @@ class PengantarPkl extends Model
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class);
+    }
+
+    public function getGetMahasiswaAttribute()
+    {
+        $data = User::whereIn('id', $this->nama_mahasiswa)->get();
+        // dd($data);
+        if ($data->isEmpty()) {
+            return null;
+        }
+
+        // dd($data->isEmpty());
+
+        return $data->implode('name', ',');
     }
 
 }

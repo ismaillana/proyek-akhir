@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Jurusan;
 use App\Models\ProgramStudi;
+use Spatie\Permission\Models\Role;
 
 use App\Http\Requests\MahasiswaRequest;
 use App\Http\Requests\MahasiswaUpdateRequest;
@@ -24,7 +25,8 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        $mahasiswa = Mahasiswa::where('status', 'Mahasiswa Aktif' || 'Keluar')
+        $mahasiswa = Mahasiswa::latest()
+        ->where('status', 'Mahasiswa Aktif' || 'Keluar')
         ->get();
 
         return view ('admin.mahasiswa.index', [
@@ -36,15 +38,32 @@ class MahasiswaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function createImport()
     {
         $jurusan    =   Jurusan::get();
         $prodi      =   ProgramStudi::get();
         
+        return view ('admin.mahasiswa.formImport', [
+            'jurusan'   =>  $jurusan,
+            'prodi'     =>  $prodi,
+            'title'     => 'Form Import Mahasiswa'
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $jurusan    =   Jurusan::get();
+        $prodi      =   ProgramStudi::get();
+        $roles      =   Role::all();
+        
         return view ('admin.mahasiswa.form', [
             'jurusan'   =>  $jurusan,
             'prodi'     =>  $prodi,
-            'title'     => 'Mahasiswa'
+            'roles'     =>  $roles,
+            'title'     => 'Form Tambah Mahasiswa'
         ]);
     }
 
@@ -56,6 +75,8 @@ class MahasiswaController extends Controller
         DB::beginTransaction();
 
         try {
+            $roles = Role::findOrFail($request->roles);
+
             $user = User::create([
                 'name'        => $request->name,
                 'nomor_induk' => $request->nomor_induk,
@@ -79,13 +100,7 @@ class MahasiswaController extends Controller
 
             $mahasiswa = Mahasiswa::create($data);
 
-            if ($request->status == 'Alumni') {
-                $user->assignRole('alumni');
-                
-            } else {
-                $user->assignRole('mahasiswa');
-
-            }
+            $user->assignRole($roles);
 
             DB::commit();
 
@@ -110,11 +125,13 @@ class MahasiswaController extends Controller
         $mahasiswa = Mahasiswa::findOrFail($id);
         $jurusan = Jurusan::oldest('name')->get();
         $prodi = ProgramStudi::oldest('name')->get();
+        $roles     =   Role::oldest('name')->get();
 
         return view ('admin.mahasiswa.detail', [
             'mahasiswa' => $mahasiswa,
             'jurusan'   => $jurusan,
             'prodi'     => $prodi,
+            'roles'     => $roles,
             'title'     => 'Mahasiswa'
         ]);
     }
@@ -131,13 +148,15 @@ class MahasiswaController extends Controller
         }
 
         $mahasiswa = Mahasiswa::findOrFail($id);
-        $jurusan = Jurusan::oldest('name')->get();
-        $prodi = ProgramStudi::oldest('name')->get();
+        $jurusan   = Jurusan::oldest('name')->get();
+        $prodi     = ProgramStudi::oldest('name')->get();
+        $roles     = Role::oldest('name')->get();
 
         return view ('admin.mahasiswa.form', [
             'mahasiswa' => $mahasiswa,
             'jurusan'   => $jurusan,
             'prodi'     => $prodi,
+            'roles'     => $roles,
             'title'     => 'Mahasiswa'
         ]);
     }
@@ -154,30 +173,36 @@ class MahasiswaController extends Controller
             'program_studi_id'  => $request->program_studi_id,
             'status'            => $request->status,
         ];
-
+        
         $image = Mahasiswa::saveImage($request);
-
+        
         if ($image) {
             $data['image'] = $image;
-
+            
             $param = (object) [
                 'type'  => 'image',
                 'id'    => $mahasiswa->id
             ];
-
+            
             Mahasiswa::deleteImage($param);
         }
-
+        
         Mahasiswa::where('id', $mahasiswa->id)->update($data);
+        
+        $roles = Role::findOrFail($request->roles);
 
-        User::whereId($mahasiswa->user_id)->update([
+       $user = User::whereId($mahasiswa->user_id)->update([
             'name'        => $request->name,
             'nomor_induk' => $request->nomor_induk,
             'email'       => $request->email,
             'wa'          => 62 . $request->wa,
-            // 'password'    => Hash::make($request->nomor_induk)
+            'password'    => Hash::make($request->nomor_induk)
         ]);
-      
+
+        $user = User::where('id',$mahasiswa->user_id)->first();
+        
+        $user->syncRoles($roles);
+
         return redirect()->route('mahasiswa.index')->with('success', 'Data Berhasil Diubah');
     }
 
