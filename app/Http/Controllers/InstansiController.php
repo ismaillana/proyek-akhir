@@ -83,7 +83,18 @@ class InstansiController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $instansi = Instansi::find($id);
+
+        return view ('admin.instansi.detail', [
+            'instansi'  => $instansi,
+            'title'    => 'Instansi'
+        ]);
     }
 
     /**

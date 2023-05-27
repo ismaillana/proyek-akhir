@@ -87,7 +87,20 @@ class KoorPKLController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $koorPkl = KoorPkl::findOrFail($id);
+        $jurusan = Jurusan::oldest('name')->get();
+
+        return view ('admin.koor-pkl.detail', [
+            'koorPkl' => $koorPkl,
+            'jurusan'   => $jurusan,
+            'title'    => 'Koor-Pkl'
+        ]);
     }
 
     /**

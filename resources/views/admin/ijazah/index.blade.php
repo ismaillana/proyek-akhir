@@ -69,12 +69,12 @@
                             </td>
 
                             <td>
-                                <a href="{{ route('ijazah.edit', Crypt::encryptString($item->id)) }}" class="btn btn-sm btn-outline-warning">
+                                <a href="{{ route('ijazah.edit', Crypt::encryptString($item->id)) }}" class="btn btn-sm btn-outline-warning" title="Edit">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
                                 
                                 <button value="{{ route('ijazah.destroy', $item->id) }}"
-                                    class="btn btn-sm btn-outline-danger delete"> 
+                                    class="btn btn-sm btn-outline-danger delete" title="Edit"> 
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>

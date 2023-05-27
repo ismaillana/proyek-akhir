@@ -101,7 +101,22 @@ class MahasiswaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $mahasiswa = Mahasiswa::findOrFail($id);
+        $jurusan = Jurusan::oldest('name')->get();
+        $prodi = ProgramStudi::oldest('name')->get();
+
+        return view ('admin.mahasiswa.detail', [
+            'mahasiswa' => $mahasiswa,
+            'jurusan'   => $jurusan,
+            'prodi'     => $prodi,
+            'title'     => 'Mahasiswa'
+        ]);
     }
 
     /**

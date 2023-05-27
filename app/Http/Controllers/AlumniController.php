@@ -52,7 +52,22 @@ class AlumniController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $alumni = Mahasiswa::findOrFail($id);
+        $jurusan = Jurusan::oldest('name')->get();
+        $prodi = ProgramStudi::oldest('name')->get();
+
+        return view ('admin.alumni.detail', [
+            'alumni' => $alumni,
+            'jurusan'   => $jurusan,
+            'prodi'     => $prodi,
+            'title'         => 'Alumni'
+        ]);
     }
 
     /**

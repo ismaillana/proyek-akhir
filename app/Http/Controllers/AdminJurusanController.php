@@ -88,7 +88,20 @@ class AdminJurusanController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $adminJurusan = AdminJurusan::findOrFail($id);
+        $jurusan = Jurusan::oldest('name')->get();
+
+        return view ('admin.admin-jurusan.detail', [
+            'adminJurusan' => $adminJurusan,
+            'jurusan'   => $jurusan,
+            'title'         => 'Admin Jurusan'
+        ]);
     }
 
     /**

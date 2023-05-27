@@ -53,12 +53,14 @@
                               </td>
 
                               <td>
-                                  <a href="{{ route('jurusan.edit', Crypt::encryptString($item->id)) }}" class="btn btn-sm btn-outline-warning">
+                                  <a href="{{ route('jurusan.edit', Crypt::encryptString($item->id)) }}" class="btn btn-sm btn-outline-warning"
+                                    data-toggle="tooltip" data-placement="bottom" title="Edit">
                                     <i class="fas fa-pencil-alt"></i>
                                   </a>
                                   
                                   <button value="{{ route('jurusan.destroy', $item->id) }}"
-                                      class="btn btn-sm btn-outline-danger delete"> 
+                                      class="btn btn-sm btn-outline-danger delete"
+                                      data-toggle="tooltip" data-placement="bottom" title="Hapus"> 
                                       <i class="fas fa-trash"></i>
                                   </button>
                               </td>
