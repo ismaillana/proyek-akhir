@@ -24,7 +24,8 @@ class InstansiController extends Controller
         $instansi = Instansi::get();
 
         return view ('admin.instansi.index', [
-            'instansi' => $instansi
+            'instansi' => $instansi,
+            'title'    => 'Instansi'
         ]);
     }
 
@@ -33,7 +34,9 @@ class InstansiController extends Controller
      */
     public function create()
     {
-        return view ('admin.instansi.form');
+        return view ('admin.instansi.form', [
+            'title'    => 'Instansi'
+        ]);
     }
 
     /**
@@ -90,7 +93,8 @@ class InstansiController extends Controller
         $instansi = Instansi::find($id);
 
         return view ('admin.instansi.form', [
-            'instansi'  => $instansi
+            'instansi'  => $instansi,
+            'title'    => 'Instansi'
         ]);
     }
 

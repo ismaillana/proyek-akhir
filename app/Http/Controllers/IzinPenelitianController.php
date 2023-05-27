@@ -18,7 +18,8 @@ class IzinPenelitianController extends Controller
     {
         $izinPenelitian = IzinPenelitian::latest()->get();
         return view ('admin.pengajuan.izin-penelitian.index', [
-            'izinPenelitian'   => $izinPenelitian
+            'izinPenelitian'   => $izinPenelitian,
+            'title'    => 'Izin Penelitian'
         ]);
     }
 
@@ -29,10 +30,12 @@ class IzinPenelitianController extends Controller
     {
         $user = auth()->user();
 
-        $mahasiswa       = Mahasiswa::whereUserId($user->id)->first();
+        $mahasiswa       = Mahasiswa::whereUserId($user->id)
+        ->first();
 
         return view ('user.pengajuan.izin-penelitian.form',[
-            'mahasiswa' => $mahasiswa
+            'mahasiswa' => $mahasiswa,
+            'title'    => 'Izin Penelitian'
         ]);
     }
 
@@ -43,7 +46,8 @@ class IzinPenelitianController extends Controller
     {
         $user = auth()->user();
 
-        $mahasiswa       = Mahasiswa::whereUserId($user->id)->first();
+        $mahasiswa       = Mahasiswa::whereUserId($user->id)
+        ->first();
 
         IzinPenelitian::create([
             'mahasiswa_id'      => $mahasiswa->id,

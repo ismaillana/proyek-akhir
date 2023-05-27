@@ -23,9 +23,9 @@ class AdminJurusanUpdateRequest extends FormRequest
     {
         $rules = [
             'name'              => 'required',
-            'email'             => 'required|email|unique:users,email,'  . $this->admin->user->id,
+            'email'             => 'required|email|unique:users,email,'  . $this->adminJurusan->user->id,
             'email'             => 'required|email',
-            'nomor_induk'       => 'required|unique:users,nomor_induk,'  . $this->admin->user->id,
+            'nomor_induk'       => 'required|unique:users,nomor_induk,'  . $this->adminJurusan->user->id,
             'nomor_induk'       => 'required',
 
             'wa'                => 'required',

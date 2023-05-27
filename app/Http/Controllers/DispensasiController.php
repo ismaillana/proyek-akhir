@@ -17,14 +17,10 @@ class DispensasiController extends Controller
     public function index()
     {
         $dispensasi = Dispensasi::get();
-        // $jenisId = dispensasi::get('jenis_legalisir_id');
-        // $result = json_decode($jenisId);
-        // dd($result);
-        // $jenisDokumen = JenisLegalisir::whereIn('id',$result)->get();
-        // dd($dispensasi);
+
         return view ('admin.pengajuan.dispensasi.index', [
-            'dispensasi' => $dispensasi
-            // 'jenisDokumen' => $jenisDokumen
+            'dispensasi' => $dispensasi,
+            'title'         => 'Dispensasi Perkuliahan'
         ]);
     }
 
@@ -36,7 +32,8 @@ class DispensasiController extends Controller
         $mahasiswa = Mahasiswa::where('status', 'Mahasiswa Aktif')
         ->get();
         return view ('user.pengajuan.dispensasi.form', [
-            'mahasiswa' => $mahasiswa
+            'mahasiswa' => $mahasiswa,
+            'title'         => 'Dispensasi Perkuliahan'
         ]);
     }
 
@@ -47,7 +44,8 @@ class DispensasiController extends Controller
     {
         $user = auth()->user();
 
-        $mahasiswa  = Mahasiswa::whereUserId($user->id)->first();
+        $mahasiswa  = Mahasiswa::whereUserId($user->id)
+        ->first();
 
        $data = ([
             'mahasiswa_id'  => $mahasiswa->id,

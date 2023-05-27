@@ -1,10 +1,15 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
       <div class="sidebar-brand">
-        <a href="index.html">SIPAM</a>
+        <a href="{{route('dashboard')}}">
+          <img src="{{asset('/assets/img/logoPOLSUB.png')}}" height="50 px" width="50 px" alt="img">
+          SIPAM
+        </a>
       </div>
       <div class="sidebar-brand sidebar-brand-sm">
-        <a href="index.html">SIPAM</a>
+        <a href="{{route('dashboard')}}">
+          <img src="{{asset('/assets/img/logoPOLSUB.png')}}" height="50 px" width="50 px" alt="img">
+        </a>
       </div>
 
       <ul class="sidebar-menu">
@@ -57,8 +62,8 @@
               {{ request()->is('menu-admin/mahasiswa*') ? 'active' : ''}} ||
               {{ request()->is('menu-admin/alumni*') ? 'active' : ''}} ||
               {{ request()->is('menu-admin/instansi*') ? 'active' : ''}} ||
-              {{ request()->is('menu-admin/koor-pkl*') ? 'active' : ''}} ||
-              {{ request()->is('menu-admin/admin-jurusan*') ? 'active' : ''}} ||
+              {{ request()->is('menu-admin/koorPkl*') ? 'active' : ''}} ||
+              {{ request()->is('menu-admin/adminJurusan*') ? 'active' : ''}} ||
               {{ request()->is('menu-admin/manajemen-user*') ? 'active' : ''}} ||">
     
               <a class="nav-link has-dropdown" data-toggle="dropdown">
@@ -71,13 +76,13 @@
                     User
                   </a>
                 </li>
-                <li class="{{ request()->is('menu-admin/admin-jurusan*') ? 'active' : ''}}">
-                  <a class="nav-link" href="{{route('admin-jurusan.index')}}">
+                <li class="{{ request()->is('menu-admin/adminJurusan*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('adminJurusan.index')}}">
                     Admin Jurusan
                   </a>
                 </li>
-                <li class="{{ request()->is('menu-admin/koor-pkl*') ? 'active' : ''}}">
-                  <a class="nav-link" href="{{route('koor-pkl.index')}}">
+                <li class="{{ request()->is('menu-admin/koorPkl*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('koorPkl.index')}}">
                     Koor.PKL Jurusan
                   </a>
                 </li>

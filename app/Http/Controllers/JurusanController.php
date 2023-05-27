@@ -16,7 +16,8 @@ class JurusanController extends Controller
         $jurusan = Jurusan::all();
 
         return view ('admin.jurusan.index',[
-            'jurusan' => $jurusan
+            'jurusan' => $jurusan,
+            'title' => 'Jurusan'
         ]);
     }
 
@@ -25,7 +26,9 @@ class JurusanController extends Controller
      */
     public function create()
     {
-        return view ('admin.jurusan.form');
+        return view ('admin.jurusan.form', [
+            'title'    => 'Jurusan'
+        ]);
     }
 
     /**
@@ -55,7 +58,8 @@ class JurusanController extends Controller
     {
         $jurusan = Jurusan::find($id);
         return view ('admin.jurusan.form', [
-            'jurusan'   =>  $jurusan
+            'jurusan'   =>  $jurusan,
+            'title'    => 'Jurusan'
         ]);
     }
 

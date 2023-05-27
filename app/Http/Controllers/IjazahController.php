@@ -18,7 +18,8 @@ class IjazahController extends Controller
     {
         $ijazah = Ijazah::get();
         return view ('admin.ijazah.index',[
-            'ijazah' => $ijazah
+            'ijazah' => $ijazah,
+            'title'  => 'Ijazah'
         ]);
     }
 
@@ -28,14 +29,11 @@ class IjazahController extends Controller
     public function create()
     {
         $alumni = Mahasiswa::where('status', 'Alumni')
-        ->get();
-        // $user = User::where($alumni)->get();
-        // $user = User::get();
-        
+        ->get();        
 
         return view ('admin.ijazah.form', [
             'alumni' => $alumni,
-            // 'user'   => $user
+            'title'  => 'Ijazah'
         ]);
     }
 
@@ -73,7 +71,8 @@ class IjazahController extends Controller
 
         return view ('admin.ijazah.form', [
             'ijazah' => $ijazah,
-            'alumni' => $alumni
+            'alumni' => $alumni,
+            'title'  => 'Ijazah'
         ]);
     }
 

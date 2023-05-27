@@ -86,16 +86,16 @@ class koorPkl extends Model
      * @param  $id
      * @return void
      */
-    public static function deleteImage($id)
+    public static function deleteImage(object $param)
     {
-        $koorPKL = koorPkl::firstWhere('id', $id);
-
+        $koorPkl = KoorPkl::firstWhere('id', $param->id);
+        // dd($koorPkl);
         // if ($param->type == 'image') {
-            if ($koorPKL->image != null) {
-                $path = 'public/image/koor-pkl/' . $koorPKL->image;
+            if ($koorPkl->image != null) {
+                $path = 'public/image/koor-pkl/' . $koorPkl->image;
 
                 if (Storage::exists($path)) {
-                    Storage::delete('public/image/koor-pkl/' . $koorPKL->image);
+                    Storage::delete('public/image/koor-pkl/' . $koorPkl->image);
                 }
             }
         // }

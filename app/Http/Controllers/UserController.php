@@ -20,7 +20,8 @@ class UserController extends Controller
         ->get();
 
         return view ('admin.manajemen-user.index',[
-            'user' => $user
+            'user' => $user,
+            'title'     => 'User'
         ]);
     }
 

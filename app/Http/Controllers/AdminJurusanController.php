@@ -25,7 +25,8 @@ class AdminJurusanController extends Controller
         $adminJurusan = AdminJurusan::get();
 
         return view ('admin.admin-jurusan.index', [
-            'adminJurusan'  => $adminJurusan
+            'adminJurusan'  => $adminJurusan,
+            'title'         => 'Admin Jurusan'
         ]);
     }
 
@@ -38,6 +39,7 @@ class AdminJurusanController extends Controller
         
         return view ('admin.admin-jurusan.form', [
             'jurusan'   =>  $jurusan,
+            'title'     => 'Admin Jurusan'
         ]);
     }
 
@@ -64,7 +66,7 @@ class AdminJurusanController extends Controller
                 'nip'               => $user->nomor_induk,
                 'jurusan_id'        => $request->jurusan_id,
             ];
-
+            
             $image = AdminJurusan::saveImage($request);
 
             $data['image'] = $image;
@@ -73,7 +75,7 @@ class AdminJurusanController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin-jurusan.index')->with('success', 'Data Berhasil Ditambah');
+            return redirect()->route('adminJurusan.index')->with('success', 'Data Berhasil Ditambah');
         } catch (\Throwable $th) {
             DB::rollback();
             return back()->withError('Admin Jurusan Gagal Ditambah');
@@ -99,6 +101,7 @@ class AdminJurusanController extends Controller
         return view ('admin.admin-jurusan.form', [
             'adminJurusan' => $adminJurusan,
             'jurusan'   => $jurusan,
+            'title'         => 'Admin Jurusan'
         ]);
     }
 
@@ -134,8 +137,8 @@ class AdminJurusanController extends Controller
             'wa'          => 62 . $request->wa,
             // 'password'    => Hash::make($request->nomor_induk)
         ]);
-        // return dd($request->all());
-        return redirect()->route('admin-jurusan.index')->with('success', 'Data Berhasil Diubah');
+
+        return redirect()->route('adminJurusan.index')->with('success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -145,22 +148,12 @@ class AdminJurusanController extends Controller
     {
         $adminJurusan = AdminJurusan::find($id);
 
-        // $resellerOrder =  ResellerOrder::where('reseller_id', $id)
-        //     ->whereNotIn('order_status_id', [8, 9])
-        //     ->first();
-
-        // if ($resellerOrder) {
-        //     return response()->json(['message' => 'Gagal hapus, masih ada transaksi yang berjalan', 'status' => 'error', 'code' => '500']);
-        // }
-
         $param = (object) [
             'type'  => 'image',
             'id'    => $adminJurusan->id
         ];
 
         AdminJurusan::deleteImage($param);
-
-        // $this->deleteMahasiswa($id);
 
         $adminJurusan->delete();
 

@@ -16,7 +16,8 @@ class TempatPKLController extends Controller
         $tempatPKL = TempatPkl::all();
 
         return view ('admin.tempat-pkl.index',[
-            'tempatPKL' => $tempatPKL
+            'tempatPKL' => $tempatPKL,
+            'title'     => 'Tempat PKL'
         ]);
     }
 
@@ -25,7 +26,9 @@ class TempatPKLController extends Controller
      */
     public function create()
     {
-        return view ('admin.tempat-pkl.form');
+        return view ('admin.tempat-pkl.form', [
+            'title'     => 'Tempat PKL'
+        ]);
     }
 
     /**
@@ -59,7 +62,8 @@ class TempatPKLController extends Controller
         $tempatPKL = TempatPkl::find($id);
 
         return view ('admin.tempat-pkl.form', [
-            'tempatPKL' => $tempatPKL
+            'tempatPKL' => $tempatPKL,
+            'title'     => 'Tempat PKL'
         ]);
     }
 

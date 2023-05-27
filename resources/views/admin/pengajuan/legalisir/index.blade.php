@@ -70,10 +70,7 @@
                                 {{$item->ijazah->tahun_lulus}}
                             </td>
                             <td>
-                                @foreach ($jenisDokumen as $item)
-                                    {{$item->name}}
-                                @endforeach
-                                {{-- {{$item->jenis_legalisir_id}} --}}
+                                {{$item->jenis_legalisir}}
                             </td>
                             <td>
                                 <a href="{{ asset('storage/public/dokumen/legalisir/'. $item->dokumen)}}" download="{{$item->dokumen}}">

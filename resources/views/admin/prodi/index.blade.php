@@ -28,43 +28,50 @@
                   <table class="table table-striped" id="myTable">
                     <thead>
                       <tr>
-                        <th class="text-center">
+                        <th style="width: 10%">
                             #
                         </th>
-                        <th class="text-center">
+                        
+                        <th>
                             Jurusan
                         </th>
-                        <th class="text-center">
+
+                        <th>
                             Nama Program Studi
                         </th>
-                        <th class="text-center">
+
+                        <th style="width: 10%">
                             Aksi
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                    @foreach ($prodi as $item)
-                        <tr class="text-center">
-                            <td>
-                                {{$loop->iteration}}
-                            </td>
-                            <td>
-                                {{$item->jurusan->name}}
-                            </td>
-                            <td>
-                                {{$item->name}}
-                            </td>
-                            <td>
-                                <a href="{{ route('prodi.edit', $item->id) }}" class="btn btn-sm btn-outline-warning">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-                                <button value="{{ route('prodi.destroy', $item->id) }}"
-                                    class="btn btn-sm btn-outline-danger delete"> 
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    @endforeach
+                        @foreach ($prodi as $item)
+                            <tr>
+                                <td>
+                                    {{$loop->iteration}}
+                                </td>
+
+                                <td>
+                                    {{$item->jurusan->name}}
+                                </td>
+
+                                <td>
+                                    {{$item->name}}
+                                </td>
+
+                                <td>
+                                    <a href="{{ route('prodi.edit', $item->id) }}" class="btn btn-sm btn-outline-warning">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    
+                                    <button value="{{ route('prodi.destroy', $item->id) }}"
+                                        class="btn btn-sm btn-outline-danger delete"> 
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                   </table>
                 </div>

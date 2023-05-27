@@ -23,12 +23,12 @@ class AlumniUpdateRequest extends FormRequest
     {
         $rules = [
             'name'              => 'required',
-            'email'             => 'required|email',
-            'nomor_induk'       => 'required',
+            // 'email'             => 'required|email',
+            // 'nomor_induk'       => 'required',
 
-            'email'             => 'required|email|unique:users,email,'  . $this->alumni->user->id,
+            // 'email'             => 'required|email|unique:users,email,',
            
-            'nomor_induk'       => 'required|unique:users,nomor_induk,' . $this->alumni->user->id,
+            // 'nomor_induk'       => 'required|unique:users,nomor_induk,',
             'wa'                => 'required',
             'angkatan'          => 'required',
             'jurusan_id'        => 'required',
@@ -41,15 +41,15 @@ class AlumniUpdateRequest extends FormRequest
     {
         return [
             'name.required'         => 'Nama Mahasiswa Wajib Diisi',
-            'email.required'        => 'Email Wajib Diisi',
-            'email.email'           => 'Format Email Harus Sesuai',
-            'nomor_induk.required'  => 'NIM Wajib Diisi',
-            'nomor_induk.unique'    => 'NIM Sudah Ada',
+            // 'email.required'        => 'Email Wajib Diisi',
+            // 'email.email'           => 'Format Email Harus Sesuai',
+            // 'nomor_induk.required'  => 'NIM Wajib Diisi',
+            // 'nomor_induk.unique'    => 'NIM Sudah Ada',
             'wa.required'           => 'No WhatsApp Wajib Diisi',
             'angkatan.required'     => 'Tahun Angkatan Wajib Diisi',
             'jurusan_id.required'   => 'Jurusan Wajib Diisi',
             'program_studi_id.required' => 'Program Studi Wajib Diisi',
-            'email.unique' => 'Email Sudah Digunakan'
+            // 'email.unique' => 'Email Sudah Digunakan'
 
         ];
     }

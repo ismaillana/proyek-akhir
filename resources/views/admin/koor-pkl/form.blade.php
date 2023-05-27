@@ -4,10 +4,10 @@
     <section class="section">
       <div class="section-header">
         <div class="section-header-back">
-          <a href="{{route('koor-pkl.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+          <a href="{{route('koorPkl.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
         </div>
         <h1>
-            @if (@$koorPKL->exists)
+            @if (@$koorPkl->exists)
                 Edit
                 @php
                     $aksi = 'Edit';
@@ -22,13 +22,13 @@
         </h1>
       </div>
 
-      @if (@$koorPKL->exists)
+      @if (@$koorPkl->exists)
         <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST"
-            action="{{route('koor-pkl.update', $koorPKL) }}">
+            action="{{route('koorPkl.update', $koorPkl) }}">
             @method('put')
       @else
         <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST" 
-            action="{{route('koor-pkl.store')}}">
+            action="{{route('koorPkl.store')}}">
       @endif
         {{ csrf_field() }}
         <div class="section-body">
@@ -47,7 +47,7 @@
                         <div class="col-sm-12 col-md-7">
                             <input type="text" class="form-control @error('name')is-invalid @enderror"
                             id="name" name="name" placeholder="Masukkan Koordinator PKL" 
-                            value="{{ old('name', @$koorPKL->user->name) }}">
+                            value="{{ old('name', @$koorPkl->user->name) }}">
                             @if ($errors->has('name'))
                                 <span class="text-danger">{{ $errors->first('name') }}</span>
                             @endif
@@ -62,7 +62,7 @@
                         <div class="col-sm-12 col-md-7">
                             <input type="number" class="form-control @error('nomor_induk')is-invalid @enderror"
                             id="nomor_induk" name="nomor_induk" placeholder="Masukkan NIP" 
-                            value="{{ old('nomor_induk', @$koorPKL->user->nomor_induk) }}">
+                            value="{{ old('nomor_induk', @$koorPkl->user->nomor_induk) }}">
                             @if ($errors->has('nomor_induk'))
                                 <span class="text-danger">{{ $errors->first('nomor_induk') }}</span>
                             @endif
@@ -77,7 +77,7 @@
                         <div class="col-sm-12 col-md-7">
                             <input type="email" class="form-control @error('email')is-invalid @enderror"
                             id="email" name="email" placeholder="Masukkan Email" 
-                            value="{{ old('email', @$koorPKL->user->email) }}">
+                            value="{{ old('email', @$koorPkl->user->email) }}">
                             @if ($errors->has('email'))
                                 <span class="text-danger">{{ $errors->first('email') }}</span>
                             @endif
@@ -98,7 +98,7 @@
 
                                 <input type="number" class="form-control @error('wa') is-invalid @enderror"
                                     id="wa" name="wa" placeholder="Masukan Nomer Whatsapp "
-                                    value="{{ old('wa', Str::substr(@$koorPKL->user->wa, 2)) }}">
+                                    value="{{ old('wa', Str::substr(@$koorPkl->user->wa, 2)) }}">
                             </div>
                             @if ($errors->has('wa'))
                                 <span class="text-danger">{{ $errors->first('wa') }}</span>
@@ -118,7 +118,7 @@
                                 <option value="" selected="" disabled="">Pilih Jurusan</option>
                                 @foreach ($jurusan as $item)
                                     <option value="{{ $item->id }}"
-                                        {{ old('jurusan_id', @$koorPKL->jurusan_id) == $item->id ? 'selected' : '' }}>
+                                        {{ old('jurusan_id', @$koorPkl->jurusan_id) == $item->id ? 'selected' : '' }}>
                                         {{ $item->name }}
                                     </option>
                                 @endforeach
@@ -139,7 +139,7 @@
                         <div class="col-sm-12 col-md-7">
                               <input class="dropify @error('image') is-invalid @enderror" 
                               data-height='250' type="file" name="image" id="image" 
-                              data-default-file="{{ @$koorPKL->image_url }}">
+                              data-default-file="{{ @$koorPkl->image_url }}">
                           </div>
                     </div>
                     

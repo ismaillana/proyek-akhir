@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class KoorPKLUpdateRequest extends FormRequest
+class KoorPklUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,9 @@ class KoorPKLUpdateRequest extends FormRequest
     {
         $rules = [
             'name'              => 'required',
-            'email'             => 'required|email|unique:users,email,'  . $this->koorPKL->user->id,
+            'email'             => 'required|email|unique:users,email,'  . $this->koorPkl->user->id,
             'email'             => 'required|email',
-            'nomor_induk'       => 'required|unique:users,nomor_induk,'  . $this->koorPKL->user->id,
+            'nomor_induk'       => 'required|unique:users,nomor_induk,'  . $this->koorPkl->user->id,
             'nomor_induk'       => 'required',
             'wa'                => 'required',
             'jurusan_id'        => 'required',

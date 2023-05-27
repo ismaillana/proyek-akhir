@@ -22,7 +22,8 @@ class VerifikasiIjazahController extends Controller
         $verifikasiIjazah = VerifikasiIjazah::get();
 
         return view ('admin.pengajuan.verifikasi-ijazah.index', [
-            'verifikasiIjazah'  => $verifikasiIjazah
+            'verifikasiIjazah'  => $verifikasiIjazah,
+            'title'             => 'Verifikasi Ijazah'
         ]);
     }
 
@@ -31,7 +32,9 @@ class VerifikasiIjazahController extends Controller
      */
     public function create()
     {
-        return view('user.pengajuan.verifikasi-ijazah.form');
+        return view('user.pengajuan.verifikasi-ijazah.form', [
+            'title' => 'Verifikasi Ijazah' 
+        ]);
     }
 
     /**

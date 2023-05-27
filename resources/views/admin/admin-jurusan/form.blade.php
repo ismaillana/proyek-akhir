@@ -4,7 +4,7 @@
     <section class="section">
       <div class="section-header">
         <div class="section-header-back">
-          <a href="{{route('admin-jurusan.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+          <a href="{{route('adminJurusan.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
         </div>
         <h1>
             @if (@$adminJurusan->exists)
@@ -24,11 +24,11 @@
 
       @if (@$adminJurusan->exists)
         <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST"
-            action="{{route('admin-jurusan.update', $adminJurusan) }}">
+            action="{{route('adminJurusan.update', $adminJurusan) }}">
             @method('put')
       @else
         <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST" 
-            action="{{route('admin-jurusan.store')}}">
+            action="{{route('adminJurusan.store')}}">
       @endif
         {{ csrf_field() }}
         <div class="section-body">

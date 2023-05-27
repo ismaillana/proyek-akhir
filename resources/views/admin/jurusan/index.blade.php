@@ -28,35 +28,42 @@
                   <table class="table table-striped" id="myTable">
                     <thead>
                       <tr>
-                        <th class="text-center">
+                        <th style="width: 10%">
                             #
                         </th>
-                        <th class="text-center">
+
+                        <th>
                             Nama Jurusan
                         </th>
-                        <th class="text-center">
+
+                        <th style="width: 10%">
                             Aksi
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                    @foreach ($jurusan as $item)
-                        <tr class="text-center">
-                            <td>
-                                {{$loop->iteration}}
-                            </td>
-                            <td>{{$item->name}}</td>
-                            <td>
-                                <a href="{{ route('jurusan.edit', $item->id) }}" class="btn btn-sm btn-outline-warning">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-                                <button value="{{ route('jurusan.destroy', $item->id) }}"
-                                    class="btn btn-sm btn-outline-danger delete"> 
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    @endforeach
+                      @foreach ($jurusan as $item)
+                          <tr>
+                              <td>
+                                  {{$loop->iteration}}
+                              </td>
+
+                              <td>
+                                {{$item->name}}
+                              </td>
+
+                              <td>
+                                  <a href="{{ route('jurusan.edit', $item->id) }}" class="btn btn-sm btn-outline-warning">
+                                      <i class="fas fa-pencil-alt"></i>
+                                  </a>
+                                  
+                                  <button value="{{ route('jurusan.destroy', $item->id) }}"
+                                      class="btn btn-sm btn-outline-danger delete"> 
+                                      <i class="fas fa-trash"></i>
+                                  </button>
+                              </td>
+                          </tr>
+                      @endforeach
                     </tbody>
                   </table>
                 </div>

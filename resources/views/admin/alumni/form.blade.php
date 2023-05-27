@@ -62,25 +62,8 @@
                         <div class="col-sm-12 col-md-7">
                             <input type="number" class="form-control @error('nomor_induk')is-invalid @enderror"
                             id="nomor_induk" name="nomor_induk" placeholder="Masukkan NIM" 
-                            value="{{ old('nomor_induk', @$alumni->user->nomor_induk) }}">
-                            @if ($errors->has('nomor_induk'))
-                                <span class="text-danger">{{ $errors->first('nomor_induk') }}</span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-4">
-                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                            Email<sup class="text-danger">*</sup>
-                        </label>
-
-                        <div class="col-sm-12 col-md-7">
-                            <input type="email" class="form-control @error('email')is-invalid @enderror"
-                            id="email" name="email" placeholder="Masukkan Email" 
-                            value="{{ old('email', @$alumni->user->email) }}">
-                            @if ($errors->has('email'))
-                                <span class="text-danger">{{ $errors->first('email') }}</span>
-                            @endif
+                            value="{{ old('nomor_induk', @$alumni->user->nomor_induk) }}" readonly>
+                            
                         </div>
                     </div>
 

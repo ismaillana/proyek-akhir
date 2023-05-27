@@ -17,7 +17,8 @@ class JenisLegalisirController extends Controller
         $legalisir = JenisLegalisir::all();
 
         return view ('admin.jenis-legalisir.index',[
-            'legalisir' => $legalisir
+            'legalisir' => $legalisir,
+            'title'    => 'Jenis Legalisir'
         ]);
     }
 
@@ -26,7 +27,9 @@ class JenisLegalisirController extends Controller
      */
     public function create()
     {
-        return view ('admin.jenis-legalisir.form');
+        return view ('admin.jenis-legalisir.form', [
+            'title'    => 'Jenis Legalisir'
+        ]);
     }
 
     /**
@@ -55,8 +58,10 @@ class JenisLegalisirController extends Controller
     public function edit(string $id)
     {
         $legalisir = JenisLegalisir::find($id);
+        
         return view ('admin.jenis-legalisir.form',[
-            'legalisir' => $legalisir
+            'legalisir' => $legalisir,
+            'title'    => 'Jenis Legalisir'
         ]);
 
     }

@@ -68,9 +68,7 @@ class LoginController extends Controller
         elseif ($user->hasRole('koor-pkl')) {
             return redirect()->route('dashboard');
         }
-        // else {
-            
-        // }
+        
         return redirect()->route('home');
         
     }

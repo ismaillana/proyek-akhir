@@ -16,6 +16,8 @@ class Legalisir extends Model
      */
     protected $guarded = ['id'];
 
+    protected $appends = ['jenis_legalisir'];
+
     /**
      * The attributes that should be cast.
      *
@@ -46,16 +48,6 @@ class Legalisir extends Model
     }
 
     /**
-     * Get the user that owns the Mahasiswa
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function jenisLegalisir()
-    {
-        return $this->belongsTo(JenisLegalisir::class);
-    }
-
-    /**
      * Save dokumen.
      *
      * @param  $request
@@ -75,4 +67,17 @@ class Legalisir extends Model
 
         return $filename;
     }
+
+    public function getJenisLegalisirAttribute()
+    {
+        $data = JenisLegalisir::whereIn('id', $this->jenis_legalisir_id)->get();
+        if ($data->isEmpty()) {
+            return null;
+        }
+
+        // dd($data->isEmpty());
+
+        return $data->implode('name', ',');
+    }
+
 }

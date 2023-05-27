@@ -75,7 +75,7 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function koorPKL(): HasMany
+    public function koorPkl(): HasMany
     {
         return $this->hasMany(koorPkl::class);
     }

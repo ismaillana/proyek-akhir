@@ -18,7 +18,8 @@ class AktifKuliahController extends Controller
     {
         $aktifKuliah = AktifKuliah::get();
         return view ('admin.pengajuan.surat-aktif-kuliah.index', [
-            'aktifKuliah'   => $aktifKuliah
+            'aktifKuliah'   => $aktifKuliah,
+            'title'         => 'Surat Keterangan Aktif Kuliah'
         ]);
     }
 
@@ -29,16 +30,11 @@ class AktifKuliahController extends Controller
     {
         $user = auth()->user();
 
-        $mahasiswa       = Mahasiswa::whereUserId($user->id)->first();
-        // $mahasiswa = Mahasiswa::where('status', 'Mahasiswa Aktif')
-        // ->get();
-        // $user = User::where($alumni)->get();
-        // $user = User::get();
-        
+        $mahasiswa       = Mahasiswa::whereUserId($user->id)->first();        
 
         return view ('user.pengajuan.aktifKuliah.form', [
             'mahasiswa' => $mahasiswa,
-            // 'user'   => $user
+            'title'         => 'Surat Keterangan Aktif Kuliah'
         ]);
     }
 

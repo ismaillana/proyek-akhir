@@ -19,7 +19,8 @@ class PengantarPklController extends Controller
         $pengantarPkl = PengantarPkl::get();
 
         return view ('admin.pengajuan.pengantar-pkl.index',[
-            'pengantarPkl' => $pengantarPkl
+            'pengantarPkl' => $pengantarPkl,
+            'title'     => 'Pengantar PKL'
         ]);
     }
 
@@ -32,7 +33,8 @@ class PengantarPklController extends Controller
         ->get();
         
         return view ('user.pengajuan.pengantar-pkl.form', [
-            'mahasiswa' => $mahasiswa
+            'mahasiswa' => $mahasiswa,
+            'title'     => 'Pengantar PKL'
         ]);
     }
 

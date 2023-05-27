@@ -27,7 +27,8 @@ class MahasiswaController extends Controller
         ->get();
 
         return view ('admin.mahasiswa.index', [
-            'mahasiswa' => $mahasiswa
+            'mahasiswa' => $mahasiswa,
+            'title'     => 'Mahasiswa'
         ]);
     }
 
@@ -41,7 +42,8 @@ class MahasiswaController extends Controller
         
         return view ('admin.mahasiswa.form', [
             'jurusan'   =>  $jurusan,
-            'prodi'     =>  $prodi
+            'prodi'     =>  $prodi,
+            'title'     => 'Mahasiswa'
         ]);
     }
 
@@ -60,8 +62,6 @@ class MahasiswaController extends Controller
                 'wa'          => 62 . $request->wa,
                 'password'    => Hash::make($request->nomor_induk)
             ]);
-
-            // $user->assignRole('mahasiswa');
 
             $data = [
                 'user_id'           => $user->id,
@@ -115,7 +115,8 @@ class MahasiswaController extends Controller
         return view ('admin.mahasiswa.form', [
             'mahasiswa' => $mahasiswa,
             'jurusan'   => $jurusan,
-            'prodi'     => $prodi
+            'prodi'     => $prodi,
+            'title'     => 'Mahasiswa'
         ]);
     }
 
@@ -154,7 +155,7 @@ class MahasiswaController extends Controller
             'wa'          => 62 . $request->wa,
             // 'password'    => Hash::make($request->nomor_induk)
         ]);
-        // return dd($request->all());
+      
         return redirect()->route('mahasiswa.index')->with('success', 'Data Berhasil Diubah');
     }
 

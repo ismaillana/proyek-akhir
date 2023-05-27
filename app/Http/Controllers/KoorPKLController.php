@@ -7,8 +7,8 @@ use App\Models\User;
 use App\Models\koorPkl;
 use App\Models\Jurusan;
 
-use App\Http\Requests\KoorPKLRequest;
-use App\Http\Requests\KoorPKLUpdateRequest;
+use App\Http\Requests\KoorPklRequest;
+use App\Http\Requests\KoorPklUpdateRequest;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -21,10 +21,11 @@ class KoorPKLController extends Controller
      */
     public function index()
     {
-        $koorPKL = koorPkl::get();
+        $koorPkl = KoorPkl::get();
 
         return view ('admin.koor-pkl.index', [
-            'koorPKL'  => $koorPKL
+            'koorPkl'  => $koorPkl,
+            'title'    => 'Koor-Pkl'
         ]);
     }
 
@@ -37,13 +38,14 @@ class KoorPKLController extends Controller
         
         return view ('admin.koor-pkl.form', [
             'jurusan'   =>  $jurusan,
+            'title'    => 'Koor-Pkl'
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(KoorPKLRequest $request)
+    public function store(KoorPklRequest $request)
     {
         DB::beginTransaction();
 
@@ -64,15 +66,15 @@ class KoorPKLController extends Controller
                 'jurusan_id'        => $request->jurusan_id,
             ];
 
-            $image = koorPkl::saveImage($request);
+            $image = KoorPkl::saveImage($request);
 
             $data['image'] = $image;
 
-            $koorPKL = koorPkl::create($data);
+            $koorPkl = KoorPkl::create($data);
 
             DB::commit();
 
-            return redirect()->route('koor-pkl.index')->with('success', 'Data Berhasil Ditambah');
+            return redirect()->route('koorPkl.index')->with('success', 'Data Berhasil Ditambah');
         } catch (\Throwable $th) {
             DB::rollback();
             return back()->withError('Koordinator PKL Gagal Ditambah');
@@ -92,42 +94,38 @@ class KoorPKLController extends Controller
      */
     public function edit(string $id)
     {
-        $koorPKL = koorPkl::findOrFail($id);
+        $koorPkl = KoorPkl::findOrFail($id);
         $jurusan = Jurusan::oldest('name')->get();
 
         return view ('admin.koor-pkl.form', [
-            'koorPKL' => $koorPKL,
+            'koorPkl' => $koorPkl,
             'jurusan'   => $jurusan,
+            'title'    => 'Koor-Pkl'
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(KoorPKLUpdateRequest $request, koorPkl $koorPKL)
+    public function update(KoorPKLUpdateRequest $request, KoorPkl $koorPkl)
     {
+        
         $data = [
             'nip'               => $request->nomor_induk,
             'jurusan_id'        => $request->jurusan_id,
-            'image'             => $request->image
         ];
-
-        $image = koorPkl::saveImage($request);
-
+        
+        $image = KoorPkl::saveImage($request);
+        
         if ($image) {
             $data['image'] = $image;
 
-            // $param = (object) [
-            //     'type'  => 'image',
-            //     'id'    => $koorPKL->id
-            // ];
-
-            KoorPkl::deleteImage($koorPKL);
+            KoorPkl::deleteImage($koorPkl);
         }
 
-        koorPkl::where('id', $koorPKL->id)->update($data);
+        KoorPkl::where('id', $koorPkl->id)->update($data);
 
-        User::whereId($koorPKL->user_id)->update([
+        User::whereId($koorPkl->user_id)->update([
             'name'        => $request->name,
             'nomor_induk' => $request->nomor_induk,
             'email'       => $request->email,
@@ -135,7 +133,7 @@ class KoorPKLController extends Controller
             // 'password'    => Hash::make($request->nomor_induk)
         ]);
         // return dd($request->all());
-        return redirect()->route('koor-pkl.index')->with('success', 'Data Berhasil Diubah');
+        return redirect()->route('koorPkl.index')->with('success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -143,7 +141,7 @@ class KoorPKLController extends Controller
      */
     public function destroy(string $id)
     {
-        $koorPKL = KoorPkl::find($id);
+        $koorPkl = KoorPkl::find($id);
 
         // $resellerOrder =  ResellerOrder::where('reseller_id', $id)
         //     ->whereNotIn('order_status_id', [8, 9])
@@ -155,16 +153,16 @@ class KoorPKLController extends Controller
 
         $param = (object) [
             'type'  => 'image',
-            'id'    => $koorPKL->id
+            'id'    => $koorPkl->id
         ];
 
         KoorPkl::deleteImage($param);
 
         // $this->deleteMahasiswa($id);
 
-        $koorPKL->delete();
+        $koorPkl->delete();
 
-        User::where('id', $koorPKL->user_id)->update(['status' => '0']);
+        User::where('id', $koorPkl->user_id)->update(['status' => '0']);
 
         return response()->json(['status' => 'Data Berhasil Dihapus']);
     }

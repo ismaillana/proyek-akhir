@@ -25,7 +25,8 @@ class AlumniController extends Controller
         ->get();
 
         return view ('admin.alumni.index', [
-            'alumni' => $alumni
+            'alumni' => $alumni,
+            'title'         => 'Alumni'
         ]);
     }
 
@@ -65,17 +66,27 @@ class AlumniController extends Controller
         return view ('admin.alumni.form', [
             'alumni' => $alumni,
             'jurusan'   => $jurusan,
-            'prodi'     => $prodi
+            'prodi'     => $prodi,
+            'title'         => 'Alumni'
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(AlumniUpdateRequest $request, Mahasiswa $alumni)
-    {
+    public function update(AlumniUpdateRequest $request, $id)
+    { 
+       $alumni = Mahasiswa::find($id);
+       $checkEmail = Mahasiswa::whereNotIn('id', [$id])
+       ->whereHas('user', function ($q)use($request)
+       {
+        $q->where('email', $request->email);
+       })
+       ->first();
+      if ($checkEmail) {
+        return redirect()->back()->withErrors(['email' => 'email sudah ada'])->withInput();
+      }
         $data = [
-            'nim'               => $request->nomor_induk,
             'angkatan'          => $request->angkatan,
             'jurusan_id'        => $request->jurusan_id,
             'program_studi_id'  => $request->program_studi_id,
@@ -100,11 +111,10 @@ class AlumniController extends Controller
         User::whereId($alumni->user_id)->update([
             'name'        => $request->name,
             'nomor_induk' => $request->nomor_induk,
-            'email'       => $request->email,
             'wa'          => 62 . $request->wa,
             // 'password'    => Hash::make($request->nomor_induk)
         ]);
-        // return dd($request->all());
+       
         return redirect()->route('alumni.index')->with('success', 'Data Berhasil Diubah');
     }
 

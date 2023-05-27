@@ -19,14 +19,10 @@ class LegalisirController extends Controller
     public function index()
     {
         $legalisir = Legalisir::get();
-        $jenisId = Legalisir::get('jenis_legalisir_id');
-        $result = json_decode($jenisId);
-        dd($result);
-        $jenisDokumen = JenisLegalisir::whereIn('id',$result)->get();
 
         return view ('admin.pengajuan.legalisir.index', [
             'legalisir' => $legalisir,
-            'jenisDokumen' => $jenisDokumen
+            'title'     => 'Legalisir'
         ]);
     }
 
@@ -38,7 +34,8 @@ class LegalisirController extends Controller
         $jenisDokumen = JenisLegalisir::get();
 
         return view ('user.pengajuan.legalisir.form',[
-            'jenisDokumen' => $jenisDokumen
+            'jenisDokumen' => $jenisDokumen,
+            'title'     => 'Legalisir'
         ]);
     }
 
@@ -52,17 +49,16 @@ class LegalisirController extends Controller
         $alumni       = Mahasiswa::whereUserId($user->id)->first();
 
         $ijazah       = Ijazah::whereMahasiswaId($alumni->id)->first();
-
-       $data = ([
+        
+        $data = ([
             'mahasiswa_id'              => $alumni->id,
             'ijazah_id'                 => $ijazah->id,
             'keperluan'                 => $request->keperluan,
             'pekerjaan_terakhir'        => $request->pekerjaan_terakhir,
             'tempat_pekerjaan_terakhir' => $request->tempat_pekerjaan_terakhir,
             'dokumen'                   => $request->dokumen,
+            'jenis_legalisir_id'        => json_encode($request->jenis_legalisir_id)
         ]);
-
-        $data['jenis_legalisir_id'] =json_encode($request->jenis_legalisir_id);
 
         $dokumen = Legalisir::saveDokumen($request);
 
@@ -105,16 +101,4 @@ class LegalisirController extends Controller
         //
     }
 
-    /**
-     * getData the specified resource in storage.
-     */
-    // public function jenisDokumen(Request $request)
-    // {
-    //     $legalisir = [];
-    //     if ($search=$request->name) {
-    //         $legalisir = JenisLegalisir::where('name', 'LIKE', "%$search%")->get();
-    //     }
-
-    //     return response()->json($legalisir);
-    // }
 }

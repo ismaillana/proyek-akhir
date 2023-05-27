@@ -16,7 +16,7 @@
                         Data Admin Jurusan
                     </h4>
 
-                    <a href="{{ route('admin-jurusan.create') }}"
+                    <a href="{{ route('adminJurusan.create') }}"
                         class="btn btn-outline-success btn-lg d-flex align-items-center ">
                         <i class="fa fa-plus pr-2"></i>
                         Tambah
@@ -55,7 +55,7 @@
                             <td>{{ $item->nip}}</td>
                             <td>{{ $item->jurusan->name}}</td>
                             <td>
-                                <a href="{{ route('admin-jurusan.show', Crypt::encryptString($item->id)) }}"
+                                <a href="{{ route('adminJurusan.show', $item->id) }}"
                                     class="btn btn-sm btn-outline-secondary" title="Detail">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                         width="16" height="16" viewBox="0 0 24 24"
@@ -65,11 +65,11 @@
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 </a>
-                                <a href="{{ route('admin-jurusan.edit', $item->id) }}" title="Edit" 
+                                <a href="{{ route('adminJurusan.edit', $item->id) }}" title="Edit" 
                                     class="btn btn-sm btn-outline-warning">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <button value="{{ route('admin-jurusan.destroy', $item->id) }}"
+                                <button value="{{ route('adminJurusan.destroy', $item->id) }}"
                                     class="btn btn-sm btn-outline-danger delete" title="Hapus"> 
                                     <i class="fas fa-trash"></i>
                                 </button>

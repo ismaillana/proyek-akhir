@@ -17,7 +17,8 @@ class ProdiController extends Controller
         $prodi = ProgramStudi::all();
 
         return view ('admin.Prodi.index', [
-            'prodi' => $prodi
+            'prodi' => $prodi,
+            'title'     => 'Program Studi'
         ]);
     }
 
@@ -28,7 +29,8 @@ class ProdiController extends Controller
     {
         $jurusan = Jurusan::all();
         return view ('admin.prodi.form', [
-            'jurusan'   => $jurusan
+            'jurusan'   => $jurusan,
+            'title'     => 'Program Studi'
         ]);
     }
 
@@ -63,7 +65,8 @@ class ProdiController extends Controller
         
         return view ('admin.prodi.form', [
             'prodi'     =>  $prodi,
-            'jurusan'   =>  $jurusan
+            'jurusan'   =>  $jurusan,
+            'title'     => 'Program Studi'
         ]);
     }
 
