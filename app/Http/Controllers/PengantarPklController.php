@@ -61,7 +61,7 @@ class PengantarPklController extends Controller
 
         PengantarPkl::create($data);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Pengajuan Berhasil');
     }
 
     /**

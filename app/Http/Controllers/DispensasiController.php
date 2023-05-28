@@ -65,7 +65,7 @@ class DispensasiController extends Controller
 
         Dispensasi::create($data);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Pengajuan Berhasil');
     }
 
     /**

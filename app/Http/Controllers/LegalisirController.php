@@ -64,7 +64,7 @@ class LegalisirController extends Controller
         
         Legalisir::create($data);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Pengajuan Berhasil');
     }
 
     /**

@@ -61,7 +61,7 @@ class VerifikasiIjazahController extends Controller
 
         VerifikasiIjazah::create($data);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Pengajuan Berhasil');
     }
 
     /**

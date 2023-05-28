@@ -57,7 +57,7 @@ class IzinPenelitianController extends Controller
             'perihal'           => $request->perihal,
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Pengajuan Berhasil');
     }
 
     /**
