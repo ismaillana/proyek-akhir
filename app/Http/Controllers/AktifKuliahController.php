@@ -62,7 +62,7 @@ class AktifKuliahController extends Controller
             'keperluan'     => $request->keperluan,
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Pengajuan Berhasil');
     }
 
     /**

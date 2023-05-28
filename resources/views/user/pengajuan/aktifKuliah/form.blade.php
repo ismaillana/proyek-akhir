@@ -223,8 +223,16 @@
                               </div>
 
                               <div class="col-12 text-center">
-                                  <input type="submit" class="btn btn-primary rounded-pill btn-send mb-3" value="Kirim Pengajuan">
-                                  <p class="text-muted"><strong>*</strong> These fields are .</p>
+                                <button type="submit" class="btn btn-primary rounded-pill btn-send mb-3" id="btnSubmit">
+                                  Kirim Pengajuan
+                                  <span class="spinner-border ml-2 d-none" id="loader"
+                                      style="width: 1rem; height: 1rem;" role="status">
+                                      {{-- <span class="sr-only"></span> --}}
+                                      {{-- <i class="uil uil-redo"></i> --}}
+                                  </span>
+                                </button>
+                                  {{-- <input type="submit" class="btn btn-primary rounded-pill btn-send mb-3" value="Kirim Pengajuan" id="btnSubmit"> --}}
+                                  {{-- <p class="text-muted"><strong>*</strong> These fields are .</p> --}}
                               </div>
                               <!-- /column -->
                             </div>
@@ -245,4 +253,41 @@
     </div>
     <!-- /.container -->
   </section>
+@endsection
+
+@section('script')
+<script type="text/javascript">
+        $('#myForm').submit(function(e) {
+            let form = this;
+            e.preventDefault();
+
+            confirmSubmit(form);
+        });
+        // Form
+        function confirmSubmit(form, buttonId) {
+            Swal.fire({
+                icon: 'question',
+                text: 'Apakah anda yakin ingin menyimpan data ini ?',
+                showCancelButton: true,
+                buttonsStyling: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Simpan',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let button = 'btnSubmit';
+
+                    if (buttonId) {
+                        button = buttonId;
+                    }
+
+                    $('#' + button).attr('disabled', 'disabled');
+                    $('#loader').removeClass('d-none');
+
+                    form.submit();
+                }
+            });
+        }
+</script>   
 @endsection
