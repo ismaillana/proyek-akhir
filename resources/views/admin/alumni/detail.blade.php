@@ -11,7 +11,6 @@
             Detail Data Alumni
         </h1>
       </div>
-
       <form id="myForm" class="forms-sample" enctype="multipart/form-data">
         @method('put')
         {{ csrf_field() }}
@@ -22,7 +21,7 @@
                         <div class="card-header">
                             <h4>Form Alumni</h4>
                         </div>
-
+                        
                         <div class="card-body">
                             <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
@@ -32,7 +31,7 @@
                                 <div class="col-sm-12 col-md-7">
                                     <input type="text" class="form-control @error('name')is-invalid @enderror"
                                         id="name" name="name" placeholder="Masukkan Nama Alumni" 
-                                        value="{{ old('name', @$alumni->user->name) }}" disabled readonly>
+                                        value="{{ old('name', @$user->name) }}" disabled readonly>
                                 </div>
                             </div>
 
@@ -44,7 +43,7 @@
                                 <div class="col-sm-12 col-md-7">
                                     <input type="number" class="form-control @error('nomor_induk')is-invalid @enderror"
                                         id="nomor_induk" name="nomor_induk" placeholder="Masukkan NIM" 
-                                        value="{{ old('nomor_induk', @$alumni->user->nomor_induk) }}" disabled readonly>
+                                        value="{{ old('nomor_induk', @$user->nomor_induk) }}" disabled readonly>
                                 </div>
                             </div>
 
@@ -61,7 +60,7 @@
 
                                         <input type="number" class="form-control @error('wa') is-invalid @enderror"
                                             id="wa" name="wa" placeholder="Masukan Nomer Whatsapp "
-                                            value="{{ old('wa', Str::substr(@$alumni->user->wa, 2)) }}" disabled readonly>
+                                            value="{{ old('wa', Str::substr(@$user->wa, 2)) }}" disabled readonly>
                                     </div>
                                 </div>
                             </div>
@@ -169,6 +168,7 @@
                                             <option value="{{ $item->id }}"
                                                 {{ old('roles', @$item->id) == $item->id ? 'selected' : '' }}>
                                                 {{ $item->name }}
+                                                {{dd($roles)}}
                                             </option>
                                         @endforeach
                                     </select>

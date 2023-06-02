@@ -62,12 +62,12 @@
                             </div>
                             
                             <input id="wa" type="text" class="form-control @error('wa') is-invalid @enderror" name="wa" value="{{ old('wa') }}" autocomplete="wa" autofocus>
+                            @error('wa')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                           </div>
-                          @error('wa')
-                              <span class="invalid-feedback" role="alert">
-                                  <strong>{{ $message }}</strong>
-                              </span>
-                          @enderror
                     </div>
 
                   <div class="form-group col-6">

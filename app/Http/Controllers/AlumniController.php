@@ -59,20 +59,20 @@ class AlumniController extends Controller
         } catch (DecryptException $e) {
             abort(404);
         }
-
+        
         $alumni = Mahasiswa::findOrFail($id);
+        $user = User::with(['roles'])->where('id', $alumni->user_id)->first();
         $jurusan = Jurusan::oldest('name')->get();
         $prodi = ProgramStudi::oldest('name')->get();
         $roles     =   Role::oldest('name')->get();
-
-        // dd($roles);
-
+// dd($user);
         return view ('admin.alumni.detail', [
-            'alumni' => $alumni,
+            'user'      => $user,
+            'alumni'    => $alumni,
             'jurusan'   => $jurusan,
             'prodi'     => $prodi,
-            'roles'     =>  $roles,
-            'title'         => 'Alumni'
+            'roles'     => $roles,
+            'title'     => 'Alumni'
         ]);
     }
 

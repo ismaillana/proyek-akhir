@@ -1,383 +1,502 @@
 @extends('layout.frontend.base')
 
 @section('content')
+<section class="wrapper bg-dark angled lower-start">
+  <div class="container pt-7 pt-md-11 pb-8">
+    <div class="row gx-0 gy-10 align-items-center">
+      <div class="col-lg-6" data-cues="slideInDown" data-group="page-title" data-delay="600">
+        <h1 class="display-1 text-white mb-4">
+          Pengajuan Administrasi
+          <br />
+            <span class="typer text-primary text-nowrap" data-delay="100" data-words="surat ket. aktif kuliah, surat pengantar PKL, surat izin penelitian, surat izin dispensasi, Legalisir, Cek Keaslian Ijazah"></span>
+            <span class="cursor text-primary" data-owner="typer"></span>
+        </h1>
+        <p class="lead fs-24 lh-sm text-white mb-7 pe-md-18 pe-lg-0 pe-xxl-15">
+          Sistem ini dapat digunakan oleh Mahasiswa Aktif dan Alumni Politeknik Negeri Subang. 
+          Dan Instansi tempat Alumni bekerja untuk mengajukan beberapa pelayanan administrasi kepada bagian akademik.
+        </p>
 
-<section class="wrapper bg-soft-primary">
-  <div class="container pt-10 pb-15 pt-md-14 pb-md-20">
-    <div class="row gx-lg-8 gx-xl-12 gy-10 mb-5 align-items-center">
-      <div class="col-md-10 offset-md-1 offset-lg-0 col-lg-5 text-center text-lg-start order-2 order-lg-0" data-cues="slideInDown" data-group="page-title" data-delay="600">
-        <h1 class="display-1 mb-5 mx-md-n5 mx-lg-0">Creative. Smart. Awesome.</h1>
-        <p class="lead fs-lg mb-7">We specialize in web, mobile and identity design. We love to turn ideas into beautiful things.</p>
-        <div class="d-flex justify-content-center justify-content-lg-start" data-cues="slideInDown" data-group="page-title-buttons" data-delay="900">
+        <div>
           @guest
             <span>
               <a href="{{ route('login') }}" class="btn btn-primary rounded me-2">
                 Login
               </a>
             </span>
+            
             <span>
               <a href="{{ route('register') }}" class="btn btn-yellow rounded">
                 Registrasi
               </a>
             </span>
           @else
-            <p class="lead fs-lg mb-7">
+            <p class="lead fs-24 lh-sm text-white mb-7 pe-md-18 pe-lg-0 pe-xxl-15">
               Kamu Berhasil Login..
             </p>
           @endguest
         </div>
       </div>
-      <!-- /column -->
-      <div class="col-lg-7" data-cue="slideInDown">
-        <figure><img class="w-auto" src="{{asset('template/assets/img/illustrations/i6.png')}}" srcset="{{ asset('template/assets/img/illustrations/i6@2x.png 2x')}}" alt="" /></figure>
+
+      <div class="col-lg-5 offset-lg-1" data-cues="slideInDown">
+        <div class="position-relative">
+          <figure><img class="img-auto" src="{{ asset('template/assets/img/illustrations/i21.png')}}" 
+            srcset="{{ asset('template/assets/img/illustrations/i21@2x.png 2x')}}" alt="" /></figure>
+        </div>
       </div>
-      <!-- /column -->
     </div>
-    <!-- /.row -->
   </div>
-  <!-- /.container -->
 </section>
-<!-- /section -->
+
 <section class="wrapper bg-light">
-  <div class="container py-14 py-md-16 pb-md-17">
-    <div class="row gx-md-5 gy-5 mt-n18 mt-md-n21 mb-14 mb-md-17">
-      <div class="col-md-6 col-xl-3">
-        <div class="card shadow-lg card-border-bottom border-soft-yellow">
-          <div class="card-body">
-            <img src="{{asset('template/assets/img/icons/lineal/browser.svg')}}" class="svg-inject icon-svg icon-svg-md text-yellow mb-3" alt="" />
-            <h4>Content Marketing</h4>
-            <p class="mb-2">Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus cras justo.</p>
-            <a href="#" class="more hover link-yellow">Learn More</a>
-          </div>
-          <!--/.card-body -->
-        </div>
-        <!--/.card -->
+  <div class="container pt-19 pt-md-21 pb-16 pb-md-18">
+    <div class="row">
+      <div class="col-lg-8 col-xl-7 col-xxl-6">
+        <h2 class="fs-16 text-uppercase text-line text-primary mb-3">
+          What We Do?
+        </h2>
+
+        <h3 class="display-4 mb-9">
+          The service we offer is specifically designed to meet your needs.
+        </h3>
       </div>
-      <!--/column -->
-      <div class="col-md-6 col-xl-3">
-        <div class="card shadow-lg card-border-bottom border-soft-green">
-          <div class="card-body">
-            <img src="{{asset('template/assets/img/icons/lineal/chat-2.svg')}}" class="svg-inject icon-svg icon-svg-md text-green mb-3" alt="" />
-            <h4>Social Engagement</h4>
-            <p class="mb-2">Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus cras justo.</p>
-            <a href="#" class="more hover link-green">Learn More</a>
-          </div>
-          <!--/.card-body -->
-        </div>
-        <!--/.card -->
-      </div>
-      <!--/column -->
-      <div class="col-md-6 col-xl-3">
-        <div class="card shadow-lg card-border-bottom border-soft-orange">
-          <div class="card-body">
-            <img src="{{asset('template/assets/img/icons/lineal/id-card.svg')}}" class="svg-inject icon-svg icon-svg-md text-orange mb-3" alt="" />
-            <h4>Identity & Branding</h4>
-            <p class="mb-2">Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus cras justo.</p>
-            <a href="#" class="more hover link-orange">Learn More</a>
-          </div>
-          <!--/.card-body -->
-        </div>
-        <!--/.card -->
-      </div>
-      <!--/column -->
-      <div class="col-md-6 col-xl-3">
-        <div class="card shadow-lg card-border-bottom border-soft-blue">
-          <div class="card-body">
-            <img src="{{asset('template/assets/img/icons/lineal/gift.svg')}}" class="svg-inject icon-svg icon-svg-md text-blue mb-3" alt="" />
-            <h4>Product Design</h4>
-            <p class="mb-2">Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus cras justo.</p>
-            <a href="#" class="more hover link-blue">Learn More</a>
-          </div>
-          <!--/.card-body -->
-        </div>
-        <!--/.card -->
-      </div>
-      <!--/column -->
     </div>
-    <!--/.row -->
-    <div class="row gx-lg-8 gx-xl-12 gy-10 mb-14 mb-md-17 align-items-center">
-      <div class="col-lg-7">
-        <figure><img class="w-auto" src="{{ asset('template/assets/img/illustrations/i8.png')}}" srcset="{{asset('template/assets/img/illustrations/i8@2x.png 2x')}}" alt="" /></figure>
+
+    <div class="row gx-md-8 gy-8 mb-14 mb-md-18">
+      <div class="col-md-6 col-lg-3">
+        <div class="icon btn btn-block btn-lg btn-soft-primary disabled mb-6">
+          <i class="uil uil-phone-volume"></i>
+        </div>
+
+        <h4>
+          24/7 Support
+        </h4>
+
+        <p class="mb-3">
+          Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus. Cras justo.
+        </p>
+
+        <a href="#" class="more hover link-primary">
+          Learn More
+        </a>
       </div>
-      <!--/column -->
-      <div class="col-lg-5">
-        <h3 class="display-4 mb-7">Our three process steps on creating awesome projects.</h3>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="icon btn btn-block btn-lg btn-soft-primary disabled mb-6">
+          <i class="uil uil-shield-exclamation"></i>
+        </div>
+
+        <h4>
+          Secure Payments
+        </h4>
+
+        <p class="mb-3">
+          Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus. Cras justo.
+        </p>
+
+        <a href="#" class="more hover link-primary">
+          Learn More
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="icon btn btn-block btn-lg btn-soft-primary disabled mb-6">
+          <i class="uil uil-laptop-cloud"></i>
+        </div>
+
+        <h4>
+          Daily Updates
+        </h4>
+
+        <p class="mb-3">
+          Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus. Cras justo.
+        </p>
+
+        <a href="#" class="more hover link-primary">
+          Learn More
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="icon btn btn-block btn-lg btn-soft-primary disabled mb-6">
+          <i class="uil uil-chart-line"></i> 
+        </div>
+
+        <h4>
+          Market Research
+        </h4>
+
+        <p class="mb-3">
+          Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus. Cras justo.
+        </p>
+
+        <a href="#" class="more hover link-primary">
+          Learn More
+        </a>
+      </div>
+    </div>
+
+    <div class="row gy-10 gy-sm-13 gx-lg-3 mb-16 mb-md-18 align-items-center">
+      <div class="col-md-8 col-lg-6 position-relative">
+        <div class="shape bg-dot primary rellax w-17 h-21" data-rellax-speed="1" style="top: -2rem; left: -1.9rem;"></div>
+        <div class="shape rounded bg-soft-primary rellax d-md-block" data-rellax-speed="0" style="bottom: -1.8rem; right: -1.5rem; width: 85%; height: 90%; "></div>
+        <figure class="rounded"><img src="{{ asset('template/assets/img/photos/about7.jpg')}}" srcset="{{ asset('template/assets/img/photos/about7@2x.jpg 2x')}}" alt="" /></figure>
+      </div>
+
+      <div class="col-lg-5 col-xl-4 offset-lg-1">
+        <h2 class="fs-16 text-uppercase text-line text-primary mb-3">How It Works?</h2>
+        <h3 class="display-4 mb-7">Here are the 3 working steps on success.</h3>
         <div class="d-flex flex-row mb-6">
           <div>
-            <span class="icon btn btn-circle btn-soft-primary disabled me-5"><span class="number fs-18">1</span></span>
+            <span class="icon btn btn-block btn-soft-primary disabled me-5"><span class="number fs-18">1</span></span>
           </div>
           <div>
             <h4 class="mb-1">Collect Ideas</h4>
-            <p class="mb-0">Nulla vitae elit libero pharetra augue dapibus. Praesent commodo cursus. Donec ullamcorper nulla non metus.</p>
+            <p class="mb-0">Nulla vitae elit libero pharetra augue dapibus. Praesent commodo cursus.</p>
           </div>
         </div>
         <div class="d-flex flex-row mb-6">
           <div>
-            <span class="icon btn btn-circle btn-soft-primary disabled me-5"><span class="number fs-18">2</span></span>
+            <span class="icon btn btn-block btn-soft-primary disabled me-5"><span class="number fs-18">2</span></span>
           </div>
           <div>
             <h4 class="mb-1">Data Analysis</h4>
-            <p class="mb-0">Vivamus sagittis lacus vel augue laoreet. Etiam porta sem malesuada magna auctor fringilla augue.</p>
+            <p class="mb-0">Vivamus sagittis lacus vel augue laoreet. Etiam porta sem malesuada magna.</p>
           </div>
         </div>
         <div class="d-flex flex-row">
           <div>
-            <span class="icon btn btn-circle btn-soft-primary disabled me-5"><span class="number fs-18">3</span></span>
+            <span class="icon btn btn-block btn-soft-primary disabled me-5"><span class="number fs-18">3</span></span>
           </div>
           <div>
             <h4 class="mb-1">Finalize Product</h4>
-            <p class="mb-0">Cras mattis consectetur purus sit amet. Aenean lacinia bibendum nulla sed. Nulla vitae elit libero pharetra.</p>
+            <p class="mb-0">Cras mattis consectetur purus sit amet. Aenean lacinia bibendum nulla sed.</p>
           </div>
         </div>
       </div>
-      <!--/column -->
     </div>
-    <!--/.row -->
-    <div class="row gx-lg-8 gx-xl-12 gy-10 align-items-center">
-      <div class="col-lg-7 order-lg-2">
-        <figure><img class="w-auto" src="{{asset('template/assets/img/illustrations/i2.png')}}" srcset="{{asset('template/assets/img/illustrations/i2@2x.png 2x')}}" alt="" /></figure>
+
+    <div class="row gy-10 gy-sm-13 gx-lg-3 align-items-center">
+      <div class="col-md-8 col-lg-6 offset-lg-1 order-lg-2 position-relative">
+        <div class="shape rounded-circle bg-line primary rellax w-18 h-18" data-rellax-speed="1" style="top: -2rem; right: -1.9rem;"></div>
+        <div class="shape rounded bg-soft-primary rellax d-md-block" data-rellax-speed="0" style="bottom: -1.8rem; left: -1.5rem; width: 85%; height: 90%; "></div>
+        <figure class="rounded"><img src="{{ asset('template/assets/img/photos/about9.jpg')}}" srcset="{{ asset('template/assets/img/photos/about9@2x.jpg 2x')}}" alt=""></figure>
       </div>
-      <!--/column -->
+
       <div class="col-lg-5">
-        <h3 class="display-4 mb-7 mt-lg-10">Few reasons why our valued customers choose us.</h3>
+        <h2 class="fs-16 text-uppercase text-line text-primary mb-3">Why Choose Us?</h2>
+        <h3 class="display-4 mb-7">A few reasons why our valued customers choose us.</h3>
         <div class="accordion accordion-wrapper" id="accordionExample">
           <div class="card plain accordion-item">
             <div class="card-header" id="headingOne">
               <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> Professional Design </button>
             </div>
-            <!--/.card-header -->
+
             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
               <div class="card-body">
                 <p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Cras mattis consectetur purus sit amet fermentum. Praesent commodo cursus magna, vel.</p>
               </div>
-              <!--/.card-body -->
+
             </div>
-            <!--/.accordion-collapse -->
           </div>
-          <!--/.accordion-item -->
+
           <div class="card plain accordion-item">
             <div class="card-header" id="headingTwo">
               <button class="collapsed" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"> Top-Notch Support </button>
             </div>
-            <!--/.card-header -->
+
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
               <div class="card-body">
                 <p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Cras mattis consectetur purus sit amet fermentum. Praesent commodo cursus magna, vel.</p>
               </div>
-              <!--/.card-body -->
             </div>
-            <!--/.accordion-collapse -->
           </div>
-          <!--/.accordion-item -->
+
           <div class="card plain accordion-item">
             <div class="card-header" id="headingThree">
               <button class="collapsed" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"> Header and Slider Options </button>
             </div>
-            <!--/.card-header -->
+
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
               <div class="card-body">
                 <p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Cras mattis consectetur purus sit amet fermentum. Praesent commodo cursus magna, vel.</p>
               </div>
-              <!--/.card-body -->
             </div>
-            <!--/.accordion-collapse -->
           </div>
-          <!--/.accordion-item -->
         </div>
-        <!--/.accordion -->
       </div>
-      <!--/column -->
     </div>
-    <!--/.row -->
   </div>
-  <!-- /.container -->
 </section>
-<!-- /section -->
-<section class="wrapper bg-soft-primary">
-  <div class="container py-14 pt-md-17 pb-md-20">
-    <div class="row gx-lg-8 gx-xl-12 gy-10 gy-lg-0">
-      <div class="col-lg-4 text-center text-lg-start">
-        <h3 class="display-4 mb-3 pe-xl-15">We are proud of our works</h3>
-        <p class="lead fs-lg mb-0 pe-xxl-10">We bring solutions to make life easier for our customers.</p>
+
+<section class="wrapper image-wrapper bg-image bg-overlay" data-image-src="{{ asset('template/assets/img/photos/bg1.jpg')}}">
+  <div class="container py-18">
+    <div class="row">
+      <div class="col-lg-8">
+        <h2 class="fs-16 text-uppercase text-line text-white mb-3">Join Our Community</h2>
+        <h3 class="display-4 mb-6 text-white pe-xxl-18">We are trusted by over 5000+ clients. Join them by using our services and grow your business.</h3>
+        <a href="#" class="btn btn-white rounded mb-0 text-nowrap">Join Us</a>
       </div>
-      <!-- /column -->
+    </div>
+  </div>
+</section>
+
+<section class="wrapper bg-light angled upper-end">
+  <div class="container py-14 py-md-16">
+    <div class="row">
+      <div class="col-lg-9 col-xl-8 col-xxl-7">
+        <h2 class="fs-16 text-uppercase text-line text-primary mb-3">Case Studies</h2>
+        <h3 class="display-4 mb-9">Check out some of our awesome projects with creative ideas and great design.</h3>
+      </div>
+    </div>
+
+    <div class="carousel owl-carousel blog grid-view mb-10" data-margin="30" data-dots="true" data-autoplay="false" data-autoplay-timeout="5000" data-responsive='{"0":{"items": "1"}, "768":{"items": "2"}, "992":{"items": "2"}, "1200":{"items": "3"}}'>
+      <div class="item">
+        <article>
+          <figure class="overlay overlay-1 hover-scale rounded mb-6"><a href="#"> <img src="{{ asset('template/assets/img/photos/b4.jpg')}}" alt="" /></a>
+            <figcaption>
+              <h5 class="from-top mb-0">Read More</h5>
+            </figcaption>
+          </figure>
+          <div class="post-header">
+            <h2 class="post-title h3 mb-3"><a class="link-dark" href="template/blog-post.html">Ligula tristique quis risus</a></h2>
+          </div>
+
+          <div class="post-footer">
+            <ul class="post-meta">
+              <li class="post-date"><i class="uil uil-calendar-alt"></i><span>14 Apr 2021</span></li>
+              <li class="post-comments"><a href="#"><i class="uil uil-file-alt fs-15"></i>Coding</a></li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="item">
+        <article>
+          <figure class="overlay overlay-1 hover-scale rounded mb-6"><a href="#"> <img src="{{ asset('template/assets/img/photos/b5.jpg')}}" alt="" /></a>
+            <figcaption>
+              <h5 class="from-top mb-0">Read More</h5>
+            </figcaption>
+          </figure>
+          <div class="post-header">
+            <h2 class="post-title h3 mb-3"><a class="link-dark" href="template/blog-post.html">Nullam id dolor elit id nibh</a></h2>
+          </div>
+          <div class="post-footer">
+            <ul class="post-meta">
+              <li class="post-date"><i class="uil uil-calendar-alt"></i><span>29 Mar 2021</span></li>
+              <li class="post-comments"><a href="#"><i class="uil uil-file-alt fs-15"></i>Workspace</a></li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="item">
+        <article>
+          <figure class="overlay overlay-1 hover-scale rounded mb-6"><a href="#"> <img src="{{ asset('template/assets/img/photos/b6.jpg')}}" alt="" /></a>
+            <figcaption>
+              <h5 class="from-top mb-0">Read More</h5>
+            </figcaption>
+          </figure>
+          <div class="post-header">
+            <h2 class="post-title h3 mb-3"><a class="link-dark" href="template/blog-post.html">Ultricies fusce porta elit</a></h2>
+          </div>
+          <div class="post-footer">
+            <ul class="post-meta">
+              <li class="post-date"><i class="uil uil-calendar-alt"></i><span>26 Feb 2021</span></li>
+              <li class="post-comments"><a href="#"><i class="uil uil-file-alt fs-15"></i>Meeting</a></li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="item">
+        <article>
+          <figure class="overlay overlay-1 hover-scale rounded mb-6"><a href="#"> <img src="{{ asset('template/assets/img/photos/b7.jpg')}}" alt="" /></a>
+            <figcaption>
+              <h5 class="from-top mb-0">Read More</h5>
+            </figcaption>
+          </figure>
+          <div class="post-header">
+            <h2 class="post-title h3 mb-3"><a class="link-dark" href="template/blog-post.html">Morbi leo risus porta eget</a></h2>
+          </div>
+          <div class="post-footer">
+            <ul class="post-meta">
+              <li class="post-date"><i class="uil uil-calendar-alt"></i><span>7 Jan 2021</span></li>
+              <li class="post-comments"><a href="#"><i class="uil uil-file-alt fs-15"></i>Business Tips</a></li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrapper bg-soft-primary">
+  <div class="container py-14 pt-md-17 pb-md-21">
+    <div class="row gx-lg-8 gx-xl-12 gy-10 gy-lg-0 mb-2 align-items-end">
+      <div class="col-lg-4">
+        <h2 class="fs-16 text-uppercase text-line text-primary mb-3">Company Facts</h2>
+        <h3 class="display-4 mb-0 pe-xxl-15">We are proud of our works</h3>
+      </div>
       <div class="col-lg-8 mt-lg-2">
         <div class="row align-items-center counter-wrapper gy-6 text-center">
           <div class="col-md-4">
-            <img src="{{asset('template/assets/img/icons/lineal/check.svg')}}" class="svg-inject icon-svg icon-svg-md text-primary mb-3" alt="" />
-            <h3 class="counter">7518</h3>
+            <h3 class="counter counter-lg">1000+</h3>
             <p>Completed Projects</p>
           </div>
-          <!--/column -->
+
           <div class="col-md-4">
-            <img src="{{asset('template/assets/img/icons/lineal/user.svg')}}" class="svg-inject icon-svg icon-svg-md text-primary mb-3" alt="" />
-            <h3 class="counter">3472</h3>
-            <p>Happy Customers</p>
+            <h3 class="counter counter-lg">500+</h3>
+            <p>Happy Clients</p>
           </div>
-          <!--/column -->
+
           <div class="col-md-4">
-            <img src="{{asset('template/assets/img/icons/lineal/briefcase-2.svg')}}" class="svg-inject icon-svg icon-svg-md text-primary mb-3" alt="" />
-            <h3 class="counter">2184</h3>
-            <p>Expert Employees</p>
+            <h3 class="counter counter-lg">150+</h3>
+            <p>Awards Won</p>
           </div>
-          <!--/column -->
         </div>
-        <!--/.row -->
       </div>
-      <!-- /column -->
     </div>
-    <!-- /.row -->
   </div>
-  <!-- /.container -->
 </section>
-<!-- /section -->
-<section class="wrapper bg-light">
-  <div class="container py-14 py-md-16 pb-md-17">
-    <div class="grid mb-14 mb-md-18 mt-3">
-      <div class="row isotope gy-6 mt-n19 mt-md-n22">
-        <div class="item col-md-6 col-xl-3">
-          <div class="card shadow-lg card-border-bottom border-soft-primary">
-            <div class="card-body">
-              <span class="ratings five mb-3"></span>
-              <blockquote class="icon mb-0">
-                <p>“Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Vestibulum id ligula porta. Cras mattis consectetur.”</p>
-                <div class="blockquote-details">
-                  <div class="info ps-0">
-                    <h5 class="mb-1">Coriss Ambady</h5>
-                    <p class="mb-0">Financial Analyst</p>
-                  </div>
-                </div>
-              </blockquote>
-            </div>
-            <!-- /.card-body -->
+
+<section class="wrapper bg-light angled upper-end lower-start">
+  <div class="container py-16 py-md-18 position-relative">
+    <div class="position-relative mt-n18 mt-md-n23 mb-16 mb-md-18">
+      <div class="shape rounded-circle bg-line primary rellax w-18 h-18" data-rellax-speed="1" style="top: -2rem; right: -2.7rem; z-index:0;"></div>
+      <div class="shape rounded-circle bg-soft-primary rellax w-18 h-18" data-rellax-speed="1" style="bottom: -1rem; left: -3rem; z-index:0;"></div>
+      <div class="card shadow-lg">
+        <div class="row gx-0">
+          <div class="col-lg-6 image-wrapper bg-image bg-cover rounded-top rounded-lg-start" data-image-src="{{ asset('template/assets/img/photos/tm1.jpg')}}">
           </div>
-          <!-- /.card -->
-        </div>
-        <!--/column -->
-        <div class="item col-md-6 col-xl-3">
-          <div class="card shadow-lg card-border-bottom border-soft-primary">
-            <div class="card-body">
-              <span class="ratings five mb-3"></span>
-              <blockquote class="icon mb-0">
-                <p>“Fusce dapibus, tellus ac cursus tortor mauris condimentum fermentum massa justo sit amet purus sit amet fermentum.”</p>
-                <div class="blockquote-details">
-                  <div class="info ps-0">
-                    <h5 class="mb-1">Cory Zamora</h5>
-                    <p class="mb-0">Marketing Specialist</p>
-                  </div>
+          <div class="col-lg-6">
+            <div class="p-10 p-md-11 p-lg-13">
+              <div class="basic-slider owl-carousel gap-small" data-margin="30">
+                <div class="item">
+                  <blockquote class="icon icon-top fs-lg text-center">
+                    <p>“Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Vestibulum ligula porta felis euismod semper. Cras justo odio.”</p>
+                    <div class="blockquote-details justify-content-center text-center">
+                      <div class="info ps-0">
+                        <h5 class="mb-1">Coriss Ambady</h5>
+                        <p class="mb-0">Financial Analyst</p>
+                      </div>
+                    </div>
+                  </blockquote>
                 </div>
-              </blockquote>
-            </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
-        <!--/column -->
-        <div class="item col-md-6 col-xl-3">
-          <div class="card shadow-lg card-border-bottom border-soft-primary">
-            <div class="card-body">
-              <span class="ratings five mb-3"></span>
-              <blockquote class="icon mb-0">
-                <p>“Curabitur blandit tempus porttitor. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor eu rutrum. Nulla vitae libero.”</p>
-                <div class="blockquote-details">
-                  <div class="info ps-0">
-                    <h5 class="mb-1">Nikolas Brooten</h5>
-                    <p class="mb-0">Sales Manager</p>
-                  </div>
+
+                <div class="item">
+                  <blockquote class="icon icon-top fs-lg text-center">
+                    <p>“Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Vestibulum ligula porta felis euismod semper. Cras justo odio.”</p>
+                    <div class="blockquote-details justify-content-center text-center">
+                      <div class="info ps-0">
+                        <h5 class="mb-1">Cory Zamora</h5>
+                        <p class="mb-0">Marketing Specialist</p>
+                      </div>
+                    </div>
+                  </blockquote>
                 </div>
-              </blockquote>
-            </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
-        <!--/column -->
-        <div class="item col-md-6 col-xl-3">
-          <div class="card shadow-lg card-border-bottom border-soft-primary">
-            <div class="card-body">
-              <span class="ratings five mb-3"></span>
-              <blockquote class="icon mb-0">
-                <p>“Etiam adipiscing tincidunt elit convallis felis suscipit ut. Phasellus rhoncus eu tincidunt auctor nullam rutrum, pharetra augue.”</p>
-                <div class="blockquote-details">
-                  <div class="info ps-0">
-                    <h5 class="mb-1">Coriss Ambady</h5>
-                    <p class="mb-0">Financial Analyst</p>
-                  </div>
+
+                <div class="item">
+                  <blockquote class="icon icon-top fs-lg text-center">
+                    <p>“Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Vestibulum ligula porta felis euismod semper. Cras justo odio.”</p>
+                    <div class="blockquote-details justify-content-center text-center">
+                      <div class="info ps-0">
+                        <h5 class="mb-1">Nikolas Brooten</h5>
+                        <p class="mb-0">Sales Manager</p>
+                      </div>
+                    </div>
+                  </blockquote>
                 </div>
-              </blockquote>
-            </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
-        <!--/column -->
-      </div>
-      <!-- /.row -->
-    </div>
-    <!-- /.grid-view -->
-    <div class="grid grid-view projects-tiles">
-      <div class="project">
-        <div class="row gx-md-8 gx-xl-12 gy-10 gy-md-12 isotope">
-          <div class="item col-md-6 mt-md-7 mt-lg-15">
-            <div class="project-details d-flex justify-content-center align-self-end flex-column ps-0 pb-0">
-              <div class="post-header">
-                <h2 class="display-4 mb-4 pe-xxl-15">Check out some of our recent projects below.</h2>
-                <p class="lead fs-lg mb-0">We love to turn ideas into beautiful things.</p>
               </div>
-              <!-- /.post-header -->
             </div>
-            <!-- /.project-details -->
           </div>
-          <!-- /.item -->
-          <div class="item col-md-6">
-            <figure class="lift rounded mb-6"><a href="./single-project3.html"> <img src="{{asset('template/assets/img/photos/rp1.jpg')}}" srcset="{{asset('template/assets/img/photos/rp1@2x.jpg 2x')}}" alt="" /></a></figure>
-            <div class="post-category text-line mb-3 text-violet">Stationary</div>
-            <h2 class="post-title h3">Ipsum Ultricies Cursus</h2>
-          </div>
-          <!-- /.item -->
-          <div class="item col-md-6">
-            <figure class="lift rounded mb-6"><a href="./single-project2.html"> <img src="{{asset('template/assets/img/photos/rp2.jpg')}}" srcset="{{asset('template/assets/img/photos/rp2@2x.jpg 2x')}}" alt="" /></a></figure>
-            <div class="post-category text-line mb-3 text-leaf">Invitation</div>
-            <h2 class="post-title h3">Mollis Ipsum Mattis</h2>
-          </div>
-          <!-- /.item -->
-          <div class="item col-md-6">
-            <figure class="lift rounded mb-6"><a href="./single-project.html"> <img src="{{asset('template/assets/img/photos/rp3.jpg')}}" srcset="{{asset('template/assets/img/photos/rp3@2x.jpg 2x')}}" alt="" /></a></figure>
-            <div class="post-category text-line mb-3 text-purple">Notebook</div>
-            <h2 class="post-title h3">Magna Tristique Inceptos</h2>
-          </div>
-          <!-- /.item -->
         </div>
-        <!-- /.row -->
       </div>
-      <!-- /.project -->
     </div>
-    <!-- /.projects-tiles -->
-  </div>
-  <!-- /.container -->
-</section>
-<!-- /section -->
-<section class="wrapper bg-soft-primary">
-  <div class="container py-14 py-md-17">
-    <div class="row gx-lg-8 gx-xl-12 gy-10 align-items-center">
-      <div class="col-lg-7">
-        <figure><img class="w-auto" src="{{asset('template/assets/img/illustrations/i5.png')}}" srcset="{{asset('template/assets/img/illustrations/i5@2x.png 2x')}}" alt="" /></figure>
+    <div class="row gy-6 mb-16 mb-md-18">
+      <div class="col-lg-4">
+        <h2 class="fs-16 text-uppercase text-line text-primary mt-lg-18 mb-3">Our Pricing</h2>
+        <h3 class="display-4 mb-3">We offer great and premium prices.</h3>
+        <p>Enjoy a <a href="#" class="hover">free 30-day trial</a> and experience the full service. No credit card required!</p>
+        <a href="#" class="btn btn-primary rounded mt-2">See All Prices</a>
       </div>
-      <!--/column -->
-      <div class="col-lg-5">
-        <h3 class="display-4 mb-7">Got any questions? Don't hesitate to get in touch.</h3>
+      <div class="col-lg-7 offset-lg-1 pricing-wrapper">
+        <div class="pricing-switcher-wrapper switcher justify-content-start justify-content-lg-end">
+          <p class="mb-0 pe-3">Monthly</p>
+          <div class="pricing-switchers">
+            <div class="pricing-switcher pricing-switcher-active"></div>
+            <div class="pricing-switcher"></div>
+            <div class="switcher-button bg-primary"></div>
+          </div>
+          <p class="mb-0 ps-3">Yearly <span class="text-red">(Save 30%)</span></p>
+        </div>
+        <div class="row gy-6 position-relative mt-5">
+          <div class="shape bg-dot primary rellax w-16 h-18" data-rellax-speed="1" style="bottom: -0.5rem; right: -1.6rem;"></div>
+          <div class="shape rounded-circle bg-soft-primary rellax w-18 h-18" data-rellax-speed="1" style="top: -1rem; left: -2rem;"></div>
+          <div class="col-md-6">
+            <div class="pricing card shadow-lg">
+              <div class="card-body pb-12">
+                <div class="prices text-dark">
+                  <div class="price price-show"><span class="price-currency">$</span><span class="price-value">19</span> <span class="price-duration">month</span></div>
+                  <div class="price price-hide price-hidden"><span class="price-currency">$</span><span class="price-value">199</span> <span class="price-duration">year</span></div>
+                </div>
+                <h4 class="card-title mt-2">Premium Plan</h4>
+                <ul class="icon-list bullet-bg bullet-soft-primary mt-8 mb-9">
+                  <li><i class="uil uil-check"></i><span><strong>5</strong> Projects </span></li>
+                  <li><i class="uil uil-check"></i><span><strong>100K</strong> API Access </span></li>
+                  <li><i class="uil uil-check"></i><span><strong>200MB</strong> Storage </span></li>
+                  <li><i class="uil uil-check"></i><span> Weekly <strong>Reports</strong></span></li>
+                  <li><i class="uil uil-times bullet-soft-red"></i><span> 7/24 <strong>Support</strong></span></li>
+                </ul>
+                <a href="#" class="btn btn-primary rounded">Choose Plan</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 popular">
+            <div class="pricing card shadow-lg">
+              <div class="card-body pb-12">
+                <div class="prices text-dark">
+                  <div class="price price-show"><span class="price-currency">$</span><span class="price-value">49</span> <span class="price-duration">month</span></div>
+                  <div class="price price-hide price-hidden"><span class="price-currency">$</span><span class="price-value">499</span> <span class="price-duration">year</span></div>
+                </div>
+                <!--/.prices -->
+                <h4 class="card-title mt-2">Corporate Plan</h4>
+                <ul class="icon-list bullet-bg bullet-soft-primary mt-8 mb-9">
+                  <li><i class="uil uil-check"></i><span><strong>20</strong> Projects </span></li>
+                  <li><i class="uil uil-check"></i><span><strong>300K</strong> API Access </span></li>
+                  <li><i class="uil uil-check"></i><span><strong>500MB</strong> Storage </span></li>
+                  <li><i class="uil uil-check"></i><span> Weekly <strong>Reports</strong></span></li>
+                  <li><i class="uil uil-check"></i><span> 7/24 <strong>Support</strong></span></li>
+                </ul>
+                <a href="#" class="btn btn-primary rounded">Choose Plan</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row gy-10 gy-sm-13 gx-lg-3 align-items-center">
+      <div class="col-md-8 col-lg-6 position-relative">
+        <div class="shape bg-dot primary rellax w-17 h-21" data-rellax-speed="1" style="top: -2rem; left: -1.9rem;"></div>
+        <div class="shape rounded bg-soft-primary rellax d-md-block" data-rellax-speed="0" style="bottom: -1.8rem; right: -1.5rem; width: 85%; height: 90%; "></div>
+        <figure class="rounded"><img src="{{ asset('template/assets/img/photos/about14.jpg')}}" srcset="{{ asset('template/assets/img/photos/about14@2x.jpg 2x')}}" alt="" /></figure>
+      </div>
+
+      <div class="col-lg-5 col-xl-4 offset-lg-1">
+        <h2 class="fs-16 text-uppercase text-line text-primary mb-3">Get In Touch</h2>
+        <h2 class="display-4 mb-8">Convinced yet? Let's make something great together.</h2>
         <div class="d-flex flex-row">
           <div>
-            <div class="icon text-primary fs-28 me-4 mt-n1"> <i class="uil uil-location-pin-alt"></i> </div>
+            <div class="icon text-primary fs-28 me-6 mt-n1"> <i class="uil uil-location-pin-alt"></i> </div>
           </div>
           <div>
             <h5 class="mb-1">Address</h5>
-            <address>Moonshine St. 14/05 Light City, London</address>
+            <address>Moonshine St. 14/05 Light City, <br class="d-none d-md-block" />London, United Kingdom</address>
           </div>
         </div>
         <div class="d-flex flex-row">
           <div>
-            <div class="icon text-primary fs-28 me-4 mt-n1"> <i class="uil uil-phone-volume"></i> </div>
+            <div class="icon text-primary fs-28 me-6 mt-n1"> <i class="uil uil-phone-volume"></i> </div>
           </div>
           <div>
             <h5 class="mb-1">Phone</h5>
@@ -386,7 +505,7 @@
         </div>
         <div class="d-flex flex-row">
           <div>
-            <div class="icon text-primary fs-28 me-4 mt-n1"> <i class="uil uil-envelope"></i> </div>
+            <div class="icon text-primary fs-28 me-6 mt-n1"> <i class="uil uil-envelope"></i> </div>
           </div>
           <div>
             <h5 class="mb-1">E-mail</h5>
@@ -394,12 +513,7 @@
           </div>
         </div>
       </div>
-      <!--/column -->
     </div>
-    <!--/.row -->
   </div>
-  <!-- /.container -->
 </section>
-<!-- /section -->
-    
 @endsection
