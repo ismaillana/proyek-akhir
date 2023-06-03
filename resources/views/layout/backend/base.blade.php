@@ -105,6 +105,7 @@
       $(document).ready(function() {
           @if (session('success'))
               iziToast.success({
+                  title: 'Berhasil!',
                   message: "{{ session('success') }}",
                   position: 'topRight'
               });
@@ -112,6 +113,7 @@
 
           @if (session('error'))
               iziToast.error({
+                  title: 'Gagal!',
                   message: "{{ session('error') }}",
                   position: 'topRight'
               });

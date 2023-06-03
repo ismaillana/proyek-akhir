@@ -80,10 +80,10 @@ class RegisterController extends Controller
 
             DB::commit();
 
-            return back()->with('success', 'Data Berhasil Ditambah');
+            return redirect()->route('login')->with('success', 'Silahkan Login.');
         } catch (\Throwable $th) {
             DB::rollback();
-            return back()->withError('Instansi Gagal Ditambah');
+            return back()->withError('Silahkakn Hubungi Admin');
         }
     }
 }

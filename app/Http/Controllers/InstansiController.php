@@ -22,7 +22,7 @@ class InstansiController extends Controller
      */
     public function index()
     {
-        $instansi = Instansi::get();
+        $instansi = Instansi::latest()->get();
 
         return view ('admin.instansi.index', [
             'instansi' => $instansi,

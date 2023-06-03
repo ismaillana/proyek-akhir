@@ -90,6 +90,16 @@ class MahasiswaController extends Controller
                 'angkatan'          => $request->angkatan,
                 'jurusan_id'        => $request->jurusan_id,
                 'program_studi_id'  => $request->program_studi_id,
+                'tempat_lahir'  => $request->tempat_lahir,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'semester'      => $request->semester,
+                'tahun_ajaran'  => $request->tahun_ajaran,
+                'orang_tua'     => $request->orang_tua,
+                'pekerjaan'     => $request->pekerjaan,
+                'nip_nrp'       => $request->nip_nrp,
+                'pangkat'       => $request->pangkat,
+                'jabatan'       => $request->jabatan,
+                'instansi'      => $request->instansi,
                 'status'            => $request->status
             ];
 
@@ -170,6 +180,16 @@ class MahasiswaController extends Controller
             'angkatan'          => $request->angkatan,
             'jurusan_id'        => $request->jurusan_id,
             'program_studi_id'  => $request->program_studi_id,
+            'tempat_lahir'  => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'semester'      => $request->semester,
+            'tahun_ajaran'  => $request->tahun_ajaran,
+            'orang_tua'     => $request->orang_tua,
+            'pekerjaan'     => $request->pekerjaan,
+            'nip_nrp'       => $request->nip_nrp,
+            'pangkat'       => $request->pangkat,
+            'jabatan'       => $request->jabatan,
+            'instansi'      => $request->instansi,
             'status'            => $request->status,
         ];
         

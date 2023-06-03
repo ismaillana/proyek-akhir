@@ -29,7 +29,8 @@ class MahasiswaRequest extends FormRequest
             'wa'                => 'required',
             'angkatan'          => 'required',
             'jurusan_id'        => 'required',
-            'program_studi_id'  => 'required'
+            'program_studi_id'  => 'required',
+            'status'            => 'required'
         ];
         return $rules;
     }
@@ -46,8 +47,8 @@ class MahasiswaRequest extends FormRequest
             'angkatan.required'     => 'Tahun Angkatan Wajib Diisi',
             'jurusan_id.required'   => 'Jurusan Wajib Diisi',
             'program_studi_id.required' => 'Program Studi Wajib Diisi',
-            'email.unique' => 'Email Sudah Digunakan'
-
+            'email.unique'        => 'Email Sudah Digunakan',
+            'status.required'     => 'Status Wajib Diisi',
         ];
     }
 }
