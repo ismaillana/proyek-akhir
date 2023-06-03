@@ -17,14 +17,14 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $user = User::create([
-            'name' => 'Bagian Akademik',
+            'name' => 'Super Admin',
             'nomor_induk' => '12345',
-            'email' => 'bagianakademik@gmail.com',
+            'email' => 'superadmin@gmail.com',
             'status' => '1',
             'password' => Hash::make('12345'),
         ]);
 
-        $user->assignRole('bagian-akademik');
+        $user->assignRole('super-admin');
 
     }
 }

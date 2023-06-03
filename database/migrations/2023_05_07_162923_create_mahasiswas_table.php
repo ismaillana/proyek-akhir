@@ -27,6 +27,16 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
+            $table->string('semester')->nullable();
+            $table->string('tahun_ajaran')->nullable();
+            $table->string('tempat_lahir')->nullable();
+            $table->date('tanggal_lahir')->nullable();
+            $table->string('orang_tua')->nullable();
+            $table->string('pekerjaan')->nullable();
+            $table->string('nip_nrp')->nullable();
+            $table->string('pangkat')->nullable();
+            $table->string('jabatan')->nullable();
+            $table->string('instansi')->nullable();
             $table->string('image')->nullable();
             $table->enum('status', ['Mahasiswa Aktif', 'Keluar', 'Alumni'])->default('Mahasiswa Aktif')->nullable();
             $table->timestamps();

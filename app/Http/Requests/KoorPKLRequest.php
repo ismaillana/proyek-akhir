@@ -37,8 +37,8 @@ class KoorPklRequest extends FormRequest
             'name.required'         => 'Nama Koordinator PKL Wajib Diisi',
             'email.required'        => 'Email Wajib Diisi',
             'email.email'           => 'Format Email Harus Sesuai',
-            'nomor_induk.required'  => 'NIM Wajib Diisi',
-            'nomor_induk.unique'    => 'NIM Sudah Ada',
+            'nomor_induk.required'  => 'NIP Wajib Diisi',
+            'nomor_induk.unique'    => 'NIP Sudah Ada',
             'wa.required'           => 'No WhatsApp Wajib Diisi',
             'jurusan_id.required'   => 'Jurusan Wajib Diisi',
             'email.unique' => 'Email Sudah Digunakan'

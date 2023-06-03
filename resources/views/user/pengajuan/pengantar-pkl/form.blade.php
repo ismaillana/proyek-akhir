@@ -67,7 +67,7 @@
 
                           <select class="form-select @error('nama_mahasiswa')
                             is-invalid @enderror" name="nama_mahasiswa[]"
-                            id="nama_mahasiswa" multiple aria-placeholder="kjgfsdg">
+                            id="nama_mahasiswa" multiple >
                             @foreach ($mahasiswa as $item)
                                 <option value="{{ $item->id }}"
                                   {{ old('nama_mahasiswa', @$pengantarPkl->nama_mahasiswa) == $item->id ? 'selected' : '' }}>
@@ -178,17 +178,15 @@
 
 @section('script')
 <script>
-  new MultiSelectTag('nama_mahasiswa')  // id
-
-        $('#myForm').submit(function(e) {
+          $('#myForm').submit(function(e) {
             let form = this;
-            e.preventDefault();
+                  e.preventDefault();
 
-            confirmSubmit(form);
-        });
+                  confirmSubmit(form);
+          });
         // Form
         function confirmSubmit(form, buttonId) {
-            Swal.fire({
+          Swal.fire({
                 icon: 'question',
                 text: 'Apakah anda yakin ingin menyimpan data ini ?',
                 showCancelButton: true,
@@ -203,14 +201,17 @@
 
                     if (buttonId) {
                         button = buttonId;
-                    }
-
+                      }
+                      
                     $('#' + button).attr('disabled', 'disabled');
                     $('#loader').removeClass('d-none');
-
+                    
                     form.submit();
                 }
             });
         }
+
+  new MultiSelectTag('nama_mahasiswa')  // id
+
 </script>
 @endsection

@@ -75,7 +75,6 @@ class MahasiswaController extends Controller
         DB::beginTransaction();
 
         try {
-            $roles = Role::findOrFail($request->roles);
 
             $user = User::create([
                 'name'        => $request->name,
@@ -100,8 +99,12 @@ class MahasiswaController extends Controller
 
             $mahasiswa = Mahasiswa::create($data);
 
-            $user->assignRole($roles);
-
+            if ($request->status == 'Alumni') {
+                $user->assignRole('alumni');
+            }else {
+                $user->assignRole('mahasiswa');
+            }
+            
             DB::commit();
 
             return redirect()->route('mahasiswa.index')->with('success', 'Data Berhasil Ditambah');
@@ -125,13 +128,11 @@ class MahasiswaController extends Controller
         $mahasiswa = Mahasiswa::findOrFail($id);
         $jurusan = Jurusan::oldest('name')->get();
         $prodi = ProgramStudi::oldest('name')->get();
-        $roles     =   Role::oldest('name')->get();
 
         return view ('admin.mahasiswa.detail', [
             'mahasiswa' => $mahasiswa,
             'jurusan'   => $jurusan,
             'prodi'     => $prodi,
-            'roles'     => $roles,
             'title'     => 'Mahasiswa'
         ]);
     }
@@ -150,13 +151,11 @@ class MahasiswaController extends Controller
         $mahasiswa = Mahasiswa::findOrFail($id);
         $jurusan   = Jurusan::oldest('name')->get();
         $prodi     = ProgramStudi::oldest('name')->get();
-        $roles     = Role::oldest('name')->get();
 
         return view ('admin.mahasiswa.form', [
             'mahasiswa' => $mahasiswa,
             'jurusan'   => $jurusan,
             'prodi'     => $prodi,
-            'roles'     => $roles,
             'title'     => 'Mahasiswa'
         ]);
     }
@@ -188,10 +187,8 @@ class MahasiswaController extends Controller
         }
         
         Mahasiswa::where('id', $mahasiswa->id)->update($data);
-        
-        $roles = Role::findOrFail($request->roles);
 
-       $user = User::whereId($mahasiswa->user_id)->update([
+        $user = User::whereId($mahasiswa->user_id)->update([
             'name'        => $request->name,
             'nomor_induk' => $request->nomor_induk,
             'email'       => $request->email,
@@ -200,8 +197,12 @@ class MahasiswaController extends Controller
         ]);
 
         $user = User::where('id',$mahasiswa->user_id)->first();
+        if ($request->status == 'Alumni') {
+            $user->syncRoles('alumni');
+        }else {
+            $user->syncRoles('mahasiswa');
+        }
         
-        $user->syncRoles($roles);
 
         return redirect()->route('mahasiswa.index')->with('success', 'Data Berhasil Diubah');
     }
@@ -211,29 +212,6 @@ class MahasiswaController extends Controller
      */
     public function destroy(string $id)
     {
-        $mahasiswa = Mahasiswa::find($id);
-
-        // $resellerOrder =  ResellerOrder::where('reseller_id', $id)
-        //     ->whereNotIn('order_status_id', [8, 9])
-        //     ->first();
-
-        // if ($resellerOrder) {
-        //     return response()->json(['message' => 'Gagal hapus, masih ada transaksi yang berjalan', 'status' => 'error', 'code' => '500']);
-        // }
-
-        $param = (object) [
-            'type'  => 'image',
-            'id'    => $mahasiswa->id
-        ];
-
-        Mahasiswa::deleteImage($param);
-
-        // $this->deleteMahasiswa($id);
-
-        $mahasiswa->delete();
-
-        User::where('id', $mahasiswa->user_id)->update(['status' => '0']);
-
-        return response()->json(['status' => 'Data Berhasil Dihapus']);
+        
     }
 }

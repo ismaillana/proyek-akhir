@@ -79,4 +79,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(koorPkl::class);
     }
+
+    /**
+     * Get all of the Admin Jurusan for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function bagianAkademik(): HasMany
+    {
+        return $this->hasMany(BagianAkademik::class);
+    }
 }

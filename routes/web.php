@@ -20,6 +20,7 @@ use App\Http\Controllers\LegalisirController;
 use App\Http\Controllers\VerifikasiIjazahController;
 use App\Http\Controllers\DispensasiController;
 use App\Http\Controllers\PengantarPklController;
+use App\Http\Controllers\BagianAkademikController;
 
 
 
@@ -51,7 +52,7 @@ Auth::routes();
         
         Route::group(
             [
-                'middleware'    => ['role:bagian-akademik|admin-jurusan|koor-pkl'],
+                'middleware'    => ['role:super-admin|bagian-akademik|admin-jurusan|koor-pkl'],
                 'prefix'        => 'menu-admin'
             ],
             function () {
@@ -59,8 +60,8 @@ Auth::routes();
                 Route::resource('prodi', ProdiController::class);
                 Route::resource('mahasiswa', MahasiswaController::class);
                 Route::resource('jenis-legalisir', JenisLegalisirController::class);
-                Route::resource('alumni', AlumniController::class);
                 Route::resource('adminJurusan', AdminJurusanController::class);
+                Route::resource('bagianAkademik', BagianAkademikController::class);
                 Route::resource('instansi', InstansiController::class);
                 Route::resource('ijazah', IjazahController::class);
                 Route::resource('koorPkl', KoorPklController::class);

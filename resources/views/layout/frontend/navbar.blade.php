@@ -20,7 +20,7 @@
             </a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle">
+            <a class="nav-link dropdown-toggle" href="">
               Pengajuan
             </a>
             <ul class="dropdown-menu">
@@ -62,7 +62,7 @@
             </ul>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#!">
+            <a class="nav-link dropdown-toggle" href="">
               Riwayat Pengajuan
             </a>
             <ul class="dropdown-menu">
@@ -113,7 +113,7 @@
           </li>
 
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle">
+            <a class="nav-link dropdown-toggle" href="">
               Pengajuan
             </a>
             <ul class="dropdown-menu">
@@ -124,7 +124,7 @@
               </li>
 
               <li class="dropdown">
-                <a class="dropdown-item" href="#{{route('pengantar-pkl.create')}}">
+                <a class="dropdown-item" href="{{route('pengantar-pkl.create')}}">
                   Surat Pengantar PKL
                 </a>
               </li>
@@ -144,7 +144,7 @@
           </li>
 
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#!">
+            <a class="nav-link dropdown-toggle" href="">
               Riwayat Pengajuan
             </a>
             <ul class="dropdown-menu">
@@ -195,7 +195,7 @@
           </li>
 
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle">
+            <a class="nav-link dropdown-toggle" href="">
               Pengajuan
             </a>
             <ul class="dropdown-menu">
@@ -207,7 +207,7 @@
             </ul>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#!">
+            <a class="nav-link dropdown-toggle" href="">
               Riwayat Pengajuan
             </a>
             <ul class="dropdown-menu">
@@ -228,7 +228,7 @@
           </li>
 
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle">
+            <a class="nav-link dropdown-toggle" href="">
               Pengajuan
             </a>
             <ul class="dropdown-menu">
@@ -240,7 +240,7 @@
             </ul>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#!">
+            <a class="nav-link dropdown-toggle" href="">
               Riwayat Pengajuan
             </a>
             <ul class="dropdown-menu">

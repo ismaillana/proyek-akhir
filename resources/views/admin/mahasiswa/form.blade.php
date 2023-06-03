@@ -223,32 +223,6 @@
                             </div>
 
                             <div class="form-group row mb-4">
-                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                    Role<sup class="text-danger">*</sup>
-                                </label>
-
-                                <div class="col-sm-12 col-md-7">
-                                    <select name="roles" id="roles"
-                                        class="form-control @error('roles')
-                                        is-invalid @enderror">
-                                        <option value="" selected="" disabled="">Pilih Role</option>
-                                        @foreach ($roles as $item)
-                                            <option value="{{ $item->id }}"
-                                                {{ old('roles',@$item->id) == $item->id ? 'selected' : '' }}>
-                                                {{ $item->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    @if ($errors->has('roles'))
-                                        <span class="text-danger">
-                                            {{ $errors->first('roles') }}
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-4">
                                 <div class="col-sm-12 col-md-7 offset-md-3">
                                     <button class="btn btn-primary">{{ $aksi }}</button>
                                 </div>

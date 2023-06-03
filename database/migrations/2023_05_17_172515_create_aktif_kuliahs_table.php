@@ -16,16 +16,6 @@ return new class extends Migration
             $table->foreignId('mahasiswa_id')
                 ->constrained()
                 ->cascadeOnUpdate();
-            $table->string('semester')->nullable();
-            $table->string('tempat_lahir')->nullable();
-            $table->date('tanggal_lahir')->nullable();
-            $table->string('tahun_ajaran')->nullable();
-            $table->string('orang_tua')->nullable();
-            $table->string('pekerjaan')->nullable();
-            $table->string('nip_nrp')->nullable();
-            $table->string('pangkat')->nullable();
-            $table->string('jabatan')->nullable();
-            $table->string('instansi')->nullable();
             $table->text('keperluan');
             $table->ENUM('status', ['Menunggu Konfirmasi', 'Diproses', 'Selesai'])
             ->default('Menunggu Konfirmasi')

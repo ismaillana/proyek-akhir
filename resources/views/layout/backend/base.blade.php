@@ -29,6 +29,8 @@
   <link rel="stylesheet" href="{{asset('/node_modules/select2/dist/css/select2.min.css')}}">
   <!-- Dropify -->
   <link rel="stylesheet" href="{{ asset('/node_modules/dropify/dist/css/dropify.min.css') }}">
+  <!--SweetAlert2-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css">
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{asset('/assets/css/style.css')}}">
   <link rel="stylesheet" href="{{asset('/assets/css/components.css')}}">
@@ -85,6 +87,8 @@
   <script src="{{asset('/node_modules/select2/dist/js/select2.full.min.js')}}"></script>
   {{-- dropify --}}
   <script src="{{ asset('/node_modules/dropify/dist/js/dropify.min.js') }}"></script>
+  <!--Sweet Alert2-->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
 
   <!-- Template JS File -->
   <script src="{{asset('/assets/js/scripts.js')}}"></script>

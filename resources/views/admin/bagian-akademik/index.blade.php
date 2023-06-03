@@ -3,7 +3,7 @@
 <div class="main-content">
     <section class="section">
       <div class="section-header">
-        <h1>Tabel Data Alumni</h1>
+        <h1>Tabel Data Bagian Akademik</h1>
       </div>
 
       <div class="section-body">
@@ -13,8 +13,14 @@
               <div class="card-header">
                 <div class="d-flex justify-content-between w-100">
                     <h4>
-                        Data Alumni
+                        Data Bagian Akademik
                     </h4>
+
+                    <a href="{{ route('bagianAkademik.create') }}"
+                        class="btn btn-outline-success btn-lg d-flex align-items-center ">
+                        <i class="fa fa-plus pr-2"></i>
+                        Tambah
+                    </a>
                 </div>
               </div>
               <div class="card-body">
@@ -27,15 +33,11 @@
                         </th>
 
                         <th>
-                            Nama Alumni
+                            Nama Bagian Akademik
                         </th>
 
                         <th>
-                            NIM
-                        </th>
-
-                        <th>
-                            Angkatan
+                            NIP
                         </th>
 
                         <th class="text-center">
@@ -44,26 +46,22 @@
                       </tr>
                     </thead>
                     <tbody>
-                        @foreach ($alumni as $item)
+                        @foreach ($bagianAkademik as $item)
                             <tr>
                                 <td>
                                     {{$loop->iteration}}
                                 </td>
 
                                 <td>
-                                    {{ $item->user->name}}
+                                    {{ $item->name}}
                                 </td>
 
                                 <td>
-                                    {{ $item->nim}}
-                                </td>
-
-                                <td>
-                                    {{ $item->angkatan}}
+                                    {{ $item->nip}}
                                 </td>
 
                                 <td class="text-center">
-                                    <a href="{{ route('alumni.show', Crypt::encryptString($item->id)) }}"
+                                    <a href="{{ route('bagianAkademik.show', Crypt::encryptString($item->id)) }}"
                                         class="btn btn-sm btn-outline-secondary" title="Detail">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                             width="16" height="16" viewBox="0 0 24 24"
@@ -74,12 +72,12 @@
                                         </svg>
                                     </a>
 
-                                    <a href="{{ route('alumni.edit', Crypt::encryptString($item->id)) }}" title="Edit" 
+                                    <a href="{{ route('bagianAkademik.edit', Crypt::encryptString($item->id)) }}" title="Edit" 
                                         class="btn btn-sm btn-outline-warning">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
-
-                                    <button value="{{ route('alumni.destroy', $item->id) }}"
+                                    
+                                    <button value="{{ route('bagianAkademik.destroy', $item->id) }}"
                                         class="btn btn-sm btn-outline-danger delete" title="Hapus"> 
                                         <i class="fas fa-trash"></i>
                                     </button>

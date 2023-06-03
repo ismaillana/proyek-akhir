@@ -13,7 +13,7 @@
       </div>
 
       <ul class="sidebar-menu">
-        @role('bagian-akademik')
+        @role('super-admin')
           <li class="menu-header">Dashboard Super Admin</li>
             <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
               <a href="{{route('dashboard')}}" class="nav-link"><i class="fas fa-fire"></i>
@@ -21,10 +21,7 @@
             </li>
           <li class="menu-header">Master Data</li>
             <li class="nav-item dropdown {{ request()->is('menu-admin/jurusan*') ? 'active' : ''}} ||
-              {{ request()->is('menu-admin/prodi*') ? 'active' : ''}} ||
-              {{ request()->is('menu-admin/ijazah*') ? 'active' : ''}} ||
-              {{ request()->is('menu-admin/tempat-pkl*') ? 'active' : ''}} ||
-              {{ request()->is('menu-admin/jenis-legalisir*') ? 'active' : ''}} ">
+              {{ request()->is('menu-admin/prodi*') ? 'active' : ''}} ||">
               <a class="nav-link has-dropdown" data-toggle="dropdown">
                 <i class="fas fa-columns"></i> 
                   <span>Master Data</span>
@@ -40,40 +37,21 @@
                     Program Studi
                   </a>
                 </li>
-                <li class="{{ request()->is('menu-admin/ijazah*') ? 'active' : ''}}">
-                  <a class="nav-link" href="{{route('ijazah.index')}}">
-                    Ijazah
-                  </a>
-                </li>
-                <li class="{{ request()->is('menu-admin/tempat-pkl*') ? 'active' : ''}}">
-                  <a class="nav-link" href="{{route('tempat-pkl.index')}}">
-                    Tempat PKL
-                  </a>
-                </li>
-                <li class="{{ request()->is('menu-admin/jenis-legalisir*') ? 'active' : ''}}">
-                  <a class="nav-link" href="{{route('jenis-legalisir.index')}}">
-                    Jenis Legalisir
-                  </a>
-                </li>
               </ul>
             </li>
           <li class="menu-header">Manajemen User</li>
             <li class="nav-item dropdown 
-              {{ request()->is('menu-admin/mahasiswa*') ? 'active' : ''}} ||
-              {{ request()->is('menu-admin/alumni*') ? 'active' : ''}} ||
-              {{ request()->is('menu-admin/instansi*') ? 'active' : ''}} ||
-              {{ request()->is('menu-admin/koorPkl*') ? 'active' : ''}} ||
               {{ request()->is('menu-admin/adminJurusan*') ? 'active' : ''}} ||
-              {{ request()->is('menu-admin/manajemen-user*') ? 'active' : ''}} ||">
+              {{ request()->is('menu-admin/bagianAkademik*') ? 'active' : ''}} ||">
     
               <a class="nav-link has-dropdown" data-toggle="dropdown">
                 <i class="far fa-user"></i> 
                 <span>Manajemen User</span>
               </a>
               <ul class="dropdown-menu">
-                <li class="{{ request()->is('menu-admin/manajemen-user*') ? 'active' : ''}}">
-                  <a class="nav-link" href="{{route('manajemen-user.index')}}">
-                    User
+                <li class="{{ request()->is('menu-admin/bagianAkademik*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('bagianAkademik.index')}}">
+                    Bagian Akademik
                   </a>
                 </li>
                 <li class="{{ request()->is('menu-admin/adminJurusan*') ? 'active' : ''}}">
@@ -81,6 +59,33 @@
                     Admin Jurusan
                   </a>
                 </li>
+              </ul>
+            </li>
+          <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
+            <a href="https://getstisla.com/docs" class="btn btn-primary btn-lg btn-block btn-icon-split">
+              <i class="fas fa-rocket"></i> Documentation
+            </a>
+          </div>
+        @endrole
+
+        @role('bagian-akademik')
+          <li class="menu-header">Dashboard Bgian Akademik</li>
+            <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
+              <a href="{{route('dashboard')}}" class="nav-link"><i class="fas fa-fire"></i>
+                  <span>Dashboard</span></a>
+            </li>
+
+          <li class="menu-header">Manajemen User</li>
+            <li class="nav-item dropdown 
+              {{ request()->is('menu-admin/mahasiswa*') ? 'active' : ''}} ||
+              {{ request()->is('menu-admin/instansi*') ? 'active' : ''}} ||
+              {{ request()->is('menu-admin/koorPkl*') ? 'active' : ''}} ||">
+    
+              <a class="nav-link has-dropdown" data-toggle="dropdown">
+                <i class="far fa-user"></i> 
+                <span>Manajemen User</span>
+              </a>
+              <ul class="dropdown-menu">
                 <li class="{{ request()->is('menu-admin/koorPkl*') ? 'active' : ''}}">
                   <a class="nav-link" href="{{route('koorPkl.index')}}">
                     Koor.PKL Jurusan
@@ -89,11 +94,6 @@
                 <li class="{{ request()->is('menu-admin/mahasiswa*') ? 'active' : ''}}">
                   <a class="nav-link" href="{{route('mahasiswa.index')}}">
                     Mahasiswa
-                  </a>
-                </li>
-                <li class="{{ request()->is('menu-admin/alumni*') ? 'active' : ''}}">
-                  <a class="nav-link" href="{{route('alumni.index')}}">
-                    Alumni
                   </a>
                 </li>
                 <li class="{{ request()->is('menu-admin/instansi*') ? 'active' : ''}}">

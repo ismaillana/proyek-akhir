@@ -17,7 +17,7 @@
   <!--SweetAlert2-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css">
   <!--Multiple-->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
+  <link rel="stylesheet" href="{{ asset('template/assets/css/multiple.css')}}">
 </head>
 
 <body>
@@ -37,33 +37,36 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
   <!--Sweet Alert2-->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
+  <!--Multiple-->
+  <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
 
   <script src="{{ asset('template/assets/js/plugins.js')}}"></script>
   <script src="{{ asset('template/assets/js/theme.js')}}"></script>
 
   <script>
-    $(document).ready(function() {
-        @if (session('success'))
-            Swal.fire({
-              icon: 'success',
-              title: 'Berhasil!',
-              text: "{{ session('success') }}",
-              showConfirmButton: false,
-              timer: 1500
-            })
-        @endif ()
+      $(document).ready(function() {
+          @if (session('success'))
+              Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: "{{ session('success') }}",
+                showConfirmButton: false,
+                timer: 1500
+              })
+          @endif ()
 
-        @if (session('error'))
-            Swal.fire({
-              icon: 'warning',
-              title: "Pengajuan Gagal Dibuat",
-              showConfirmButton: false,
-              timer: 1500
-            })
-        @endif ()
-    });
-</script>
-@yield('script')
+          @if (session('error'))
+              Swal.fire({
+                icon: 'warning',
+                title: "Pengajuan Gagal Dibuat",
+                showConfirmButton: false,
+                timer: 1500
+              })
+          @endif ()
+      });
+  </script>
+  @yield('script')
+
 </body>
 
 </html>

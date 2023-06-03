@@ -19,7 +19,7 @@ class JurusanSeeder extends Seeder
         ]);
 
         Jurusan::create([
-            'name'  => 'Agro Industri'
+            'name'  => 'Agroindustri'
         ]);
 
         Jurusan::create([
