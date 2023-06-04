@@ -166,4 +166,15 @@ class Mahasiswa extends Model
             }
         }
     }
+
+    /**
+     * Scope Filter.
+     *
+     * @return scope
+     */
+    public function scopeFilter($query, $param)
+    {
+        // If filter by jenis produk exist
+        $query->when($param->status ?? false, fn ($query, $status) => $query->where('status', $status));
+    }
 }

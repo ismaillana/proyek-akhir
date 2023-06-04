@@ -10,6 +10,37 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
+                <ul class="nav nav-pills p-4 g-10" style="border-bottom: 1px solid #d6d6d7;">
+                    <li class="nav-item nav-border">
+                        <a href="{{ route('mahasiswa.index') }}" class="nav-link {{ $status == null ? 'active' : '' }}">
+                            Semua Data <span class="badge badge-white"></span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item nav-border">
+                        <a href="{{ route('mahasiswa.index',['status' => 'Mahasiswa Aktif']) }}"
+                            class="nav-link {{ $status == 'Mahasiswa Aktif' ? 'active' : '' }}">
+                            Mahasiswa Aktif
+                            <span class="badge badge-white"></span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item nav-border">
+                        <a href="{{ route('mahasiswa.index', ['status' => 'Alumni']) }}"
+                            class="nav-link {{ $status == 'Alumni' ? 'active' : '' }}">
+                            Alumni
+                            <span class="badge badge-white"></span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item nav-border">
+                        <a href="{{ route('mahasiswa.index', ['status' => 'Keluar']) }}"
+                            class="nav-link {{ $status == 'Keluar' ? 'active' : '' }}">
+                            Keluar
+                            <span class="badge badge-white"></span>
+                        </a>
+                    </li>
+                </ul>
               <div class="card-header">
                 <div class="d-flex justify-content-between w-100">
                     <h4>

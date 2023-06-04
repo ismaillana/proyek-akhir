@@ -1288,6 +1288,12 @@ table tr:hover .table-links {
   font-size: 12px;
 }
 
+.nav-border {
+  border: 1px solid #e4e6fc;
+  border-radius: 6px;
+  margin: 4px;
+}
+
 /* 3.10 Pagination */
 .page-item .page-link {
   color: #6777ef;

@@ -23,15 +23,26 @@ class MahasiswaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $mahasiswa = Mahasiswa::latest()
-        ->where('status', 'Mahasiswa Aktif' || 'Keluar')
+
+        $sale         = 'active';
+
+        $status = $request->status ? $request->status : null;
+
+        $param = (object) [
+            'status'            => $request->status,
+        ];
+
+        $mahasiswa = Mahasiswa::filter($param)
+        ->latest()
         ->get();
 
         return view ('admin.mahasiswa.index', [
             'mahasiswa' => $mahasiswa,
-            'title'     => 'Mahasiswa'
+            'status'    => $status,
+            'sale'      => $sale,
+            'title'     => 'Data Mahasiswa Alumni'
         ]);
     }
 
