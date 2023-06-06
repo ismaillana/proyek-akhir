@@ -5,7 +5,6 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  {{-- <title>Dashboard &mdash; POLSUB</title> --}}
 
   @hasSection('title')
         <title>@yield('title')</title>
@@ -25,6 +24,7 @@
   <link rel="stylesheet" href="{{asset('/node_modules/izitoast/dist/css/iziToast.min.css')}}">
   <link rel="stylesheet" href="{{asset('/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('/node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{asset('/node_modules/prismjs/themes/prism.css')}}">
   <!-- Select2 -->
   <link rel="stylesheet" href="{{asset('/node_modules/select2/dist/css/select2.min.css')}}">
   <!-- Dropify -->
@@ -83,6 +83,7 @@
   <script src="{{asset('/node_modules/datatables/media/js/jquery.dataTables.min.js')}}"></script>
   <script src="{{asset('/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
   <script src="{{asset('/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js')}}"></script>
+  <script src="{{asset('/node_modules/prismjs/prism.js')}}"></script>
   {{-- Select2 --}}
   <script src="{{asset('/node_modules/select2/dist/js/select2.full.min.js')}}"></script>
   {{-- dropify --}}
@@ -101,6 +102,7 @@
   <script src="{{asset('/assets/js/page/index-0.js')}}"></script>
   <script src="{{asset('/assets/js/page/features-post-create.js')}}"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="{{asset('/assets/js/page/bootstrap-modal.js')}}"></script>
   <script>
       $(document).ready(function() {
           @if (session('success'))

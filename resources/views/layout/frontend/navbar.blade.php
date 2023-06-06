@@ -200,7 +200,7 @@
             </a>
             <ul class="dropdown-menu">
               <li class="nav-item">
-                <a class="dropdown-item" href="./onepage.html">
+                <a class="dropdown-item" href="{{route('legalisir.create')}}">
                   Legalisir
                 </a>
               </li>
@@ -212,7 +212,7 @@
             </a>
             <ul class="dropdown-menu">
               <li class="nav-item">
-                <a class="dropdown-item" href="{{route('legalisir.create')}}">
+                <a class="dropdown-item" href="">
                   Legalisir
                 </a>
               </li>

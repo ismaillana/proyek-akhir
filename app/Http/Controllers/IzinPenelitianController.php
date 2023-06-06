@@ -8,6 +8,7 @@ use App\Models\Mahasiswa;
 use App\Models\IzinPenelitian;
 
 use App\Http\Requests\IzinPenelitianRequest;
+use Illuminate\Support\Facades\Crypt;
 
 class IzinPenelitianController extends Controller
 {
@@ -65,7 +66,17 @@ class IzinPenelitianController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $izinPenelitian = IzinPenelitian::find($id);
+        return view ('admin.pengajuan.izin-penelitian.detail', [
+            'izinPenelitian'    =>  $izinPenelitian,
+            'title'         =>  'Detail Pengajuan Izin Penelitian'
+        ]);
     }
 
     /**

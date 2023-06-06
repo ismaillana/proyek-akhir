@@ -3,7 +3,7 @@
 <div class="main-content">
     <section class="section">
       <div class="section-header">
-        <h1>Tabel Data Mahasiswa</h1>
+        <h1>Tabel Data Mahasiswa Alumni</h1>
       </div>
 
       <div class="section-body">
@@ -44,7 +44,7 @@
               <div class="card-header">
                 <div class="d-flex justify-content-between w-100">
                     <h4>
-                        Data Mahasiswa
+                        Data Mahasiswa Alumni
                     </h4>
                     <div class="d-flex justify-content-between">
                         <a href="{{route('import-excel')}}"
@@ -62,6 +62,22 @@
                 </div>
               </div>
               <div class="card-body">
+                <form id="modalForm" class="form-horizontal"
+                    style="padding-bottom: 10px;border-bottom: 1px solid #d7d6d6; margin-bottom: 20px;"
+                    action="#">
+                    <div class="row align-items-center" style="margin-bottom: 10px;">
+                        <div class="col-md-3 col-sm-12">
+                            <label for="angkatan" class="label-control">Ubah Status</label>
+                            <input type="text" id="angkatan" name="angkatan" class="form-control"
+                                placeholder="Masukan Angkatan" value="">
+                        </div>
+
+                        <div class="col-md-2 col-sm-12 d-flex mt-auto">
+                            <button id="btn-submit" type="submit"
+                                class="btn btn-success btn-block">Update</button>
+                        </div>
+                    </div>
+                </form>
                 <div class="table-responsive">
                   <table class="table table-striped" id="myTable">
                     <thead>
@@ -71,7 +87,7 @@
                         </th>
 
                         <th>
-                            Nama Mahasiswa
+                            Nama
                         </th>
 
                         <th>
@@ -134,11 +150,6 @@
                                         class="btn btn-sm btn-outline-warning">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
-
-                                    <button value="{{ route('mahasiswa.destroy', $item->id) }}"
-                                        class="btn btn-sm btn-outline-danger delete" title="Hapus"> 
-                                        <i class="fas fa-trash"></i>
-                                    </button>
                                 </td>
                             </tr>
                         @endforeach

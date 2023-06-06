@@ -18,7 +18,7 @@
                     $aksi = 'Tambah'
                 @endphp
             @endif
-            Data Mahasiswa
+            Data Mahasiswa Alumni
         </h1>
       </div>
 
@@ -36,13 +36,13 @@
                     <div class="col-12 col-md-6 col-lg-6">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Form Mahasiswa</h4>
+                                <h4>Form Mahasiswa Alumni</h4>
                             </div>
                             
                             <div class="card-body">
                                 <div class="form-group row">
                                     <label class="col-sm-12 col-form-label">
-                                        Nama Mahasiswa<sup class="text-danger">*</sup>
+                                        Nama Mahasiswa/Alumni<sup class="text-danger">*</sup>
                                     </label>
 
                                     <div class="col-sm-12">
@@ -173,11 +173,11 @@
                                     <div class="col-sm-12">
                                         <select name="jurusan_id" id="jurusan_id"
                                             class="form-control @error('jurusan_id')
-                                            is-invalid @enderror">
+                                            is-invalid @enderror select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true">
                                             <option value="" selected="" disabled="">Pilih Jurusan</option>
                                             @foreach ($jurusan as $item)
                                                 <option value="{{ $item->id }}"
-                                                    {{ old('jurusan_id', @$mahasiswa->jurusan_id) == $item->id ? 'selected' : '' }}>
+                                                    {{ old('jurusan_id', @$mahasiswa->programStudi->jurusan_id) == $item->id ? 'selected' : '' }}>
                                                     {{ $item->name }}
                                                 </option>
                                             @endforeach
@@ -197,7 +197,7 @@
                                     </label>
 
                                     <div class="col-sm-12">
-                                        <select name="program_studi_id" id="program_studi_id"
+                                        {{-- <select name="program_studi_id" id="program_studi_id"
                                             class="form-control @error('program_studi_id')
                                             is-invalid @enderror">
                                             <option value="" selected="" disabled="">Pilih Program Studi</option>
@@ -207,7 +207,23 @@
                                                     {{ $item->name }}
                                                 </option>
                                             @endforeach
-                                        </select>
+                                        </select> --}}
+                                        <div class="input-group">
+                                            <select name="program_studi_id"
+                                                id="program_studi_id"class="form-control select2 @error('program_studi_id') is-invalid @enderror select2-hidden-accessible @error('program_studi_id') is-invalid @enderror"
+                                                tabindex="-1" aria-hidden="true" required>
+                                                <option selected disabled>
+                                                    Pilih Program Studi
+                                                </option>
+
+                                                @if (isset($mahasiswa->program_studi_id))
+                                                    <option value="{{ $mahasiswa->program_studi_id }}" selected>
+                                                        {{ $mahasiswa->programStudi->name }}
+                                                    </option>
+                                                @endif
+                                            </select>
+                                        </div>
+
 
                                         @if ($errors->has('program_studi_id'))
                                             <span class="text-danger">
@@ -439,7 +455,7 @@
 
 @section('script')
 <script>
-    $('#myForm').submit(function(e) {
+        $('#myForm').submit(function(e) {
             let form = this;
             e.preventDefault();
 
@@ -471,5 +487,95 @@
                 }
             });
         }
+
+        $(document).ready(function() {
+
+            if ($('select[name="jurusan_id"]').val()) {
+                let id                      = $('select[name="jurusan_id"]').val();
+                let mahasiswa               = {!! json_encode($mahasiswa ?? null) !!}
+                let oldValue                = {!! json_encode(old('program_studi_id')) !!}
+
+                getProdi(id, mahasiswa, oldValue);
+            }
+
+            function getProdi(id, oldValue = null, prodiId = null) {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ route('prodi') }}" + "/" + id,
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.code == '200') {
+                            $('select[name="program_studi_id"]').empty();
+
+                            $('select[name="program_studi_id"]').append(`
+                                <option disabled selected>
+                                    Pilih Program Studi
+                                </option>`);
+
+                            $.each(data.data, function(key, value) {
+                                if (value.id == (oldValue ? oldValue.program_studi_id : prodiId)) {
+                                    $('select[name="program_studi_id"]').append(`
+                                    <option value="${value.id}" selected>
+                                        ${value.name}
+                                    </option>`);
+                                }else{
+                                    $('select[name="program_studi_id"]').append(`
+                                    <option value="${value.id}">
+                                        ${value.name}
+                                    </option>`);
+                                }
+                            });
+                        }else if(data.code == '404') {
+                            $('select[name="program_studi_id"]').empty();
+
+                            $('select[name="program_studi_id"]').append(`
+                                <option disabled selected>
+                                    Pilih Program Studi
+                                </option>`);
+                        }else{
+                            Swal.fire({
+                                title: 'Error',
+                                text: "Gagal, gagal ambil data!",
+                                icon: 'error',
+                            });
+                        }
+
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            title: 'Error',
+                            text: "Gagal, gagal ambil data!",
+                            icon: 'error',
+                        });
+                        console.log('Error :' + data);
+                    }
+                });
+            }
+
+            $('select[name="jurusan_id"]').on('change', function() {
+                if ($(this).val()) {
+                    getProdi($(this).val());
+                }
+            });
+
+            $('#satuan').on('change', function() {
+                var satuan = $('#satuan').val();
+
+                $('#minimal_pembelian').empty();
+                $('#minimal_pembelian').append(satuan);
+            });
+
+            // Formatter Currency
+            $("input[data-type='currency]", function() {
+                $(".currency").on({
+                    keyup: function() {
+                        formatCurrency($(this));
+                    },
+                    blur: function() {
+                        formatCurrency($(this), "blur");
+                    }
+                });
+            });
+        });
 </script>
 @endsection

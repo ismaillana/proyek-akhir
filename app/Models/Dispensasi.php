@@ -43,6 +43,16 @@ class Dispensasi extends Model
     }
 
     /**
+     * Get the user that owns the Mahasiswa
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
      * Save dokumen.
      *
      * @param  $request
@@ -67,6 +77,7 @@ class Dispensasi extends Model
     {
         $data = User::whereIn('id', $this->nama_mahasiswa)->get();
         // dd($data);
+        
         if ($data->isEmpty()) {
             return null;
         }

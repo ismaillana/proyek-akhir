@@ -9,6 +9,7 @@ use App\Models\Instansi;
 use App\Http\Requests\VerifikasiIjazahRequest;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Crypt;
 use File;
 use Repsonse;
 
@@ -69,7 +70,17 @@ class VerifikasiIjazahController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $verifikasiIjazah = VerifikasiIjazah::find($id);
+        return view ('admin.pengajuan.verifikasi-ijazah.detail', [
+            'verifikasiIjazah'    =>  $verifikasiIjazah,
+            'title'         =>  'Detail Pengajuan Verifikasi Ijazah'
+        ]);
     }
 
     /**

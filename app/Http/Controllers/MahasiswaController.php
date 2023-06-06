@@ -66,14 +66,14 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        $jurusan    =   Jurusan::get();
-        $prodi      =   ProgramStudi::get();
-        $roles      =   Role::all();
+        $jurusan    =   Jurusan::whereHas('programStudi')
+            ->get();
+
+        // $prodi      =   ProgramStudi::whereget();
         
         return view ('admin.mahasiswa.form', [
             'jurusan'   =>  $jurusan,
-            'prodi'     =>  $prodi,
-            'roles'     =>  $roles,
+            // 'prodi'     =>  $prodi,
             'title'     => 'Form Tambah Mahasiswa'
         ]);
     }
@@ -169,9 +169,12 @@ class MahasiswaController extends Controller
             abort(404);
         }
 
-        $mahasiswa = Mahasiswa::findOrFail($id);
-        $jurusan   = Jurusan::oldest('name')->get();
-        $prodi     = ProgramStudi::oldest('name')->get();
+        $mahasiswa = Mahasiswa::find($id);
+        // $jurusan   = Jurusan::oldest('name')->get();
+        // $prodi     = ProgramStudi::oldest('name')->get();
+        $jurusan = Jurusan::all();
+        $prodi = ProgramStudi::where('jurusan_id', $mahasiswa->programStudi->jurusan_id)
+            ->get();
 
         return view ('admin.mahasiswa.form', [
             'mahasiswa' => $mahasiswa,
@@ -244,5 +247,35 @@ class MahasiswaController extends Controller
     public function destroy(string $id)
     {
         
+    }
+
+    public function prodi($jurusanId)
+    {
+        $prodi = ProgramStudi::where('jurusan_id', $jurusanId)
+            ->orderBy('name')
+            ->get();
+
+        $message = '';
+        $status = '';
+        $code = '';
+
+        if ($prodi->isEmpty()) {
+            $message = 'Data Tidak Ada';
+            $status = 'success';
+            $code = '404';
+        }
+
+        $message = 'Berhasil Ambil Data';
+        $status = 'success';
+        $code = '200';
+
+        $response = [
+            'message' => $message,
+            'status' => $status,
+            'code' => $code,
+            'data' => $prodi
+        ];
+
+        return response()->json($response);
     }
 }

@@ -8,6 +8,7 @@ use App\Models\Mahasiswa;
 use App\Models\Dispensasi;
 
 use App\Http\Requests\DispensasiRequest;
+use Illuminate\Support\Facades\Crypt;
 
 class DispensasiController extends Controller
 {
@@ -29,10 +30,14 @@ class DispensasiController extends Controller
      */
     public function create()
     {
-        $mahasiswa = Mahasiswa::where('status', 'Mahasiswa Aktif')
+        $user = User::whereHas('roles', function ($q)
+        {
+            $q->whereIn('name', ['mahasiswa']);
+        })
         ->get();
+
         return view ('user.pengajuan.dispensasi.form', [
-            'mahasiswa' => $mahasiswa,
+            'user' => $user,
             'title'         => 'Dispensasi Perkuliahan'
         ]);
     }
@@ -73,7 +78,19 @@ class DispensasiController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $dispensasi = Dispensasi::find($id);
+        $data = Mahasiswa::whereIn('user_id', $dispensasi['nama_mahasiswa'])->get();
+        return view ('admin.pengajuan.dispensasi.detail', [
+            'dispensasi'    =>  $dispensasi,
+            'data'          =>  $data,
+            'title'         =>  'Detail Pengajuan Dispensasi'
+        ]);
     }
 
     /**

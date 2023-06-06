@@ -36,7 +36,9 @@ use App\Http\Controllers\BagianAkademikController;
 */
 
 Route::get('/', function () {
-    return view('user.home');
+    return view('user.home',[
+        'title' => 'Pengajuan Pelayanan Administrasi POLSUB'
+    ]);
 });
 // Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -68,12 +70,15 @@ Auth::routes();
                 Route::resource('tempat-pkl', TempatPKLController::class);
                 Route::resource('manajemen-user', UserController::class);
                 Route::resource('pengajuan-aktif-kuliah', AktifKuliahController::class);
+                Route::post('konfirmasi.aktif.kuliah/{id}', [AktifKuliahController::class, 'konfirmasi'])->name('konfirmasi.aktif.kuliah');
                 Route::resource('pengajuan-izin-penelitian', IzinPenelitianController::class);
                 Route::resource('pengajuan-verifikasi-ijazah', VerifikasiIjazahController::class);
                 Route::resource('pengajuan-legalisir', LegalisirController::class);
+                Route::post('update-status-legalisir/{id}', [LegalisirController::class, 'updateStatus'])->name('update-status-legalisir');
                 Route::resource('pengajuan-dispensasi', DispensasiController::class);
                 Route::resource('pengajuan-pengantar-pkl', PengantarPklController::class);
                 Route::get('import-excel', [MahasiswaController::class, 'createImport'])->name('import-excel');
+                Route::get('mahasiswa-prodi/{jurusan?}', [MahasiswaController::class, 'prodi'])->name('prodi');
         });
     });
 

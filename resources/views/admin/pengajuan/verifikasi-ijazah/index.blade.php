@@ -1,6 +1,6 @@
 @extends('layout.backend.base')
 @section('content')
-<div class="main-content">
+  <div class="main-content">
     <section class="section">
       <div class="section-header">
         <h1>Tabel Data Pengajuan Verifikasi Ijazah</h1>
@@ -15,12 +15,6 @@
                     <h4>
                         Data Pengajuan Verifikasi Ijazah
                     </h4>
-
-                    {{-- <a href="{{ route('prodi.create') }}"
-                        class="btn btn-outline-success btn-lg d-flex align-items-center ">
-                        <i class="fa fa-plus pr-2"></i>
-                        Tambah
-                    </a> --}}
                 </div>
               </div>
               <div class="card-body">
@@ -28,84 +22,115 @@
                   <table class="table table-striped" id="myTable">
                     <thead>
                       <tr>
-                        <th class="text-center">
+                        <th style="width: 10%">
                             #
                         </th>
-                        <th class="text-center">
+
+                        <th>
                             Pengaju
                         </th>
-                        <th class="text-center">
+
+                        <th>
                             Nama Mahasiswa
                         </th>
-                        <th class="text-center">
+
+                        <th>
                             NIM
                         </th>
-                        <th class="text-center">
+
+                        <th>
                             Nomor Ijazah
                         </th>
-                        <th class="text-center">
+
+                        <th>
                             Tahun Lulus
                         </th>
+
                         <th class="text-center">
                             Dokumen
                         </th>
+
                         <th class="text-center">
                             Status
                         </th>
+
                         <th class="text-center">
                             Aksi
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                    @foreach ($verifikasiIjazah as $item)
-                        <tr class="text-center">
-                            <td>
-                                {{$loop->iteration}}
-                            </td>
-                            <td>
-                                {{@$item->instansi->user->name}}
-                            </td>
-                            <td>
-                                {{$item->name}}
-                            </td>
-                            <td>
-                                {{$item->nim}}
-                            </td>
-                            <td>
-                                {{$item->no_ijazah}}
-                            </td>
-                            <td>
-                                {{$item->tahun_lulus}}
-                            </td>
-                            <td>
-                                <a href="{{ asset('storage/public/dokumen/verifikasi-ijazah/'. $item->dokumen)}}" download="{{$item->dokumen}}">
-                                    <button class="badge badge-primary" type="button">
-                                        Download
-                                    </button>
-                                </a>
-                            </td>
-                            <td>
-                                @if ($item->status == 'Menunggu Konfirmasi')
-                                    <span class="badge badge-warning">Menunggu Konfirmasi</span>
-                                @elseif ($item->status == 'Diproses')
-                                    <span class="badge badge-warning">Menunggu Konfirmasi</span>
-                                @else
-                                    <span class="badge badge-success">Selesai</span>
-                                @endif
-                            </td>
-                            
-                            <td>
-                                <a href="{{ route('pengajuan-aktif-kuliah.edit', $item->id) }}" class="btn btn-sm btn-outline-warning">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-                                <button value="{{ route('pengajuan-aktif-kuliah.destroy', $item->id) }}"
-                                    class="btn btn-sm btn-outline-danger delete"> 
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    @endforeach
+                        @foreach ($verifikasiIjazah as $item)
+                            <tr>
+                                <td>
+                                    {{$loop->iteration}}
+                                </td>
+
+                                <td>
+                                    {{@$item->instansi->user->name}}
+                                </td>
+
+                                <td>
+                                    {{$item->name}}
+                                </td>
+                                
+                                <td>
+                                    {{$item->nim}}
+                                </td>
+
+                                <td>
+                                    {{$item->no_ijazah}}
+                                </td>
+
+                                <td>
+                                    {{$item->tahun_lulus}}
+                                </td>
+
+                                <td class="text-center">
+                                    <a href="{{ asset('storage/public/dokumen/verifikasi-ijazah/'. $item->dokumen)}}" download="{{$item->dokumen}}">
+                                        <button class="badge badge-primary" type="button">
+                                            Download
+                                        </button>
+                                    </a>
+                                </td>
+                                
+                                <td class="text-center">
+                                    @if ($item->status == 'Menunggu Konfirmasi')
+                                        <span class="badge badge-warning">Menunggu Konfirmasi</span>
+                                    @elseif ($item->status == 'Diproses')
+                                        <span class="badge badge-warning">Menunggu Konfirmasi</span>
+                                    @else
+                                        <span class="badge badge-success">Selesai</span>
+                                    @endif
+                                </td>
+                                
+                                <td class="text-center">
+                                    <a href="{{ route('pengajuan-verifikasi-ijazah.show',  Crypt::encryptString($item->id)) }}"
+                                        class="btn btn-sm btn-outline-secondary" title="Detail">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                            width="16" height="16" viewBox="0 0 24 24"
+                                            stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </a>
+
+                                    <a href="{{ route('pengajuan-verifikasi-ijazah.edit', $item->id) }}" class="btn btn-sm btn-outline-warning">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    
+                                    <a href="{{ route('pengajuan-verifikasi-ijazah.edit', $item->id) }}" class="btn btn-sm btn-outline-warning" title="update status">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                            height="16" fill="none" viewBox="0 0 24 24"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M5 11l7-7 7 7M5 19l7-7 7 7" />
+                                        </svg>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                   </table>
                 </div>

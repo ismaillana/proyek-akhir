@@ -10,6 +10,7 @@ use App\Models\Legalisir;
 use App\Models\JenisLegalisir;
 
 use App\Http\Requests\LegalisirRequest;
+use Illuminate\Support\Facades\Crypt;
 
 class LegalisirController extends Controller
 {
@@ -19,7 +20,7 @@ class LegalisirController extends Controller
     public function index()
     {
         $legalisir = Legalisir::get();
-
+        
         return view ('admin.pengajuan.legalisir.index', [
             'legalisir' => $legalisir,
             'title'     => 'Legalisir'
@@ -48,13 +49,10 @@ class LegalisirController extends Controller
 
         $alumni       = Mahasiswa::whereUserId($user->id)->first();
         
-        $ijazah       = Ijazah::whereMahasiswaId($alumni->id)->first();
-        
         $dokumen = Legalisir::saveDokumen($request);
         
         $data = ([
             'mahasiswa_id'              => $alumni->id,
-            'ijazah_id'                 => $ijazah->id,
             'keperluan'                 => $request->keperluan,
             'pekerjaan_terakhir'        => $request->pekerjaan_terakhir,
             'tempat_pekerjaan_terakhir' => $request->tempat_pekerjaan_terakhir,
@@ -72,7 +70,17 @@ class LegalisirController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $legalisir = Legalisir::find($id);
+        return view ('admin.pengajuan.legalisir.detail', [
+            'legalisir'    =>  $legalisir,
+            'title'         =>  'Detail Pengajuan Legalisir'
+        ]);
     }
 
     /**
@@ -80,7 +88,7 @@ class LegalisirController extends Controller
      */
     public function edit(string $id)
     {
-        //
+    
     }
 
     /**
@@ -97,6 +105,23 @@ class LegalisirController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function updateStatus(Request $request, string $id)
+    {
+
+        $legalisir = Legalisir::find($id);
+
+        $data = [
+            'status'  =>  $request->status
+        ];
+
+        Legalisir::where('id', $id)->update($data);
+
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
 
 }

@@ -21,7 +21,7 @@ class Jurusan extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function programStudi(): HasMany
+    public function programStudi()
     {
         return $this->hasMany(ProgramStudi::class);
     }

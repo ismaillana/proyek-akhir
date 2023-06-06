@@ -93,7 +93,7 @@
                 </li>
                 <li class="{{ request()->is('menu-admin/mahasiswa*') ? 'active' : ''}}">
                   <a class="nav-link" href="{{route('mahasiswa.index')}}">
-                    Mahasiswa
+                    Mahasiswa Alumni
                   </a>
                 </li>
                 <li class="{{ request()->is('menu-admin/instansi*') ? 'active' : ''}}">

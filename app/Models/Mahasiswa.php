@@ -174,7 +174,7 @@ class Mahasiswa extends Model
      */
     public function scopeFilter($query, $param)
     {
-        // If filter by jenis produk exist
+        // If filter by status produk exist
         $query->when($param->status ?? false, fn ($query, $status) => $query->where('status', $status));
     }
 }

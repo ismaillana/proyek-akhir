@@ -89,4 +89,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(BagianAkademik::class);
     }
+
+    /**
+     * Get all of the Admin Jurusan for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function dispensasi(): HasMany
+    {
+        return $this->hasMany(Dispensasi::class);
+    }
 }

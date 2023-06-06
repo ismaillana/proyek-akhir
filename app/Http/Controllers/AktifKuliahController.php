@@ -8,6 +8,8 @@ use App\Models\Mahasiswa;
 use App\Models\User;
 
 use App\Http\Requests\AktifKuliahRequest;
+use App\Http\Requests\KonfirmasiRequest;
+use Illuminate\Support\Facades\Crypt;
 
 class AktifKuliahController extends Controller
 {
@@ -49,16 +51,6 @@ class AktifKuliahController extends Controller
 
         AktifKuliah::create([
             'mahasiswa_id'  => $mahasiswa->id,
-            'tempat_lahir'  => $request->tempat_lahir,
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'semester'      => $request->semester,
-            'tahun_ajaran'  => $request->tahun_ajaran,
-            'orang_tua'     => $request->orang_tua,
-            'pekerjaan'     => $request->pekerjaan,
-            'nip_nrp'       => $request->nip_nrp,
-            'pangkat'       => $request->pangkat,
-            'jabatan'       => $request->jabatan,
-            'instansi'      => $request->instansi,
             'keperluan'     => $request->keperluan,
         ]);
 
@@ -70,7 +62,17 @@ class AktifKuliahController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $aktifKuliah = AktifKuliah::find($id);
+        return view ('admin.pengajuan.surat-aktif-kuliah.detail', [
+            'aktifKuliah'    =>  $aktifKuliah,
+            'title'         =>  'Detail Pengajuan Keterangan Aktif Kuliah'
+        ]);
     }
 
     /**
@@ -95,5 +97,20 @@ class AktifKuliahController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function konfirmasi(KonfirmasiRequest $request, string $id)
+    {
+        $data = [
+            'status'  => $request->status,
+            'catatan' => $request->catatan,
+        ];
+
+        AktifKuliah::where('id', $id)->update($data);
+
+        return redirect()->route('pengajuan-aktif-kuliah.index')->with('success', 'Data Berhasil Diubah');
     }
 }

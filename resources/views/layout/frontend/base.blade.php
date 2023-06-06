@@ -8,7 +8,13 @@
   <meta name="description" content="An impressive and flawless site template that includes various UI elements and countless features, attractive ready-made blocks and rich pages, basically everything you need to create a unique and professional website.">
   <meta name="keywords" content="bootstrap 5, business, corporate, creative, gulp, marketing, minimal, modern, multipurpose, one page, responsive, saas, sass, seo, startup">
   <meta name="author" content="elemis">
-  <title>Sandbox - Modern & Multipurpose Bootstrap 5 Template</title>
+
+  @hasSection('title')
+        <title>@yield('title')</title>
+  @else
+        <title>{{ $title ?? config('app.name') }}</title>
+  @endif
+  
   <link rel="shortcut icon" href="{{ asset('template/assets/img/favicon.png')}}">
   <link rel="stylesheet" href="{{ asset('template/assets/css/plugins.css')}}">
   <link rel="stylesheet" href="{{ asset('template/assets/css/style.css')}}">

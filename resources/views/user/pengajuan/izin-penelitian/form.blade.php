@@ -1,155 +1,131 @@
 @extends('layout.frontend.base')
 
 @section('content')
-  <section class="wrapper bg-soft-primary">
-    <div class="container pt-10 pb-15 pt-md-14 pb-md-20 text-center">
-      <div class="row">
-        <div class="col-lg-8 mx-auto">
-          <h3 class="display-1 mb-2">Form Pengajuan</h3>
+  <section class="wrapper bg-dark angled lower-start">
+    <div class="container py-14 pt-md-10 pb-md-21">
+      <div class="row gx-lg-8 gx-xl-12 gy-10 gy-lg-0 mb-2 align-items-end">
+        <div class="col-lg-12 text-center">
+          <h2 class="fs-16 text-uppercase text-line text-primary mb-3">Pengajuan</h2>
+          <h3 class="display-4 text-center text-white">Surat Izin Penelitian</h3>
         </div>
       </div>
     </div>
   </section>
   <!-- /section -->
-  <section class="wrapper bg-light angled upper-end">
-    <div class="container pb-11">
-      <div class="row mb-14 mb-md-16">
-        <div class="col-xl-10 mx-auto mt-n19">
+  <section class="wrapper bg-light angled upper-end lower-start">
+    <div class="container py-16 py-md-18 position-relative">
+      <div class="position-relative mt-n18 mt-md-n23">
+        <div class="shape rounded-circle bg-line primary rellax w-18 h-18" data-rellax-speed="1" style="top: -2rem; right: -2.7rem; z-index:0;"></div>
+        <div class="shape rounded-circle bg-soft-primary rellax w-18 h-18" data-rellax-speed="1" style="bottom: -1rem; left: -3rem; z-index:0;"></div>
+        
+          <div class="row">
+            <div class="col-12">
+              <div class="card card-border-start border-primary">
+                <div class="card-header">
+                    <h4>
+                        Form Surat Izin Penelitian
+                    </h4>
+                </div>
+  
+                <div class="card-body">
+                  <div class="accordion accordion-wrapper" id="accordionExample">
+                    <div class="card plain accordion-item">
+                      <div class="card-header" id="headingOne">
+                        <button class="collapsed" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                          Pastikan Data Benar & Lengkap<sup class="text-danger">*</sup></button>
+                      </div>
           
-          <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST" 
-            action="{{route('izin-penelitian.store')}}">
-            {{ csrf_field() }}
-            <div class="card">
-              <div class="card-header">
-                  <h4 class="display-4 mt-3  text-center">
-                      Surat Izin Penelitian
-                  </h4>
-              </div>
-
-              <div class="card-body">
-                <div class="row">
-                    <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                      <div class="row gx-4">
-                        <div class="col-md-12">
-                            <div class="form-floating mb-4">
-                                <input id="mahasiswa_id" type="text" name="mahasiswa_id" class="form-control" 
-                                  value="{{$mahasiswa->user->name}}" readonly>
-
-                                <label for="form_name">
-                                  Nama Mahasiswa <span class="text-danger">*</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-floating mb-4">
-                              <input id="nim" type="text" name="nim" class="form-control" 
-                                value="{{$mahasiswa->nim}}" readonly>
-
-                              <label for="form_nim">
-                                NIM <span class="text-danger">*</span>
-                              </label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-floating mb-4">
-                              <input id="jurusan" type="text" name="jurusan" class="form-control" 
-                                value="{{$mahasiswa->jurusan->name}}" readonly>
-
-                              <label for="form_jurusan">
-                                Jurusan<span class="text-danger">*</span>
-                              </label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-floating mb-4">
-                              <input id="prodi" type="text" name="prodi" class="form-control" 
-                                value="{{$mahasiswa->programStudi->name}}" readonly>
-
-                              <label for="form_prodi">
-                                Program Studi<span class="text-danger">*</span>
-                              </label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-floating mb-4">
-                              <input id="nama_tempat" type="text" name="nama_tempat" class="form-control @error('nama_tempat')is-invalid @enderror" 
-                                value="{{ old('nama_tempat', @$izinPenelitian->name_tempat) }}" placeholder="Nama Tempat Penelitian (Instansi)">
-                              
-                              <label for="form_nama_tempat">
-                                Nama Tempat Penelitian (Instansi)<span class="text-danger">*</span>
-                              </label>
-
-                              @if ($errors->has('nama_tempat'))
-                                  <span class="text-danger">{{ $errors->first('nama_tempat') }}</span>
-                              @endif
-                            </div>
-                        </div>
-                      
-                        <div class="col-12">
-                            <div class="form-floating mb-4">
-                              <textarea id="alamat_penelitian" name="alamat_penelitian" class="form-control @error('alamat_penelitian')is-invalid @enderror" 
-                                style="height: 150px" placeholder="Alamat Lengkap">{{ old('alamat_penelitian', @$aktifKuliah->alamat_penelitian) }}</textarea>
-                              
-                              <label for="form_message">
-                                Alamat Lengkap <span class="text-danger">*</span>
-                              </label>
-
-                              @if ($errors->has('alamat_penelitian'))
-                                  <span class="text-danger">{{ $errors->first('alamat_penelitian') }}</span>
-                              @endif
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-floating mb-4">
-                              <input id="tujuan_surat" type="text" name="tujuan_surat" class="form-control @error('tujuan_surat')is-invalid @enderror" 
-                                value="{{ old('tujuan_surat', @$izinPenelitian->tujuan_surat) }}" placeholder="Ditujukan Kepada">
-                              
-                              <label for="form_tujuan_surat">
-                                Ditujukan Kepada<span class="text-danger">*</span>
-                              </label>
-
-                              @if ($errors->has('tujuan_surat'))
-                                  <span class="text-danger">{{ $errors->first('tujuan_surat') }}</span>
-                              @endif
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-floating mb-4">
-                              <input id="perihal" type="text" name="perihal" class="form-control @error('perihal')is-invalid @enderror"  
-                                value="{{ old('perihal', @$izinPenelitian->perihal) }}" placeholder="Perihal">
-                              
-                              <label for="form_perihal">
-                                Perihal<span class="text-danger">*</span>
-                              </label>
-
-                              @if ($errors->has('perihal'))
-                                  <span class="text-danger">{{ $errors->first('perihal') }}</span>
-                              @endif
-                            </div>
-                        </div>
-
-                        <div class="col-12 text-center">
-                          <button type="submit" class="btn btn-primary rounded-pill btn-send mb-3" id="btnSubmit">
-                            Kirim Pengajuan
-                            <span class="spinner-border ml-2 d-none" id="loader"
-                                style="width: 1rem; height: 1rem;" role="status">
-                            </span>
-                          </button>
+                      <div id="collapseOne" class="accordion-collapse collapse hide" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="card-body">
+                          <ul class="unordered-list bullet-primary">
+                            <li>
+                              Nama Mahasiswa: {{(@$mahasiswa->user->name)}}
+                            </li>
+                            <li>NIM: {{(@$mahasiswa->nim)}}</li>
+                            <li>Jurusan: {{@$mahasiswa->jurusan->name}}</li>
+                            <li>Program Studi: {{@$mahasiswa->programStudi->name}}</li>
+                          </ul>
                         </div>
                       </div>
                     </div>
                   </div>
+  
+                  <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST" 
+                    action="{{route('izin-penelitian.store')}}">
+                    {{ csrf_field() }}
+                      <div class="col-md-12">
+                          <div class="form-floating mb-4">
+                            <input id="nama_tempat" type="text" name="nama_tempat" class="form-control @error('nama_tempat')is-invalid @enderror" 
+                              value="{{ old('nama_tempat', @$izinPenelitian->name_tempat) }}" placeholder="Nama Tempat Penelitian (Instansi)">
+                            
+                            <label for="form_nama_tempat">
+                              Nama Tempat Penelitian (Instansi)<span class="text-danger">*</span>
+                            </label>
+  
+                            @if ($errors->has('nama_tempat'))
+                                <span class="text-danger">{{ $errors->first('nama_tempat') }}</span>
+                            @endif
+                          </div>
+                      </div>
+                    
+                      <div class="col-12">
+                          <div class="form-floating mb-4">
+                            <textarea id="alamat_penelitian" name="alamat_penelitian" class="form-control @error('alamat_penelitian')is-invalid @enderror" 
+                              style="height: 150px" placeholder="Alamat Lengkap">{{ old('alamat_penelitian', @$aktifKuliah->alamat_penelitian) }}</textarea>
+                            
+                            <label for="form_message">
+                              Alamat Lengkap <span class="text-danger">*</span>
+                            </label>
+  
+                            @if ($errors->has('alamat_penelitian'))
+                                <span class="text-danger">{{ $errors->first('alamat_penelitian') }}</span>
+                            @endif
+                          </div>
+                      </div>
+  
+                      <div class="col-md-12">
+                          <div class="form-floating mb-4">
+                            <input id="tujuan_surat" type="text" name="tujuan_surat" class="form-control @error('tujuan_surat')is-invalid @enderror" 
+                              value="{{ old('tujuan_surat', @$izinPenelitian->tujuan_surat) }}" placeholder="Ditujukan Kepada">
+                            
+                            <label for="form_tujuan_surat">
+                              Ditujukan Kepada<span class="text-danger">*</span>
+                            </label>
+  
+                            @if ($errors->has('tujuan_surat'))
+                                <span class="text-danger">{{ $errors->first('tujuan_surat') }}</span>
+                            @endif
+                          </div>
+                      </div>
+  
+                      <div class="col-md-12">
+                          <div class="form-floating mb-4">
+                            <input id="perihal" type="text" name="perihal" class="form-control @error('perihal')is-invalid @enderror"  
+                              value="{{ old('perihal', @$izinPenelitian->perihal) }}" placeholder="Perihal">
+                            
+                            <label for="form_perihal">
+                              Perihal<span class="text-danger">*</span>
+                            </label>
+  
+                            @if ($errors->has('perihal'))
+                                <span class="text-danger">{{ $errors->first('perihal') }}</span>
+                            @endif
+                          </div>
+                      </div>
+  
+                      <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary rounded-pill btn-send mb-3" id="btnSubmit">
+                          Kirim Pengajuan
+                          <span class="spinner-border ml-2 d-none" id="loader"
+                              style="width: 1rem; height: 1rem;" role="status">
+                          </span>
+                        </button>
+                      </div>
+                  </form>
                 </div>
               </div>
             </div>
-          </form>
-        </div>
+          </div>
       </div>
     </div>
   </section>

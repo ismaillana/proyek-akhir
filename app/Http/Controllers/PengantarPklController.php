@@ -8,6 +8,7 @@ use App\Models\Mahasiswa;
 use App\Models\PengantarPkl;
 
 use App\Http\Requests\PengantarPklRequest;
+use Illuminate\Support\Facades\Crypt;
 
 class PengantarPklController extends Controller
 {
@@ -29,11 +30,14 @@ class PengantarPklController extends Controller
      */
     public function create()
     {
-        $mahasiswa = Mahasiswa::where('status', 'Mahasiswa Aktif')
+        $user = User::whereHas('roles', function ($q)
+        {
+            $q->whereIn('name', ['mahasiswa']);
+        })
         ->get();
         
         return view ('user.pengajuan.pengantar-pkl.form', [
-            'mahasiswa' => $mahasiswa,
+            'user'      => $user,
             'title'     => 'Pengantar PKL'
         ]);
     }
@@ -69,7 +73,23 @@ class PengantarPklController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $pengantarPkl = PengantarPkl::find($id);
+        // dd($pengantarPkl['nama_mahasiswa']);
+        // $user = User::whereIn('id', $pengantarPkl['nama_mahasiswa'])->get();
+        // dd($data);
+        $data = Mahasiswa::whereIn('user_id', $pengantarPkl['nama_mahasiswa'])->get();
+        // dd($mahasiswa);
+        return view ('admin.pengajuan.pengantar-pkl.detail', [
+            'pengantarPkl'    =>  $pengantarPkl,
+            'data'          => $data,
+            'title'         =>  'Detail Pengajuan Pengantar PKL'
+        ]);
     }
 
     /**

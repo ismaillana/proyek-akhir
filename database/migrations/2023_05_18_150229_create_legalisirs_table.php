@@ -16,9 +16,6 @@ return new class extends Migration
             $table->foreignId('mahasiswa_id')
                 ->constrained()
                 ->cascadeOnUpdate();
-            $table->foreignId('ijazah_id')
-                ->constrained()
-                ->cascadeOnUpdate();
             $table->json('jenis_legalisir_id');
             $table->string('keperluan');
             $table->string('pekerjaan_terakhir');
