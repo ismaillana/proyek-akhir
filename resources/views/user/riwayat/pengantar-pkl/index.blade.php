@@ -10,7 +10,7 @@
         </h2>
 
         <h3 class="display-4 text-center text-white">
-          Legalisir
+          Pengantar PKL
         </h3>
       </div>
     </div>
@@ -26,7 +26,7 @@
               <div class="card card-border-start border-primary">
                 <div class="card-header">
                     <h4>
-                        Form Pengajuan Legalisir
+                        Form Pengajuan Pengantar PKL
                     </h4>
                 </div>
 
@@ -40,7 +40,7 @@
                                   </th>
 
                                   <th scope="col">
-                                    Tanggal
+                                    Tanggal Pengajuan
                                   </th>
 
                                   <th scope="col">
@@ -48,19 +48,15 @@
                                   </th>
 
                                   <th scope="col">
-                                    Catatan
+                                    Aksi
                                   </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @php
-                                    $i = $jumlah;
-
-                                @endphp
-                                @foreach ($log as $item)
+                                @foreach ($pengantarPkl as $item)
                                     <tr>
                                         <th scope="row">
-                                            {{$i}}
+                                            {{$loop->iteration}}
                                         </th>
 
                                         <td>
@@ -70,13 +66,13 @@
                                         <td>
                                             @if ($item->status == 'Menunggu Konfirmasi')
                                                 <span class="badge bg-primary rounded-pill">Menunggu Konfirmasi</span>
-                                            @elseif ($item->status == 'Dikonfirmasi')
+                                            @elseif ($item->status == 'Konfirmasi')
                                                 <span class="badge bg-blue rounded-pill">Dikonfirmasi</span>
-                                            @elseif ($item->status == 'Diproses')
+                                            @elseif ($item->status == 'Proses')
                                                 <span class="badge bg-green rounded-pill">Diproses</span>
-                                            @elseif ($item->status == 'Ditolak')
+                                            @elseif ($item->status == 'Tolak')
                                                 <span class="badge bg-red rounded-pill">Ditolak</span>
-                                            @elseif ($item->status == 'Ada Kendala')
+                                            @elseif ($item->status == 'Kendala')
                                                 <span class="badge bg-red rounded-pill">Ada Kendala</span>
                                             @else
                                                 <span class="badge bg-green rounded-pill">Selesai</span>
@@ -84,12 +80,18 @@
                                         </td>
 
                                         <td>
-                                            {{strip_tags($item->catatan)}}
+                                            <a href="{{ route('tracking-pengantar-pkl', $item->id)}}"
+                                                class="btn btn-sm btn-outline-secondary" title="Detail">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    width="16" height="16" viewBox="0 0 24 24"
+                                                    stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </a>
                                         </td>
                                     </tr>
-                                @php
-                                    $i= $i-1;
-                                @endphp
                                 @endforeach
                             </tbody>
                         </table>

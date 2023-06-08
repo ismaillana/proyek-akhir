@@ -10,7 +10,7 @@
         </h2>
 
         <h3 class="display-4 text-center text-white">
-          Legalisir
+          Verifikasi Ijazah
         </h3>
       </div>
     </div>
@@ -20,13 +20,13 @@
   <div class="container py-16 py-md-18 position-relative">
     <div class="position-relative mt-n18 mt-md-n23">
       <div class="shape rounded-circle bg-line primary rellax w-18 h-18" data-rellax-speed="1" style="top: -2rem; right: -2.7rem; z-index:0;"></div>
-      <div class="shape rounded-circle bg-soft-primary rellax w-18 h-18" data-rellax-speed="1" style="bottom: -1rem; left: -3rem; z-index:0;"></div>
+      <div class="shape rounded-circle bg-soft-primary rellax w-18 h-18" data-rellax-speed="1" style="bottom: -1rem; left: -3rem; z-index:0;"></div>   
         <div class="row">
           <div class="col-12">
               <div class="card card-border-start border-primary">
                 <div class="card-header">
                     <h4>
-                        Form Pengajuan Legalisir
+                        Form Pengajuan Verifikasi Ijazah
                     </h4>
                 </div>
 

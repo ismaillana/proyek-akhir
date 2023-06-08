@@ -60,7 +60,7 @@ class Mahasiswa extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ijazah(): HasMany
+    public function ijazah()
     {
         return $this->hasMany(Ijazah::class);
     }
@@ -70,7 +70,7 @@ class Mahasiswa extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function aktifKuliah(): HasMany
+    public function aktifKuliah()
     {
         return $this->hasMany(AktifKuliah::class);
     }
@@ -80,7 +80,7 @@ class Mahasiswa extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function izinPenelitian(): HasMany
+    public function izinPenelitian()
     {
         return $this->hasMany(IzinPenelitian::class);
     }
@@ -110,7 +110,7 @@ class Mahasiswa extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function pengantarPkl(): HasMany
+    public function pengantarPkl()
     {
         return $this->hasMany(PengantarPkl::class);
     }

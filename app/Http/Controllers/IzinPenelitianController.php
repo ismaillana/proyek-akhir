@@ -31,12 +31,17 @@ class IzinPenelitianController extends Controller
     public function create()
     {
         $user = auth()->user();
+    
+        $mahasiswa       = Mahasiswa::with(['dispensasi'])->whereUserId($user->id)
+            ->first();
 
-        $mahasiswa       = Mahasiswa::whereUserId($user->id)
-        ->first();
+        $pengajuan = IzinPenelitian::where('mahasiswa_id', $mahasiswa->id)
+            ->latest()
+            ->first();
 
         return view ('user.pengajuan.izin-penelitian.form',[
             'mahasiswa' => $mahasiswa,
+            'pengajuan' => $pengajuan,
             'title'    => 'Izin Penelitian'
         ]);
     }
@@ -51,12 +56,18 @@ class IzinPenelitianController extends Controller
         $mahasiswa       = Mahasiswa::whereUserId($user->id)
         ->first();
 
-        IzinPenelitian::create([
+        $izinPenelitian = IzinPenelitian::create([
             'mahasiswa_id'      => $mahasiswa->id,
             'nama_tempat'       => $request->nama_tempat,
             'alamat_penelitian' => $request->alamat_penelitian,
             'tujuan_surat'      => $request->tujuan_surat,
             'perihal'           => $request->perihal,
+        ]);
+
+        Log::create([
+            'izin_penelitian_id'  => $izinPenelitian->id,
+            'status'        => 'Menunggu Konfirmasi',
+            'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
         ]);
 
         return redirect()->back()->with('success', 'Pengajuan Berhasil');
@@ -176,5 +187,19 @@ class IzinPenelitianController extends Controller
             ]);
         }
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function riwayat()
+    {
+        $izinPenelitian = IzinPenelitian::where('status', 'Tolak')
+            ->orWhere('status', 'Selesai')
+            ->get();
+        return view ('admin.riwayat.izin-penelitian.index', [
+            'izinPenelitian'   => $izinPenelitian,
+            'title'         => 'Surat Izin Penelitian'
+        ]);
     }
 }

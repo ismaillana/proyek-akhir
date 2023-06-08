@@ -34,7 +34,16 @@ class VerifikasiIjazahController extends Controller
      */
     public function create()
     {
+        $pengaju = auth()->user();
+
+        $instansi       = Instansi::with(['verifikasiIjazah'])->whereUserId($pengaju->id)->first();
+
+        $pengajuan = VerifikasiIjazah::where('instansi_id', $instansi->id)
+            ->latest()
+            ->first();
+
         return view('user.pengajuan.verifikasi-ijazah.form', [
+            'pengajuan' => $pengajuan,
             'title' => 'Verifikasi Ijazah' 
         ]);
     }
@@ -61,7 +70,13 @@ class VerifikasiIjazahController extends Controller
 
         $data['dokumen'] = $dokumen;
 
-        VerifikasiIjazah::create($data);
+        $verifikasiIjazah = VerifikasiIjazah::create($data);
+
+        Log::create([
+            'verifikasi_ijazah_id'  => $verifikasiIjazah->id,
+            'status'        => 'Menunggu Konfirmasi',
+            'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
+        ]);
 
         return redirect()->back()->with('success', 'Pengajuan Berhasil');
     }
@@ -180,6 +195,20 @@ class VerifikasiIjazahController extends Controller
             ]);
         }
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function riwayat()
+    {
+        $verifikasiIjazah = VerifikasiIjazah::where('status', 'Tolak')
+            ->orWhere('status', 'Selesai')
+            ->get();
+        return view ('admin.riwayat.verifikasi-ijazah.index', [
+            'verifikasiIjazah'   => $verifikasiIjazah,
+            'title'         => 'Verifikasi Ijazah'
+        ]);
     }
 
 }

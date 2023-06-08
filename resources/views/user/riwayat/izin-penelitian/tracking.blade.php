@@ -10,7 +10,7 @@
         </h2>
 
         <h3 class="display-4 text-center text-white">
-          Legalisir
+          Surat Izin Penelitian
         </h3>
       </div>
     </div>
@@ -26,7 +26,7 @@
               <div class="card card-border-start border-primary">
                 <div class="card-header">
                     <h4>
-                        Form Pengajuan Legalisir
+                        Form Pengajuan Surat Izin Penelitian
                     </h4>
                 </div>
 
@@ -49,13 +49,11 @@
 
                                   <th scope="col">
                                     Catatan
-                                  </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php
                                     $i = $jumlah;
-
                                 @endphp
                                 @foreach ($log as $item)
                                     <tr>

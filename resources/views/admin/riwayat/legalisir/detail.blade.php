@@ -2,16 +2,15 @@
 @section('content')
 <div class="main-content">
     <section class="section">
-        <div class="section-header">
-            <div class="section-header-back">
-            <a href="{{route('pengajuan-aktif-kuliah.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
-            </div>
-
-            <h1>
-                Detail Pengajuan
-            </h1>
+      <div class="section-header">
+        <div class="section-header-back">
+          <a href="{{route('pengajuan-legalisir.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
         </div>
 
+        <h1>
+            Detail Pengajuan
+        </h1>
+      </div>
         <div class="section-body">
             <div class="row">
                 <div class="col-12">
@@ -19,23 +18,22 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between w-100">
                                 <h4>
-                                    Detail Pengajuan Surat Aktif Kuliah
+                                    Detail Pengajuan Legalisir
                                 </h4>
 
                                 <div class="d-flex">
-
                                 <h4>
                                     Status Pengajuan
                                 </h4>
-                                    @if (@$aktifKuliah->status == 'Menunggu Konfirmasi')
+                                    @if (@$legalisir->status == 'Menunggu Konfirmasi')
                                         <span class="badge badge-warning">Menunggu Konfirmasi</span>
-                                    @elseif (@$aktifKuliah->status == 'Konfirmasi')
+                                    @elseif (@$legalisir->status == 'Konfirmasi')
                                         <span class="badge badge-primary">Dikonfirmasi</span>
-                                    @elseif (@$aktifKuliah->status == 'Proses')
+                                    @elseif (@$legalisir->status == 'Proses')
                                         <span class="badge badge-success">Diproses</span>
-                                    @elseif (@$aktifKuliah->status == 'Tolak')
+                                    @elseif (@$legalisir->status == 'Tolak')
                                         <span class="badge badge-danger">Ditolak</span>
-                                    @elseif (@$aktifKuliah->status == 'Kendala')
+                                    @elseif (@$legalisir->status == 'Kendala')
                                         <span class="badge badge-danger">Ada Kendala</span>
                                     @else
                                         <span class="badge badge-success">Selesai</span>
@@ -54,7 +52,7 @@
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control @error('name')is-invalid @enderror"
                                         id="name" name="name" placeholder="Masukkan Koordinator PKL" 
-                                        value="{{ old('name', @$aktifKuliah->mahasiswa->user->name) }}" disabled readonly>
+                                        value="{{ old('name', @$legalisir->mahasiswa->user->name) }}" disabled readonly>
                                 </div>
                             </div>
 
@@ -66,7 +64,7 @@
                                 <div class="col-sm-9">
                                     <input type="number" class="form-control @error('nomor_induk')is-invalid @enderror"
                                         id="nomor_induk" name="nomor_induk" placeholder="Masukkan NIP" 
-                                        value="{{ old('nim', @$aktifKuliah->mahasiswa->nim) }}" disabled readonly>
+                                        value="{{ old('nim', @$legalisir->mahasiswa->nim) }}" disabled readonly>
                                 </div>
                             </div>
 
@@ -78,30 +76,67 @@
                                 <div class="col-sm-9">
                                     <input type="" class="form-control @error('created_at')is-invalid @enderror"
                                         id="created_at" name="created_at" placeholder="" 
-                                        value="{{ old('created_at', @$aktifKuliah->created_at) }}" disabled readonly>
+                                        value="{{ old('created_at', @$legalisir->created_at) }}" disabled readonly>
                                 </div>
                             </div>
 
                             <div class="form-group row mb-4">
-                                <label for="name" class="col-sm-3 col-form-label">
-                                    Keperluan <sup class="text-danger">*</sup>
+                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
+                                    Keperluan<sup class="text-danger">*</sup>
                                 </label>
 
                                 <div class="col-sm-9">
-                                    <textarea name="keperluan" class="form-control" id="keperluan" cols="30" rows="10"
-                                        placeholder="Masukan Keperluan" readonly disabled>{{ old('keperluan', @$aktifKuliah->keperluan) }}</textarea>
+                                    <input type="text" class="form-control @error('keperluan')is-invalid @enderror"
+                                        id="keperluan" name="keperluan" placeholder="" 
+                                        value="{{ old('keperluan', @$legalisir->keperluan) }}" disabled readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-4">
+                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
+                                    Pekerjaan Terakhir<sup class="text-danger">*</sup>
+                                </label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control @error('pekerjaan_terakhir')is-invalid @enderror"
+                                        id="pekerjaan_terakhir" name="pekerjaan_terakhir" placeholder="" 
+                                        value="{{ old('pekerjaan_terakhir', @$legalisir->pekerjaan_terakhir) }}" disabled readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-4">
+                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
+                                    Tempat Kerja Terakhir<sup class="text-danger">*</sup>
+                                </label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control @error('tempat_pekerjaan_terakhir')is-invalid @enderror"
+                                        id="tempat_pekerjaan_terakhir" name="tempat_pekerjaan_terakhir" placeholder="" 
+                                        value="{{ old('tempat_pekerjaan_terakhir', @$legalisir->tempat_pekerjaan_terakhir) }}" disabled readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-4">
+                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
+                                    Jenis Dokumen Legalisir<sup class="text-danger">*</sup>
+                                </label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control @error('jenis_legalisir_id')is-invalid @enderror"
+                                        id="jenis_legalisir_id" name="jenis_legalisir_id" placeholder="" 
+                                        value="{{ old('jenis_legalisir_id', @$legalisir->jenis_legalisir) }}" disabled readonly>
                                 </div>
                             </div>
                             <hr>
-                            @if (@$aktifKuliah->status == "Menunggu Konfirmasi")
+                            @if (@$legalisir->status == "Menunggu Konfirmasi")
                                 <div class="text-md-right">
                                     <div class="float-lg-left mb-lg-0 mb-3">
-                                        <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$aktifKuliah->id}}">
+                                        <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$legalisir->id}}">
                                             <i class="fas fa-check"></i> 
                                             Konfirmasi
                                         </button>
 
-                                        <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$aktifKuliah->id}}">
+                                        <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$legalisir->id}}">
                                             <i class="fas fa-times"></i> 
                                             Tolak
                                         </button>
@@ -128,9 +163,9 @@
     </section>
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="konfirmasi{{$aktifKuliah->id}}">
+<div class="modal fade" tabindex="-1" role="dialog" id="konfirmasi{{$legalisir->id}}">
     <div class="modal-dialog" role="document">
-        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('konfirmasi-aktif-kuliah', $aktifKuliah->id)}}" method="POST">
+        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('konfirmasi-legalisir', $legalisir->id)}}" method="POST">
             @csrf
             <div class="modal-content">
                 <div class="modal-header">
@@ -163,9 +198,9 @@
     </div>
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="tolak{{$aktifKuliah->id}}">
+<div class="modal fade" tabindex="-1" role="dialog" id="tolak{{$legalisir->id}}">
     <div class="modal-dialog" role="document">
-        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('tolak-aktif-kuliah', $aktifKuliah->id)}}" method="POST">
+        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('tolak-legalisir', $legalisir->id)}}" method="POST">
             @csrf
             <div class="modal-content">
                 <div class="modal-header">
@@ -186,7 +221,7 @@
 
                         <div class="col-sm-9">
                             <textarea name="catatan" class="summernote-simple" id="catatan" cols="30" rows="10"
-                                placeholder="Masukan Catatan">{{ old('catatan', @$aktifKuliah->catatan) }}</textarea>
+                                placeholder="Masukan Catatan">{{ old('catatan', @$legalisir->catatan) }}</textarea>
                             
                             @if ($errors->has('catatan'))
                                 <span class="text-danger">
@@ -210,5 +245,4 @@
         </form>
     </div>
 </div>
-
 @endsection

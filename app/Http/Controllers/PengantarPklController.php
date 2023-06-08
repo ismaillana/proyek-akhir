@@ -31,6 +31,14 @@ class PengantarPklController extends Controller
      */
     public function create()
     {
+        $pengaju = auth()->user();
+
+        $mahasiswa       = Mahasiswa::with(['pengantarPkl'])->whereUserId($pengaju->id)->first();
+
+        $pengajuan = PengantarPkl::where('mahasiswa_id', $mahasiswa->id)
+            ->latest()
+            ->first();
+
         $user = User::whereHas('roles', function ($q)
         {
             $q->whereIn('name', ['mahasiswa']);
@@ -39,6 +47,7 @@ class PengantarPklController extends Controller
         
         return view ('user.pengajuan.pengantar-pkl.form', [
             'user'      => $user,
+            'pengajuan' => $pengajuan,
             'title'     => 'Pengantar PKL'
         ]);
     }
@@ -64,7 +73,13 @@ class PengantarPklController extends Controller
             'nama_mahasiswa'   => $request->nama_mahasiswa
         ]);
 
-        PengantarPkl::create($data);
+        $pengantarPkl = PengantarPkl::create($data);
+
+        Log::create([
+            'pengantar_pkl_id'  => $pengantarPkl->id,
+            'status'        => 'Menunggu Konfirmasi',
+            'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
+        ]);
 
         return redirect()->back()->with('success', 'Pengajuan Berhasil');
     }
@@ -189,5 +204,19 @@ class PengantarPklController extends Controller
             ]);
         }
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function riwayat()
+    {
+        $pengantarPkl = PengantarPkl::where('status', 'Tolak')
+            ->orWhere('status', 'Selesai')
+            ->get();
+        return view ('admin.riwayat.pengantar-pkl.index', [
+            'pengantarPkl'   => $pengantarPkl,
+            'title'         => 'Surat Pengantar PKL'
+        ]);
     }
 }

@@ -20,7 +20,7 @@
             </a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
               Pengajuan
             </a>
             <ul class="dropdown-menu">
@@ -62,7 +62,7 @@
             </ul>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
               Riwayat Pengajuan
             </a>
             <ul class="dropdown-menu">
@@ -113,7 +113,7 @@
           </li>
 
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
               Pengajuan
             </a>
             <ul class="dropdown-menu">
@@ -144,43 +144,31 @@
           </li>
 
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" >
               Riwayat Pengajuan
             </a>
             <ul class="dropdown-menu">
               <li class="dropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{route('riwayat-aktif-kuliah')}}">
                   Surat Keterangan Aktif Kuliah
                 </a>
               </li>
 
               <li class="dropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{route('riwayat-pengantar-pkl')}}">
                   Surat Pengantar PKL
                 </a>
               </li>
 
               <li class="dropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{route('riwayat-izin-penelitian')}}">
                   Surat Izin Penelitian
                 </a>
               </li>
 
               <li class="nav-item">
-                <a class="dropdown-item" href="./pricing.html">
+                <a class="dropdown-item" href="{{route('riwayat-dispensasi')}}">
                   Surat Dispensasi
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a class="dropdown-item" href="./onepage.html">
-                  Legalisir
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a class="dropdown-item" href="./onepage.html">
-                  Cek Keaslian Ijazah
                 </a>
               </li>
             </ul>
@@ -195,7 +183,7 @@
           </li>
 
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
               Pengajuan
             </a>
             <ul class="dropdown-menu">
@@ -207,7 +195,7 @@
             </ul>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
               Riwayat Pengajuan
             </a>
             <ul class="dropdown-menu">
@@ -228,7 +216,7 @@
           </li>
 
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
               Pengajuan
             </a>
             <ul class="dropdown-menu">
@@ -240,12 +228,12 @@
             </ul>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
               Riwayat Pengajuan
             </a>
             <ul class="dropdown-menu">
               <li class="nav-item">
-                <a class="dropdown-item" href="">
+                <a class="dropdown-item" href="{{route('riwayat-verifikasi-ijazah')}}">
                   Cek Keaslian Ijazah
                 </a>
               </li>

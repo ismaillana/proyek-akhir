@@ -153,7 +153,8 @@
 @foreach ($legalisir as $legalisir)
   <div class="modal fade" tabindex="-1" role="dialog" id="edit{{$legalisir->id}}">
     <div class="modal-dialog" role="document">
-        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{route('update-status-legalisir', $legalisir->id)}}" method="POST">
+        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{route('update-status-legalisir', $legalisir->id)}}" 
+            method="POST">
             @csrf
             <div class="modal-content">
                 <div class="modal-header">

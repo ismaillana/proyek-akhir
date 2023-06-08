@@ -26,7 +26,7 @@
               <div class="card card-border-start border-primary">
                 <div class="card-header">
                     <h4>
-                        Form Pengajuan Legalisir
+                        Form Pengajuan Surat Dispensasi
                     </h4>
                 </div>
 

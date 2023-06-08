@@ -10,7 +10,7 @@
         </h2>
 
         <h3 class="display-4 text-center text-white">
-          Legalisir
+          Pengantar PKL
         </h3>
       </div>
     </div>
@@ -26,7 +26,7 @@
               <div class="card card-border-start border-primary">
                 <div class="card-header">
                     <h4>
-                        Form Pengajuan Legalisir
+                        Form Pengajuan Pengantar PKL
                     </h4>
                 </div>
 

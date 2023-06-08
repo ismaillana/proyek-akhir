@@ -42,6 +42,16 @@ class PengantarPkl extends Model
         return $this->belongsTo(Mahasiswa::class);
     }
 
+    /**
+     * Get all of the Log for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function log(): HasMany
+    {
+        return $this->hasMany(Log::class);
+    }
+
     public function getGetMahasiswaAttribute()
     {
         $data = User::whereIn('id', $this->nama_mahasiswa)->get();

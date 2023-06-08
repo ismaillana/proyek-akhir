@@ -5,13 +5,8 @@
   <div class="container py-14 pt-md-10 pb-md-21">
     <div class="row gx-lg-8 gx-xl-12 gy-10 gy-lg-0 mb-2 align-items-end">
       <div class="col-lg-12 text-center">
-        <h2 class="fs-16 text-uppercase text-line text-primary mb-3">
-          Pengajuan
-        </h2>
-
-        <h3 class="display-4 text-center text-white">
-          Legalisir
-        </h3>
+        <h2 class="fs-16 text-uppercase text-line text-primary mb-3">Pengajuan</h2>
+        <h3 class="display-4 text-center text-white">Surat Keterangan Aktif Kuliah</h3>
       </div>
     </div>
   </div>
@@ -21,12 +16,13 @@
     <div class="position-relative mt-n18 mt-md-n23">
       <div class="shape rounded-circle bg-line primary rellax w-18 h-18" data-rellax-speed="1" style="top: -2rem; right: -2.7rem; z-index:0;"></div>
       <div class="shape rounded-circle bg-soft-primary rellax w-18 h-18" data-rellax-speed="1" style="bottom: -1rem; left: -3rem; z-index:0;"></div>
+      
         <div class="row">
           <div class="col-12">
               <div class="card card-border-start border-primary">
                 <div class="card-header">
                     <h4>
-                        Form Pengajuan Legalisir
+                        Form Pengajuan Surat Keterangan Aktif Kuliah
                     </h4>
                 </div>
 
@@ -35,21 +31,10 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                  <th scope="col">
-                                    #
-                                  </th>
-
-                                  <th scope="col">
-                                    Tanggal
-                                  </th>
-
-                                  <th scope="col">
-                                    Status
-                                  </th>
-
-                                  <th scope="col">
-                                    Catatan
-                                  </th>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Tanggal</th>
+                                  <th scope="col">Status</th>
+                                  <th scope="col">Catatan</th>
                                 </tr>
                             </thead>
                             <tbody>

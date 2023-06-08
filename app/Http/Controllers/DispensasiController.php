@@ -57,25 +57,20 @@ class DispensasiController extends Controller
         $mahasiswa       = Mahasiswa::with(['dispensasi'])->whereUserId($pengaju->id)->first();
 
         $pengajuan = Dispensasi::where('mahasiswa_id', $mahasiswa->id)
-            ->whereNot('status', 'Selesai')
             ->latest()
             ->first();
-// dd($pengajuan);
 
-// if ($pengajuan) {
-            $user = User::whereHas('roles', function ($q)
-            {
-                $q->whereIn('name', ['mahasiswa']);
-            })
-            ->get();
-            return view ('user.pengajuan.dispensasi.form', [
-                'user' => $user,
-                'pengajuan' => $pengajuan,
-                'title'         => 'Dispensasi Perkuliahan'
-            ]);
-    //     } else {
-    //         return redirect()->back()->with('error', 'Tunggu Pengajuan Sebelumnya Selesai!');
-    // }
+        $user = User::whereHas('roles', function ($q)
+        {
+            $q->whereIn('name', ['mahasiswa']);
+        })
+        ->get();
+
+        return view ('user.pengajuan.dispensasi.form', [
+            'user' => $user,
+            'pengajuan' => $pengajuan,
+            'title'         => 'Dispensasi Perkuliahan'
+        ]);
         
 
     }
@@ -106,7 +101,13 @@ class DispensasiController extends Controller
 
         $data['dokumen'] = $dokumen;
 
-        Dispensasi::create($data);
+        $dispensasi = Dispensasi::create($data);
+
+        Log::create([
+            'dispensasi_id'  => $dispensasi->id,
+            'status'        => 'Menunggu Konfirmasi',
+            'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
+        ]);
 
         return redirect()->back()->with('success', 'Pengajuan Berhasil');
     }
@@ -229,5 +230,19 @@ class DispensasiController extends Controller
             ]);
         }
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function riwayat()
+    {
+        $dispensasi = Dispensasi::where('status', 'Tolak')
+            ->orWhere('status', 'Selesai')
+            ->get();
+        return view ('admin.riwayat.dispensasi.index', [
+            'dispensasi'   => $dispensasi,
+            'title'         => 'Surat Izin Dispensasi'
+        ]);
     }
 }

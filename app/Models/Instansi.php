@@ -40,7 +40,7 @@ class Instansi extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function verifikasiIjazah(): HasMany
+    public function verifikasiIjazah()
     {
         return $this->hasMany(VerifikasiIjazah::class);
     }

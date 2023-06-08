@@ -33,10 +33,15 @@ class AktifKuliahController extends Controller
     {
         $user = auth()->user();
 
-        $mahasiswa       = Mahasiswa::whereUserId($user->id)->first();        
+        $mahasiswa       = Mahasiswa::with(['dispensasi'])->whereUserId($user->id)->first();
+
+        $pengajuan = AktifKuliah::where('mahasiswa_id', $mahasiswa->id)
+            ->latest()
+            ->first();
 
         return view ('user.pengajuan.aktifKuliah.form', [
             'mahasiswa' => $mahasiswa,
+            'pengajuan' => $pengajuan,
             'title'         => 'Surat Keterangan Aktif Kuliah'
         ]);
     }
@@ -50,9 +55,15 @@ class AktifKuliahController extends Controller
 
         $mahasiswa       = Mahasiswa::whereUserId($user->id)->first();
 
-        AktifKuliah::create([
+        $aktifKuliah = AktifKuliah::create([
             'mahasiswa_id'  => $mahasiswa->id,
             'keperluan'     => $request->keperluan,
+        ]);
+
+        Log::create([
+            'aktif_kuliah_id'  => $aktifKuliah->id,
+            'status'        => 'Menunggu Konfirmasi',
+            'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
         ]);
 
         return redirect()->back()->with('success', 'Pengajuan Berhasil');
@@ -129,8 +140,6 @@ class AktifKuliahController extends Controller
             'status'  =>  'Tolak',
             'catatan' =>  $request->catatan
         ];
-        
-        AktifKuliah::where('id', $id)->update($data);
 
         Log::create([
             'aktif_kuliah_id'  => $id,
@@ -138,6 +147,7 @@ class AktifKuliahController extends Controller
             'catatan'       => $request->catatan
         ]);
 
+        AktifKuliah::where('id', $id)->update($data);
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
@@ -155,23 +165,37 @@ class AktifKuliahController extends Controller
 
         if ($request->status == 'Proses' ) {
             Log::create([
-                'legalisir_id'  => $id,
+                'aktif_kuliah_id'  => $id,
                 'status'        => 'Diproses',
                 'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
             ]);
         }elseif ($request->status == 'Kendala' ) {
             Log::create([
-                'legalisir_id'  => $id,
+                'aktif_kuliah_id'  => $id,
                 'status'        => 'Ada Kendala',
                 'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
             ]);
         }elseif ($request->status == 'Selesai' ) {
             Log::create([
-                'legalisir_id'  => $id,
+                'aktif_kuliah_id'  => $id,
                 'status'        => 'Selesai',
                 'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
             ]);
         }
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function riwayat()
+    {
+        $aktifKuliah = AktifKuliah::where('status', 'Tolak')
+            ->orWhere('status', 'Selesai')
+            ->get();
+        return view ('admin.riwayat.surat-aktif-kuliah.index', [
+            'aktifKuliah'   => $aktifKuliah,
+            'title'         => 'Surat Keterangan Aktif Kuliah'
+        ]);
     }
 }

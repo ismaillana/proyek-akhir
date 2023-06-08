@@ -36,10 +36,20 @@ class LegalisirController extends Controller
      */
     public function create()
     {
+
+        $pengaju = auth()->user();
+
+        $mahasiswa       = Mahasiswa::with(['legalisir'])->whereUserId($pengaju->id)->first();
+
+        $pengajuan = Legalisir::where('mahasiswa_id', $mahasiswa->id)
+            ->latest()
+            ->first();
+
         $jenisDokumen = JenisLegalisir::get();
 
         return view ('user.pengajuan.legalisir.form',[
             'jenisDokumen' => $jenisDokumen,
+            'pengajuan'    => $pengajuan,
             'title'     => 'Legalisir'
         ]);
     }
@@ -65,7 +75,13 @@ class LegalisirController extends Controller
             'jenis_legalisir_id'        => $request->jenis_legalisir_id
         ]);
         
-        Legalisir::create($data);
+        $legalisir = Legalisir::create($data);
+
+        Log::create([
+            'legalisir_id'  => $legalisir->id,
+            'status'        => 'Menunggu Konfirmasi',
+            'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
+        ]);
 
         return redirect()->back()->with('success', 'Pengajuan Berhasil');
     }
@@ -184,6 +200,20 @@ class LegalisirController extends Controller
         Legalisir::where('id', $id)->update($data);
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function riwayat()
+    {
+        $legalisir = Legalisir::where('status', 'Tolak')
+            ->orWhere('status', 'Selesai')
+            ->get();
+        return view ('admin.riwayat.legalisir.index', [
+            'legalisir'   => $legalisir,
+            'title'         => 'Legalisir'
+        ]);
     }
 
 }

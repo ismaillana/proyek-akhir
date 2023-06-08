@@ -51,6 +51,16 @@ class Dispensasi extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
+    /**
+     * Get all of the Log for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function log(): HasMany
+    {
+        return $this->hasMany(Log::class);
+    }
 
     /**
      * Save dokumen.

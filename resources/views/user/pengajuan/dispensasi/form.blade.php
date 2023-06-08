@@ -32,17 +32,7 @@
 
                   <div class="card-body">
                     <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                      @if (@$pengajuan)
-                        <div class="text-center">
-                          <img class="img-fluid mb-2" width="250" src="{{ asset('template/assets/img/illustrations/3d1.png')}}" 
-                          srcset="{{ asset('template/assets/img/illustrations/3d1@2x.png 2x')}}" alt="" />
-                          
-                          <p>
-                            Pengajuan Dapat Dilakukan Kembali Setelah Pengajuan Sebelumnya Selesai!
-                            <span class="text-danger">*</span>
-                          </p>
-                        </div>
-                      @else
+                      @if ($pengajuan->status == 'Selesai' || $pengajuan->status == 'Tolak')
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
                               <input id="kegiatan" type="text" name="kegiatan" class="form-control @error('kegiatan')is-invalid @enderror" 
@@ -149,6 +139,16 @@
                                 style="width: 1rem; height: 1rem;" role="status">
                             </span>
                           </button>
+                        </div>
+                      @else
+                        <div class="text-center">
+                          <img class="img-fluid mb-2" width="250" src="{{ asset('template/assets/img/illustrations/3d1.png')}}" 
+                          srcset="{{ asset('template/assets/img/illustrations/3d1@2x.png 2x')}}" alt="" />
+                          
+                          <p>
+                            Pengajuan Dapat Dilakukan Kembali Setelah Pengajuan Sebelumnya Selesai!
+                            <span class="text-danger">*</span>
+                          </p>
                         </div>
                       @endif
                     </div>

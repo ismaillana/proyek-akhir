@@ -4,7 +4,7 @@
     <section class="section">
         <div class="section-header">
             <div class="section-header-back">
-            <a href="{{route('pengajuan-aktif-kuliah.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+            <a href="{{route('pengajuan-verifikasi-ijazah.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
             </div>
 
             <h1>
@@ -19,23 +19,22 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between w-100">
                                 <h4>
-                                    Detail Pengajuan Surat Aktif Kuliah
+                                    Detail Pengajuan Verifikasi Ijazah
                                 </h4>
 
                                 <div class="d-flex">
-
                                 <h4>
                                     Status Pengajuan
                                 </h4>
-                                    @if (@$aktifKuliah->status == 'Menunggu Konfirmasi')
+                                    @if (@$verifikasiIjazah->status == 'Menunggu Konfirmasi')
                                         <span class="badge badge-warning">Menunggu Konfirmasi</span>
-                                    @elseif (@$aktifKuliah->status == 'Konfirmasi')
+                                    @elseif (@$verifikasiIjazah->status == 'Konfirmasi')
                                         <span class="badge badge-primary">Dikonfirmasi</span>
-                                    @elseif (@$aktifKuliah->status == 'Proses')
+                                    @elseif (@$verifikasiIjazah->status == 'Proses')
                                         <span class="badge badge-success">Diproses</span>
-                                    @elseif (@$aktifKuliah->status == 'Tolak')
+                                    @elseif (@$verifikasiIjazah->status == 'Tolak')
                                         <span class="badge badge-danger">Ditolak</span>
-                                    @elseif (@$aktifKuliah->status == 'Kendala')
+                                    @elseif (@$verifikasiIjazah->status == 'Kendala')
                                         <span class="badge badge-danger">Ada Kendala</span>
                                     @else
                                         <span class="badge badge-success">Selesai</span>
@@ -48,13 +47,25 @@
                         <div class="card-body">
                             <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                    Nama Pengaju<sup class="text-danger">*</sup>
+                                    Pengaju<sup class="text-danger">*</sup>
                                 </label>
 
-                                <div class="col-sm-9">
+                                <div class="col-sm-12 col-md-7">
+                                    <input type="text" class="form-control @error('instansi_id')is-invalid @enderror"
+                                        id="instansi_id" name="instansi_id" placeholder="Masukkan Koordinator PKL" 
+                                        value="{{ old('instansi_id', @$verifikasiIjazah->instansi->user->instansi_id) }}" disabled readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-4">
+                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
+                                    Nama Mahasiswa<sup class="text-danger">*</sup>
+                                </label>
+
+                                <div class="col-sm-12 col-md-7">
                                     <input type="text" class="form-control @error('name')is-invalid @enderror"
                                         id="name" name="name" placeholder="Masukkan Koordinator PKL" 
-                                        value="{{ old('name', @$aktifKuliah->mahasiswa->user->name) }}" disabled readonly>
+                                        value="{{ old('name', @$verifikasiIjazah->name) }}" disabled readonly>
                                 </div>
                             </div>
 
@@ -63,10 +74,34 @@
                                     NIM<sup class="text-danger">*</sup>
                                 </label>
 
-                                <div class="col-sm-9">
+                                <div class="col-sm-12 col-md-7">
                                     <input type="number" class="form-control @error('nomor_induk')is-invalid @enderror"
-                                        id="nomor_induk" name="nomor_induk" placeholder="Masukkan NIP" 
-                                        value="{{ old('nim', @$aktifKuliah->mahasiswa->nim) }}" disabled readonly>
+                                        id="nomor_induk" name="nomor_induk" placeholder="" 
+                                        value="{{ old('nim', @$verifikasiIjazah->nim) }}" disabled readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-4">
+                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
+                                    Nomor Ijazah<sup class="text-danger">*</sup>
+                                </label>
+
+                                <div class="col-sm-12 col-md-7">
+                                    <input type="number" class="form-control @error('no_ijazah')is-invalid @enderror"
+                                        id="no_ijazah" name="no_ijazah" placeholder="" 
+                                        value="{{ old('no_ijazah', @$verifikasiIjazah->no_ijazah) }}" disabled readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-4">
+                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
+                                    Tahun Lulus<sup class="text-danger">*</sup>
+                                </label>
+
+                                <div class="col-sm-12 col-md-7">
+                                    <input type="number" class="form-control @error('tahun_lulus')is-invalid @enderror"
+                                        id="tahun_lulus" name="tahun_lulus" placeholder="" 
+                                        value="{{ old('tahun_lulus', @$verifikasiIjazah->tahun_lulus) }}" disabled readonly>
                                 </div>
                             </div>
 
@@ -75,33 +110,22 @@
                                     Tanggal Pengajuan<sup class="text-danger">*</sup>
                                 </label>
 
-                                <div class="col-sm-9">
-                                    <input type="" class="form-control @error('created_at')is-invalid @enderror"
-                                        id="created_at" name="created_at" placeholder="" 
-                                        value="{{ old('created_at', @$aktifKuliah->created_at) }}" disabled readonly>
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-4">
-                                <label for="name" class="col-sm-3 col-form-label">
-                                    Keperluan <sup class="text-danger">*</sup>
-                                </label>
-
-                                <div class="col-sm-9">
-                                    <textarea name="keperluan" class="form-control" id="keperluan" cols="30" rows="10"
-                                        placeholder="Masukan Keperluan" readonly disabled>{{ old('keperluan', @$aktifKuliah->keperluan) }}</textarea>
+                                <div class="col-sm-12 col-md-7">
+                                    <input type="text" class="form-control @error('tanggal_pengajuan')is-invalid @enderror"
+                                        id="tanggal_pengajuan" name="tanggal_pengajuan" placeholder="" 
+                                        value="{{ old('created_at', @$verifikasiIjazah->created_at) }}" disabled readonly>
                                 </div>
                             </div>
                             <hr>
-                            @if (@$aktifKuliah->status == "Menunggu Konfirmasi")
+                            @if (@$verifikasiIjazah->status == "Menunggu Konfirmasi")
                                 <div class="text-md-right">
                                     <div class="float-lg-left mb-lg-0 mb-3">
-                                        <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$aktifKuliah->id}}">
+                                        <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$verifikasiIjazah->id}}">
                                             <i class="fas fa-check"></i> 
                                             Konfirmasi
                                         </button>
 
-                                        <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$aktifKuliah->id}}">
+                                        <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$verifikasiIjazah->id}}">
                                             <i class="fas fa-times"></i> 
                                             Tolak
                                         </button>
@@ -128,9 +152,9 @@
     </section>
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="konfirmasi{{$aktifKuliah->id}}">
+<div class="modal fade" tabindex="-1" role="dialog" id="konfirmasi{{$verifikasiIjazah->id}}">
     <div class="modal-dialog" role="document">
-        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('konfirmasi-aktif-kuliah', $aktifKuliah->id)}}" method="POST">
+        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('konfirmasi-verifikasi-ijazah', $verifikasiIjazah->id)}}" method="POST">
             @csrf
             <div class="modal-content">
                 <div class="modal-header">
@@ -163,9 +187,9 @@
     </div>
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="tolak{{$aktifKuliah->id}}">
+<div class="modal fade" tabindex="-1" role="dialog" id="tolak{{$verifikasiIjazah->id}}">
     <div class="modal-dialog" role="document">
-        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('tolak-aktif-kuliah', $aktifKuliah->id)}}" method="POST">
+        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('tolak-verifikasi-ijazah', $verifikasiIjazah->id)}}" method="POST">
             @csrf
             <div class="modal-content">
                 <div class="modal-header">
@@ -186,7 +210,7 @@
 
                         <div class="col-sm-9">
                             <textarea name="catatan" class="summernote-simple" id="catatan" cols="30" rows="10"
-                                placeholder="Masukan Catatan">{{ old('catatan', @$aktifKuliah->catatan) }}</textarea>
+                                placeholder="Masukan Catatan">{{ old('catatan', @$verifikasiIjazah->catatan) }}</textarea>
                             
                             @if ($errors->has('catatan'))
                                 <span class="text-danger">
@@ -210,5 +234,4 @@
         </form>
     </div>
 </div>
-
 @endsection

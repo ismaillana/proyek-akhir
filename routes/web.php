@@ -23,8 +23,6 @@ use App\Http\Controllers\PengantarPklController;
 use App\Http\Controllers\BagianAkademikController;
 use App\Http\Controllers\RiwayatController;
 
-
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -76,36 +74,42 @@ Auth::routes();
                 Route::post('tolak-aktif-kuliah/{id}', [AktifKuliahController::class, 'tolak'])->name('tolak-aktif-kuliah');
                 Route::post('konfirmasi-aktif-kuliah/{id}', [AktifKuliahController::class, 'konfirmasi'])->name('konfirmasi-aktif-kuliah');
                 Route::post('update-status-aktif-kuliah/{id}', [AktifKuliahController::class, 'updateStatus'])->name('update-status-aktif-kuliah');
+                Route::get('riwayat-pengajuan-aktif-kuliah', [AktifKuliahController::class, 'riwayat'])->name('riwayat-pengajuan-aktif-kuliah');
 
                 //Izin Penelitian
                 Route::resource('pengajuan-izin-penelitian', IzinPenelitianController::class);
                 Route::post('tolak-izin-penelitian/{id}', [IzinPenelitianController::class, 'tolak'])->name('tolak-izin-penelitian');
                 Route::post('konfirmasi-izin-penelitian/{id}', [IzinPenelitianController::class, 'konfirmasi'])->name('konfirmasi-izin-penelitian');
                 Route::post('update-status-izin-penelitian/{id}', [IzinPenelitianController::class, 'updateStatus'])->name('update-status-izin-penelitian');
+                Route::get('riwayat-pengajuan-izin-penelitian', [IzinPenelitianController::class, 'riwayat'])->name('riwayat-pengajuan-izin-penelitian');
 
                 //Verifikasi Ijazah
                 Route::resource('pengajuan-verifikasi-ijazah', VerifikasiIjazahController::class);
                 Route::post('tolak-verifikasi-ijazah/{id}', [VerifikasiIjazahController::class, 'tolak'])->name('tolak-verifikasi-ijazah');
                 Route::post('konfirmasi-verifikasi-ijazah/{id}', [VerifikasiIjazahController::class, 'konfirmasi'])->name('konfirmasi-verifikasi-ijazah');
                 Route::post('update-status-verifikasi-ijazah/{id}', [VerifikasiIjazahController::class, 'updateStatus'])->name('update-status-verifikasi-ijazah');
+                Route::get('riwayat-pengajuan-verifikasi-ijazah', [VerifikasiIjazahController::class, 'riwayat'])->name('riwayat-pengajuan-verifikasi-ijazah');
 
                 //Legalisir
                 Route::resource('pengajuan-legalisir', LegalisirController::class);
                 Route::post('tolak-legalisir/{id}', [LegalisirController::class, 'tolak'])->name('tolak-legalisir');
                 Route::post('konfirmasi-legalisir/{id}', [LegalisirController::class, 'konfirmasi'])->name('konfirmasi-legalisir');
                 Route::post('update-status-legalisir/{id}', [LegalisirController::class, 'updateStatus'])->name('update-status-legalisir');
+                Route::get('riwayat-pengajuan-legalisir', [LegalisirController::class, 'riwayat'])->name('riwayat-pengajuan-legalisir');
 
                 //Dispensasi
                 Route::resource('pengajuan-dispensasi', DispensasiController::class);
                 Route::post('tolak-dispensasi/{id}', [DispensasiController::class, 'tolak'])->name('tolak-dispensasi');
                 Route::post('konfirmasi-dispensasi/{id}', [DispensasiController::class, 'konfirmasi'])->name('konfirmasi-dispensasi');
                 Route::post('update-status-dispensasi/{id}', [DispensasiController::class, 'updateStatus'])->name('update-status-dispensasi');
+                Route::get('riwayat-pengajuan-dispensasi', [DispensasiController::class, 'riwayat'])->name('riwayat-pengajuan-dispensasi');
 
                 //Pengantar PKL
                 Route::resource('pengajuan-pengantar-pkl', PengantarPklController::class);
                 Route::post('tolak-pengantar-pkl/{id}', [PengantarPklController::class, 'tolak'])->name('tolak-pengantar-pkl');
                 Route::post('konfirmasi-pengantar-pkl/{id}', [PengantarPklController::class, 'konfirmasi'])->name('konfirmasi-pengantar-pkl');
                 Route::post('update-status-pengantar-pkl/{id}', [PengantarPklController::class, 'updateStatus'])->name('update-status-pengantar-pkl');
+                Route::get('riwayat-pengajuan-pengantar-pkl', [PengantarPklController::class, 'riwayat'])->name('riwayat-pengajuan-pengantar-pkl');
 
                 Route::get('import-excel', [MahasiswaController::class, 'createImport'])->name('import-excel');
                 Route::get('mahasiswa-prodi/{jurusan?}', [MahasiswaController::class, 'prodi'])->name('prodi');
@@ -123,14 +127,33 @@ Auth::routes();
                 'prefix'        => 'pengajuan'
             ],
             function () {
+                //Aktif-Kuliah
                 Route::resource('aktif-kuliah', AktifKuliahController::class);
+                Route::get('riwayat-aktif-kuliah', [RiwayatController::class, 'indexAktifKuliah'])->name('riwayat-aktif-kuliah');
+                Route::get('tracking-aktif-kuliah/{id}', [RiwayatController::class, 'trackingAktifKuliah'])->name('tracking-aktif-kuliah');
+
+                //Izin Penelitian
                 Route::resource('izin-penelitian', IzinPenelitianController::class);
+                Route::get('riwayat-izin-penelitian', [RiwayatController::class, 'indexIzinPenelitian'])->name('riwayat-izin-penelitian');
+                Route::get('tracking-izin-penelitian/{id}', [RiwayatController::class, 'trackingIzinPenelitian'])->name('tracking-izin-penelitian');
+
+                //Legalisir
                 Route::resource('legalisir', LegalisirController::class);
-                Route::resource('verifikasi-ijazah', VerifikasiIjazahController::class);
-                Route::resource('dispensasi', DispensasiController::class);
-                Route::resource('pengantar-pkl', PengantarPklController::class);
                 Route::get('riwayat-legalisir', [RiwayatController::class, 'index'])->name('riwayat-legalisir');
                 Route::get('tracking-legalisir/{id}', [RiwayatController::class, 'tracking'])->name('tracking-legalisir');
+                //Verifikasi Ijazah
+                Route::resource('verifikasi-ijazah', VerifikasiIjazahController::class);
+                Route::get('riwayat-verifikasi-ijazah', [RiwayatController::class, 'indexVerifikasiIjazah'])->name('riwayat-verifikasi-ijazah');
+                Route::get('tracking-verifikasi-ijazah/{id}', [RiwayatController::class, 'trackingVerifikasiIjazah'])->name('tracking-verifikasi-ijazah');
+
+                //Dispensasi
+                Route::resource('dispensasi', DispensasiController::class);
+                Route::get('riwayat-dispensasi', [RiwayatController::class, 'indexDispensasi'])->name('riwayat-dispensasi');
+                Route::get('tracking-dispensasi/{id}', [RiwayatController::class, 'trackingDispensasi'])->name('tracking-dispensasi');
+
+                Route::resource('pengantar-pkl', PengantarPklController::class);
+                Route::get('riwayat-pengantar-pkl', [RiwayatController::class, 'indexPengantarPkl'])->name('riwayat-pengantar-pkl');
+                Route::get('tracking-pengantar-pkl/{id}', [RiwayatController::class, 'trackingPengantarPkl'])->name('tracking-pengantar-pkl');
             });
     });
 

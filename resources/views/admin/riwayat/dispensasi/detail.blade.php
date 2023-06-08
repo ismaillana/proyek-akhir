@@ -4,7 +4,7 @@
     <section class="section">
         <div class="section-header">
           <div class="section-header-back">
-            <a href="{{route('pengajuan-pengantar-pkl.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+            <a href="{{route('pengajuan-dispensasi.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
           </div>
 
           <h1>
@@ -19,22 +19,22 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between w-100">
                               <h4>
-                                Detail Pengajuan Surat Pengantar PKL
+                                Detail Pengajuan Surat Dispensasi
                               </h4>
 
                               <div class="d-flex">
                               <h4>
                                   Status Pengajuan
                               </h4>
-                                  @if (@$pengantarPkl->status == 'Menunggu Konfirmasi')
+                                  @if (@$dispensasi->status == 'Menunggu Konfirmasi')
                                       <span class="badge badge-warning">Menunggu Konfirmasi</span>
-                                  @elseif (@$pengantarPkl->status == 'Konfirmasi')
+                                  @elseif (@$dispensasi->status == 'Konfirmasi')
                                       <span class="badge badge-primary">Dikonfirmasi</span>
-                                  @elseif (@$pengantarPkl->status == 'Proses')
+                                  @elseif (@$dispensasi->status == 'Proses')
                                       <span class="badge badge-success">Diproses</span>
-                                  @elseif (@$pengantarPkl->status == 'Tolak')
+                                  @elseif (@$dispensasi->status == 'Tolak')
                                       <span class="badge badge-danger">Ditolak</span>
-                                  @elseif (@$pengantarPkl->status == 'Kendala')
+                                  @elseif (@$dispensasi->status == 'Kendala')
                                       <span class="badge badge-danger">Ada Kendala</span>
                                   @else
                                       <span class="badge badge-success">Selesai</span>
@@ -54,23 +54,20 @@
                                           Data Pengaju:
                                         </strong>
                                         <br>
-                                          Nama: {{@$pengantarPkl->mahasiswa->user->name}}<br>
-                                          NIM: {{@$pengantarPkl->mahasiswa->nim}}<br>
-                                          Jurusan: {{@$pengantarPkl->mahasiswa->jurusan->name}}<br>
-                                          Prodi: {{@$pengantarPkl->mahasiswa->programStudi->name}}
+                                          Nama: {{@$dispensasi->mahasiswa->user->name}}<br>
+                                          NIM: {{@$dispensasi->mahasiswa->nim}}<br>
+                                          Jurusan: {{@$dispensasi->mahasiswa->jurusan->name}}<br>
+                                          Prodi: {{@$dispensasi->mahasiswa->programStudi->name}}
                                       </address>
                                     </div>
                                     <div class="col-md-6 text-md-right">
                                       <address>
                                         <strong>
-                                          Tempat PKL:
+                                            Detail Kegiatan:
                                         </strong>
                                         <br>
-                                        Nama: {{@$pengantarPkl->nama_perusahaan}}<br>
-                                        Alamat: {{@$pengantarPkl->alamat}}<br>
-                                        Link website: {{@$pengantarPkl->web}}<br>
-                                        Telepon: {{@$pengantarPkl->telepon}}<br>
-                                        Ditujukan Kepada: {{@$pengantarPkl->kepada}}
+                                        Nama Kegiatan: {{@$dispensasi->kegiatan}}<br>
+                                        Tempat: {{@$dispensasi->tempat}}<br>
                                       </address>
                                     </div>
                                   </div>
@@ -81,8 +78,8 @@
                                           Data PKL:
                                         </strong>
                                         <br>
-                                        Tanggal Mulai: {{@$pengantarPkl->mulai}}<br>
-                                        Tanggal Selesai: {{@$pengantarPkl->selesai}}
+                                        Tanggal Mulai: {{@$dispensasi->mulai}}<br>
+                                        Tanggal Selesai: {{@$dispensasi->selesai}}
                                       </address>
                                     </div>
                                     <div class="col-md-6 text-md-right">
@@ -91,7 +88,7 @@
                                           Tanggal Pengajuan:
                                         </strong>
                                         <br>
-                                        {{@$pengantarPkl->created_at}}<br><br>
+                                        {{@$dispensasi->created_at}}<br><br>
                                       </address>
                                     </div>
                                   </div>
@@ -101,7 +98,7 @@
                               <div class="row mt-4">
                                 <div class="col-md-12">
                                   <div class="section-title">Nama Mahasiswa</div>
-                                  <p class="section-lead">Mahasiswa Yang Akan Melaksanakan PKL</p>
+                                  <p class="section-lead">Mahasiswa Yang Akan Izin Dispensasi</p>
                                   <div class="table-responsive">
                                     <table class="table table-striped table-hover table-md">
                                       <tr>
@@ -152,63 +149,34 @@
                                   </div>
                                 </div>
                               </div>
-
-                              {{-- <div class="row mt-4">
-                                <div class="col-md-12">
-                                  <div class="section-title">Konfirmasi Pengajuan</div>
-                                  <p class="section-lead">Mahasiswa Yang Akan Melaksanakan PKL</p>
-                                  @if (@$pengantarPkl->status == 'Menunggu Konfirmasi')
-                                      
-                                  <div class="form-group row mb-4">
-                                    <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Category</label>
-                                    <div class="col-sm-12 col-md-7">
-                                      <select class="form-control selectric">
-                                        <option>Tech</option>
-                                        <option>News</option>
-                                        <option>Political</option>
-                                      </select>
-                                    </div>
-                                  </div>
-
-                                  <div class="form-group row mb-4">
-                                    <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Content</label>
-                                    <div class="col-sm-12 col-md-7">
-                                      <textarea class="summernote-simple"></textarea>
-                                    </div>
-                                  </div>
-                                  @else
-                                      <h1>Sudah Dikonfirmasi</h1>
-                                  @endif
-                                </div>
-                              </div> --}}
                             <hr>
-                              @if (@$pengantarPkl->status == "Menunggu Konfirmasi")
-                                  <div class="text-md-right">
-                                      <div class="float-lg-left mb-lg-0 mb-3">
-                                          <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$pengantarPkl->id}}">
-                                              <i class="fas fa-check"></i> 
-                                              Konfirmasi
-                                          </button>
+                            @if (@$dispensasi->status == "Menunggu Konfirmasi")
+                                <div class="text-md-right">
+                                    <div class="float-lg-left mb-lg-0 mb-3">
+                                        <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$dispensasi->id}}">
+                                            <i class="fas fa-check"></i> 
+                                            Konfirmasi
+                                        </button>
 
-                                          <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$pengantarPkl->id}}">
-                                              <i class="fas fa-times"></i> 
-                                              Tolak
-                                          </button>
-                                      </div>
+                                        <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$dispensasi->id}}">
+                                            <i class="fas fa-times"></i> 
+                                            Tolak
+                                        </button>
+                                    </div>
 
-                                      <button class="btn btn-warning btn-icon icon-left">
-                                          <i class="fas fa-print"></i> 
-                                          Print
-                                      </button>
-                                  </div>
-                              @else
-                                  <div class="text-md-right">
-                                      <button class="btn btn-warning btn-icon icon-left">
-                                          <i class="fas fa-print"></i> 
-                                          Print
-                                      </button>
-                                  </div>
-                              @endif
+                                    <button class="btn btn-warning btn-icon icon-left">
+                                        <i class="fas fa-print"></i> 
+                                        Print
+                                    </button>
+                                </div>
+                            @else
+                                <div class="text-md-right">
+                                    <button class="btn btn-warning btn-icon icon-left">
+                                        <i class="fas fa-print"></i> 
+                                        Print
+                                    </button>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -217,9 +185,9 @@
     </section>
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="konfirmasi{{$pengantarPkl->id}}">
+<div class="modal fade" tabindex="-1" role="dialog" id="konfirmasi{{$dispensasi->id}}">
   <div class="modal-dialog" role="document">
-      <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('konfirmasi-pengantar-pkl', $pengantarPkl->id)}}" method="POST">
+      <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('konfirmasi-dispensasi', $dispensasi->id)}}" method="POST">
           @csrf
           <div class="modal-content">
               <div class="modal-header">
@@ -252,9 +220,9 @@
   </div>
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="tolak{{$pengantarPkl->id}}">
+<div class="modal fade" tabindex="-1" role="dialog" id="tolak{{$dispensasi->id}}">
   <div class="modal-dialog" role="document">
-      <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('tolak-pengantar-pkl', $pengantarPkl->id)}}" method="POST">
+      <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('tolak-dispensasi', $dispensasi->id)}}" method="POST">
           @csrf
           <div class="modal-content">
               <div class="modal-header">
@@ -275,7 +243,7 @@
 
                       <div class="col-sm-9">
                           <textarea name="catatan" class="summernote-simple" id="catatan" cols="30" rows="10"
-                              placeholder="Masukan Catatan">{{ old('catatan', @$pengantarPkl->catatan) }}</textarea>
+                              placeholder="Masukan Catatan">{{ old('catatan', @$dispensasi->catatan) }}</textarea>
                           
                           @if ($errors->has('catatan'))
                               <span class="text-danger">
