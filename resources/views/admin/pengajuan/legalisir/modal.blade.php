@@ -29,9 +29,12 @@
                                 <option value="Menunggu Konfirmasi"
                                     {{ old('status', @$legalisir->status) == 'Menunggu Konfirmasi' ? 'selected' : '' }}>
                                         Menunggu Konfirmasi</option>
-                                <option value="Diproses"
-                                    {{ old('status', @$legalisir->status) == 'Diproses' ? 'selected' : '' }}>
+                                <option value="Proses"
+                                    {{ old('status', @$legalisir->status) == 'Proses' ? 'selected' : '' }}>
                                         Diproses</option>
+                                <option value="Kendala"
+                                    {{ old('status', @$legalisir->status) == 'Kendala' ? 'selected' : '' }}>
+                                        Ada Kendala</option>
                                 <option value="Selesai"
                                     {{ old('status', @$legalisir->status) == 'Selesai' ? 'selected' : '' }}>
                                         Selesai</option>

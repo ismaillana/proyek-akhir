@@ -17,11 +17,13 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnUpdate();
             $table->json('jenis_legalisir_id');
+            $table->string('no_ijazah');
             $table->string('keperluan');
             $table->string('pekerjaan_terakhir');
             $table->string('tempat_pekerjaan_terakhir');
             $table->string('dokumen');
-            $table->ENUM('status', ['Menunggu Konfirmasi', 'Diproses', 'Selesai'])
+            $table->text('catatan')->nullable();
+            $table->ENUM('status', ['Menunggu Konfirmasi', 'Konfirmasi', 'Proses', 'Kendala', 'Tolak', 'Selesai'])
             ->default('Menunggu Konfirmasi')
             ->nullable();
             $table->timestamps();

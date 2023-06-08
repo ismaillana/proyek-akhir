@@ -25,23 +25,38 @@ class MahasiswaController extends Controller
      */
     public function index(Request $request)
     {
-
-        $sale         = 'active';
-
+        $active         = 'active';
+        
         $status = $request->status ? $request->status : null;
-
+        
         $param = (object) [
             'status'            => $request->status,
         ];
+        
+        if ($request->angkatan) {
+            Mahasiswa::where('angkatan', $request->angkatan)
+            ->update([
+                'status'            => 'Alumni',
+            ]);
 
+           $data = Mahasiswa::where('angkatan', $request->angkatan)->get();
+            foreach ($data as $item) {
+                $user = User::where('id', $item->user_id)->get();
+                foreach ($user as $user) {
+                    $user->syncRoles('alumni');
+                }
+            }
+            return redirect()->back()->with('success', 'Status Berhasil Diubah');
+        }
+        
         $mahasiswa = Mahasiswa::filter($param)
         ->latest()
         ->get();
-
+       
         return view ('admin.mahasiswa.index', [
             'mahasiswa' => $mahasiswa,
             'status'    => $status,
-            'sale'      => $sale,
+            'active'      => $active,
             'title'     => 'Data Mahasiswa Alumni'
         ]);
     }
@@ -222,7 +237,7 @@ class MahasiswaController extends Controller
         
         Mahasiswa::where('id', $mahasiswa->id)->update($data);
 
-        $user = User::whereId($mahasiswa->user_id)->update([
+        User::whereId($mahasiswa->user_id)->update([
             'name'        => $request->name,
             'nomor_induk' => $request->nomor_induk,
             'email'       => $request->email,
@@ -277,5 +292,27 @@ class MahasiswaController extends Controller
         ];
 
         return response()->json($response);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function updateStatus(Request $request, $mahasiswa)
+    {
+        Mahasiswa::where('angkatan', $request->angkatan)
+            ->update([
+                'status'            => 'Alumni',
+            ]);
+        dd($mahasiswa);
+
+        $user = User::where('id',$mahasiswa->user_id)->get();
+        $user->syncRoles('alumni');
+        // if ($request->status == 'Alumni') {
+        // }else {
+        //     $user->syncRoles('mahasiswa');
+        // }
+        
+
+        return redirect()->route('mahasiswa.index')->with('success', 'Data Berhasil Diubah');
     }
 }

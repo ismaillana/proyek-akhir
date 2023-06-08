@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('alamat_penelitian')->nullable();
             $table->string('tujuan_surat')->nullable();
             $table->string('perihal')->nullable();
-            $table->ENUM('status', ['Menunggu Konfirmasi', 'Diproses', 'Selesai'])
+            $table->text('catatan')->nullable();
+            $table->ENUM('status', ['Menunggu Konfirmasi', 'Konfirmasi', 'Proses', 'Kendala', 'Tolak', 'Selesai'])
             ->default('Menunggu Konfirmasi')
             ->nullable();
             $table->timestamps();

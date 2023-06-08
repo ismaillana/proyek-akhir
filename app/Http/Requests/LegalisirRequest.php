@@ -23,6 +23,7 @@ class LegalisirRequest extends FormRequest
     {
         $rules = [
             'jenis_legalisir_id'        => 'required',
+            'no_ijazah'                 => 'required',
             'keperluan'                 => 'required',
             'pekerjaan_terakhir'        => 'required',
             'tempat_pekerjaan_terakhir' => 'required',
@@ -40,6 +41,7 @@ class LegalisirRequest extends FormRequest
             'tempat_pekerjaan_terakhir.required'  => 'Tempat Pekerjaan Terakhir Wajib Diisi',
             'dokumen.required'                    => 'Dokumen Wajib Diisi',
             'dokumen.mimes'                       => 'Dokumen yang diupload harus berupa pdf',
+            'no_ijazah.required'                    => 'Nomor Ijazah Wajib Diisi',
         ];
     }
 }

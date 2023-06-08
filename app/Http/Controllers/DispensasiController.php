@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Dispensasi;
+use App\Models\AdminJurusan;
+use App\Models\Log;
 
 use App\Http\Requests\DispensasiRequest;
 use Illuminate\Support\Facades\Crypt;
@@ -17,12 +19,32 @@ class DispensasiController extends Controller
      */
     public function index()
     {
-        $dispensasi = Dispensasi::get();
+        $user = auth()->user();
+        // dd($user);
+        $adminJurusan = AdminJurusan::whereUserId($user->id)->first();
+        // $mahasiswa    = Mahasiswa::with(['dispensasi'])->first();
+        // dd($adminJurusan);b
+        // $user = User::role('admin')->get();
+        $dispensasi = Dispensasi::latest()
+        ->get();
+        if ($user->hasRole('admin-jurusan')) {
+              
+            return view ('admin.pengajuan.dispensasi.index-admin-jurusan', [
+                'dispensasi' => $dispensasi,
+                'adminJurusan'  => $adminJurusan,
+                'title'         => 'Dispensasi Perkuliahan'
+            ]);
+        } else {
+            return view ('admin.pengajuan.dispensasi.index', [
+                'dispensasi' => $dispensasi,
+                'adminJurusan'  => $adminJurusan,
+                'title'         => 'Dispensasi Perkuliahan'
+            ]);
+        }
 
-        return view ('admin.pengajuan.dispensasi.index', [
-            'dispensasi' => $dispensasi,
-            'title'         => 'Dispensasi Perkuliahan'
-        ]);
+        
+        // dd($dispensasi);
+
     }
 
     /**
@@ -30,16 +52,32 @@ class DispensasiController extends Controller
      */
     public function create()
     {
-        $user = User::whereHas('roles', function ($q)
-        {
-            $q->whereIn('name', ['mahasiswa']);
-        })
-        ->get();
+        $pengaju = auth()->user();
 
-        return view ('user.pengajuan.dispensasi.form', [
-            'user' => $user,
-            'title'         => 'Dispensasi Perkuliahan'
-        ]);
+        $mahasiswa       = Mahasiswa::with(['dispensasi'])->whereUserId($pengaju->id)->first();
+
+        $pengajuan = Dispensasi::where('mahasiswa_id', $mahasiswa->id)
+            ->whereNot('status', 'Selesai')
+            ->latest()
+            ->first();
+// dd($pengajuan);
+
+// if ($pengajuan) {
+            $user = User::whereHas('roles', function ($q)
+            {
+                $q->whereIn('name', ['mahasiswa']);
+            })
+            ->get();
+            return view ('user.pengajuan.dispensasi.form', [
+                'user' => $user,
+                'pengajuan' => $pengajuan,
+                'title'         => 'Dispensasi Perkuliahan'
+            ]);
+    //     } else {
+    //         return redirect()->back()->with('error', 'Tunggu Pengajuan Sebelumnya Selesai!');
+    // }
+        
+
     }
 
     /**
@@ -85,7 +123,9 @@ class DispensasiController extends Controller
         }
 
         $dispensasi = Dispensasi::find($id);
+
         $data = Mahasiswa::whereIn('user_id', $dispensasi['nama_mahasiswa'])->get();
+        
         return view ('admin.pengajuan.dispensasi.detail', [
             'dispensasi'    =>  $dispensasi,
             'data'          =>  $data,
@@ -115,5 +155,79 @@ class DispensasiController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function konfirmasi(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  'Konfirmasi'
+        ];
+
+        Dispensasi::where('id', $id)->update($data);
+
+        Log::create([
+            'dispensasi_id'  => $id,
+            'status'        => 'Dikonfirmasi',
+            'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
+        ]);
+
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function tolak(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  'Tolak',
+            'catatan' =>  $request->catatan
+        ];
+
+        Log::create([
+            'dispensasi_id'  => $id,
+            'status'        => 'Ditolak',
+            'catatan'       => $request->catatan
+        ]);
+
+        Dispensasi::where('id', $id)->update($data);
+
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function updateStatus(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  $request->status
+        ];
+
+        Dispensasi::where('id', $id)->update($data);
+
+        if ($request->status == 'Proses' ) {
+            Log::create([
+                'dispensasi_id'  => $id,
+                'status'        => 'Diproses',
+                'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
+            ]);
+        }elseif ($request->status == 'Kendala' ) {
+            Log::create([
+                'dispensasi_id'  => $id,
+                'status'        => 'Ada Kendala',
+                'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
+            ]);
+        }elseif ($request->status == 'Selesai' ) {
+            Log::create([
+                'dispensasi_id'  => $id,
+                'status'        => 'Selesai',
+                'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
+            ]);
+        }
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
 }

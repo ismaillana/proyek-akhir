@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('no_ijazah');
             $table->string('tahun_lulus');
             $table->string('dokumen');
-            $table->ENUM('status', ['Menunggu Konfirmasi', 'Dikonfirmasi', 'Sedang Dalam Kendala', 'Diproses', 'Selesai'])
+            $table->text('catatan')->nullable();
+            $table->ENUM('status', ['Menunggu Konfirmasi', 'Konfirmasi', 'Proses', 'Kendala', 'Tolak', 'Selesai'])
             ->default('Menunggu Konfirmasi')
             ->nullable();
             $table->timestamps();

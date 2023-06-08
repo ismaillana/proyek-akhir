@@ -8,8 +8,11 @@ use App\Models\Mahasiswa;
 use App\Models\Ijazah;
 use App\Models\Legalisir;
 use App\Models\JenisLegalisir;
+use App\Models\Log;
 
 use App\Http\Requests\LegalisirRequest;
+use App\Http\Requests\KonfirmasiRequest;
+
 use Illuminate\Support\Facades\Crypt;
 
 class LegalisirController extends Controller
@@ -19,7 +22,8 @@ class LegalisirController extends Controller
      */
     public function index()
     {
-        $legalisir = Legalisir::get();
+        $legalisir = Legalisir::latest()
+            ->get();
         
         return view ('admin.pengajuan.legalisir.index', [
             'legalisir' => $legalisir,
@@ -53,6 +57,7 @@ class LegalisirController extends Controller
         
         $data = ([
             'mahasiswa_id'              => $alumni->id,
+            'no_ijazah'                 => $request->no_ijazah,
             'keperluan'                 => $request->keperluan,
             'pekerjaan_terakhir'        => $request->pekerjaan_terakhir,
             'tempat_pekerjaan_terakhir' => $request->tempat_pekerjaan_terakhir,
@@ -112,12 +117,69 @@ class LegalisirController extends Controller
      */
     public function updateStatus(Request $request, string $id)
     {
-
-        $legalisir = Legalisir::find($id);
-
         $data = [
             'status'  =>  $request->status
         ];
+
+        Legalisir::where('id', $id)->update($data);
+
+        if ($request->status == 'Proses' ) {
+            Log::create([
+                'legalisir_id'  => $id,
+                'status'        => 'Diproses',
+                'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
+            ]);
+        }elseif ($request->status == 'Kendala' ) {
+            Log::create([
+                'legalisir_id'  => $id,
+                'status'        => 'Ada Kendala',
+                'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
+            ]);
+        }elseif ($request->status == 'Selesai' ) {
+            Log::create([
+                'legalisir_id'  => $id,
+                'status'        => 'Selesai',
+                'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
+            ]);
+        }
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function konfirmasi(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  'Konfirmasi'
+        ];
+
+        Legalisir::where('id', $id)->update($data);
+
+        Log::create([
+            'legalisir_id'  => $id,
+            'status'        => 'Dikonfirmasi',
+            'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
+        ]);
+
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function tolak(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  'Tolak',
+            'catatan' =>  $request->catatan
+        ];
+
+        Log::create([
+            'legalisir_id'  => $id,
+            'status'        => 'Ditolak',
+            'catatan'       => $request->catatan
+        ]);
 
         Legalisir::where('id', $id)->update($data);
 

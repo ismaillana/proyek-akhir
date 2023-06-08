@@ -17,7 +17,8 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnUpdate();
             $table->text('keperluan');
-            $table->ENUM('status', ['Menunggu Konfirmasi', 'Diproses', 'Selesai'])
+            $table->text('catatan')->nullable();
+            $table->ENUM('status', ['Menunggu Konfirmasi', 'Konfirmasi', 'Proses', 'Kendala', 'Tolak', 'Selesai'])
             ->default('Menunggu Konfirmasi')
             ->nullable();
             $table->timestamps();

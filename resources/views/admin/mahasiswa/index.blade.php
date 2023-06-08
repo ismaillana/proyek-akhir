@@ -62,14 +62,12 @@
                 </div>
               </div>
               <div class="card-body">
-                <form id="modalForm" class="form-horizontal"
-                    style="padding-bottom: 10px;border-bottom: 1px solid #d7d6d6; margin-bottom: 20px;"
-                    action="#">
+                <form id="myForm" class="forms-sample" enctype="multipart/form-data">
                     <div class="row align-items-center" style="margin-bottom: 10px;">
                         <div class="col-md-3 col-sm-12">
                             <label for="angkatan" class="label-control">Ubah Status</label>
                             <input type="text" id="angkatan" name="angkatan" class="form-control"
-                                placeholder="Masukan Angkatan" value="">
+                                placeholder="Masukan Angkatan" value="{{ old('angkatan', request('angkatan')) }}">
                         </div>
 
                         <div class="col-md-2 col-sm-12 d-flex mt-auto">

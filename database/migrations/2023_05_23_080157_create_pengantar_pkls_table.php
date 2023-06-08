@@ -24,7 +24,10 @@ return new class extends Migration
             $table->date('mulai');
             $table->date('selesai');
             $table->string('kepada');
-            $table->ENUM('status', ['Menunggu Konfirmasi', 'Diproses', 'Selesai'])
+            $table->text('catatan')->nullable();
+            $table->ENUM('status', ['Menunggu Konfirmasi', 'Konfirmasi', 
+            'Proses', 'Kendala', 'Tolak', 'Selesai', 
+            'Diterima Perusahaan', 'Ditolak Perusahaan'])
             ->default('Menunggu Konfirmasi')
             ->nullable();
             $table->timestamps();

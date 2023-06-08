@@ -2,25 +2,47 @@
 @section('content')
 <div class="main-content">
     <section class="section">
-      <div class="section-header">
-        <div class="section-header-back">
-          <a href="{{route('pengajuan-aktif-kuliah.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+        <div class="section-header">
+            <div class="section-header-back">
+            <a href="{{route('pengajuan-aktif-kuliah.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+            </div>
+
+            <h1>
+                Detail Pengajuan
+            </h1>
         </div>
 
-        <h1>
-            Detail Pengajuan
-        </h1>
-      </div>
-
-      <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{route('konfirmasi.aktif.kuliah', $aktifKuliah->id)}}" method="POST">
-        {{-- @method('put') --}}
-        {{ csrf_field() }}
         <div class="section-body">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Detail Pengajuan Surat Aktif Kuliah</h4>
+                            <div class="d-flex justify-content-between w-100">
+                                <h4>
+                                    Detail Pengajuan Surat Aktif Kuliah
+                                </h4>
+
+                                <div class="d-flex">
+
+                                <h4>
+                                    Status Pengajuan
+                                </h4>
+                                    @if (@$aktifKuliah->status == 'Menunggu Konfirmasi')
+                                        <span class="badge badge-warning">Menunggu Konfirmasi</span>
+                                    @elseif (@$aktifKuliah->status == 'Konfirmasi')
+                                        <span class="badge badge-primary">Dikonfirmasi</span>
+                                    @elseif (@$aktifKuliah->status == 'Proses')
+                                        <span class="badge badge-success">Diproses</span>
+                                    @elseif (@$aktifKuliah->status == 'Tolak')
+                                        <span class="badge badge-danger">Ditolak</span>
+                                    @elseif (@$aktifKuliah->status == 'Kendala')
+                                        <span class="badge badge-danger">Ada Kendala</span>
+                                    @else
+                                        <span class="badge badge-success">Selesai</span>
+                                    @endif
+                                </div>
+                                
+                            </div>
                         </div>
                         
                         <div class="card-body">
@@ -70,195 +92,122 @@
                                         placeholder="Masukan Keperluan" readonly disabled>{{ old('keperluan', @$aktifKuliah->keperluan) }}</textarea>
                                 </div>
                             </div>
-
-                            @if (@$aktifKuliah->status == 'Menunggu Konfirmasi')
-                                
-                            <div class="form-group row mb-4">
-                                <label for="satatus" class="col-sm-3 col-form-label">
-                                    Status<sup class="text-danger">*</sup>
-                                </label>
-                                
-                                <div class="col-sm-9">
-                                    <div class="input-group">
-                                        <select class="form-control select2 @error('status')is-invalid @enderror" id="status" name="status" >
-                                            <option selected value="">Pilih Status</option>
-                                            <option value="Menunggu Konfirmasi"
-                                                {{ old('status', @$aktifKuliah->status) == 'Menunggu Konfirmasi' ? 'selected' : '' }}>
-                                                    Menunggu Konfirmasi</option>
-                                            <option value="Ditolak"
-                                                {{ old('status', @$aktifKuliah->status) == 'Ditolak' ? 'selected' : '' }}>
-                                                    Ditolak</option>       
-                                            <option value="Dikonfirmasi"
-                                                {{ old('status', @$aktifKuliah->status) == 'Dikonfirmasi' ? 'selected' : '' }}>
-                                                    Dikonfirmasi</option>
-                                        </select>
-            
-                                        @if ($errors->has('status'))
-                                            <span class="text-danger">
-                                                {{ $errors->first('status') }}
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-4" id="catatan">
-                                <label for="name" class="col-sm-3 col-form-label">
-                                    Catatan Penolakan <sup class="text-danger">*</sup>
-                                </label>
-
-                                <div class="col-sm-9">
-                                    <textarea name="catatan" class="summernote-simple" id="catatan" cols="30" rows="10"
-                                        placeholder="Masukan Catatan">{{ old('catatan', @$aktifKuliah->catatan) }}</textarea>
-                                    
-                                    @if ($errors->has('catatan'))
-                                        <span class="text-danger">
-                                            {{ $errors->first('catatan') }}
-                                        </span>
-                                    @endif
-                                </div>
-
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-icon icon-left" id="btnSubmit"><i class="fas fa-check"></i> Konfirmasi
-                                <span class="spinner-border ml-2 d-none" id="loader"
-                                    style="width: 1rem; height: 1rem;" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </span>
-                            </button>
-                            @elseif (@$aktifKuliah->status == 'Disetujui')
-                            <div class="form-group row mb-4">
-                                <label for="satatus" class="col-sm-3 col-form-label">
-                                    Status<sup class="text-danger">*</sup>
-                                </label>
-                                
-                                <div class="col-sm-9">
-                                    <div class="input-group">
-                                        <select class="form-control select2 @error('status')is-invalid @enderror" id="status" name="status" disabled readonly>
-                                            <option selected value="">Pilih Status</option>
-                                            <option value="Menunggu Konfirmasi"
-                                                {{ old('status', @$aktifKuliah->status) == 'Menunggu Konfirmasi' ? 'selected' : '' }}>
-                                                    Menunggu Konfirmasi</option>
-                                            <option value="Ditolak"
-                                                {{ old('status', @$aktifKuliah->status) == 'Ditolak' ? 'selected' : '' }}>
-                                                    Ditolak</option>       
-                                            <option value="Dikonfirmasi"
-                                                {{ old('status', @$aktifKuliah->status) == 'Dikonfirmasi' ? 'selected' : '' }}>
-                                                    Dikonfirmasi</option>
-                                        </select>
-            
-                                        @if ($errors->has('status'))
-                                            <span class="text-danger">
-                                                {{ $errors->first('status') }}
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                            @else
-                            <div class="form-group row mb-4">
-                                <label for="satatus" class="col-sm-3 col-form-label">
-                                    Status<sup class="text-danger">*</sup>
-                                </label>
-                                
-                                <div class="col-sm-9">
-                                    <div class="input-group">
-                                        <select class="form-control select2 @error('status')is-invalid @enderror" id="status" name="status" readonly disabled>
-                                            <option selected value="">Pilih Status</option>
-                                            <option value="Menunggu Konfirmasi"
-                                                {{ old('status', @$aktifKuliah->status) == 'Menunggu Konfirmasi' ? 'selected' : '' }}>
-                                                    Menunggu Konfirmasi</option>
-                                            <option value="Ditolak"
-                                                {{ old('status', @$aktifKuliah->status) == 'Ditolak' ? 'selected' : '' }}>
-                                                    Ditolak</option>       
-                                            <option value="Dikonfirmasi"
-                                                {{ old('status', @$aktifKuliah->status) == 'Dikonfirmasi' ? 'selected' : '' }}>
-                                                    Dikonfirmasi</option>
-                                        </select>
-            
-                                        @if ($errors->has('status'))
-                                            <span class="text-danger">
-                                                {{ $errors->first('status') }}
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-4">
-                                <label for="name" class="col-sm-3 col-form-label">
-                                    Catatan Penolakan <sup class="text-danger">*</sup>
-                                </label>
-
-                                <div class="col-sm-9">
-                                    <textarea name="catatan" class="summernote-simple" cols="30" rows="10"
-                                        placeholder="Masukan Catatan" readonly disabled>{{ $aktifKuliah->catatan }}</textarea>
-                                </div>
-
-                            </div>
-                            @endif
-
                             <hr>
-                            <div class="text-md-right">
-                                <div class="float-lg-left mb-lg-0 mb-3">
-                                    <button class="btn btn-danger btn-icon icon-left"><i class="fas fa-times"></i> Tolak</button>
+                            @if (@$aktifKuliah->status == "Menunggu Konfirmasi")
+                                <div class="text-md-right">
+                                    <div class="float-lg-left mb-lg-0 mb-3">
+                                        <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$aktifKuliah->id}}">
+                                            <i class="fas fa-check"></i> 
+                                            Konfirmasi
+                                        </button>
+
+                                        <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$aktifKuliah->id}}">
+                                            <i class="fas fa-times"></i> 
+                                            Tolak
+                                        </button>
+                                    </div>
+
+                                    <button class="btn btn-warning btn-icon icon-left">
+                                        <i class="fas fa-print"></i> 
+                                        Print
+                                    </button>
                                 </div>
-                                <button class="btn btn-warning btn-icon icon-left"><i class="fas fa-print"></i> Print</button>
-                            </div>
+                            @else
+                                <div class="text-md-right">
+                                    <button class="btn btn-warning btn-icon icon-left">
+                                        <i class="fas fa-print"></i> 
+                                        Print
+                                    </button>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-      </form>
     </section>
 </div>
-@endsection
 
-@section('script')
-    <script type="text/javascript">
-        $("#catatan").hide();
+<div class="modal fade" tabindex="-1" role="dialog" id="konfirmasi{{$aktifKuliah->id}}">
+    <div class="modal-dialog" role="document">
+        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('konfirmasi-aktif-kuliah', $aktifKuliah->id)}}" method="POST">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Konfirmasi Pengajuan
+                    </h5>
 
-        $('#status').on('change', function() {
-            var selectedVal = $(this).val();
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-            if (selectedVal == 'Ditolak') {
-                $('#catatan').show();
-            } else {
-                $("#catatan").hide();
-            }
-        })
+                <div class="modal-body">
+                    <p>
+                        Setujui Pengajuan ?
+                    </p>
+                </div>
 
-        $('#myForm').submit(function(e) {
-            let form = this;
-            e.preventDefault();
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                    </button>
 
-            confirmSubmit(form);
-        });
+                    <button type="submit" class="btn btn-primary">
+                        Save changes
+                    </button>
+                </div>
+            </div>
+    </div>
+</div>
 
-        function confirmSubmit(form, buttonId) {
-            Swal.fire({
-                icon: 'question',
-                text: 'Apakah anda yakin ingin menyimpan data ini ?',
-                showCancelButton: true,
-                buttonsStyling: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Simpan',
-                cancelButtonText: 'Cancel',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    let button = 'btnSubmit';
+<div class="modal fade" tabindex="-1" role="dialog" id="tolak{{$aktifKuliah->id}}">
+    <div class="modal-dialog" role="document">
+        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('tolak-aktif-kuliah', $aktifKuliah->id)}}" method="POST">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Modal Catatan Penolakan
+                    </h5>
 
-                    if (buttonId) {
-                        button = buttonId;
-                    }
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-                    $('#' + button).attr('disabled', 'disabled');
-                    $('#loader').removeClass('d-none');
+                <div class="modal-body">
+                    <div class="form-group row mb-4" id="catatan">
+                        <label for="name" class="col-sm-3 col-form-label">
+                            Catatan Penolakan <sup class="text-danger">*</sup>
+                        </label>
 
-                    form.submit();
-                }
-            });
-        }
-    </script>
+                        <div class="col-sm-9">
+                            <textarea name="catatan" class="summernote-simple" id="catatan" cols="30" rows="10"
+                                placeholder="Masukan Catatan">{{ old('catatan', @$aktifKuliah->catatan) }}</textarea>
+                            
+                            @if ($errors->has('catatan'))
+                                <span class="text-danger">
+                                    {{ $errors->first('catatan') }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                    </button>
+
+                    <button type="submit" class="btn btn-primary">
+                        Save changes
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 @endsection

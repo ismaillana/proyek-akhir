@@ -33,6 +33,20 @@
                     <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
+                              <input id="no_ijazah" type="text" name="no_ijazah" class="form-control @error('no_ijazah')is-invalid @enderror" 
+                                value="{{ old('no_ijazah', @$legalisir->no_ijazah) }}" placeholder="Nomor Ijazah">
+
+                              <label for="form_nama_tempat">
+                                Nomor Ijazah<span class="text-danger">*</span>
+                              </label>
+
+                              @if ($errors->has('no_ijazah'))
+                                  <span class="text-danger">{{ $errors->first('no_ijazah') }}</span>
+                              @endif
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-floating mb-4">
                               <input id="keperluan" type="text" name="keperluan" class="form-control @error('keperluan')is-invalid @enderror" 
                                 value="{{ old('keperluan', @$legalisir->keperluan) }}" placeholder="Keperluan">
 

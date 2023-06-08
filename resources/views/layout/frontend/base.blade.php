@@ -65,8 +65,9 @@
               Swal.fire({
                 icon: 'warning',
                 title: "Pengajuan Gagal Dibuat",
+                text: "{{ session('error') }}",
                 showConfirmButton: false,
-                timer: 1500
+                timer: 2000
               })
           @endif ()
       });

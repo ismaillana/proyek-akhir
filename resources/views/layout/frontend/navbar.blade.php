@@ -212,7 +212,7 @@
             </a>
             <ul class="dropdown-menu">
               <li class="nav-item">
-                <a class="dropdown-item" href="">
+                <a class="dropdown-item" href="{{route('riwayat-legalisir')}}">
                   Legalisir
                 </a>
               </li>

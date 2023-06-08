@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\PengantarPkl;
+use App\Models\Log;
 
 use App\Http\Requests\PengantarPklRequest;
 use Illuminate\Support\Facades\Crypt;
@@ -114,5 +115,79 @@ class PengantarPklController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function konfirmasi(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  'Konfirmasi'
+        ];
+
+        PengantarPkl::where('id', $id)->update($data);
+
+        Log::create([
+            'pengantar_pkl_id'  => $id,
+            'status'        => 'Dikonfirmasi',
+            'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
+        ]);
+
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function tolak(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  'Tolak',
+            'catatan' =>  $request->catatan
+        ];
+
+        Log::create([
+            'pengantar_pkl_id'  => $id,
+            'status'        => 'Ditolak',
+            'catatan'       => $request->catatan
+        ]);
+
+        PengantarPkl::where('id', $id)->update($data);
+
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function updateStatus(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  $request->status
+        ];
+
+        PengantarPkl::where('id', $id)->update($data);
+
+        if ($request->status == 'Proses' ) {
+            Log::create([
+                'pengantar_pkl_id'  => $id,
+                'status'        => 'Diproses',
+                'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
+            ]);
+        }elseif ($request->status == 'Kendala' ) {
+            Log::create([
+                'pengantar_pkl_id'  => $id,
+                'status'        => 'Ada Kendala',
+                'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
+            ]);
+        }elseif ($request->status == 'Selesai' ) {
+            Log::create([
+                'pengantar_pkl_id'  => $id,
+                'status'        => 'Selesai',
+                'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
+            ]);
+        }
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
 }

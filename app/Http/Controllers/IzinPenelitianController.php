@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\IzinPenelitian;
+use App\Models\Log;
 
 use App\Http\Requests\IzinPenelitianRequest;
 use Illuminate\Support\Facades\Crypt;
@@ -101,5 +102,79 @@ class IzinPenelitianController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function konfirmasi(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  'Konfirmasi'
+        ];
+
+        IzinPenelitian::where('id', $id)->update($data);
+
+        Log::create([
+            'izin_penelitian_id_id'  => $id,
+            'status'        => 'Dikonfirmasi',
+            'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
+        ]);
+
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function tolak(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  'Tolak',
+            'catatan' =>  $request->catatan
+        ];
+
+        Log::create([
+            'izin_penelitian_id'  => $id,
+            'status'        => 'Ditolak',
+            'catatan'       => $request->catatan
+        ]);
+
+        IzinPenelitian::where('id', $id)->update($data);
+
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function updateStatus(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  $request->status
+        ];
+
+        IzinPenelitian::where('id', $id)->update($data);
+
+        if ($request->status == 'Proses' ) {
+            Log::create([
+                'izin_penelitian_id'  => $id,
+                'status'        => 'Diproses',
+                'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
+            ]);
+        }elseif ($request->status == 'Kendala' ) {
+            Log::create([
+                'izin_penelitian_id'  => $id,
+                'status'        => 'Ada Kendala',
+                'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
+            ]);
+        }elseif ($request->status == 'Selesai' ) {
+            Log::create([
+                'izin_penelitian_id'  => $id,
+                'status'        => 'Selesai',
+                'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
+            ]);
+        }
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
 }

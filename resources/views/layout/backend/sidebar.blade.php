@@ -86,11 +86,6 @@
                 <span>Manajemen User</span>
               </a>
               <ul class="dropdown-menu">
-                <li class="{{ request()->is('menu-admin/koorPkl*') ? 'active' : ''}}">
-                  <a class="nav-link" href="{{route('koorPkl.index')}}">
-                    Koor.PKL Jurusan
-                  </a>
-                </li>
                 <li class="{{ request()->is('menu-admin/mahasiswa*') ? 'active' : ''}}">
                   <a class="nav-link" href="{{route('mahasiswa.index')}}">
                     Mahasiswa Alumni
@@ -170,20 +165,44 @@
               <a href="{{route('home')}}" class="nav-link"><i class="fas fa-fire"></i>
                   <span>Dashboard</span></a>
             </li>
-          <li class="menu-header">Data Mahasiswa</li>
-            <li class="{{ request()->is('menu-admin/mahasiswa*') ? 'active' : ''}}">
-              <a class="nav-link" href="{{route('mahasiswa.index')}}">
-                <i class="far fa-user"></i>
-                <span>Mahasiswa</span>
+          <li class="menu-header">Manajemen User</li>
+            <li class="nav-item dropdown 
+              {{ request()->is('menu-admin/koorPkl*') ? 'active' : ''}} ||">
+    
+              <a class="nav-link has-dropdown" data-toggle="dropdown">
+                <i class="far fa-user"></i> 
+                <span>Manajemen User</span>
               </a>
+              <ul class="dropdown-menu">
+                <li class="{{ request()->is('menu-admin/koorPkl*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('koorPkl.index')}}">
+                    Koor.PKL Jurusan
+                  </a>
+                </li>
+              </ul>
             </li>
           <li class="menu-header">Pengajuan</li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown
+            {{ request()->is('menu-admin/pengajuan-izin-penelitian*') ? 'active' : ''}} ||
+            {{ request()->is('menu-admin/pengajuan-dispensasi*') ? 'active' : ''}} ||
+            {{ request()->is('menu-admin/pengajuan-pengantar-pkl*') ? 'active' : ''}}">
               <a href="#" class="nav-link has-dropdown"><i class="fas fa-th-large"></i> <span>Pengajuan</span></a>
               <ul class="dropdown-menu">
-                <li><a class="nav-link" href="components-chat-box.html">Izin Penelitian</a></li>
-                <li><a class="nav-link beep beep-sidebar" href="components-empty-state.html">Pengantar PKL</a></li>
-                <li><a class="nav-link beep beep-sidebar" href="components-hero.html">Surat Dispensasi</a></li>
+                <li class="{{ request()->is('menu-admin/pengajuan-izin-penelitian*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('pengajuan-izin-penelitian.index')}}">
+                    Izin Penelitian
+                  </a>
+                </li>
+                <li class="{{ request()->is('menu-admin/pengajuan-pengantar-pkl*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('pengajuan-pengantar-pkl.index')}}">
+                    Pengantar PKL
+                  </a>
+                </li>
+                <li class="{{ request()->is('menu-admin/pengajuan-dispensasi*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('pengajuan-dispensasi.index')}}">
+                    Surat Dispensasi
+                  </a>
+                </li>
               </ul>
             </li>
             <li class="nav-item dropdown">

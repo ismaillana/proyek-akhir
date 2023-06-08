@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\VerifikasiIjazah;
 use App\Models\Instansi;
+use App\Models\Log;
 
 use App\Http\Requests\VerifikasiIjazahRequest;
 
@@ -105,6 +106,80 @@ class VerifikasiIjazahController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function konfirmasi(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  'Konfirmasi'
+        ];
+
+        VerifikasiIjazah::where('id', $id)->update($data);
+
+        Log::create([
+            'verifikasi_ijazah_id'  => $id,
+            'status'        => 'Dikonfirmasi',
+            'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
+        ]);
+
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function tolak(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  'Tolak',
+            'catatan' =>  $request->catatan
+        ];
+
+        Log::create([
+            'verifikasi_ijazah_id'  => $id,
+            'status'        => 'Ditolak',
+            'catatan'       => $request->catatan
+        ]);
+
+        VerifikasiIjazah::where('id', $id)->update($data);
+
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function updateStatus(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  $request->status
+        ];
+
+        VerifikasiIjazah::where('id', $id)->update($data);
+
+        if ($request->status == 'Proses' ) {
+            Log::create([
+                'verifikasi_ijazah_id'  => $id,
+                'status'        => 'Diproses',
+                'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
+            ]);
+        }elseif ($request->status == 'Kendala' ) {
+            Log::create([
+                'verifikasi_ijazah_id'  => $id,
+                'status'        => 'Ada Kendala',
+                'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
+            ]);
+        }elseif ($request->status == 'Selesai' ) {
+            Log::create([
+                'verifikasi_ijazah_id'  => $id,
+                'status'        => 'Selesai',
+                'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
+            ]);
+        }
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
 
 }

@@ -90,7 +90,7 @@ class Mahasiswa extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function legalisir(): HasMany
+    public function legalisir()
     {
         return $this->hasMany(Legalisir::class);
     }
@@ -100,7 +100,7 @@ class Mahasiswa extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function dispensasi(): HasMany
+    public function dispensasi()
     {
         return $this->hasMany(Dispensasi::class);
     }

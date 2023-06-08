@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\AktifKuliah;
 use App\Models\Mahasiswa;
 use App\Models\User;
+use App\Models\Log;
 
 use App\Http\Requests\AktifKuliahRequest;
 use App\Http\Requests\KonfirmasiRequest;
@@ -102,15 +103,75 @@ class AktifKuliahController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function konfirmasi(KonfirmasiRequest $request, string $id)
+    public function konfirmasi(Request $request, string $id)
     {
         $data = [
-            'status'  => $request->status,
-            'catatan' => $request->catatan,
+            'status'  =>  'Konfirmasi'
         ];
 
         AktifKuliah::where('id', $id)->update($data);
 
-        return redirect()->route('pengajuan-aktif-kuliah.index')->with('success', 'Data Berhasil Diubah');
+        Log::create([
+            'aktif_kuliah_id'  => $id,
+            'status'        => 'Dikonfirmasi',
+            'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
+        ]);
+
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function tolak(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  'Tolak',
+            'catatan' =>  $request->catatan
+        ];
+        
+        AktifKuliah::where('id', $id)->update($data);
+
+        Log::create([
+            'aktif_kuliah_id'  => $id,
+            'status'        => 'Ditolak',
+            'catatan'       => $request->catatan
+        ]);
+
+
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function updateStatus(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  $request->status
+        ];
+
+        AktifKuliah::where('id', $id)->update($data);
+
+        if ($request->status == 'Proses' ) {
+            Log::create([
+                'legalisir_id'  => $id,
+                'status'        => 'Diproses',
+                'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
+            ]);
+        }elseif ($request->status == 'Kendala' ) {
+            Log::create([
+                'legalisir_id'  => $id,
+                'status'        => 'Ada Kendala',
+                'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
+            ]);
+        }elseif ($request->status == 'Selesai' ) {
+            Log::create([
+                'legalisir_id'  => $id,
+                'status'        => 'Selesai',
+                'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
+            ]);
+        }
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
 }
