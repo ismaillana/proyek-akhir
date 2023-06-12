@@ -32,7 +32,7 @@
                                     <div class="col-sm-12 col-md-7">
                                         <input type="text" class="form-control @error('name')is-invalid @enderror"
                                             id="name" name="name" placeholder="Masukkan Nama Admin Jurusan" 
-                                            value="{{ old('name', @$adminJurusan->user->name) }}" disabled readonly>
+                                            value="{{ old('name', @$adminJurusan->name) }}" disabled readonly>
                                     </div>
                                 </div>
 
@@ -44,7 +44,7 @@
                                     <div class="col-sm-12 col-md-7">
                                         <input type="number" class="form-control @error('nomor_induk')is-invalid @enderror"
                                             id="nomor_induk" name="nomor_induk" placeholder="Masukkan NIP" 
-                                            value="{{ old('nomor_induk', @$adminJurusan->user->nomor_induk) }}" disabled readonly>
+                                            value="{{ old('nomor_induk', @$adminJurusan->nomor_induk) }}" disabled readonly>
                                     </div>
                                 </div>
 
@@ -56,7 +56,7 @@
                                     <div class="col-sm-12 col-md-7">
                                         <input type="email" class="form-control @error('email')is-invalid @enderror"
                                             id="email" name="email" placeholder="Masukkan Email" 
-                                            value="{{ old('email', @$adminJurusan->user->email) }}" disabled readonly>
+                                            value="{{ old('email', @$adminJurusan->email) }}" disabled readonly>
                                     </div>
                                 </div>
 
@@ -74,7 +74,7 @@
 
                                             <input type="number" class="form-control @error('wa') is-invalid @enderror"
                                                 id="wa" name="wa" placeholder="Masukan Nomer Whatsapp "
-                                                value="{{ old('wa', Str::substr(@$adminJurusan->user->wa, 2)) }}" disabled readonly>
+                                                value="{{ old('wa', Str::substr(@$adminJurusan->wa, 2)) }}" disabled readonly>
                                         </div>
                                     </div>
                                 </div>

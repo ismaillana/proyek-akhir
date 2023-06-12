@@ -63,7 +63,7 @@
                             </td>
 
                             <td class="text-center">
-                                <a href="{{ asset('storage/public/dokumen/dispensasi/'. $item->dokumen)}}" download="{{$item->dokumen}}">
+                                <a href="{{ asset('storage/public/dokumen/'. $item->dokumen)}}" download="{{$item->dokumen}}">
                                     File Pengajuan
                                 </a>
                             </td>

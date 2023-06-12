@@ -63,7 +63,7 @@
                                 </td>
 
                                 <td>
-                                    {{$item->nama_perusahaan}}
+                                    {{@$item->tempatPkl->name}}
                                 </td>
 
                                 <td class="text-center">

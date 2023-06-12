@@ -22,7 +22,7 @@ class KonfirmasiRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'catatan' =>  'required_if:status,==,Ditolak'
+            'catatan' =>  'required'
         ];
         return $rules;
     }
@@ -30,7 +30,7 @@ class KonfirmasiRequest extends FormRequest
     public function messages()
     {
         return [
-            'catatan.required_if' => 'Catatan Wajib Diisi'
+            'catatan.required' => 'Catatan Wajib Diisi'
         ];
     }
 }

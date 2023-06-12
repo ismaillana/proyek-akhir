@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Mahasiswa;
-use App\Models\Ijazah;
-use App\Models\Legalisir;
-use App\Models\JenisLegalisir;
-use App\Models\Log;
+use App\Models\Pengajuan;
+use App\Models\JenisPengajuan;
+use App\Models\Riwayat;
 
 use App\Http\Requests\LegalisirRequest;
 use App\Http\Requests\KonfirmasiRequest;
@@ -22,7 +21,9 @@ class LegalisirController extends Controller
      */
     public function index()
     {
-        $legalisir = Legalisir::latest()
+        $legalisir = Pengajuan::latest()
+            ->where('jenis_pengajuan_id', 5)
+            ->whereNot('status', 'Selesai')
             ->get();
         
         return view ('admin.pengajuan.legalisir.index', [
@@ -39,16 +40,14 @@ class LegalisirController extends Controller
 
         $pengaju = auth()->user();
 
-        $mahasiswa       = Mahasiswa::with(['legalisir'])->whereUserId($pengaju->id)->first();
+        $mahasiswa       = Mahasiswa::with(['pengajuan'])->whereUserId($pengaju->id)->first();
 
-        $pengajuan = Legalisir::where('mahasiswa_id', $mahasiswa->id)
+        $pengajuan = Pengajuan::where('mahasiswa_id', $mahasiswa->id)
+            ->where('jenis_pengajuan_id', 5)
             ->latest()
             ->first();
 
-        $jenisDokumen = JenisLegalisir::get();
-
         return view ('user.pengajuan.legalisir.form',[
-            'jenisDokumen' => $jenisDokumen,
             'pengajuan'    => $pengajuan,
             'title'     => 'Legalisir'
         ]);
@@ -66,19 +65,20 @@ class LegalisirController extends Controller
         $dokumen = Legalisir::saveDokumen($request);
         
         $data = ([
+            'jenis_pengajuan_id'        => 5,
             'mahasiswa_id'              => $alumni->id,
             'no_ijazah'                 => $request->no_ijazah,
             'keperluan'                 => $request->keperluan,
             'pekerjaan_terakhir'        => $request->pekerjaan_terakhir,
-            'tempat_pekerjaan_terakhir' => $request->tempat_pekerjaan_terakhir,
+            'nama_tempat'               => $request->nama_tempat,                       
             'dokumen'                   => $dokumen,
-            'jenis_legalisir_id'        => $request->jenis_legalisir_id
+            'jenis_legalisir'           => $request->jenis_legalisir
         ]);
         
-        $legalisir = Legalisir::create($data);
+        $pengajuan = Pengajuan::create($data);
 
-        Log::create([
-            'legalisir_id'  => $legalisir->id,
+        Riwayat::create([
+            'pengajuan_id'  => $pengajuan->id,
             'status'        => 'Menunggu Konfirmasi',
             'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
         ]);
@@ -97,35 +97,12 @@ class LegalisirController extends Controller
             abort(404);
         }
 
-        $legalisir = Legalisir::find($id);
+        $legalisir = Pengajuan::find($id);
+
         return view ('admin.pengajuan.legalisir.detail', [
             'legalisir'    =>  $legalisir,
             'title'         =>  'Detail Pengajuan Legalisir'
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-    
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 
     /**
@@ -137,23 +114,23 @@ class LegalisirController extends Controller
             'status'  =>  $request->status
         ];
 
-        Legalisir::where('id', $id)->update($data);
+        Pengajuan::where('id', $id)->update($data);
 
         if ($request->status == 'Proses' ) {
-            Log::create([
-                'legalisir_id'  => $id,
+            Riwayat::create([
+                'pengajuan_id'  => $id,
                 'status'        => 'Diproses',
                 'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
             ]);
         }elseif ($request->status == 'Kendala' ) {
-            Log::create([
-                'legalisir_id'  => $id,
+            Riwayat::create([
+                'pengajuan_id'  => $id,
                 'status'        => 'Ada Kendala',
                 'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
             ]);
         }elseif ($request->status == 'Selesai' ) {
-            Log::create([
-                'legalisir_id'  => $id,
+            Riwayat::create([
+                'pengajuan_id'  => $id,
                 'status'        => 'Selesai',
                 'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
             ]);
@@ -170,10 +147,10 @@ class LegalisirController extends Controller
             'status'  =>  'Konfirmasi'
         ];
 
-        Legalisir::where('id', $id)->update($data);
+        Pengajuan::where('id', $id)->update($data);
 
-        Log::create([
-            'legalisir_id'  => $id,
+        Riwayat::create([
+            'pengajuanid'  => $id,
             'status'        => 'Dikonfirmasi',
             'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
         ]);
@@ -184,20 +161,20 @@ class LegalisirController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function tolak(Request $request, string $id)
+    public function tolak(KonfirmasiRequest $request, string $id)
     {
         $data = [
             'status'  =>  'Tolak',
             'catatan' =>  $request->catatan
         ];
 
-        Log::create([
-            'legalisir_id'  => $id,
+        Riwayat::create([
+            'pengajuan_id'  => $id,
             'status'        => 'Ditolak',
             'catatan'       => $request->catatan
         ]);
 
-        Legalisir::where('id', $id)->update($data);
+        Pengajuan::where('id', $id)->update($data);
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
@@ -207,9 +184,11 @@ class LegalisirController extends Controller
      */
     public function riwayat()
     {
-        $legalisir = Legalisir::where('status', 'Tolak')
-            ->orWhere('status', 'Selesai')
+        $legalisir = Pengajuan::where('jenis_pengajuan_id', 5)
+            ->where('status', 'Selesai')
+            ->orWhere('status', 'Tolak')
             ->get();
+            
         return view ('admin.riwayat.legalisir.index', [
             'legalisir'   => $legalisir,
             'title'         => 'Legalisir'

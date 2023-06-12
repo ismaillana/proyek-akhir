@@ -23,7 +23,7 @@ class IzinPenelitianRequest extends FormRequest
     {
         $rules = [
             'nama_tempat'           => 'required',
-            'alamat_penelitian'     => 'required',
+            'alamat_tempat'         => 'required',
             'tujuan_surat'          => 'required',
             'perihal'               => 'required',
         ];
@@ -34,7 +34,7 @@ class IzinPenelitianRequest extends FormRequest
     {
         return [
             'nama_tempat.required'       => 'Nama Tempat/Instansi Wajib Diisi',
-            'alamat_penelitian.required' => 'Alamat Lengkap Wajib Diisi',
+            'alamat_tempat.required'     => 'Alamat Lengkap Wajib Diisi',
             'tujuan_surat.required'      => 'Tujuan Surat Wajib Diisi',
             'perihal.required'           => 'Perihal Wajib Diisi Wajib Diisi',
         ];

@@ -24,14 +24,10 @@ class MahasiswaUpdateRequest extends FormRequest
     {
         $rules = [
             'name'              => 'required',
-            // 'email'             => ['required|email', Rule::unique('users', 'email')->ignore($this->mahasiswa->user->id)],
             'email'             => 'required|email|unique:users,email,'  . $this->mahasiswa->user->id,
-            // 'nomor_induk'       => ['required', Rule::unique('users', 'nomor_induk')->ignore($this->mahasiswa->user->id)],
-           
             'nomor_induk'       => 'required|unique:users,nomor_induk,' . $this->mahasiswa->user->id,
             'wa'                => 'required',
             'angkatan'          => 'required',
-            'jurusan_id'        => 'required',
             'program_studi_id'  => 'required'
         ];
         return $rules;
@@ -47,9 +43,8 @@ class MahasiswaUpdateRequest extends FormRequest
             'nomor_induk.unique'    => 'NIM Sudah Ada',
             'wa.required'           => 'No WhatsApp Wajib Diisi',
             'angkatan.required'     => 'Tahun Angkatan Wajib Diisi',
-            'jurusan_id.required'   => 'Jurusan Wajib Diisi',
             'program_studi_id.required' => 'Program Studi Wajib Diisi',
-            'email.unique' => 'Email Sudah Digunakan'
+            'email.unique'          => 'Email Sudah Digunakan'
 
         ];
     }

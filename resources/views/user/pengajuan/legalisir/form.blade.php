@@ -5,8 +5,13 @@
   <div class="container py-14 pt-md-10 pb-md-21">
     <div class="row gx-lg-8 gx-xl-12 gy-10 gy-lg-0 mb-2 align-items-end">
       <div class="col-lg-12 text-center">
-        <h2 class="fs-16 text-uppercase text-line text-primary mb-3">Pengajuan</h2>
-        <h3 class="display-4 text-center text-white">Legalisir</h3>
+        <h2 class="fs-16 text-uppercase text-line text-primary mb-3">
+          Pengajuan
+        </h2>
+
+        <h3 class="display-4 text-center text-white">
+          Legalisir
+        </h3>
       </div>
     </div>
   </div>
@@ -20,7 +25,7 @@
         <div class="row">
           <div class="col-12">
             <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST" 
-              action="{{route('legalisir.store')}}">
+              action="{{route('pengajuan.legalisir.store')}}">
               {{ csrf_field() }}
               <div class="card card-border-start border-primary">
                 <div class="card-header">
@@ -31,7 +36,7 @@
 
                 <div class="card-body">
                     <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                      @if ($pengajuan->status == 'Selesai' || $pengajuan->status == 'Tolak')
+                      @if (@$pengajuan->status == 'Selesai' || @$pengajuan->status == 'Tolak' || @$pengajuan == null)
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
                               <input id="no_ijazah" type="text" name="no_ijazah" class="form-control @error('no_ijazah')is-invalid @enderror" 
@@ -78,15 +83,15 @@
 
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
-                              <input id="tempat_pekerjaan_terakhir" type="text" name="tempat_pekerjaan_terakhir" class="form-control @error('tempat_pekerjaan_terakhir')is-invalid @enderror" 
-                                value="{{ old('tempat_pekerjaan_terakhir', @$legalisir->tempat_pekerjaan_terakhir) }}" placeholder="Tempat Pekerjaan Terakhir">
+                              <input id="nama_tempat" type="text" name="nama_tempat" class="form-control @error('nama_tempat')is-invalid @enderror" 
+                                value="{{ old('nama_tempat', @$legalisir->nama_tempat) }}" placeholder="Tempat Pekerjaan Terakhir">
                               
                               <label for="form_nama_tempat">
                                 Tempat Pekerjaan Terakhir<span class="text-danger">*</span>
                               </label>
 
-                              @if ($errors->has('tempat_pekerjaan_terakhir'))
-                                  <span class="text-danger">{{ $errors->first('tempat_pekerjaan_terakhir') }}</span>
+                              @if ($errors->has('nama_tempat'))
+                                  <span class="text-danger">{{ $errors->first('nama_tempat') }}</span>
                               @endif
                             </div>
                         </div>
@@ -96,19 +101,25 @@
                               Jenis Dokumen<span class="text-danger">*</span>
                           </label>
 
-                            <select class="form-select @error('jenis_legalisir_id')
-                            is-invalid @enderror" name="jenis_legalisir_id[]"
-                              id="jenis_legalisir_id" multiple>
-                              @foreach ($jenisDokumen as $item)
-                                  <option value="{{ $item->id }}"
-                                    {{ old('jenis_legalisir_id', @$legalisir->jenis_legalisir_id) == $item->id ? 'selected' : '' }}>
-                                    {{ $item->name }}
-                                  </option>
-                              @endforeach
+                            <select class="form-select @error('jenis_legalisir')
+                            is-invalid @enderror" name="jenis_legalisir[]"
+                              id="jenis_legalisir" multiple>
+                              <option value="Ijazah"
+                                {{ old('jenis_legalisir', @$legalisir->jenis_legalisir) == 'Ijazah' ? 'selected' : '' }}>
+                                Ijazah</option>
+                              <option value="Transkrip"
+                                {{ old('jenis_legalisir', @$legalisir->jenis_legalisir) == 'Transkrip' ? 'selected' : '' }}>
+                                  Transkrip</option>
+                              <option value="SKPI"
+                                {{ old('jenis_legalisir', @$legalisir->jenis_legalisir) == 'SKPI' ? 'selected' : '' }}>
+                                  SKPI</option>
+                              <option value="SKL"
+                                {{ old('jenis_legalisir', @$legalisir->jenis_legalisir) == 'SKL' ? 'selected' : '' }}>
+                                  SKL</option>
                             </select>
 
-                            @if ($errors->has('jenis_legalisir_id'))
-                                <span class="text-danger">{{ $errors->first('jenis_legalisir_id') }}</span>
+                            @if ($errors->has('jenis_legalisir'))
+                                <span class="text-danger">{{ $errors->first('jenis_legalisir') }}</span>
                             @endif
                         </div>
 
@@ -161,7 +172,7 @@
 
 @section('script')
 <script type="text/javascript">
-  new MultiSelectTag('jenis_legalisir_id')  // id
+  new MultiSelectTag('jenis_legalisir')  // id
 
         $('#myForm').submit(function(e) {
             let form = this;

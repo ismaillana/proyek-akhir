@@ -36,6 +36,8 @@
                                       <span class="badge badge-danger">Ditolak</span>
                                   @elseif (@$pengantarPkl->status == 'Kendala')
                                       <span class="badge badge-danger">Ada Kendala</span>
+                                  @elseif (@$pengantarPkl->status == 'Review')
+                                      <span class="badge badge-success">Direview</span>
                                   @else
                                       <span class="badge badge-success">Selesai</span>
                                   @endif
@@ -66,11 +68,11 @@
                                           Tempat PKL:
                                         </strong>
                                         <br>
-                                        Nama: {{@$pengantarPkl->nama_perusahaan}}<br>
-                                        Alamat: {{@$pengantarPkl->alamat}}<br>
-                                        Link website: {{@$pengantarPkl->web}}<br>
-                                        Telepon: {{@$pengantarPkl->telepon}}<br>
-                                        Ditujukan Kepada: {{@$pengantarPkl->kepada}}
+                                        Nama: {{@$pengantarPkl->tempatPkl->name}}<br>
+                                        Alamat: {{@$pengantarPkl->tempatPkl->alamat}}<br>
+                                        Link website: {{@$pengantarPkl->tempatPkl->web}}<br>
+                                        Telepon: {{@$pengantarPkl->tempatPkl->telepon}}<br>
+                                        Ditujukan Kepada: {{@$pengantarPkl->tujuan_surat}}
                                       </address>
                                     </div>
                                   </div>
@@ -81,8 +83,8 @@
                                           Data PKL:
                                         </strong>
                                         <br>
-                                        Tanggal Mulai: {{@$pengantarPkl->mulai}}<br>
-                                        Tanggal Selesai: {{@$pengantarPkl->selesai}}
+                                        Tanggal Mulai: {{@$pengantarPkl->tgl_mulai}}<br>
+                                        Tanggal Selesai: {{@$pengantarPkl->tgl_selesai}}
                                       </address>
                                     </div>
                                     <div class="col-md-6 text-md-right">
@@ -183,31 +185,65 @@
                               </div> --}}
                             <hr>
                               @if (@$pengantarPkl->status == "Menunggu Konfirmasi")
+                                @if ($user->hasRole('admin-jurusan'))
                                   <div class="text-md-right">
-                                      <div class="float-lg-left mb-lg-0 mb-3">
-                                          <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$pengantarPkl->id}}">
-                                              <i class="fas fa-check"></i> 
-                                              Konfirmasi
-                                          </button>
+                                    <div class="float-lg-left mb-lg-0 mb-3">
+                                        <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$pengantarPkl->id}}">
+                                            <i class="fas fa-check"></i> 
+                                            Konfirmasi
+                                        </button>
 
-                                          <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$pengantarPkl->id}}">
-                                              <i class="fas fa-times"></i> 
-                                              Tolak
-                                          </button>
-                                      </div>
+                                        <button class="btn btn-success btn-icon icon-left" data-toggle="modal" data-target="#review{{$pengantarPkl->id}}">
+                                          <i class="fas fa-share"></i> 
+                                          Review
+                                        </button>
+
+                                        <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$pengantarPkl->id}}">
+                                            <i class="fas fa-times"></i> 
+                                            Tolak
+                                        </button>
+                                    </div>
 
                                       <button class="btn btn-warning btn-icon icon-left">
                                           <i class="fas fa-print"></i> 
                                           Print
                                       </button>
                                   </div>
+                                @else
+                                  <div class="text-md-right">
+                                      <button class="btn btn-warning btn-icon icon-left">
+                                          <i class="fas fa-print"></i> 
+                                          Print
+                                      </button>
+                                  </div>
+                                @endif
+                                  
+                              @elseif (@$pengantarPkl->status == "Review" && $user->hasRole('koor-pkl'))
+                                <div class="text-md-right">
+                                  <div class="float-lg-left mb-lg-0 mb-3">
+                                      <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$pengantarPkl->id}}">
+                                          <i class="fas fa-check"></i> 
+                                          Konfirmasi
+                                      </button>
+
+                                      <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$pengantarPkl->id}}">
+                                          <i class="fas fa-times"></i> 
+                                          Tolak
+                                      </button>
+                                  </div>
+
+                                    <button class="btn btn-warning btn-icon icon-left">
+                                        <i class="fas fa-print"></i> 
+                                        Print
+                                    </button>
+                                </div>
                               @else
-                                  <div class="text-md-right">
-                                      <button class="btn btn-warning btn-icon icon-left">
-                                          <i class="fas fa-print"></i> 
-                                          Print
-                                      </button>
-                                  </div>
+                                <div class="text-md-right">
+                                    <button class="btn btn-warning btn-icon icon-left">
+                                        <i class="fas fa-print"></i> 
+                                        Print
+                                    </button>
+                                </div>
                               @endif
                         </div>
                     </div>
@@ -287,6 +323,41 @@
               </div>
 
               <div class="modal-footer br">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                      Close
+                  </button>
+
+                  <button type="submit" class="btn btn-primary">
+                      Save changes
+                  </button>
+              </div>
+          </div>
+      </form>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="review{{$pengantarPkl->id}}">
+  <div class="modal-dialog" role="document">
+      <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('review-pengantar-pkl', $pengantarPkl->id)}}" method="POST">
+          @csrf
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">
+                      Ajukan Review Pengajuan
+                  </h5>
+
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+
+              <div class="modal-body">
+                  <p>
+                      Ajukan Review Pengajuan ?
+                  </p>
+              </div>
+
+              <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">
                       Close
                   </button>

@@ -15,10 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('nomor_induk')->unique()->nullable();
+            $table->foreignId('jurusan_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->string('wa')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('image')->nullable();
             $table->ENUM('status',['0','1'])->default('1');
             $table->rememberToken();
             $table->timestamps();

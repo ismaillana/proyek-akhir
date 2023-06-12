@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\AktifKuliah;
 use App\Models\Mahasiswa;
 use App\Models\User;
-use App\Models\Log;
+use App\Models\Riwayat;
+use App\Models\Pengajuan;
+use App\Models\JenisPengajuan;
 
 use App\Http\Requests\AktifKuliahRequest;
 use App\Http\Requests\KonfirmasiRequest;
@@ -19,7 +21,10 @@ class AktifKuliahController extends Controller
      */
     public function index()
     {
-        $aktifKuliah = AktifKuliah::get();
+        $aktifKuliah = Pengajuan::where('jenis_pengajuan_id', 1)
+            ->whereNot('status', 'Selesai')
+            ->get();
+
         return view ('admin.pengajuan.surat-aktif-kuliah.index', [
             'aktifKuliah'   => $aktifKuliah,
             'title'         => 'Surat Keterangan Aktif Kuliah'
@@ -33,16 +38,17 @@ class AktifKuliahController extends Controller
     {
         $user = auth()->user();
 
-        $mahasiswa       = Mahasiswa::with(['dispensasi'])->whereUserId($user->id)->first();
+        $mahasiswa       = Mahasiswa::with(['pengajuan'])->whereUserId($user->id)->first();
 
-        $pengajuan = AktifKuliah::where('mahasiswa_id', $mahasiswa->id)
+        $pengajuan = Pengajuan::where('mahasiswa_id', $mahasiswa->id)
+            ->where('jenis_pengajuan_id', 1)
             ->latest()
             ->first();
 
-        return view ('user.pengajuan.aktifKuliah.form', [
+        return view ('user.pengajuan.aktif-kuliah.form', [
             'mahasiswa' => $mahasiswa,
             'pengajuan' => $pengajuan,
-            'title'         => 'Surat Keterangan Aktif Kuliah'
+            'title'     => 'Surat Keterangan Aktif Kuliah'
         ]);
     }
 
@@ -53,15 +59,16 @@ class AktifKuliahController extends Controller
     {
         $user = auth()->user();
 
-        $mahasiswa       = Mahasiswa::whereUserId($user->id)->first();
+        $mahasiswa = Mahasiswa::whereUserId($user->id)->first();
 
-        $aktifKuliah = AktifKuliah::create([
+        $pengajuan = Pengajuan::create([
+            'jenis_pengajuan_id' => '1',
             'mahasiswa_id'  => $mahasiswa->id,
             'keperluan'     => $request->keperluan,
         ]);
 
-        Log::create([
-            'aktif_kuliah_id'  => $aktifKuliah->id,
+        Riwayat::create([
+            'pengajuan_id'  => $pengajuan->id,
             'status'        => 'Menunggu Konfirmasi',
             'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
         ]);
@@ -80,35 +87,11 @@ class AktifKuliahController extends Controller
             abort(404);
         }
 
-        $aktifKuliah = AktifKuliah::find($id);
+        $aktifKuliah = Pengajuan::find($id);
         return view ('admin.pengajuan.surat-aktif-kuliah.detail', [
             'aktifKuliah'    =>  $aktifKuliah,
             'title'         =>  'Detail Pengajuan Keterangan Aktif Kuliah'
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 
     /**
@@ -120,10 +103,10 @@ class AktifKuliahController extends Controller
             'status'  =>  'Konfirmasi'
         ];
 
-        AktifKuliah::where('id', $id)->update($data);
+        Pengajuan::where('id', $id)->update($data);
 
-        Log::create([
-            'aktif_kuliah_id'  => $id,
+        Riwayat::create([
+            'pengajuan_id'  => $id,
             'status'        => 'Dikonfirmasi',
             'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
         ]);
@@ -134,20 +117,20 @@ class AktifKuliahController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function tolak(Request $request, string $id)
+    public function tolak(KonfirmasiRequest $request, string $id)
     {
         $data = [
             'status'  =>  'Tolak',
             'catatan' =>  $request->catatan
         ];
 
-        Log::create([
-            'aktif_kuliah_id'  => $id,
-            'status'        => 'Ditolak',
-            'catatan'       => $request->catatan
+        Riwayat::create([
+            'pengajuan_id'          => $id,
+            'status'                => 'Ditolak',
+            'catatan'               => $request->catatan
         ]);
 
-        AktifKuliah::where('id', $id)->update($data);
+        Pengajuan::where('id', $id)->update($data);
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
@@ -161,23 +144,23 @@ class AktifKuliahController extends Controller
             'status'  =>  $request->status
         ];
 
-        AktifKuliah::where('id', $id)->update($data);
+        Pengajuan::where('id', $id)->update($data);
 
         if ($request->status == 'Proses' ) {
-            Log::create([
-                'aktif_kuliah_id'  => $id,
+            Riwayat::create([
+                'pengajuan_id'  => $id,
                 'status'        => 'Diproses',
                 'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
             ]);
         }elseif ($request->status == 'Kendala' ) {
-            Log::create([
-                'aktif_kuliah_id'  => $id,
+            Riwayat::create([
+                'pengajuan_id'  => $id,
                 'status'        => 'Ada Kendala',
                 'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
             ]);
         }elseif ($request->status == 'Selesai' ) {
-            Log::create([
-                'aktif_kuliah_id'  => $id,
+            Riwayat::create([
+                'pengajuan_id'  => $id,
                 'status'        => 'Selesai',
                 'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
             ]);
@@ -190,9 +173,11 @@ class AktifKuliahController extends Controller
      */
     public function riwayat()
     {
-        $aktifKuliah = AktifKuliah::where('status', 'Tolak')
-            ->orWhere('status', 'Selesai')
+        $aktifKuliah = Pengajuan::where('jenis_pengajuan_id', 1)
+            ->where('status', 'Selesai')
+            ->orWhere('status', 'Tolak')
             ->get();
+
         return view ('admin.riwayat.surat-aktif-kuliah.index', [
             'aktifKuliah'   => $aktifKuliah,
             'title'         => 'Surat Keterangan Aktif Kuliah'

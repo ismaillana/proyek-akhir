@@ -110,9 +110,9 @@
                                 </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control @error('tempat_pekerjaan_terakhir')is-invalid @enderror"
-                                        id="tempat_pekerjaan_terakhir" name="tempat_pekerjaan_terakhir" placeholder="" 
-                                        value="{{ old('tempat_pekerjaan_terakhir', @$legalisir->tempat_pekerjaan_terakhir) }}" disabled readonly>
+                                    <input type="text" class="form-control @error('nama_tempat')is-invalid @enderror"
+                                        id="nama_tempat" name="nama_tempat" placeholder="" 
+                                        value="{{ old('nama_tempat', @$legalisir->nama_tempat) }}" disabled readonly>
                                 </div>
                             </div>
 
@@ -122,9 +122,14 @@
                                 </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control @error('jenis_legalisir_id')is-invalid @enderror"
-                                        id="jenis_legalisir_id" name="jenis_legalisir_id" placeholder="" 
-                                        value="{{ old('jenis_legalisir_id', @$legalisir->jenis_legalisir) }}" disabled readonly>
+                                    @if (@$legalisir->jenis_legalisir)
+                                        @foreach ( @$legalisir->jenis_legalisir as $dokumen)
+                                            
+                                        <input type="text" class="form-control @error('jenis_legalisir')is-invalid @enderror mb-2"
+                                            id="jenis_legalisir" name="jenis_legalisir" placeholder="" 
+                                            value="{{$dokumen}}" disabled readonly>
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                             <hr>

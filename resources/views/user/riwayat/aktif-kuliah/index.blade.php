@@ -5,8 +5,13 @@
   <div class="container py-14 pt-md-10 pb-md-21">
     <div class="row gx-lg-8 gx-xl-12 gy-10 gy-lg-0 mb-2 align-items-end">
       <div class="col-lg-12 text-center">
-        <h2 class="fs-16 text-uppercase text-line text-primary mb-3">Pengajuan</h2>
-        <h3 class="display-4 text-center text-white">Surat Keterangan Aktif Kuliah</h3>
+        <h2 class="fs-16 text-uppercase text-line text-primary mb-3">
+            Pengajuan
+        </h2>
+
+        <h4 class="display-4 text-center text-white">
+            Surat Keterangan Aktif Kuliah
+        </h4>
       </div>
     </div>
   </div>
@@ -22,7 +27,7 @@
               <div class="card card-border-start border-primary">
                 <div class="card-header">
                     <h4>
-                        Form Pengajuan Surat Keterangan Aktif Kuliah
+                        Riwayat Pengajuan Surat Keterangan Aktif Kuliah
                     </h4>
                 </div>
 
@@ -31,10 +36,21 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                  <th scope="col">#</th>
-                                  <th scope="col">Tanggal Pengajuan</th>
-                                  <th scope="col">Status</th>
-                                  <th scope="col">Aksi</th>
+                                  <th scope="col">
+                                    #
+                                  </th>
+
+                                  <th scope="col">
+                                    Tanggal Pengajuan
+                                  </th>
+                                  
+                                  <th scope="col">
+                                    Status
+                                  </th>
+                                  
+                                  <th scope="col">
+                                    Aksi
+                                  </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -65,7 +81,7 @@
                                         </td>
 
                                         <td>
-                                            <a href="{{ route('tracking-aktif-kuliah', $item->id)}}"
+                                            <a href="{{ route('pengajuan.tracking-aktif-kuliah', $item->id)}}"
                                                 class="btn btn-sm btn-outline-secondary" title="Detail">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     width="16" height="16" viewBox="0 0 24 24"

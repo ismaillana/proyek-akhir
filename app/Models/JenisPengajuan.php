@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JenisLegalisir extends Model
+class JenisPengajuan extends Model
 {
     use HasFactory;
 
@@ -17,12 +17,12 @@ class JenisLegalisir extends Model
     protected $guarded = ['id'];
 
     /**
-     * Get all of the comments for the Aktif Kuliah
+     * Get all of the comments for the Pengajuan
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function legalisir(): HasMany
+    public function pengajuan()
     {
-        return $this->hasMany(Legalisir::class);
+        return $this->hasMany(Pengajuan::class);
     }
 }

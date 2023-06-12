@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\BagianAkademik;
 use App\Models\User;
 
 use App\Http\Requests\BagianAkademikRequest;
@@ -22,7 +21,9 @@ class BagianAkademikController extends Controller
      */
     public function index()
     {
-        $bagianAkademik = BagianAkademik::get();
+        $bagianAkademik = User::latest()
+            ->role('bagian-akademik') 
+            ->get();
 
         return view ('admin.bagian-akademik.index', [
             'bagianAkademik'  => $bagianAkademik,
@@ -35,7 +36,7 @@ class BagianAkademikController extends Controller
      */
     public function create()
     {
-        return view ('admin.bagian-akademik.form', [
+        return view ('admin.bagian-akademik.tambah', [
             'title'     => 'Form Tambah Bagian Akademik'
         ]);
     }
@@ -48,27 +49,18 @@ class BagianAkademikController extends Controller
         DB::beginTransaction();
 
         try {
+            $image = User::saveImage($request);
+
             $user = User::create([
                 'name'        => $request->name,
                 'nomor_induk' => $request->nomor_induk,
                 'email'       => $request->email,
                 'wa'          => 62 . $request->wa,
-                'password'    => Hash::make($request->nomor_induk)
+                'password'    => Hash::make($request->nomor_induk),
+                'image'       => $image
             ]);
 
             $user->assignRole('bagian-akademik');
-
-            $data = [
-                'user_id'           => $user->id,
-                'name'              => $user->name,
-                'nip'               => $user->nomor_induk,
-            ];
-            
-            $image = BagianAkademik::saveImage($request);
-
-            $data['image'] = $image;
-
-            $bagianAkademik = BagianAkademik::create($data);
 
             DB::commit();
 
@@ -90,10 +82,10 @@ class BagianAkademikController extends Controller
             abort(404);
         }
 
-        $bagianAkademik = BagianAkademik::findOrFail($id);
+        $user = User::findOrFail($id);
 
         return view ('admin.bagian-akademik.detail', [
-            'bagianAkademik' => $bagianAkademik,
+            'user' => $user,
             'title'         => 'Detail Bagian Akademik'
         ]);
     }
@@ -109,9 +101,9 @@ class BagianAkademikController extends Controller
             abort(404);
         }
 
-        $bagianAkademik = BagianAkademik::findOrFail($id);
+        $bagianAkademik = User::findOrFail($id);
 
-        return view ('admin.bagian-akademik.form', [
+        return view ('admin.bagian-akademik.edit', [
             'bagianAkademik' => $bagianAkademik,
             'title'         => 'Form Edit Bagian Akademik'
         ]);
@@ -120,35 +112,23 @@ class BagianAkademikController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(BagianAkademikUpdateRequest $request, BagianAkademik $bagianAkademik)
+    public function update(BagianAkademikUpdateRequest $request, $id)
     {
         $data = [
-            'nip'               => $request->nomor_induk,
-            'name'               => $request->name,
+            'name'        => $request->name,
+            'wa'          => 62 . $request->wa,
+            // 'password'    => Hash::make($request->nomor_induk)
         ];
 
-        $image = BagianAkademik::saveImage($request);
+        $image = User::saveImage($request);
 
         if ($image) {
             $data['image'] = $image;
 
-            $param = (object) [
-                'type'  => 'image',
-                'id'    => $bagianAkademik->id
-            ];
-
-            BagianAkademik::deleteImage($param);
+            User::deleteImage($id);
         }
 
-        BagianAkademik::where('id', $bagianAkademik->id)->update($data);
-        
-        User::whereId($bagianAkademik->user_id)->update([
-            'name'        => $request->name,
-            'nomor_induk' => $request->nomor_induk,
-            'email'       => $request->email,
-            'wa'          => 62 . $request->wa,
-            // 'password'    => Hash::make($request->nomor_induk)
-        ]);
+        User::where('id', $id)->update($data);
 
         return redirect()->route('bagianAkademik.index')->with('success', 'Data Berhasil Diubah');
     }
@@ -158,18 +138,11 @@ class BagianAkademikController extends Controller
      */
     public function destroy(string $id)
     {
-        $bagianAkademik = BagianAkademik::find($id);
+        $bagianAkademik = User::find($id);
 
-        $param = (object) [
-            'type'  => 'image',
-            'id'    => $bagianAkademik->id
-        ];
-
-        BagianAkademik::deleteImage($param);
+        User::deleteImage($id);
 
         $bagianAkademik->delete();
-
-        User::where('id', $bagianAkademik->user_id)->update(['status' => '0']);
 
         return response()->json(['status' => 'Data Berhasil Dihapus']);
     }

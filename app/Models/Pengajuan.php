@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Legalisir extends Model
+class Pengajuan extends Model
 {
     use HasFactory;
 
@@ -21,7 +21,7 @@ class Legalisir extends Model
      *
      * @var array
      */
-    protected $appends = ['jenis_legalisir'];
+    protected $appends = ['get_mahasiswa', 'jenis_dokumen'];
 
     /**
      * The attributes that should be cast.
@@ -29,7 +29,8 @@ class Legalisir extends Model
      * @var array
      */
     protected $casts = [
-        'jenis_legalisir_id' => 'array',
+        'nama_mahasiswa' => 'array',
+        'jenis_legalisir' => 'array',
     ];
     
     /**
@@ -43,23 +44,43 @@ class Legalisir extends Model
     }
 
     /**
-     * Get the user that owns the Mahasiswa
+     * Get the user that owns the Instansi
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function ijazah()
+    public function instansi()
     {
-        return $this->belongsTo(Ijazah::class);
+        return $this->belongsTo(Instansi::class);
     }
 
+    /**
+     * Get the user that owns the JenisPengajuan
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function jenisPengajuan()
+    {
+        return $this->belongsTo(JenisPengajuan::class);
+    }
+
+    /**
+     * Get the user that owns the TempatPkl
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function tempatPkl()
+    {
+        return $this->belongsTo(TempatPkl::class);
+    }
+    
     /**
      * Get all of the Log for the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function log(): HasMany
+    public function riwayat()
     {
-        return $this->hasMany(Log::class);
+        return $this->hasMany(Riwayat::class);
     }
 
     /**
@@ -77,20 +98,18 @@ class Legalisir extends Model
 
             $ext = $file->getClientOriginalExtension();
             $filename = date('YmdHis') . uniqid() . '.' . $ext;
-            $file->storeAs('public/dokumen/legalisir/', $filename);
+            $file->storeAs('public/dokumen/', $filename);
         }
 
         return $filename;
     }
 
-    public function getJenisLegalisirAttribute()
+    public function getGetMahasiswaAttribute()
     {
-        $data = JenisLegalisir::whereIn('id', $this->jenis_legalisir_id)->get();
+        $data = User::whereIn('id', $this->nama_mahasiswa)->get();
         if ($data->isEmpty()) {
             return null;
         }
-
-        // dd($data->isEmpty());
 
         return $data->implode('name', ',');
     }

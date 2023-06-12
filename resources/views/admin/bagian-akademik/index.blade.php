@@ -57,7 +57,7 @@
                                 </td>
 
                                 <td>
-                                    {{ $item->nip}}
+                                    {{ $item->nomor_induk}}
                                 </td>
 
                                 <td class="text-center">

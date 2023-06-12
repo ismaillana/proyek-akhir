@@ -31,28 +31,9 @@ class Jurusan extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function mahasiswa(): HasMany
+    public function user()
     {
-        return $this->hasMany(Mahasiswa::class);
+        return $this->hasMany(User::class);
     }
 
-    /**
-     * Get all of the comments for the Jurusan
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function adminJurusan(): HasMany
-    {
-        return $this->hasMany(AdminJurusan::class);
-    }
-
-    /**
-     * Get all of the comments for the Jurusan
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function koorPKL(): HasMany
-    {
-        return $this->hasMany(koorPkl::class);
-    }
 }

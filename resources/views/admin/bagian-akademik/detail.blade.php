@@ -32,7 +32,7 @@
                                     <div class="col-sm-12 col-md-7">
                                         <input type="text" class="form-control @error('name')is-invalid @enderror"
                                             id="name" name="name" placeholder="Masukkan Nama Admin Jurusan" 
-                                            value="{{ old('name', @$bagianAkademik->user->name) }}" disabled readonly>
+                                            value="{{ old('name', @$user->name) }}" disabled readonly>
                                     </div>
                                 </div>
 
@@ -44,7 +44,7 @@
                                     <div class="col-sm-12 col-md-7">
                                         <input type="number" class="form-control @error('nomor_induk')is-invalid @enderror"
                                             id="nomor_induk" name="nomor_induk" placeholder="Masukkan NIP" 
-                                            value="{{ old('nomor_induk', @$bagianAkademik->user->nomor_induk) }}" disabled readonly>
+                                            value="{{ old('nomor_induk', @$user->nomor_induk) }}" disabled readonly>
                                     </div>
                                 </div>
 
@@ -56,7 +56,7 @@
                                     <div class="col-sm-12 col-md-7">
                                         <input type="email" class="form-control @error('email')is-invalid @enderror"
                                             id="email" name="email" placeholder="Masukkan Email" 
-                                            value="{{ old('email', @$bagianAkademik->user->email) }}" disabled readonly>
+                                            value="{{ old('email', @$user->email) }}" disabled readonly>
                                     </div>
                                 </div>
 
@@ -74,7 +74,7 @@
 
                                             <input type="number" class="form-control @error('wa') is-invalid @enderror"
                                                 id="wa" name="wa" placeholder="Masukan Nomer Whatsapp "
-                                                value="{{ old('wa', Str::substr(@$bagianAkademik->user->wa, 2)) }}" disabled readonly>
+                                                value="{{ old('wa', Str::substr(@$user->wa, 2)) }}" disabled readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +86,7 @@
                                     <div class="col-sm-12 col-md-7">
                                         <input class="dropify @error('image') is-invalid @enderror" 
                                             data-height='250' type="file" name="image" id="image" 
-                                            data-default-file="{{ @$bagianAkademik->image_url }}" disabled>
+                                            data-default-file="{{ @$user->image_url }}" disabled>
                                     </div>
                                 </div>
                                 

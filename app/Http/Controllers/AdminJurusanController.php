@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\AdminJurusan;
 use App\Models\Jurusan;
 
 use App\Http\Requests\AdminJurusanRequest;
@@ -23,7 +22,9 @@ class AdminJurusanController extends Controller
      */
     public function index()
     {
-        $adminJurusan = AdminJurusan::get();
+        $adminJurusan = User::latest()
+            ->role('admin-jurusan')
+            ->get();
 
         return view ('admin.admin-jurusan.index', [
             'adminJurusan'  => $adminJurusan,
@@ -38,7 +39,7 @@ class AdminJurusanController extends Controller
     {
         $jurusan    =   Jurusan::get();
         
-        return view ('admin.admin-jurusan.form', [
+        return view ('admin.admin-jurusan.tambah', [
             'jurusan'   =>  $jurusan,
             'title'     => 'Admin Jurusan'
         ]);
@@ -52,28 +53,20 @@ class AdminJurusanController extends Controller
         DB::beginTransaction();
 
         try {
+            $image = User::saveImage($request);
+
             $user = User::create([
                 'name'        => $request->name,
                 'nomor_induk' => $request->nomor_induk,
                 'email'       => $request->email,
                 'wa'          => 62 . $request->wa,
-                'password'    => Hash::make($request->nomor_induk)
+                'jurusan_id'  => $request->jurusan_id,
+                'password'    => Hash::make($request->nomor_induk),
+                'image'       => $image
             ]);
 
             $user->assignRole('admin-jurusan');
-
-            $data = [
-                'user_id'           => $user->id,
-                'nip'               => $user->nomor_induk,
-                'jurusan_id'        => $request->jurusan_id,
-            ];
-            
-            $image = AdminJurusan::saveImage($request);
-
-            $data['image'] = $image;
-
-            $adminJurusan = AdminJurusan::create($data);
-
+        
             DB::commit();
 
             return redirect()->route('adminJurusan.index')->with('success', 'Data Berhasil Ditambah');
@@ -94,7 +87,7 @@ class AdminJurusanController extends Controller
             abort(404);
         }
 
-        $adminJurusan = AdminJurusan::findOrFail($id);
+        $adminJurusan = User::findOrFail($id);
         $jurusan = Jurusan::oldest('name')->get();
 
         return view ('admin.admin-jurusan.detail', [
@@ -115,10 +108,10 @@ class AdminJurusanController extends Controller
             abort(404);
         }
 
-        $adminJurusan = AdminJurusan::findOrFail($id);
+        $adminJurusan = User::findOrFail($id);
         $jurusan = Jurusan::oldest('name')->get();
 
-        return view ('admin.admin-jurusan.form', [
+        return view ('admin.admin-jurusan.edit', [
             'adminJurusan' => $adminJurusan,
             'jurusan'   => $jurusan,
             'title'         => 'Admin Jurusan'
@@ -128,35 +121,23 @@ class AdminJurusanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(AdminJurusanUpdateRequest $request, AdminJurusan $adminJurusan)
+    public function update(AdminJurusanUpdateRequest $request, $id)
     {
         $data = [
-            'nip'               => $request->nomor_induk,
+            'name'        => $request->name,
+            'wa'          => 62 . $request->wa,
             'jurusan_id'        => $request->jurusan_id,
         ];
 
-        $image = AdminJurusan::saveImage($request);
+        $image = User::saveImage($request);
 
         if ($image) {
             $data['image'] = $image;
 
-            $param = (object) [
-                'type'  => 'image',
-                'id'    => $adminJurusan->id
-            ];
-
-            AdminJurusan::deleteImage($param);
+            User::deleteImage($id);
         }
 
-        AdminJurusan::where('id', $adminJurusan->id)->update($data);
-
-        User::whereId($adminJurusan->user_id)->update([
-            'name'        => $request->name,
-            'nomor_induk' => $request->nomor_induk,
-            'email'       => $request->email,
-            'wa'          => 62 . $request->wa,
-            // 'password'    => Hash::make($request->nomor_induk)
-        ]);
+        User::where('id', $id)->update($data);
 
         return redirect()->route('adminJurusan.index')->with('success', 'Data Berhasil Diubah');
     }
@@ -166,18 +147,11 @@ class AdminJurusanController extends Controller
      */
     public function destroy(string $id)
     {
-        $adminJurusan = AdminJurusan::find($id);
+        $adminJurusan = User::find($id);
 
-        $param = (object) [
-            'type'  => 'image',
-            'id'    => $adminJurusan->id
-        ];
-
-        AdminJurusan::deleteImage($param);
+        User::deleteImage($id);
 
         $adminJurusan->delete();
-
-        User::where('id', $adminJurusan->user_id)->update(['status' => '0']);
 
         return response()->json(['status' => 'Data Berhasil Dihapus']);
     }

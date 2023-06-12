@@ -3,7 +3,9 @@
   <div class="main-content">
     <section class="section">
       <div class="section-header">
-        <h1>Tabel Data Pengajuan Legalisir</h1>
+        <h1>
+            Tabel Data Pengajuan Legalisir
+        </h1>
       </div>
 
       <div class="section-body">
@@ -75,11 +77,16 @@
                                 </td> --}}
 
                                 <td>
-                                    {{$item->jenis_legalisir}}
+                                    @if ($item->jenis_legalisir)
+                                        @foreach ( $item->jenis_legalisir as $dokumen)
+                                            {{$dokumen}}
+                                        @endforeach
+                                    @endif
+                                    {{-- {{$item->jenis_dokumen}} --}}
                                 </td>
 
                                 <td class="text-center">
-                                    <a href="{{ asset('storage/public/dokumen/legalisir/'. $item->dokumen)}}" download="{{$item->dokumen}}">
+                                    <a href="{{ asset('storage/public/dokumen/'. $item->dokumen)}}" download="{{$item->dokumen}}">
                                         <p>
                                             File Pengajuan
                                         </p>

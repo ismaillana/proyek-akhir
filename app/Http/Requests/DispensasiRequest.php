@@ -22,12 +22,12 @@ class DispensasiRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'nama_mahasiswa'   => 'required',
-            'kegiatan'    => 'required',
-            'tempat'      => 'required',
-            'mulai'       => 'required',
-            'selesai'     => 'required',
-            'dokumen'     => 'required|mimes:pdf'
+            'nama_mahasiswa'    => 'required',
+            'kegiatan'          => 'required',
+            'nama_tempat'       => 'required',
+            'tgl_mulai'         => 'required',
+            'tgl_selesai'       => 'required',
+            'dokumen'           => 'required|mimes:pdf'
         ];
         return $rules;
     }
@@ -36,12 +36,12 @@ class DispensasiRequest extends FormRequest
     {
         return [
             'nama_mahasiswa.required'   => 'Nama Mahasiswa Wajib Diisi',
-            'kegiatan.required'    => 'Nama Kegiatan Wajib Diisi',
-            'tempat.required'      => 'Tempat Kegiatan Wajib Diisi',
-            'mulai.required'       => 'Tanggal dan Waktu Mulai Wajib Diisi',
-            'selesai.required'     => 'Tanggal dan Waktu Selesai Wajib Diisi',
-            'dokumen.required'     => 'Dokumen Wajib Diisi',
-            'dokumen.mimes'        => 'Dokumen yang diupload harus berupa pdf',
+            'kegiatan.required'         => 'Nama Kegiatan Wajib Diisi',
+            'nama_tempat.required'      => 'Tempat Kegiatan Wajib Diisi',
+            'tgl_mulai.required'        => 'Tanggal dan Waktu Mulai Wajib Diisi',
+            'tgl_selesai.required'      => 'Tanggal dan Waktu Selesai Wajib Diisi',
+            'dokumen.required'          => 'Dokumen Wajib Diisi',
+            'dokumen.mimes'             => 'Dokumen yang diupload harus berupa pdf',
         ];
     }
 }

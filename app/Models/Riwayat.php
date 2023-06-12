@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AktifKuliah extends Model
+class Riwayat extends Model
 {
     use HasFactory;
 
@@ -15,24 +15,15 @@ class AktifKuliah extends Model
      * @var array<int, string>
      */
     protected $guarded = ['id'];
-    
+
     /**
-     * Get the user that owns the Mahasiswa
+     * Get the user that owns the Pengajuan
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function mahasiswa()
+    public function pengajuan()
     {
-        return $this->belongsTo(Mahasiswa::class);
+        return $this->belongsTo(Pengajuan::class);
     }
 
-    /**
-     * Get all of the Log for the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function log(): HasMany
-    {
-        return $this->hasMany(Log::class);
-    }
 }

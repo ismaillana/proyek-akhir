@@ -41,7 +41,7 @@ class KoorPklRequest extends FormRequest
             'nomor_induk.unique'    => 'NIP Sudah Ada',
             'wa.required'           => 'No WhatsApp Wajib Diisi',
             'jurusan_id.required'   => 'Jurusan Wajib Diisi',
-            'email.unique' => 'Email Sudah Digunakan'
+            'email.unique'          => 'Email Sudah Digunakan'
 
         ];
     }

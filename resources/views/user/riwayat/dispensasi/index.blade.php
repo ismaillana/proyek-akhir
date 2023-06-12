@@ -80,7 +80,7 @@
                                         </td>
 
                                         <td>
-                                            <a href="{{ route('tracking-dispensasi', $item->id)}}"
+                                            <a href="{{ route('pengajuan.tracking-dispensasi', $item->id)}}"
                                                 class="btn btn-sm btn-outline-secondary" title="Detail">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     width="16" height="16" viewBox="0 0 24 24"

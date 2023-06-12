@@ -22,7 +22,7 @@ class VerifikasiIjazahRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name'            => 'required',
+            'nama'            => 'required',
             'nim'             => 'required|numeric',
             'no_ijazah'       => 'required',
             'tahun_lulus'     => 'required|numeric',
@@ -34,7 +34,7 @@ class VerifikasiIjazahRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required'         => 'Nama Mahasiswa Wajib Diisi',
+            'nama.required'         => 'Nama Mahasiswa Wajib Diisi',
             'nim.required'          => 'NIM Wajib Diisi',
             'nim.numeric'           => 'NIM Harus Berupa Angka',
             'no_ijazah.required'    => 'Nomor Ijazah Wajib Diisi',

@@ -42,32 +42,6 @@
                         <div class="card-body">
                             <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                    Jurusan<sup class="text-danger">*</sup>
-                                </label>
-
-                                <div class="col-sm-12 col-md-7">
-                                    <select name="jurusan_id" id="jurusan_id"
-                                        class="form-control @error('jurusan_id')
-                                        is-invalid @enderror">
-                                        <option value="" selected="" disabled="">Pilih Jurusan</option>
-                                        @foreach ($jurusan as $item)
-                                            <option value="{{ $item->id }}"
-                                                {{ old('jurusan_id', @$mahasiswa->jurusan_id) == $item->id ? 'selected' : '' }}>
-                                                {{ $item->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    @if ($errors->has('jurusan_id'))
-                                        <span class="text-danger">
-                                            {{ $errors->first('jurusan_id') }}
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-4">
-                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
                                     Program Studi<sup class="text-danger">*</sup>
                                 </label>
 

@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
+use Image;
 
 class User extends Authenticatable
 {
@@ -32,6 +34,14 @@ class User extends Authenticatable
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['image_url'];
+
+
+    /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
@@ -39,6 +49,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+     /**
+     * Get the user that owns the Jurusan
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function jurusan()
+    {
+        return $this->belongsTo(Jurusan::class);
+    }
 
     /**
      * Get all of the mahasiswa for the User
@@ -60,43 +80,55 @@ class User extends Authenticatable
         return $this->hasMany(Instansi::class);
     }
 
-    /**
-     * Get all of the Admin Jurusan for the User
+     /**
+     * Save image.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @param  $request
+     * @return string
      */
-    public function adminJurusan(): HasMany
+    public static function saveImage($request)
     {
-        return $this->hasMany(AdminJurusan::class);
+        $filename = null;
+
+        if ($request->image) {
+            $file = $request->image;
+
+            $ext = $file->getClientOriginalExtension();
+            $filename = date('YmdHis') . uniqid() . '.' . $ext;
+            $file->storeAs('public/image/user/', $filename);
+        }
+
+        return $filename;
     }
 
     /**
-     * Get all of the Admin Jurusan for the User
+     * Get the image .
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return string
      */
-    public function koorPkl(): HasMany
+    public function getImageUrlAttribute()
     {
-        return $this->hasMany(koorPkl::class);
+        if ($this->image) {
+            return asset('storage/public/image/user/' . $this->image);
+        }
+        
+        return null;
     }
 
     /**
-     * Get all of the Admin Jurusan for the User
+     * Delete image.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @param  $id
+     * @return void
      */
-    public function bagianAkademik(): HasMany
+    public static function deleteImage(string $id)
     {
-        return $this->hasMany(BagianAkademik::class);
-    }
-
-    /**
-     * Get all of the Admin Jurusan for the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function dispensasi(): HasMany
-    {
-        return $this->hasMany(Dispensasi::class);
+        $user = User::firstWhere('id', $id);
+        if ($user->image != null) {
+            $path = 'public/image/user/' . $user->image;
+            if (Storage::exists($path)) {
+                Storage::delete('public/image/user/' . $user->image);
+            }
+        }
     }
 }

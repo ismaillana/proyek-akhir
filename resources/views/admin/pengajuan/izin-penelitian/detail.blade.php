@@ -2,14 +2,16 @@
 @section('content')
 <div class="main-content">
     <section class="section">
-      <div class="section-header">
-        <div class="section-header-back">
-            <a href="{{route('pengajuan-izin-penelitian.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
-            </div>
+        <div class="section-header">
+            <div class="section-header-back">
+                <a href="{{route('pengajuan-izin-penelitian.index')}}" class="btn btn-icon">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
 
-            <h1>
-                Detail Pengajuan
-            </h1>
+                <h1>
+                    Detail Pengajuan
+                </h1>
+            </div>
         </div>
 
         <div class="section-body">
@@ -99,9 +101,9 @@
                                 </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control @error('alamat_penelitian')is-invalid @enderror"
-                                        id="alamat_penelitian" name="alamat_penelitian" placeholder="" 
-                                        value="{{ old('alamat_penelitian', @$izinPenelitian->alamat_penelitian) }}" disabled readonly>
+                                    <input type="text" class="form-control @error('alamat_tempat')is-invalid @enderror"
+                                        id="alamat_tempat" name="alamat_tempat" placeholder="" 
+                                        value="{{ old('alamat_tempat', @$izinPenelitian->alamat_tempat) }}" disabled readonly>
                                 </div>
                             </div>
 

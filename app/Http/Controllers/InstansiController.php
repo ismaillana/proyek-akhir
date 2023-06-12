@@ -22,7 +22,8 @@ class InstansiController extends Controller
      */
     public function index()
     {
-        $instansi = Instansi::latest()->get();
+        $instansi = Instansi::latest()
+            ->get();
 
         return view ('admin.instansi.index', [
             'instansi' => $instansi,
@@ -158,22 +159,12 @@ class InstansiController extends Controller
     {
         $instansi = Instansi::find($id);
 
-        // $resellerOrder =  ResellerOrder::where('reseller_id', $id)
-        //     ->whereNotIn('order_status_id', [8, 9])
-        //     ->first();
-
-        // if ($resellerOrder) {
-        //     return response()->json(['message' => 'Gagal hapus, masih ada transaksi yang berjalan', 'status' => 'error', 'code' => '500']);
-        // }
-
         $param = (object) [
             'type'  => 'image',
             'id'    => $instansi->id
         ];
 
         Instansi::deleteImage($param);
-
-        // $this->deleteinstansi($id);
 
         $instansi->delete();
 

@@ -75,7 +75,11 @@
                                 </td> --}}
 
                                 <td>
-                                    {{$item->jenis_legalisir}}
+                                    @if ($item->jenis_legalisir)
+                                        @foreach ( $item->jenis_legalisir as $dokumen)
+                                            {{$dokumen}}
+                                        @endforeach
+                                    @endif
                                 </td>
 
                                 <td class="text-center">

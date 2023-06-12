@@ -6,9 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\IzinPenelitian;
-use App\Models\Log;
+use App\Models\Pengajuan;
+use App\Models\Riwayat;
+use App\Models\JenisPengajuan;
 
 use App\Http\Requests\IzinPenelitianRequest;
+use App\Http\Requests\KonfirmasiRequest;
+
 use Illuminate\Support\Facades\Crypt;
 
 class IzinPenelitianController extends Controller
@@ -18,11 +22,26 @@ class IzinPenelitianController extends Controller
      */
     public function index()
     {
-        $izinPenelitian = IzinPenelitian::latest()->get();
-        return view ('admin.pengajuan.izin-penelitian.index', [
-            'izinPenelitian'   => $izinPenelitian,
-            'title'    => 'Izin Penelitian'
-        ]);
+        $user = auth()->user();
+
+        $izinPenelitian = Pengajuan::where('jenis_pengajuan_id', 3)
+            ->whereNot('status', 'Selesai')
+            ->latest()
+            ->get();
+
+        if ($user->hasRole('admin-jurusan')) {
+            return view ('admin.pengajuan.izin-penelitian.index-admin-jurusan', [
+                'izinPenelitian'   => $izinPenelitian,
+                'user'     => $user,
+                'title'    => 'Izin Penelitian'
+            ]);
+        } else {
+            return view ('admin.pengajuan.izin-penelitian.index', [
+                'izinPenelitian'   => $izinPenelitian,
+                'title'    => 'Izin Penelitian'
+            ]);
+        }
+        
     }
 
     /**
@@ -32,10 +51,11 @@ class IzinPenelitianController extends Controller
     {
         $user = auth()->user();
     
-        $mahasiswa       = Mahasiswa::with(['dispensasi'])->whereUserId($user->id)
+        $mahasiswa       = Mahasiswa::with(['pengajuan'])->whereUserId($user->id)
             ->first();
 
-        $pengajuan = IzinPenelitian::where('mahasiswa_id', $mahasiswa->id)
+        $pengajuan = Pengajuan::where('mahasiswa_id', $mahasiswa->id)
+            ->where('jenis_pengajuan_id', 3)
             ->latest()
             ->first();
 
@@ -56,16 +76,17 @@ class IzinPenelitianController extends Controller
         $mahasiswa       = Mahasiswa::whereUserId($user->id)
         ->first();
 
-        $izinPenelitian = IzinPenelitian::create([
+        $pengajuan = Pengajuan::create([
+            'jenis_pengajuan_id'=> 3,
             'mahasiswa_id'      => $mahasiswa->id,
             'nama_tempat'       => $request->nama_tempat,
-            'alamat_penelitian' => $request->alamat_penelitian,
+            'alamat_tempat'     => $request->alamat_tempat,
             'tujuan_surat'      => $request->tujuan_surat,
             'perihal'           => $request->perihal,
         ]);
 
-        Log::create([
-            'izin_penelitian_id'  => $izinPenelitian->id,
+        Riwayat::create([
+            'pengajuan_id'  => $pengajuan->id,
             'status'        => 'Menunggu Konfirmasi',
             'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
         ]);
@@ -84,35 +105,11 @@ class IzinPenelitianController extends Controller
             abort(404);
         }
 
-        $izinPenelitian = IzinPenelitian::find($id);
+        $izinPenelitian = Pengajuan::find($id);
         return view ('admin.pengajuan.izin-penelitian.detail', [
             'izinPenelitian'    =>  $izinPenelitian,
             'title'         =>  'Detail Pengajuan Izin Penelitian'
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 
     /**
@@ -124,10 +121,10 @@ class IzinPenelitianController extends Controller
             'status'  =>  'Konfirmasi'
         ];
 
-        IzinPenelitian::where('id', $id)->update($data);
+        Pengajuan::where('id', $id)->update($data);
 
-        Log::create([
-            'izin_penelitian_id_id'  => $id,
+        Riwayat::create([
+            'pengajuan_id'  => $id,
             'status'        => 'Dikonfirmasi',
             'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
         ]);
@@ -138,20 +135,20 @@ class IzinPenelitianController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function tolak(Request $request, string $id)
+    public function tolak(KonfirmasiRequest $request, string $id)
     {
         $data = [
             'status'  =>  'Tolak',
             'catatan' =>  $request->catatan
         ];
 
-        Log::create([
-            'izin_penelitian_id'  => $id,
+        Riwayat::create([
+            'pengajuan_id'  => $id,
             'status'        => 'Ditolak',
             'catatan'       => $request->catatan
         ]);
 
-        IzinPenelitian::where('id', $id)->update($data);
+        Pengajuan::where('id', $id)->update($data);
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
@@ -165,23 +162,23 @@ class IzinPenelitianController extends Controller
             'status'  =>  $request->status
         ];
 
-        IzinPenelitian::where('id', $id)->update($data);
+        Pengajuan::where('id', $id)->update($data);
 
         if ($request->status == 'Proses' ) {
-            Log::create([
-                'izin_penelitian_id'  => $id,
+            Riwayat::create([
+                'pengajuan_id'  => $id,
                 'status'        => 'Diproses',
                 'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
             ]);
         }elseif ($request->status == 'Kendala' ) {
-            Log::create([
-                'izin_penelitian_id'  => $id,
+            Riwayat::create([
+                'pengajuan_id'  => $id,
                 'status'        => 'Ada Kendala',
                 'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
             ]);
         }elseif ($request->status == 'Selesai' ) {
-            Log::create([
-                'izin_penelitian_id'  => $id,
+            Riwayat::create([
+                'pengajuan_id'  => $id,
                 'status'        => 'Selesai',
                 'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
             ]);
@@ -194,9 +191,11 @@ class IzinPenelitianController extends Controller
      */
     public function riwayat()
     {
-        $izinPenelitian = IzinPenelitian::where('status', 'Tolak')
-            ->orWhere('status', 'Selesai')
+        $izinPenelitian = Pengajuan::where('jenis_pengajuan_id', 3)
+            ->where('status', 'Selesai')
+            ->orWhere('status', 'Tolak')
             ->get();
+
         return view ('admin.riwayat.izin-penelitian.index', [
             'izinPenelitian'   => $izinPenelitian,
             'title'         => 'Surat Izin Penelitian'

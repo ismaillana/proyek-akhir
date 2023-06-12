@@ -22,11 +22,11 @@ class LegalisirRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'jenis_legalisir_id'        => 'required',
+            'jenis_legalisir'           => 'required',
             'no_ijazah'                 => 'required',
             'keperluan'                 => 'required',
             'pekerjaan_terakhir'        => 'required',
-            'tempat_pekerjaan_terakhir' => 'required',
+            'nama_tempat'               => 'required',
             'dokumen'                   => 'required|mimes:pdf'
         ];
         return $rules;
@@ -35,13 +35,13 @@ class LegalisirRequest extends FormRequest
     public function messages()
     {
         return [
-            'jenis_legalisir_id.required'         => 'Jenis Dokumen Wajib Diisi',
-            'keperluan.required'                  => 'Keperluan Wajib Diisi',
-            'pekerjaan_terakhir.required'         => 'Pekerjaan Terakhir Wajib Diisi',
-            'tempat_pekerjaan_terakhir.required'  => 'Tempat Pekerjaan Terakhir Wajib Diisi',
-            'dokumen.required'                    => 'Dokumen Wajib Diisi',
-            'dokumen.mimes'                       => 'Dokumen yang diupload harus berupa pdf',
-            'no_ijazah.required'                    => 'Nomor Ijazah Wajib Diisi',
+            'jenis_legalisir.required'      => 'Jenis Dokumen Wajib Diisi',
+            'keperluan.required'            => 'Keperluan Wajib Diisi',
+            'pekerjaan_terakhir.required'   => 'Pekerjaan Terakhir Wajib Diisi',
+            'nama_tempat.required'          => 'Tempat Pekerjaan Terakhir Wajib Diisi',
+            'dokumen.required'              => 'Dokumen Wajib Diisi',
+            'dokumen.mimes'                 => 'Dokumen yang diupload harus berupa pdf',
+            'no_ijazah.required'            => 'Nomor Ijazah Wajib Diisi',
         ];
     }
 }

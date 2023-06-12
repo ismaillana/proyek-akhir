@@ -71,7 +71,7 @@
                                 </td>
 
                                 <td>
-                                    {{$item->name}}
+                                    {{$item->nama}}
                                 </td>
                                 
                                 <td>

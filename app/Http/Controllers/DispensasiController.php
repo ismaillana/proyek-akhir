@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Dispensasi;
-use App\Models\AdminJurusan;
-use App\Models\Log;
+use App\Models\Pengajuan;
+use App\Models\JenisPengajuan;
+use App\Models\Riwayat;
 
 use App\Http\Requests\DispensasiRequest;
+use App\Http\Requests\KonfirmasiRequest;
 use Illuminate\Support\Facades\Crypt;
 
 class DispensasiController extends Controller
@@ -20,31 +22,25 @@ class DispensasiController extends Controller
     public function index()
     {
         $user = auth()->user();
-        // dd($user);
-        $adminJurusan = AdminJurusan::whereUserId($user->id)->first();
-        // $mahasiswa    = Mahasiswa::with(['dispensasi'])->first();
-        // dd($adminJurusan);b
-        // $user = User::role('admin')->get();
-        $dispensasi = Dispensasi::latest()
-        ->get();
+
+        $dispensasi = Pengajuan::where('jenis_pengajuan_id', 4)
+            ->whereNot('status', 'Selesai')
+            ->latest()
+            ->get();
+
         if ($user->hasRole('admin-jurusan')) {
               
             return view ('admin.pengajuan.dispensasi.index-admin-jurusan', [
                 'dispensasi' => $dispensasi,
-                'adminJurusan'  => $adminJurusan,
-                'title'         => 'Dispensasi Perkuliahan'
+                'user'       => $user,
+                'title'      => 'Dispensasi Perkuliahan'
             ]);
         } else {
             return view ('admin.pengajuan.dispensasi.index', [
-                'dispensasi' => $dispensasi,
-                'adminJurusan'  => $adminJurusan,
+                'dispensasi'    => $dispensasi,
                 'title'         => 'Dispensasi Perkuliahan'
             ]);
         }
-
-        
-        // dd($dispensasi);
-
     }
 
     /**
@@ -54,22 +50,22 @@ class DispensasiController extends Controller
     {
         $pengaju = auth()->user();
 
-        $mahasiswa       = Mahasiswa::with(['dispensasi'])->whereUserId($pengaju->id)->first();
+        $mahasiswa       = Mahasiswa::with(['pengajuan'])->whereUserId($pengaju->id)->first();
 
-        $pengajuan = Dispensasi::where('mahasiswa_id', $mahasiswa->id)
+        $pengajuan = Pengajuan::where('mahasiswa_id', $mahasiswa->id)
+            ->where('jenis_pengajuan_id', 4)
             ->latest()
             ->first();
 
         $user = User::whereHas('roles', function ($q)
         {
             $q->whereIn('name', ['mahasiswa']);
-        })
-        ->get();
+        })->get();
 
         return view ('user.pengajuan.dispensasi.form', [
-            'user' => $user,
+            'user'      => $user,
             'pengajuan' => $pengajuan,
-            'title'         => 'Dispensasi Perkuliahan'
+            'title'     => 'Dispensasi Perkuliahan'
         ]);
         
 
@@ -83,28 +79,28 @@ class DispensasiController extends Controller
         $user = auth()->user();
 
         $mahasiswa  = Mahasiswa::whereUserId($user->id)
-        ->first();
+            ->first();
         
-        $dokumen = Dispensasi::saveDokumen($request);
+        $dokumen = Pengajuan::saveDokumen($request);
 
         $data = ([
-            'mahasiswa_id'  => $mahasiswa->id,
-            'kegiatan'      => $request->kegiatan,
-            'tempat'        => $request->tempat,
-            'mulai'         => $request->mulai,
-            'selesai'       => $request->selesai,
-            'mulai'         => $request->mulai,
-            'dokumen'       => $dokumen,
-            'nama_mahasiswa'=> $request->nama_mahasiswa
+            'jenis_pengajuan_id'    => 4,
+            'mahasiswa_id'          => $mahasiswa->id,
+            'kegiatan'              => $request->kegiatan,
+            'nama_tempat'           => $request->nama_tempat,
+            'tgl_mulai'             => $request->tgl_mulai,
+            'tgl_selesai'           => $request->tgl_selesai,
+            'dokumen'               => $dokumen,
+            'nama_mahasiswa'        => $request->nama_mahasiswa
         ]);
 
 
         $data['dokumen'] = $dokumen;
 
-        $dispensasi = Dispensasi::create($data);
+        $pengajuan = Pengajuan::create($data);
 
-        Log::create([
-            'dispensasi_id'  => $dispensasi->id,
+        Riwayat::create([
+            'pengajuan_id'  => $pengajuan->id,
             'status'        => 'Menunggu Konfirmasi',
             'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
         ]);
@@ -123,7 +119,7 @@ class DispensasiController extends Controller
             abort(404);
         }
 
-        $dispensasi = Dispensasi::find($id);
+        $dispensasi = Pengajuan::find($id);
 
         $data = Mahasiswa::whereIn('user_id', $dispensasi['nama_mahasiswa'])->get();
         
@@ -135,30 +131,6 @@ class DispensasiController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function konfirmasi(Request $request, string $id)
@@ -167,10 +139,10 @@ class DispensasiController extends Controller
             'status'  =>  'Konfirmasi'
         ];
 
-        Dispensasi::where('id', $id)->update($data);
+        Pengajuan::where('id', $id)->update($data);
 
-        Log::create([
-            'dispensasi_id'  => $id,
+        Riwayat::create([
+            'pengajuan_id'  => $id,
             'status'        => 'Dikonfirmasi',
             'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
         ]);
@@ -181,20 +153,20 @@ class DispensasiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function tolak(Request $request, string $id)
+    public function tolak(KonfirmasiRequest $request, string $id)
     {
         $data = [
             'status'  =>  'Tolak',
             'catatan' =>  $request->catatan
         ];
 
-        Log::create([
-            'dispensasi_id'  => $id,
+        Riwayat::create([
+            'pengajuan_id'  => $id,
             'status'        => 'Ditolak',
             'catatan'       => $request->catatan
         ]);
 
-        Dispensasi::where('id', $id)->update($data);
+        Pengajuan::where('id', $id)->update($data);
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
@@ -208,23 +180,23 @@ class DispensasiController extends Controller
             'status'  =>  $request->status
         ];
 
-        Dispensasi::where('id', $id)->update($data);
+        Pengajuan::where('id', $id)->update($data);
 
         if ($request->status == 'Proses' ) {
-            Log::create([
-                'dispensasi_id'  => $id,
+            Riwayat::create([
+                'pengajuan_id'  => $id,
                 'status'        => 'Diproses',
                 'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
             ]);
         }elseif ($request->status == 'Kendala' ) {
-            Log::create([
-                'dispensasi_id'  => $id,
+            Riwayat::create([
+                'pengajuan_id'  => $id,
                 'status'        => 'Ada Kendala',
                 'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
             ]);
         }elseif ($request->status == 'Selesai' ) {
-            Log::create([
-                'dispensasi_id'  => $id,
+            Riwayat::create([
+                'pengajuan_id'  => $id,
                 'status'        => 'Selesai',
                 'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
             ]);
@@ -237,9 +209,11 @@ class DispensasiController extends Controller
      */
     public function riwayat()
     {
-        $dispensasi = Dispensasi::where('status', 'Tolak')
+        $dispensasi = Pengajuan::where('status', 'Tolak')
             ->orWhere('status', 'Selesai')
+            ->where('jenis_pengajuan_id', 4)
             ->get();
+
         return view ('admin.riwayat.dispensasi.index', [
             'dispensasi'   => $dispensasi,
             'title'         => 'Surat Izin Dispensasi'

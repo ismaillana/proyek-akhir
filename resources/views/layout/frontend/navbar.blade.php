@@ -25,37 +25,37 @@
             </a>
             <ul class="dropdown-menu">
               <li class="dropdown">
-                <a class="dropdown-item" href="{{route('aktif-kuliah.create')}}">
+                <a class="dropdown-item" href="{{ route('pengajuan.aktif-kuliah.index') }}">
                   Surat Keterangan Aktif Kuliah
                 </a>
               </li>
 
               <li class="dropdown">
-                <a class="dropdown-item" href="{{route('pengantar-pkl.create')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.pengantar-pkl.index')}}">
                   Surat Pengantar PKL
                 </a>
               </li>
 
               <li class="dropdown">
-                <a class="dropdown-item" href="{{route('izin-penelitian.create')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.izin-penelitian.index')}}">
                   Surat Izin Penelitian
                 </a>
               </li>
 
               <li class="nav-item">
-                <a class="dropdown-item" href="{{route('dispensasi.create')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.dispensasi.index')}}">
                   Surat Dispensasi
                 </a>
               </li>
 
               <li class="nav-item">
-                <a class="dropdown-item" href="{{route('legalisir.create')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.legalisir.index')}}">
                   Legalisir
                 </a>
               </li>
 
               <li class="nav-item">
-                <a class="dropdown-item" href="{{route('verifikasi-ijazah.create')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.verifikasi-ijazah.index')}}">
                   Cek Keaslian Ijazah
                 </a>
               </li>
@@ -118,25 +118,25 @@
             </a>
             <ul class="dropdown-menu">
               <li class="dropdown">
-                <a class="dropdown-item" href="{{route('aktif-kuliah.create')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.aktif-kuliah.index')}}">
                   Surat Keterangan Aktif Kuliah
                 </a>
               </li>
 
               <li class="dropdown">
-                <a class="dropdown-item" href="{{route('pengantar-pkl.create')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.pengantar-pkl.index')}}">
                   Surat Pengantar PKL
                 </a>
               </li>
 
               <li class="dropdown">
-                <a class="dropdown-item" href="{{route('izin-penelitian.create')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.izin-penelitian.index')}}">
                   Surat Izin Penelitian
                 </a>
               </li>
 
               <li class="nav-item">
-                <a class="dropdown-item" href="{{route('dispensasi.create')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.dispensasi.index')}}">
                   Surat Dispensasi
                 </a>
               </li>
@@ -149,25 +149,25 @@
             </a>
             <ul class="dropdown-menu">
               <li class="dropdown">
-                <a class="dropdown-item" href="{{route('riwayat-aktif-kuliah')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.riwayat-aktif-kuliah')}}">
                   Surat Keterangan Aktif Kuliah
                 </a>
               </li>
 
               <li class="dropdown">
-                <a class="dropdown-item" href="{{route('riwayat-pengantar-pkl')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.riwayat-pengantar-pkl')}}">
                   Surat Pengantar PKL
                 </a>
               </li>
 
               <li class="dropdown">
-                <a class="dropdown-item" href="{{route('riwayat-izin-penelitian')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.riwayat-izin-penelitian')}}">
                   Surat Izin Penelitian
                 </a>
               </li>
 
               <li class="nav-item">
-                <a class="dropdown-item" href="{{route('riwayat-dispensasi')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.riwayat-dispensasi')}}">
                   Surat Dispensasi
                 </a>
               </li>
@@ -188,7 +188,7 @@
             </a>
             <ul class="dropdown-menu">
               <li class="nav-item">
-                <a class="dropdown-item" href="{{route('legalisir.create')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.legalisir.index')}}">
                   Legalisir
                 </a>
               </li>
@@ -200,7 +200,7 @@
             </a>
             <ul class="dropdown-menu">
               <li class="nav-item">
-                <a class="dropdown-item" href="{{route('riwayat-legalisir')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.riwayat-legalisir')}}">
                   Legalisir
                 </a>
               </li>
@@ -221,7 +221,7 @@
             </a>
             <ul class="dropdown-menu">
               <li class="nav-item">
-                <a class="dropdown-item" href="{{route('verifikasi-ijazah.create')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.verifikasi-ijazah.index')}}">
                   Cek Keaslian Ijazah
                 </a>
               </li>
@@ -233,7 +233,7 @@
             </a>
             <ul class="dropdown-menu">
               <li class="nav-item">
-                <a class="dropdown-item" href="{{route('riwayat-verifikasi-ijazah')}}">
+                <a class="dropdown-item" href="{{route('pengajuan.riwayat-verifikasi-ijazah')}}">
                   Cek Keaslian Ijazah
                 </a>
               </li>
@@ -265,8 +265,7 @@
 
                 <li class="nav-item">
                   <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                      document.getElementById('logout-form').submit();">
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         {{ __('Logout') }}
                   </a>
 

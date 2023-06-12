@@ -87,7 +87,7 @@
                                 </label>
 
                                 <div class="col-sm-12 col-md-7">
-                                    <input type="number" class="form-control @error('no_ijazah')is-invalid @enderror"
+                                    <input type="text" class="form-control @error('no_ijazah')is-invalid @enderror"
                                         id="no_ijazah" name="no_ijazah" placeholder="" 
                                         value="{{ old('no_ijazah', @$verifikasiIjazah->no_ijazah) }}" disabled readonly>
                                 </div>

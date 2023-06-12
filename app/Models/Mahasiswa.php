@@ -40,79 +40,19 @@ class Mahasiswa extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function jurusan()
-    {
-        return $this->belongsTo(Jurusan::class);
-    }
-
-    /**
-     * Get the user that owns the Mahasiswa
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function programStudi()
     {
         return $this->belongsTo(ProgramStudi::class);
     }
 
     /**
-     * Get all of the comments for the Jurusan
+     * Get all of the comments for the Pengajuan
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ijazah()
+    public function pengajuan()
     {
-        return $this->hasMany(Ijazah::class);
-    }
-
-    /**
-     * Get all of the comments for the Aktif Kuliah
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function aktifKuliah()
-    {
-        return $this->hasMany(AktifKuliah::class);
-    }
-
-    /**
-     * Get all of the comments for the Aktif Kuliah
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function izinPenelitian()
-    {
-        return $this->hasMany(IzinPenelitian::class);
-    }
-
-    /**
-     * Get all of the comments for the Aktif Kuliah
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function legalisir()
-    {
-        return $this->hasMany(Legalisir::class);
-    }
-
-    /**
-     * Get all of the comments for the Aktif Kuliah
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function dispensasi()
-    {
-        return $this->hasMany(Dispensasi::class);
-    }
-
-    /**
-     * Get all of the comments for the Aktif Kuliah
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function pengantarPkl()
-    {
-        return $this->hasMany(PengantarPkl::class);
+        return $this->hasMany(Pengajuan::class);
     }
 
     /**

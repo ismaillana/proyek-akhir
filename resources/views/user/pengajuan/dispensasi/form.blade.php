@@ -5,8 +5,13 @@
     <div class="container py-14 pt-md-10 pb-md-21">
       <div class="row gx-lg-8 gx-xl-12 gy-10 gy-lg-0 mb-2 align-items-end">
         <div class="col-lg-12 text-center">
-          <h2 class="fs-16 text-uppercase text-line text-primary mb-3">Pengajuan</h2>
-          <h3 class="display-4 text-center text-white">Surat Izin Dispensasi Kuliah</h3>
+          <h2 class="fs-16 text-uppercase text-line text-primary mb-3">
+            Pengajuan
+          </h2>
+
+          <h4 class="display-4 text-center text-white">
+            Surat Izin Dispensasi Kuliah
+          </h4>
         </div>
       </div>
     </div>
@@ -21,7 +26,7 @@
           <div class="row">
             <div class="col-12">
               <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST" 
-                action="{{route('dispensasi.store')}}">
+                action="{{route('pengajuan.dispensasi.store')}}">
                 {{ csrf_field() }}
                 <div class="card card-border-start border-primary">
                   <div class="card-header">
@@ -30,9 +35,9 @@
                       </h4>
                   </div>
 
-                  <div class="card-body">
+                  <div class="card-body bg-light">
                     <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                      @if ($pengajuan->status == 'Selesai' || $pengajuan->status == 'Tolak')
+                      @if (@$pengajuan->status == 'Selesai' || @$pengajuan->status == 'Tolak' || @$pengajuan == null)
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
                               <input id="kegiatan" type="text" name="kegiatan" class="form-control @error('kegiatan')is-invalid @enderror" 
@@ -50,45 +55,45 @@
 
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
-                              <input id="tempat" type="text" name="tempat" class="form-control @error('tempat')is-invalid @enderror" 
-                                value="{{ old('tempat', @$dispensasi->tempat) }}" placeholder="Tempat Kegiatan">
+                              <input id="nama_tempat" type="text" name="nama_tempat" class="form-control @error('nama_tempat')is-invalid @enderror" 
+                                value="{{ old('nama_tempat', @$dispensasi->nama_tempat) }}" placeholder="Tempat Kegiatan">
                               
                               <label for="form_nama_tempat">
                                 Tempat Kegiatan<span class="text-danger">*</span>
                               </label>
 
-                              @if ($errors->has('tempat'))
-                                  <span class="text-danger">{{ $errors->first('tempat') }}</span>
+                              @if ($errors->has('nama_tempat'))
+                                  <span class="text-danger">{{ $errors->first('nama_tempat') }}</span>
                               @endif
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
-                              <input id="mulai" type="datetime-local" name="mulai" class="form-control @error('mulai')is-invalid @enderror" 
-                                value="{{ old('mulai', @$dispensasi->mulai) }}" placeholder="Waktu Mulai">
+                              <input id="tgl_mulai" type="datetime-local" name="tgl_mulai" class="form-control @error('tgl_mulai')is-invalid @enderror" 
+                                value="{{ old('tgl_mulai', @$dispensasi->tgl_mulai) }}" placeholder="Tanggal Mulai">
                               
                               <label for="form_nama_tempat">
-                                Waktu Mulai<span class="text-danger">*</span>
+                                Tanggal Mulai<span class="text-danger">*</span>
                               </label>
 
-                              @if ($errors->has('mulai'))
-                                  <span class="text-danger">{{ $errors->first('mulai') }}</span>
+                              @if ($errors->has('tgl_mulai'))
+                                  <span class="text-danger">{{ $errors->first('tgl_mulai') }}</span>
                               @endif
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
-                              <input id="selesai" type="datetime-local" name="selesai" class="form-control @error('selesai')is-invalid @enderror" 
-                                  value="{{ old('selesai', @$dispensasi->selesai) }}" placeholder="Waktu Selesai">
+                              <input id="tgl_selesai" type="datetime-local" name="tgl_selesai" class="form-control @error('tgl_selesai')is-invalid @enderror" 
+                                  value="{{ old('tgl_selesai', @$dispensasi->tgl_selesai) }}" placeholder="Tanggal Selesai">
                               
                               <label for="form_nama_tempat">
-                                  Waktu Selesai<span class="text-danger">*</span>
+                                  Tanggal Selesai<span class="text-danger">*</span>
                               </label>
                               
-                              @if ($errors->has('selesai'))
-                                  <span class="text-danger">{{ $errors->first('selesai') }}</span>
+                              @if ($errors->has('tgl_selesai'))
+                                  <span class="text-danger">{{ $errors->first('tgl_selesai') }}</span>
                               @endif
                             </div>
                         </div>

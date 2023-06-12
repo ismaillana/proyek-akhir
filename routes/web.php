@@ -34,41 +34,50 @@ use App\Http\Controllers\RiwayatController;
 |
 */
 
-Route::get('/', function () {
-    return view('user.home',[
-        'title' => 'Pengajuan Pelayanan Administrasi POLSUB'
-    ]);
-});
-// Route::get('/', [HomeController::class, 'index'])->name('home');
-
 
 //Prevent-Back
 Route::group(['middleware' => 'prevent-back-history'],function(){
-//Login
-Auth::routes();
+    
+    Route::get('/', function () {
+        return view('user.home',[
+            'title' => 'Pengajuan Pelayanan Administrasi POLSUB'
+        ]);
+    });
+
+    //Login
+    Auth::routes();
 
     Route::middleware('auth')->group(function () {
         //Dashboard
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::middleware(['role:super-admin|bagian-akademik|admin-jurusan|koor-pkl'])->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         
         Route::group(
             [
-                'middleware'    => ['role:super-admin|bagian-akademik|admin-jurusan|koor-pkl'],
-                'prefix'        => 'menu-admin'
+                'middleware'    => ['role:super-admin'],
+                'prefix'        => 'super-admin'
             ],
             function () {
                 Route::resource('jurusan', JurusanController::class);
                 Route::resource('prodi', ProdiController::class);
-                Route::resource('mahasiswa', MahasiswaController::class);
-                Route::post('update-status/{$mahasiswa}', [MahasiswaController::class, 'updateStatus'])->name('update-status');
-                Route::resource('jenis-legalisir', JenisLegalisirController::class);
                 Route::resource('adminJurusan', AdminJurusanController::class);
                 Route::resource('bagianAkademik', BagianAkademikController::class);
+        });
+
+        Route::group(
+            [
+                'middleware'    => ['role:bagian-akademik|admin-jurusan|koor-pkl'],
+                'prefix'        => 'menu-admin'
+            ],
+            function () {
+                //Mahasiswa
+                Route::resource('mahasiswa', MahasiswaController::class);
+                Route::post('update-status/{$mahasiswa}', [MahasiswaController::class, 'updateStatus'])->name('update-status');
+                //Instansi
                 Route::resource('instansi', InstansiController::class);
-                Route::resource('ijazah', IjazahController::class);
+                //koor-pkl
                 Route::resource('koorPkl', KoorPklController::class);
+                //tempat-pkl
                 Route::resource('tempat-pkl', TempatPKLController::class);
-                Route::resource('manajemen-user', UserController::class);
                 //Aktif Kuliah
                 Route::resource('pengajuan-aktif-kuliah', AktifKuliahController::class);
                 Route::post('tolak-aktif-kuliah/{id}', [AktifKuliahController::class, 'tolak'])->name('tolak-aktif-kuliah');
@@ -108,6 +117,7 @@ Auth::routes();
                 Route::resource('pengajuan-pengantar-pkl', PengantarPklController::class);
                 Route::post('tolak-pengantar-pkl/{id}', [PengantarPklController::class, 'tolak'])->name('tolak-pengantar-pkl');
                 Route::post('konfirmasi-pengantar-pkl/{id}', [PengantarPklController::class, 'konfirmasi'])->name('konfirmasi-pengantar-pkl');
+                Route::post('review-pengantar-pkl/{id}', [PengantarPklController::class, 'review'])->name('review-pengantar-pkl');
                 Route::post('update-status-pengantar-pkl/{id}', [PengantarPklController::class, 'updateStatus'])->name('update-status-pengantar-pkl');
                 Route::get('riwayat-pengajuan-pengantar-pkl', [PengantarPklController::class, 'riwayat'])->name('riwayat-pengajuan-pengantar-pkl');
 
@@ -116,45 +126,72 @@ Auth::routes();
         });
     });
 
-    // Route::middleware(['role:alumni|mahasiswa|instansi'])->get('/home', [HomeController::class, 'index'])->name('home');
-    
     Route::middleware('auth')->group(function () {
-        Route::get('/home', [HomeController::class, 'index'])->name('home');
+        Route::middleware(['role:alumni|mahasiswa|instansi'])->get('/home', [HomeController::class, 'index'])->name('home');
         
         Route::group(
             [
-                'middleware'    => ['role:alumni|mahasiswa|instansi'],
-                'prefix'        => 'pengajuan'
+                'middleware'    => ['role:alumni'],
+                'prefix'        => 'pengajuan',
+                'as'            => 'pengajuan.'
             ],
             function () {
+                //Legalisir
+                Route::get('legalisir', [LegalisirController::class, 'create'])->name('legalisir.index');
+                Route::post('legalisir', [LegalisirController::class, 'store'])->name('legalisir.store');
+                Route::get('riwayat-legalisir', [RiwayatController::class, 'index'])->name('riwayat-legalisir');
+                Route::get('tracking-legalisir/{id}', [RiwayatController::class, 'tracking'])->name('tracking-legalisir');
+            }
+        );
+
+        Route::group(
+            [
+                'middleware'    => ['role:mahasiswa'],
+                'prefix'        => 'pengajuan',
+                'as'            => 'pengajuan.'
+            ],
+            function () {
+
                 //Aktif-Kuliah
-                Route::resource('aktif-kuliah', AktifKuliahController::class);
+                Route::get('aktif-kuliah', [AktifKuliahController::class, 'create'])->name('aktif-kuliah.index');
+                Route::post('aktif-kuliah', [AktifKuliahController::class, 'store'])->name('aktif-kuliah.store');
                 Route::get('riwayat-aktif-kuliah', [RiwayatController::class, 'indexAktifKuliah'])->name('riwayat-aktif-kuliah');
                 Route::get('tracking-aktif-kuliah/{id}', [RiwayatController::class, 'trackingAktifKuliah'])->name('tracking-aktif-kuliah');
 
                 //Izin Penelitian
-                Route::resource('izin-penelitian', IzinPenelitianController::class);
+                Route::get('izin-penelitian', [IzinPenelitianController::class, 'create'])->name('izin-penelitian.index');
+                Route::post('izin-penelitian', [IzinPenelitianController::class, 'store'])->name('izin-penelitian.store');
                 Route::get('riwayat-izin-penelitian', [RiwayatController::class, 'indexIzinPenelitian'])->name('riwayat-izin-penelitian');
                 Route::get('tracking-izin-penelitian/{id}', [RiwayatController::class, 'trackingIzinPenelitian'])->name('tracking-izin-penelitian');
 
-                //Legalisir
-                Route::resource('legalisir', LegalisirController::class);
-                Route::get('riwayat-legalisir', [RiwayatController::class, 'index'])->name('riwayat-legalisir');
-                Route::get('tracking-legalisir/{id}', [RiwayatController::class, 'tracking'])->name('tracking-legalisir');
-                //Verifikasi Ijazah
-                Route::resource('verifikasi-ijazah', VerifikasiIjazahController::class);
-                Route::get('riwayat-verifikasi-ijazah', [RiwayatController::class, 'indexVerifikasiIjazah'])->name('riwayat-verifikasi-ijazah');
-                Route::get('tracking-verifikasi-ijazah/{id}', [RiwayatController::class, 'trackingVerifikasiIjazah'])->name('tracking-verifikasi-ijazah');
-
                 //Dispensasi
-                Route::resource('dispensasi', DispensasiController::class);
+                Route::get('dispensasi', [DispensasiController::class, 'create'])->name('dispensasi.index');
+                Route::post('dispensasi', [DispensasiController::class, 'store'])->name('dispensasi.store');
                 Route::get('riwayat-dispensasi', [RiwayatController::class, 'indexDispensasi'])->name('riwayat-dispensasi');
                 Route::get('tracking-dispensasi/{id}', [RiwayatController::class, 'trackingDispensasi'])->name('tracking-dispensasi');
 
-                Route::resource('pengantar-pkl', PengantarPklController::class);
+                //PengantarPkl
+                Route::get('pengantar-pkl', [PengantarPklController::class, 'create'])->name('pengantar-pkl.index');
+                Route::post('pengantar-pkl', [PengantarPklController::class, 'store'])->name('pengantar-pkl.store');
                 Route::get('riwayat-pengantar-pkl', [RiwayatController::class, 'indexPengantarPkl'])->name('riwayat-pengantar-pkl');
                 Route::get('tracking-pengantar-pkl/{id}', [RiwayatController::class, 'trackingPengantarPkl'])->name('tracking-pengantar-pkl');
-            });
+            }
+        );
+
+        Route::group(
+            [
+                'middleware'    => ['role:mahasiswa'],
+                'prefix'        => 'pengajuan',
+                'as'            => 'pengajuan.'
+            ],
+            function () {
+                //Verifikasi Ijazah
+                Route::get('verifikasi-ijazah', [VerifikasiIjazahController::class, 'create'])->name('verifikasi-ijazah.index');
+                Route::post('verifikasi-ijazah', [VerifikasiIjazahController::class, 'store'])->name('verifikasi-ijazah.store');
+                Route::get('riwayat-verifikasi-ijazah', [RiwayatController::class, 'indexVerifikasiIjazah'])->name('riwayat-verifikasi-ijazah');
+                Route::get('tracking-verifikasi-ijazah/{id}', [RiwayatController::class, 'trackingVerifikasiIjazah'])->name('tracking-verifikasi-ijazah');
+            }
+        );
     });
 
 });

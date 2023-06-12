@@ -4,35 +4,39 @@
     <section class="section">
       <div class="section-header">
         <div class="section-header-back">
-          <a href="{{route('koorPkl.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+          <a href="{{route('bagianAkademik.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
         </div>
-
         <h1>
-            Detail Data Koordinator PKL
+            Edit Data Bagian Akademik
         </h1>
       </div>
 
-      <form id="myForm" class="forms-sample" enctype="multipart/form-data">
-        @method('put')
-        {{ csrf_field() }}
-        <div class="section-body">
+        <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST"
+            action="{{route('bagianAkademik.update', $bagianAkademik) }}">
+            @method('put')
+            {{ csrf_field() }}
+            <div class="section-body">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Form Detail Admin Jurusan</h4>
+                            <h4>Form Bagian Akademik</h4>
                         </div>
-                        
+
                         <div class="card-body">
                             <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                    Nama Koordinator PKL<sup class="text-danger">*</sup>
+                                    Nama Bagian Akademik<sup class="text-danger">*</sup>
                                 </label>
 
                                 <div class="col-sm-12 col-md-7">
                                     <input type="text" class="form-control @error('name')is-invalid @enderror"
-                                        id="name" name="name" placeholder="Masukkan Koordinator PKL" 
-                                        value="{{ old('name', @$koorPkl->name) }}" disabled readonly>
+                                        id="name" name="name" placeholder="Masukkan Nama Bagian Akademik" 
+                                        value="{{ old('name', @$bagianAkademik->name) }}">
+
+                                    @if ($errors->has('name'))
+                                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                                    @endif
                                 </div>
                             </div>
 
@@ -44,7 +48,11 @@
                                 <div class="col-sm-12 col-md-7">
                                     <input type="number" class="form-control @error('nomor_induk')is-invalid @enderror"
                                         id="nomor_induk" name="nomor_induk" placeholder="Masukkan NIP" 
-                                        value="{{ old('nomor_induk', @$koorPkl->nomor_induk) }}" disabled readonly>
+                                        value="{{ old('nomor_induk', @$bagianAkademik->nomor_induk) }}" readonly disabled>
+
+                                    @if ($errors->has('nomor_induk'))
+                                        <span class="text-danger">{{ $errors->first('nomor_induk') }}</span>
+                                    @endif
                                 </div>
                             </div>
 
@@ -56,7 +64,11 @@
                                 <div class="col-sm-12 col-md-7">
                                     <input type="email" class="form-control @error('email')is-invalid @enderror"
                                         id="email" name="email" placeholder="Masukkan Email" 
-                                        value="{{ old('email', @$koorPkl->email) }}" disabled readonly>
+                                        value="{{ old('email', @$bagianAkademik->email) }}" readonly disabled>
+
+                                    @if ($errors->has('email'))
+                                        <span class="text-danger">{{ $errors->first('email') }}</span>
+                                    @endif
                                 </div>
                             </div>
 
@@ -65,6 +77,7 @@
                                 No WhatsApp<sup class="text-danger">*</sup>
                                 </label>
                                     
+                                
                                 <div class="col-sm-12 col-md-7">
                                     <div class="input-group">
                                         <div class="input-group-text">
@@ -73,33 +86,11 @@
 
                                         <input type="number" class="form-control @error('wa') is-invalid @enderror"
                                             id="wa" name="wa" placeholder="Masukan Nomer Whatsapp "
-                                            value="{{ old('wa', Str::substr(@$koorPkl->wa, 2)) }}" disabled readonly>
+                                            value="{{ old('wa', Str::substr(@$bagianAkademik->wa, 2)) }}">
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="form-group row mb-4">
-                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                    Jurusan<sup class="text-danger">*</sup>
-                                </label>
-
-                                <div class="col-sm-12 col-md-7">
-                                    <select name="jurusan_id" id="jurusan_id"
-                                        class="form-control @error('jurusan_id')
-                                        is-invalid @enderror" disabled readonly>
-                                        <option value="" selected="" disabled="">Pilih Jurusan</option>
-                                        @foreach ($jurusan as $item)
-                                            <option value="{{ $item->id }}"
-                                                {{ old('jurusan_id', @$koorPkl->jurusan_id) == $item->id ? 'selected' : '' }}>
-                                                {{ $item->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    @if ($errors->has('jurusan_id'))
-                                        <span class="text-danger">
-                                            {{ $errors->first('jurusan_id') }}
-                                        </span>
+                                    @if ($errors->has('wa'))
+                                        <span class="text-danger">{{ $errors->first('wa') }}</span>
                                     @endif
                                 </div>
                             </div>
@@ -111,16 +102,64 @@
                                 <div class="col-sm-12 col-md-7">
                                     <input class="dropify @error('image') is-invalid @enderror" 
                                         data-height='250' type="file" name="image" id="image" 
-                                        data-default-file="{{ @$koorPkl->image_url }}" disabled readonly>
+                                        data-default-file="{{ @$bagianAkademik->image_url }}">
                                 </div>
                             </div>
+                            
+                            <div class="form-group row mb-4">
+                                <div class="col-sm-12 col-md-7 offset-md-3">
+                                    <button type="submit" class="btn btn-primary" id="btnSubmit">
+                                        Edit
+                                        <span class="spinner-border ml-2 d-none" id="loader"
+                                            style="width: 1rem; height: 1rem;" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-      </form>
+            </div>
+        </form>
     </section>
 </div>
+@endsection
+
+@section('script')
+<script>
+    $('#myForm').submit(function(e) {
+            let form = this;
+            e.preventDefault();
+
+            confirmSubmit(form);
+        });
+        // Form
+        function confirmSubmit(form, buttonId) {
+            Swal.fire({
+                icon: 'question',
+                text: 'Apakah anda yakin ingin menyimpan data ini ?',
+                showCancelButton: true,
+                buttonsStyling: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Simpan',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let button = 'btnSubmit';
+
+                    if (buttonId) {
+                        button = buttonId;
+                    }
+
+                    $('#' + button).attr('disabled', 'disabled');
+                    $('#loader').removeClass('d-none');
+
+                    form.submit();
+                }
+            });
+        }
+</script>
 @endsection

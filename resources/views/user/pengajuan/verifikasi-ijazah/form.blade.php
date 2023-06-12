@@ -5,8 +5,13 @@
   <div class="container py-14 pt-md-10 pb-md-21">
     <div class="row gx-lg-8 gx-xl-12 gy-10 gy-lg-0 mb-2 align-items-end">
       <div class="col-lg-12 text-center">
-        <h2 class="fs-16 text-uppercase text-line text-primary mb-3">Pengajuan</h2>
-        <h3 class="display-4 text-center text-white">Verifikasi Ijazah</h3>
+        <h2 class="fs-16 text-uppercase text-line text-primary mb-3">
+          Pengajuan
+        </h2>
+
+        <h3 class="display-4 text-center text-white">
+          Verifikasi Ijazah
+        </h3>
       </div>
     </div>
   </div>
@@ -21,7 +26,7 @@
         <div class="row">
           <div class="col-12">
             <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST" 
-              action="{{route('verifikasi-ijazah.store')}}">
+              action="{{route('pengajuan.verifikasi-ijazah.store')}}">
               {{ csrf_field() }}
               <div class="card card-border-start border-primary">
                 <div class="card-header">
@@ -32,18 +37,18 @@
 
                 <div class="card-body">
                     <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                      @if ($pengajuan->status == 'Selesai' || $pengajuan->status == 'Tolak')
+                      @if (@$pengajuan->status == 'Selesai' || @$pengajuan->status == 'Tolak' || @$pengajuan == null)
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
-                                <input id="name" type="text" name="name" class="form-control @error('name')is-invalid @enderror" 
-                                  value="{{ old('name', @$verifikasiIjazah->name) }}" placeholder="Nama Mahasiswa">
+                                <input id="nama" type="text" name="nama" class="form-control @error('nama')is-invalid @enderror" 
+                                  value="{{ old('nama', @$verifikasiIjazah->nama) }}" placeholder="Nama Mahasiswa">
                                 
                                 <label for="form_name">
                                     Nama Mahasiswa <span class="text-danger">*</span>
                                 </label>
 
-                                @if ($errors->has('name'))
-                                    <span class="text-danger">{{ $errors->first('name') }}</span>
+                                @if ($errors->has('nama'))
+                                    <span class="text-danger">{{ $errors->first('nama') }}</span>
                                 @endif
                             </div>
                         </div>

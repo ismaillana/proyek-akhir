@@ -19,10 +19,6 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table->string('angkatan');
-            $table->foreignId('jurusan_id')
-                ->constrained()
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
             $table->foreignId('program_studi_id')
                 ->constrained()
                 ->cascadeOnDelete()

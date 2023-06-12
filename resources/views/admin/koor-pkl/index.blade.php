@@ -57,11 +57,11 @@
                                 </td>
 
                                 <td>
-                                    {{ $item->user->name}}
+                                    {{ $item->name}}
                                 </td>
 
                                 <td>
-                                    {{ $item->nip}}
+                                    {{ $item->nomor_induk}}
                                 </td>
 
                                 <td>

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Mahasiswa;
-use App\Models\Jurusan;
 use App\Models\ProgramStudi;
 use Spatie\Permission\Models\Role;
 
@@ -50,8 +49,8 @@ class MahasiswaController extends Controller
         }
         
         $mahasiswa = Mahasiswa::filter($param)
-        ->latest()
-        ->get();
+            ->latest()
+            ->get();
        
         return view ('admin.mahasiswa.index', [
             'mahasiswa' => $mahasiswa,
@@ -66,11 +65,9 @@ class MahasiswaController extends Controller
      */
     public function createImport()
     {
-        $jurusan    =   Jurusan::get();
         $prodi      =   ProgramStudi::get();
         
         return view ('admin.mahasiswa.formImport', [
-            'jurusan'   =>  $jurusan,
             'prodi'     =>  $prodi,
             'title'     => 'Form Import Mahasiswa'
         ]);
@@ -81,14 +78,10 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        $jurusan    =   Jurusan::whereHas('programStudi')
-            ->get();
+        $prodi    =   ProgramStudi::get();
 
-        // $prodi      =   ProgramStudi::whereget();
-        
         return view ('admin.mahasiswa.form', [
-            'jurusan'   =>  $jurusan,
-            // 'prodi'     =>  $prodi,
+            'prodi'     =>  $prodi,
             'title'     => 'Form Tambah Mahasiswa'
         ]);
     }
@@ -114,7 +107,6 @@ class MahasiswaController extends Controller
                 'user_id'           => $user->id,
                 'nim'               => $user->nomor_induk,
                 'angkatan'          => $request->angkatan,
-                'jurusan_id'        => $request->jurusan_id,
                 'program_studi_id'  => $request->program_studi_id,
                 'tempat_lahir'  => $request->tempat_lahir,
                 'tanggal_lahir' => $request->tanggal_lahir,
@@ -126,7 +118,7 @@ class MahasiswaController extends Controller
                 'pangkat'       => $request->pangkat,
                 'jabatan'       => $request->jabatan,
                 'instansi'      => $request->instansi,
-                'status'            => $request->status
+                'status'        => $request->status
             ];
 
             $image = Mahasiswa::saveImage($request);
@@ -134,7 +126,7 @@ class MahasiswaController extends Controller
             $data['image'] = $image;
 
             $mahasiswa = Mahasiswa::create($data);
-
+            
             if ($request->status == 'Alumni') {
                 $user->assignRole('alumni');
             }else {
@@ -146,7 +138,7 @@ class MahasiswaController extends Controller
             return redirect()->route('mahasiswa.index')->with('success', 'Data Berhasil Ditambah');
         } catch (\Throwable $th) {
             DB::rollback();
-            return back()->withError('Mahasiswa Gagal Ditambah');
+            return back()->with('error', 'Mahasiswa Gagal Ditambah');
         }
     }
 
@@ -162,12 +154,10 @@ class MahasiswaController extends Controller
         }
 
         $mahasiswa = Mahasiswa::findOrFail($id);
-        $jurusan = Jurusan::oldest('name')->get();
         $prodi = ProgramStudi::oldest('name')->get();
 
         return view ('admin.mahasiswa.detail', [
             'mahasiswa' => $mahasiswa,
-            'jurusan'   => $jurusan,
             'prodi'     => $prodi,
             'title'     => 'Mahasiswa'
         ]);
@@ -185,15 +175,10 @@ class MahasiswaController extends Controller
         }
 
         $mahasiswa = Mahasiswa::find($id);
-        // $jurusan   = Jurusan::oldest('name')->get();
-        // $prodi     = ProgramStudi::oldest('name')->get();
-        $jurusan = Jurusan::all();
-        $prodi = ProgramStudi::where('jurusan_id', $mahasiswa->programStudi->jurusan_id)
-            ->get();
+        $prodi = ProgramStudi::oldest('name')->get();
 
         return view ('admin.mahasiswa.form', [
             'mahasiswa' => $mahasiswa,
-            'jurusan'   => $jurusan,
             'prodi'     => $prodi,
             'title'     => 'Mahasiswa'
         ]);
@@ -207,7 +192,6 @@ class MahasiswaController extends Controller
         $data = [
             'nim'               => $request->nomor_induk,
             'angkatan'          => $request->angkatan,
-            'jurusan_id'        => $request->jurusan_id,
             'program_studi_id'  => $request->program_studi_id,
             'tempat_lahir'  => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
@@ -262,57 +246,5 @@ class MahasiswaController extends Controller
     public function destroy(string $id)
     {
         
-    }
-
-    public function prodi($jurusanId)
-    {
-        $prodi = ProgramStudi::where('jurusan_id', $jurusanId)
-            ->orderBy('name')
-            ->get();
-
-        $message = '';
-        $status = '';
-        $code = '';
-
-        if ($prodi->isEmpty()) {
-            $message = 'Data Tidak Ada';
-            $status = 'success';
-            $code = '404';
-        }
-
-        $message = 'Berhasil Ambil Data';
-        $status = 'success';
-        $code = '200';
-
-        $response = [
-            'message' => $message,
-            'status' => $status,
-            'code' => $code,
-            'data' => $prodi
-        ];
-
-        return response()->json($response);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function updateStatus(Request $request, $mahasiswa)
-    {
-        Mahasiswa::where('angkatan', $request->angkatan)
-            ->update([
-                'status'            => 'Alumni',
-            ]);
-        dd($mahasiswa);
-
-        $user = User::where('id',$mahasiswa->user_id)->get();
-        $user->syncRoles('alumni');
-        // if ($request->status == 'Alumni') {
-        // }else {
-        //     $user->syncRoles('mahasiswa');
-        // }
-        
-
-        return redirect()->route('mahasiswa.index')->with('success', 'Data Berhasil Diubah');
     }
 }

@@ -23,8 +23,8 @@ class KoorPklUpdateRequest extends FormRequest
     {
         $rules = [
             'name'              => 'required',
-            'email'             => 'required|email|unique:users,email,'  . $this->koorPkl->user->id,
-            'nomor_induk'       => 'required|unique:users,nomor_induk,'  . $this->koorPkl->user->id,
+            // 'email'             => 'required|email|unique:users,email,'  . $this->koorPkl->user->id,
+            // 'nomor_induk'       => 'required|unique:users,nomor_induk,'  . $this->koorPkl->user->id,
             'wa'                => 'required',
             'jurusan_id'        => 'required',
         ];
@@ -35,13 +35,13 @@ class KoorPklUpdateRequest extends FormRequest
     {
         return [
             'name.required'         => 'Nama Koordinator PKL Wajib Diisi',
-            'email.required'        => 'Email Wajib Diisi',
-            'email.email'           => 'Format Email Harus Sesuai',
-            'nomor_induk.required'  => 'NIP Wajib Diisi',
-            'nomor_induk.unique'    => 'NIP Sudah Ada',
+            // 'email.required'        => 'Email Wajib Diisi',
+            // 'email.email'           => 'Format Email Harus Sesuai',
+            // 'nomor_induk.required'  => 'NIP Wajib Diisi',
+            // 'nomor_induk.unique'    => 'NIP Sudah Ada',
             'wa.required'           => 'No WhatsApp Wajib Diisi',
             'jurusan_id.required'   => 'Jurusan Wajib Diisi',
-            'email.unique' => 'Email Sudah Digunakan'
+            // 'email.unique' => 'Email Sudah Digunakan'
         ];
     }
 }

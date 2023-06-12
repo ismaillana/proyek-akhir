@@ -67,7 +67,7 @@
                                         </strong>
                                         <br>
                                         Nama Kegiatan: {{@$dispensasi->kegiatan}}<br>
-                                        Tempat: {{@$dispensasi->tempat}}<br>
+                                        Tempat: {{@$dispensasi->nama_tempat}}<br>
                                       </address>
                                     </div>
                                   </div>
@@ -75,11 +75,11 @@
                                     <div class="col-md-6">
                                       <address>
                                         <strong>
-                                          Data PKL:
+                                          Tanggal Dispensasi:
                                         </strong>
                                         <br>
-                                        Tanggal Mulai: {{@$dispensasi->mulai}}<br>
-                                        Tanggal Selesai: {{@$dispensasi->selesai}}
+                                        Tanggal Mulai: {{@$dispensasi->tgl_mulai}}<br>
+                                        Tanggal Selesai: {{@$dispensasi->tgl_selesai}}
                                       </address>
                                     </div>
                                     <div class="col-md-6 text-md-right">

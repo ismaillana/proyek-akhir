@@ -36,13 +36,13 @@ class Instansi extends Model
     }
 
     /**
-     * Get all of the comments for the Aktif Kuliah
+     * Get all of the comments for the Pengajuan
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function verifikasiIjazah()
+    public function pengajuan()
     {
-        return $this->hasMany(VerifikasiIjazah::class);
+        return $this->hasMany(Pengajuan::class);
     }
 
     /**

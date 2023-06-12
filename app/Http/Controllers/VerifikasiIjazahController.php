@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\VerifikasiIjazah;
 use App\Models\Instansi;
-use App\Models\Log;
+use App\Models\Riwayat;
+use App\Models\Pengajuan;
 
 use App\Http\Requests\VerifikasiIjazahRequest;
+use App\Http\Requests\KonfirmasiRequest;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Crypt;
@@ -21,7 +22,9 @@ class VerifikasiIjazahController extends Controller
      */
     public function index()
     {
-        $verifikasiIjazah = VerifikasiIjazah::get();
+        $verifikasiIjazah = Pengajuan::where('jenis_pengajuan_id', 6)
+            ->whereNot('status', 'Selesai')
+            ->get();
 
         return view ('admin.pengajuan.verifikasi-ijazah.index', [
             'verifikasiIjazah'  => $verifikasiIjazah,
@@ -36,9 +39,10 @@ class VerifikasiIjazahController extends Controller
     {
         $pengaju = auth()->user();
 
-        $instansi       = Instansi::with(['verifikasiIjazah'])->whereUserId($pengaju->id)->first();
+        $instansi       = Instansi::with(['pengajuan'])->whereUserId($pengaju->id)->first();
 
-        $pengajuan = VerifikasiIjazah::where('instansi_id', $instansi->id)
+        $pengajuan = Pengajuan::where('instansi_id', $instansi->id)
+            ->where('jenis_pengajuan_id', 6)
             ->latest()
             ->first();
 
@@ -57,23 +61,24 @@ class VerifikasiIjazahController extends Controller
 
         $instansi       = Instansi::whereUserId($user->id)->first();
 
-       $data = ([
+        $data = ([
+            'jenis_pengajuan_id' => 6,
             'instansi_id'      => $instansi->id,
-            'name'             => $request->name,
+            'nama'             => $request->nama,
             'nim'              => $request->nim,
             'no_ijazah'        => $request->no_ijazah,
             'tahun_lulus'      => $request->tahun_lulus,
             'dokumen'          => $request->dokumen,
         ]);
 
-        $dokumen = VerifikasiIjazah::saveDokumen($request);
+        $dokumen = Pengajuan::saveDokumen($request);
 
         $data['dokumen'] = $dokumen;
 
-        $verifikasiIjazah = VerifikasiIjazah::create($data);
+        $pengajuan = Pengajuan::create($data);
 
-        Log::create([
-            'verifikasi_ijazah_id'  => $verifikasiIjazah->id,
+        Riwayat::create([
+            'pengajuan_id'  => $pengajuan->id,
             'status'        => 'Menunggu Konfirmasi',
             'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
         ]);
@@ -92,35 +97,11 @@ class VerifikasiIjazahController extends Controller
             abort(404);
         }
 
-        $verifikasiIjazah = VerifikasiIjazah::find($id);
+        $verifikasiIjazah = Pengajuan::find($id);
         return view ('admin.pengajuan.verifikasi-ijazah.detail', [
             'verifikasiIjazah'    =>  $verifikasiIjazah,
             'title'         =>  'Detail Pengajuan Verifikasi Ijazah'
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 
     /**
@@ -132,10 +113,10 @@ class VerifikasiIjazahController extends Controller
             'status'  =>  'Konfirmasi'
         ];
 
-        VerifikasiIjazah::where('id', $id)->update($data);
+        Pengajuan::where('id', $id)->update($data);
 
-        Log::create([
-            'verifikasi_ijazah_id'  => $id,
+        Riwayat::create([
+            'pengajuan_id'  => $id,
             'status'        => 'Dikonfirmasi',
             'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
         ]);
@@ -146,20 +127,20 @@ class VerifikasiIjazahController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function tolak(Request $request, string $id)
+    public function tolak(KonfirmasiRequest $request, string $id)
     {
         $data = [
             'status'  =>  'Tolak',
             'catatan' =>  $request->catatan
         ];
 
-        Log::create([
-            'verifikasi_ijazah_id'  => $id,
+        Riwayat::create([
+            'pengajuan_id'  => $id,
             'status'        => 'Ditolak',
             'catatan'       => $request->catatan
         ]);
 
-        VerifikasiIjazah::where('id', $id)->update($data);
+        Pengajuan::where('id', $id)->update($data);
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
@@ -173,23 +154,23 @@ class VerifikasiIjazahController extends Controller
             'status'  =>  $request->status
         ];
 
-        VerifikasiIjazah::where('id', $id)->update($data);
+        Pengajuan::where('id', $id)->update($data);
 
         if ($request->status == 'Proses' ) {
-            Log::create([
-                'verifikasi_ijazah_id'  => $id,
+            Riwayat::create([
+                'pengajuan_id'  => $id,
                 'status'        => 'Diproses',
                 'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
             ]);
         }elseif ($request->status == 'Kendala' ) {
-            Log::create([
-                'verifikasi_ijazah_id'  => $id,
+            Riwayat::create([
+                'pengajuan_id'  => $id,
                 'status'        => 'Ada Kendala',
                 'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
             ]);
         }elseif ($request->status == 'Selesai' ) {
-            Log::create([
-                'verifikasi_ijazah_id'  => $id,
+            Riwayat::create([
+                'pengajuan_id'  => $id,
                 'status'        => 'Selesai',
                 'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
             ]);
@@ -202,9 +183,11 @@ class VerifikasiIjazahController extends Controller
      */
     public function riwayat()
     {
-        $verifikasiIjazah = VerifikasiIjazah::where('status', 'Tolak')
+        $verifikasiIjazah = Pengajuan::where('status', 'Tolak')
             ->orWhere('status', 'Selesai')
+            ->where('jenis_pengajuan_id', 6)
             ->get();
+
         return view ('admin.riwayat.verifikasi-ijazah.index', [
             'verifikasiIjazah'   => $verifikasiIjazah,
             'title'         => 'Verifikasi Ijazah'

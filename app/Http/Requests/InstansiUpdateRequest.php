@@ -37,8 +37,8 @@ class InstansiUpdateRequest extends FormRequest
             'email.required'        => 'Email Wajib Diisi',
             'email.email'           => 'Format Email Harus Sesuai',
             'wa.required'           => 'No WhatsApp Wajib Diisi',
-            'alamat.required'     => 'Alamat Wajib Diisi',
-            'email.unique' => 'Email Sudah Digunakan'
+            'alamat.required'       => 'Alamat Wajib Diisi',
+            'email.unique'          => 'Email Sudah Digunakan'
 
         ];
     }

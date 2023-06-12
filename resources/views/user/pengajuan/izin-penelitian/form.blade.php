@@ -28,7 +28,7 @@
                 </div>
   
                 <div class="card-body">
-                  @if ($pengajuan->status == 'Selesai' || $pengajuan->status == 'Tolak')
+                  @if (@$pengajuan->status == 'Selesai' || @$pengajuan->status == 'Tolak' || @$pengajuan == null)
                     <div class="accordion accordion-wrapper" id="accordionExample">
                       <div class="card plain accordion-item">
                         <div class="card-header" id="headingOne">
@@ -52,7 +52,7 @@
                     </div>
   
                     <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST" 
-                      action="{{route('izin-penelitian.store')}}">
+                      action="{{route('pengajuan.izin-penelitian.store')}}">
                       {{ csrf_field() }}
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
@@ -71,15 +71,15 @@
                       
                         <div class="col-12">
                             <div class="form-floating mb-4">
-                              <textarea id="alamat_penelitian" name="alamat_penelitian" class="form-control @error('alamat_penelitian')is-invalid @enderror" 
-                                style="height: 150px" placeholder="Alamat Lengkap">{{ old('alamat_penelitian', @$aktifKuliah->alamat_penelitian) }}</textarea>
+                              <textarea id="alamat_tempat" name="alamat_tempat" class="form-control @error('alamat_tempat')is-invalid @enderror" 
+                                style="height: 150px" placeholder="Alamat Lengkap">{{ old('alamat_tempat', @$izinPenelitian->alamat_tempat) }}</textarea>
                               
                               <label for="form_message">
                                 Alamat Lengkap <span class="text-danger">*</span>
                               </label>
     
-                              @if ($errors->has('alamat_penelitian'))
-                                  <span class="text-danger">{{ $errors->first('alamat_penelitian') }}</span>
+                              @if ($errors->has('alamat_tempat'))
+                                  <span class="text-danger">{{ $errors->first('alamat_tempat') }}</span>
                               @endif
                             </div>
                         </div>

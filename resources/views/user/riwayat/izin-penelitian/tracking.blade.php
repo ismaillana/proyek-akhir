@@ -55,7 +55,7 @@
                                 @php
                                     $i = $jumlah;
                                 @endphp
-                                @foreach ($log as $item)
+                                @foreach ($riwayat as $item)
                                     <tr>
                                         <th scope="row">
                                             {{$i}}

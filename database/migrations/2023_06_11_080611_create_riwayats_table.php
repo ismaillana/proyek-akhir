@@ -11,16 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('aktif_kuliahs', function (Blueprint $table) {
+        Schema::create('riwayats', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('mahasiswa_id')
-                ->constrained()
-                ->cascadeOnUpdate();
-            $table->text('keperluan');
+            $table->foreignId('pengajuan_id')->nullable();
+            $table->string('status')->nullable();
             $table->text('catatan')->nullable();
-            $table->ENUM('status', ['Menunggu Konfirmasi', 'Konfirmasi', 'Proses', 'Kendala', 'Tolak', 'Selesai'])
-            ->default('Menunggu Konfirmasi')
-            ->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('aktif_kuliahs');
+        Schema::dropIfExists('riwayats');
     }
 };

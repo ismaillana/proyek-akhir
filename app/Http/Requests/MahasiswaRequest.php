@@ -28,7 +28,6 @@ class MahasiswaRequest extends FormRequest
             'nomor_induk'       => 'required|unique:users,nomor_induk',
             'wa'                => 'required',
             'angkatan'          => 'required',
-            'jurusan_id'        => 'required',
             'program_studi_id'  => 'required',
             'status'            => 'required'
         ];
@@ -45,10 +44,9 @@ class MahasiswaRequest extends FormRequest
             'nomor_induk.unique'    => 'NIM Sudah Ada',
             'wa.required'           => 'No WhatsApp Wajib Diisi',
             'angkatan.required'     => 'Tahun Angkatan Wajib Diisi',
-            'jurusan_id.required'   => 'Jurusan Wajib Diisi',
             'program_studi_id.required' => 'Program Studi Wajib Diisi',
-            'email.unique'        => 'Email Sudah Digunakan',
-            'status.required'     => 'Status Wajib Diisi',
+            'email.unique'          => 'Email Sudah Digunakan',
+            'status.required'       => 'Status Wajib Diisi',
         ];
     }
 }
