@@ -122,6 +122,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::get('riwayat-pengajuan-pengantar-pkl', [PengantarPklController::class, 'riwayat'])->name('riwayat-pengajuan-pengantar-pkl');
 
                 Route::get('import-excel', [MahasiswaController::class, 'createImport'])->name('import-excel');
+                Route::post('import-excel-store', [MahasiswaController::class, 'import'])->name('import-excel-store');
                 Route::get('mahasiswa-prodi/{jurusan?}', [MahasiswaController::class, 'prodi'])->name('prodi');
         });
     });

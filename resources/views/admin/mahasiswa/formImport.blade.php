@@ -6,30 +6,14 @@
         <div class="section-header-back">
           <a href="{{route('mahasiswa.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
         </div>
+
         <h1>
-            @if (@$mahasiswa->exists)
-                Edit
-                @php
-                    $aksi = 'Edit';
-                @endphp
-            @else
-                Tambah
-                @php
-                    $aksi = 'Tambah'
-                @endphp
-            @endif
-            Data Mahasiswa
+            Import Data Mahasiswa
         </h1>
       </div>
 
-      @if (@$mahasiswa->exists)
-        <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST"
-            action="{{route('mahasiswa.update', $mahasiswa) }}">
-            @method('put')
-      @else
         <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST" 
-            action="{{route('mahasiswa.store')}}">
-      @endif
+            action="{{route('import-excel-store')}}">
             {{ csrf_field() }}
             <div class="section-body">
             <div class="row">
@@ -66,7 +50,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row mb-4">
+                            {{-- <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
                                     Status<sup class="text-danger">*</sup>
                                 </label>
@@ -90,7 +74,7 @@
                                         </span>
                                     @endif
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group row mb-4">
                                 <label for="image" class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
@@ -117,7 +101,7 @@
 
                             <div class="form-group row mb-4">
                                 <div class="col-sm-12 col-md-7 offset-md-3">
-                                    <button class="btn btn-primary">{{ $aksi }}</button>
+                                    <button class="btn btn-primary">Import</button>
                                 </div>
                             </div>
                         </div>

@@ -7,9 +7,14 @@ use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\ProgramStudi;
 use Spatie\Permission\Models\Role;
+use App\Models\Jurusan;
 
 use App\Http\Requests\MahasiswaRequest;
 use App\Http\Requests\MahasiswaUpdateRequest;
+
+use App\Imports\MahasiswaImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -72,6 +77,42 @@ class MahasiswaController extends Controller
             'title'     => 'Form Import Mahasiswa'
         ]);
     }
+
+    /**
+     * store import excel a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+     public function import(Request $request)
+     {
+         try {
+             $this->validate(
+                 $request,
+                 [
+                     'file' => 'required|mimes:csv,xls,xlsx',
+                 ],
+                 [
+                     'file.required' => 'File harus diisi',
+                     'file.mimes:csv,xls,xlsx' => 'Format File Salah',
+                 ]
+             );
+             
+ 
+            //  import data
+             $excel =  Excel::import(new MahasiswaImport($request->program_studi_id), $request->file('file'));
+ 
+            //  dd($excel);
+            
+            if ($excel == null) {
+                return redirect()->back()->with('error', "Failed Import Data..!!");;
+            }
+ 
+             return redirect()->route('mahasiswa.index')->withSuccess('Data Telah Berhasil Diimport!');
+         } catch (\Throwable $th) {
+             return redirect()->back()->with('error', "Failed Import Data..!!");;
+         }
+     }
 
     /**
      * Show the form for creating a new resource.
