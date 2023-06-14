@@ -15,11 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('nim')->unique();
             $table->foreignId('user_id')
+                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->string('angkatan');
+            $table->string('angkatan')->nullable();
             $table->foreignId('program_studi_id')
+                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();

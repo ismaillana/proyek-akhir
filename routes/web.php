@@ -22,6 +22,7 @@ use App\Http\Controllers\DispensasiController;
 use App\Http\Controllers\PengantarPklController;
 use App\Http\Controllers\BagianAkademikController;
 use App\Http\Controllers\RiwayatController;
+use App\Http\Controllers\ProfilController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,8 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::resource('prodi', ProdiController::class);
                 Route::resource('adminJurusan', AdminJurusanController::class);
                 Route::resource('bagianAkademik', BagianAkademikController::class);
+                Route::get('profil-super-admin', [ProfilController::class, 'profilSuperAdmin'])->name('profil-super-admin');
+                Route::post('update-profil-super-admin/{update}', [ProfilController::class, 'updateSuperAdmin'])->name('update-profil-super-admin');
         });
 
         Route::group(
@@ -120,6 +123,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::post('review-pengantar-pkl/{id}', [PengantarPklController::class, 'review'])->name('review-pengantar-pkl');
                 Route::post('update-status-pengantar-pkl/{id}', [PengantarPklController::class, 'updateStatus'])->name('update-status-pengantar-pkl');
                 Route::get('riwayat-pengajuan-pengantar-pkl', [PengantarPklController::class, 'riwayat'])->name('riwayat-pengajuan-pengantar-pkl');
+                Route::post('setuju-pengantar-pkl/{id}', [PengantarPklController::class, 'setuju'])->name('setuju-pengantar-pkl');
 
                 Route::get('import-excel', [MahasiswaController::class, 'createImport'])->name('import-excel');
                 Route::post('import-excel-store', [MahasiswaController::class, 'import'])->name('import-excel-store');

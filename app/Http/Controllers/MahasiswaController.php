@@ -11,6 +11,7 @@ use App\Models\Jurusan;
 
 use App\Http\Requests\MahasiswaRequest;
 use App\Http\Requests\MahasiswaUpdateRequest;
+use App\Http\Requests\ImportMahasiswaRequest;
 
 use App\Imports\MahasiswaImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -38,7 +39,7 @@ class MahasiswaController extends Controller
         ];
         
         if ($request->angkatan) {
-            Mahasiswa::where('angkatan', $request->angkatan)
+            $mahasiswa = Mahasiswa::where('angkatan', $request->angkatan)
             ->update([
                 'status'            => 'Alumni',
             ]);
@@ -84,7 +85,7 @@ class MahasiswaController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function import(Request $request)
+     public function import(ImportMahasiswaRequest $request)
      {
          try {
              $this->validate(

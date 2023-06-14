@@ -95,6 +95,12 @@
                                             </a>
                                         </small>
                                     </div>
+
+                                    @if ($errors->has('file'))
+                                        <span class="text-danger">
+                                            {{ $errors->first('file') }}
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
 

@@ -183,6 +183,26 @@ class PengantarPklController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    public function setuju(Request $request, string $id)
+    {
+        $data = [
+            'status'  =>  'Setuju'
+        ];
+
+        Pengajuan::where('id', $id)->update($data);
+
+        Riwayat::create([
+            'pengajuan_id'  => $id,
+            'status'        => 'Disetujui Koor.Pkl',
+            'catatan'       => 'Pengajuan Anda Telah Disetujui oleh koordinator Pkls. Tunggu pemberitahuan selanjutnya'
+        ]);
+
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
     public function tolak(KonfirmasiRequest $request, string $id)
     {
         $data = [
@@ -190,7 +210,7 @@ class PengantarPklController extends Controller
             'catatan' =>  $request->catatan
         ];
 
-        Log::create([
+        Riwayat::create([
             'pengajuan_id'  => $id,
             'status'        => 'Ditolak',
             'catatan'       => $request->catatan

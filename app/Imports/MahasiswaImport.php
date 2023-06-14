@@ -26,24 +26,6 @@ class MahasiswaImport implements ToCollection, WithHeadingRow, SkipsOnError
     */
     public function collection(Collection $rows)
     {
-        // if ($row[
-        //     'nama'
-        //     ] === null) {
-        //     return null;
-        // }
-
-        // User::firstOrCreate(
-        //   $user =  [
-        //         'jurusan_id'  => $this->id,
-        //         'name'        => $row['nama'],
-        //     ],
-        //     [
-        //         'jurusan_id'  => $this->id,
-        //         'name'        => $row['nama'],
-        //     ]
-
-        // );
-
         foreach ($rows as $row)
         {
            $user = User::create([
@@ -68,5 +50,6 @@ class MahasiswaImport implements ToCollection, WithHeadingRow, SkipsOnError
 
     public function onError(Throwable $e)
     {
+        
     }
 }

@@ -35,11 +35,8 @@ class KoorPKLController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        $jurusan    =   Jurusan::get();
-        
+    {        
         return view ('admin.koor-pkl.tambah', [
-            'jurusan'   =>  $jurusan,
             'title'    => 'Koor-Pkl'
         ]);
     }
@@ -52,6 +49,9 @@ class KoorPKLController extends Controller
         DB::beginTransaction();
 
         try {
+
+            $user = auth()->user();
+
             $image = User::saveImage($request);
 
             $user = User::create([
@@ -59,7 +59,7 @@ class KoorPKLController extends Controller
                 'nomor_induk' => $request->nomor_induk,
                 'email'       => $request->email,
                 'wa'          => 62 . $request->wa,
-                'jurusan_id'  => $request->jurusan_id,
+                'jurusan_id'  => $user->jurusan->id,
                 'password'    => Hash::make($request->nomor_induk),
                 'image'       => $image
             ]);
@@ -122,11 +122,11 @@ class KoorPKLController extends Controller
      */
     public function update(KoorPKLUpdateRequest $request, $id)
     {
+        $user = auth()->user();
         
         $data = [
             'name'        => $request->name,
             'wa'          => 62 . $request->wa,
-            'jurusan_id'        => $request->jurusan_id,
         ];
         
         $image = User::saveImage($request);

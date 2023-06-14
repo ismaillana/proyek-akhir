@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class KoorPklUpdateRequest extends FormRequest
+class ProfilRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,9 @@ class KoorPklUpdateRequest extends FormRequest
     {
         $rules = [
             'name'              => 'required',
-            // 'email'             => 'required|email|unique:users,email,'  . $this->koorPkl->user->id,
-            // 'nomor_induk'       => 'required|unique:users,nomor_induk,'  . $this->koorPkl->user->id,
-            'wa'                => 'required',
+            'email'             => 'required|email',
+            'wa'                => 'required|numeric',
+            // 'password'          => 'required|min:3'
         ];
         return $rules;
     }
@@ -33,13 +33,13 @@ class KoorPklUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required'         => 'Nama Koordinator PKL Wajib Diisi',
-            // 'email.required'        => 'Email Wajib Diisi',
-            // 'email.email'           => 'Format Email Harus Sesuai',
-            // 'nomor_induk.required'  => 'NIP Wajib Diisi',
-            // 'nomor_induk.unique'    => 'NIP Sudah Ada',
+            'name.required'         => 'Nama Wajib Diisi',
+            'email.required'        => 'Email Wajib Diisi',
+            'email.email'           => 'Format Email Harus Sesuai',
             'wa.required'           => 'No WhatsApp Wajib Diisi',
-            // 'email.unique' => 'Email Sudah Digunakan'
+            'wa.numeric'            => 'No WhatsApp Harus Berupa Angka',
+            // 'password.required'     => 'Password Wajib Diisi',
+            // 'password.min'          => 'Password minimal 3 huruf/angka',
         ];
     }
 }

@@ -67,37 +67,37 @@
             </a>
             <ul class="dropdown-menu">
               <li class="dropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{route('pengajuan.riwayat-aktif-kuliah')}}">
                   Surat Keterangan Aktif Kuliah
                 </a>
               </li>
 
               <li class="dropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{route('pengajuan.riwayat-pengantar-pkl')}}">
                   Surat Pengantar PKL
                 </a>
               </li>
 
               <li class="dropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{route('pengajuan.riwayat-izin-penelitian')}}">
                   Surat Izin Penelitian
                 </a>
               </li>
 
               <li class="nav-item">
-                <a class="dropdown-item" href="./pricing.html">
+                <a class="dropdown-item" href="{{route('pengajuan.riwayat-dispensasi')}}">
                   Surat Dispensasi
                 </a>
               </li>
 
               <li class="nav-item">
-                <a class="dropdown-item" href="./onepage.html">
+                <a class="dropdown-item" href="{{route('pengajuan.riwayat-legalisir')}}">
                   Legalisir
                 </a>
               </li>
 
               <li class="nav-item">
-                <a class="dropdown-item" href="./onepage.html">
+                <a class="dropdown-item" href="{{route('pengajuan.riwayat-verifikasi-ijazah')}}">
                   Cek Keaslian Ijazah
                 </a>
               </li>

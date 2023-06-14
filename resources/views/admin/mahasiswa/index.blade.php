@@ -62,7 +62,7 @@
                 </div>
               </div>
               <div class="card-body">
-                <form id="myForm" class="forms-sample" enctype="multipart/form-data">
+                <form id="myValidation" class="forms-sample" enctype="multipart/form-data">
                     <div class="row align-items-center" style="margin-bottom: 10px;">
                         <div class="col-md-3 col-sm-12">
                             <label for="angkatan" class="label-control">Ubah Status</label>

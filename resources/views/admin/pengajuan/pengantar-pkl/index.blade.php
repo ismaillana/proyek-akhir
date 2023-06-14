@@ -79,6 +79,8 @@
                                         <span class="badge badge-danger">Ada Kendala</span>
                                     @elseif ($item->status == 'Review')
                                         <span class="badge badge-success">Direview</span>
+                                    @elseif ($item->status == 'Setuju')
+                                        <span class="badge badge-primary">Disetujui Koor.Pkl</span>
                                     @else
                                         <span class="badge badge-success">Selesai</span>
                                     @endif

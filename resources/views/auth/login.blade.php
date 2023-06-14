@@ -42,7 +42,7 @@
                 <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate="">
                   @csrf
                   <div class="form-group">
-                    <label for="username">{{ __('NIM / Email') }}</label>
+                    <label for="username">{{ __('Nomor Induk / Email') }}</label>
                         <input id="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
                         @error('username')
                             <span class="invalid-feedback" role="alert">

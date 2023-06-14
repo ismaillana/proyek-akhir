@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Pengajuan;
 
 class DashboardController extends Controller
 {
@@ -23,8 +25,61 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $user = User::count();
+        $riwayat = Pengajuan::where('status', 'Selesai')
+            ->orWhere('status', 'Tolak')
+            ->count();
+        $pengajuan = Pengajuan::whereNot('status', 'Selesai')
+            ->WhereNot('status', 'Tolak')
+            ->count();
+        $aktifKuliah = Pengajuan::latest()
+            ->where('jenis_pengajuan_id', 1)
+            ->whereNot('status', 'Selesai')
+            ->whereNot('status', 'Tolak')
+            ->get()
+            ->take(3);
+        $pengantarPkl = Pengajuan::latest()
+            ->where('jenis_pengajuan_id', 2)
+            ->whereNot('status', 'Selesai')
+            ->whereNot('status', 'Tolak')
+            ->get()
+            ->take(3);
+        $izinPenelitian = Pengajuan::latest()
+            ->where('jenis_pengajuan_id', 3)
+            ->whereNot('status', 'Selesai')
+            ->whereNot('status', 'Tolak')
+            ->get()
+            ->take(3);
+        $dispensasi = Pengajuan::latest()
+            ->where('jenis_pengajuan_id', 4)
+            ->whereNot('status', 'Selesai')
+            ->whereNot('status', 'Tolak')
+            ->get()
+            ->take(3);
+        $verifikasiIjazah = Pengajuan::latest()
+            ->where('jenis_pengajuan_id', 6)
+            ->whereNot('status', 'Selesai')
+            ->whereNot('status', 'Tolak')
+            ->get()
+            ->take(3);
+        $legalisir = Pengajuan::latest()
+            ->where('jenis_pengajuan_id', 5)
+            ->whereNot('status', 'Selesai')
+            ->whereNot('status', 'Tolak')
+            ->get()
+            ->take(3);
+
         return view('admin.dashboard', [
-            'title' => 'Dashboard'
+            'user'          => $user,
+            'riwayat'       => $riwayat,
+            'aktifKuliah'   => $aktifKuliah,
+            'pengantarPkl'  => $pengantarPkl,
+            'izinPenelitian'=> $izinPenelitian,
+            'dispensasi'    => $dispensasi,
+            'legalisir'     => $legalisir,
+            'verifikasiIjazah' => $verifikasiIjazah,
+            'pengajuan' => $pengajuan,
+            'title'         => 'Dashboard'
         ]);
     }
 }

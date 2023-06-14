@@ -130,10 +130,10 @@
                                         class="form-control @error('jurusan_id')
                                         is-invalid @enderror" readonly disabled>
                                         <option value="" selected="" disabled="">Pilih Jurusan</option>
-                                        @foreach ($jurusan as $item)
+                                        @foreach ($prodi as $item)
                                             <option value="{{ $item->id }}"
-                                                {{ old('jurusan_id', @$mahasiswa->jurusan_id) == $item->id ? 'selected' : '' }}>
-                                                {{ $item->name }}
+                                                {{ old('program_studi_id', @$mahasiswa->program_studi_id) == $item->id ? 'selected' : '' }}>
+                                                {{ $item->jurusan->name }}
                                             </option>
                                         @endforeach
                                     </select>

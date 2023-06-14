@@ -48,7 +48,7 @@ return new class extends Migration
             $table->text('catatan')->nullable();
             $table->ENUM('status', ['Menunggu Konfirmasi', 'Konfirmasi', 
             'Proses', 'Kendala', 'Tolak', 'Selesai', 
-            'Diterima Perusahaan', 'Ditolak Perusahaan', 'Review'])
+            'Diterima Perusahaan', 'Ditolak Perusahaan', 'Review', 'Setuju'])
             ->default('Menunggu Konfirmasi')
             ->nullable();
             $table->timestamps();
