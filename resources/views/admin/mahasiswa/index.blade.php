@@ -93,6 +93,10 @@
                         </th>
 
                         <th>
+                            Prodi
+                        </th>
+
+                        <th>
                             Angkatan
                         </th>
 
@@ -118,6 +122,10 @@
 
                                 <td>
                                     {{ $item->nim}}
+                                </td>
+
+                                <td>
+                                    {{ $item->programStudi->name}}
                                 </td>
 
                                 <td>

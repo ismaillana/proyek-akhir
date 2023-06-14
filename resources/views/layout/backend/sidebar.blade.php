@@ -16,8 +16,9 @@
         @role('super-admin')
           <li class="menu-header">Dashboard Super Admin</li>
             <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
-              <a href="{{route('dashboard')}}" class="nav-link"><i class="fas fa-fire"></i>
-                  <span>Dashboard</span></a>
+              <a href="{{route('dashboard')}}" class="nav-link">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span></a>
             </li>
           <li class="menu-header">Master Data</li>
             <li class="nav-item dropdown {{ request()->is('super-admin/jurusan*') ? 'active' : ''}} ||
@@ -71,7 +72,7 @@
         @role('bagian-akademik')
           <li class="menu-header">Dashboard Bgian Akademik</li>
             <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
-              <a href="{{route('dashboard')}}" class="nav-link"><i class="fas fa-fire"></i>
+              <a href="{{route('dashboard')}}" class="nav-link"><i class="fas fa-home"></i>
                   <span>Dashboard</span></a>
             </li>
 
@@ -113,9 +114,9 @@
                     Surat Aktif Kuliah
                   </a>
                 </li>
-                <li class="{{ request()->is('menu-admin/pengajuan-legalisir*') ? 'active' : ''}}">
-                  <a class="nav-link" href="{{route('pengajuan-legalisir.index')}}">
-                    Legalisir
+                <li class="{{ request()->is('menu-admin/pengajuan-pengantar-pkl*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('pengajuan-pengantar-pkl.index')}}">
+                    Pengantar PKL
                   </a>
                 </li>
                 <li class="{{ request()->is('menu-admin/pengajuan-izin-penelitian*') ? 'active' : ''}}">
@@ -123,19 +124,19 @@
                     Izin Penelitian
                   </a>
                 </li>
-                <li class="{{ request()->is('menu-admin/pengajuan-pengantar-pkl*') ? 'active' : ''}}">
-                  <a class="nav-link" href="{{route('pengajuan-pengantar-pkl.index')}}">
-                    Pengantar PKL
+                <li class="{{ request()->is('menu-admin/pengajuan-dispensasi*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('pengajuan-dispensasi.index')}}">
+                    Surat Dispensasi
+                  </a>
+                </li>
+                <li class="{{ request()->is('menu-admin/pengajuan-legalisir*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('pengajuan-legalisir.index')}}">
+                    Legalisir
                   </a>
                 </li>
                 <li class="{{ request()->is('menu-admin/pengajuan-verifikasi-ijazah*') ? 'active' : ''}}">
                   <a class="nav-link" href="{{route('pengajuan-verifikasi-ijazah.index')}}">
                     Verifikasi Ijazah
-                  </a>
-                </li>
-                <li class="{{ request()->is('menu-admin/pengajuan-dispensasi*') ? 'active' : ''}}">
-                  <a class="nav-link" href="{{route('pengajuan-dispensasi.index')}}">
-                    Surat Dispensasi
                   </a>
                 </li>
               </ul>
@@ -150,18 +151,8 @@
               <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>Riwayat Pengajuan</span></a>
               <ul class="dropdown-menu">
                 <li class="{{ request()->is('menu-admin/riwayat-pengajuan-aktif-kuliah*') ? 'active' : ''}}">
-                  <a class="nav-link" href="{{route('riwayat-pengajuan-aktif-kuliah')}}">
-                  Surat Aktif Kuliah
-                </a>
-              </li>
-                <li class="{{ request()->is('menu-admin/riwayat-pengajuan-legalisir*') ? 'active' : ''}}">
-                  <a class="nav-link" href="{{route('riwayat-pengajuan-legalisir')}}">
-                    Legalisir
-                  </a>
-                </li>
-                <li class="{{ request()->is('menu-admin/riwayat-pengajuan-izin-penelitian*') ? 'active' : ''}}">
-                  <a class="nav-link" href="{{route('riwayat-pengajuan-izin-penelitian')}}">
-                    Izin Penelitian
+                    <a class="nav-link" href="{{route('riwayat-pengajuan-aktif-kuliah')}}">
+                    Surat Aktif Kuliah
                   </a>
                 </li>
                 <li class="{{ request()->is('menu-admin/riwayat-pengajuan-pengantar-pkl*') ? 'active' : ''}}">
@@ -169,14 +160,24 @@
                     Pengantar PKL
                   </a>
                 </li>
-                <li class="{{ request()->is('menu-admin/riwayat-pengajuan-verifikasi-ijazah*') ? 'active' : ''}}">
-                  <a class="nav-link" href="{{route('riwayat-pengajuan-verifikasi-ijazah')}}">
-                    Verifikasi Ijazah
+                <li class="{{ request()->is('menu-admin/riwayat-pengajuan-izin-penelitian*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('riwayat-pengajuan-izin-penelitian')}}">
+                    Izin Penelitian
+                  </a>
+                </li>
+                <li class="{{ request()->is('menu-admin/riwayat-pengajuan-legalisir*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('riwayat-pengajuan-legalisir')}}">
+                    Legalisir
                   </a>
                 </li>
                 <li class="{{ request()->is('menu-admin/riwayat-pengajuan-dispensasi*') ? 'active' : ''}}">
                   <a class="nav-link" href="{{route('riwayat-pengajuan-dispensasi')}}">
                     Surat Dispensasi
+                  </a>
+                </li>
+                <li class="{{ request()->is('menu-admin/riwayat-pengajuan-verifikasi-ijazah*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('riwayat-pengajuan-verifikasi-ijazah')}}">
+                    Verifikasi Ijazah
                   </a>
                 </li>
               </ul>
@@ -192,7 +193,7 @@
         @role('admin-jurusan')
           <li class="menu-header">Dashboard Admin Jurusan</li>
             <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
-              <a href="{{route('dashboard')}}" class="nav-link"><i class="fas fa-fire"></i>
+              <a href="{{route('dashboard')}}" class="nav-link"><i class="fas fa-home"></i>
                   <span>Dashboard</span></a>
             </li>
           <li class="menu-header">Manajemen User</li>
@@ -269,7 +270,7 @@
         @role('koor-pkl')
           <li class="menu-header">Dashboard Koordinator PKL</li>
             <li class="nav-item {{ request()->is('dashboard') ? 'active' : ''}}">
-              <a href="{{route('dashboard')}}" class="nav-link"><i class="fas fa-fire"></i>
+              <a href="{{route('dashboard')}}" class="nav-link"><i class="fas fa-home"></i>
                   <span>Dashboard</span></a>
             </li>
           <li class="menu-header">Master Data</li>

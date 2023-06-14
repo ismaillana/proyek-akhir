@@ -89,8 +89,8 @@
 
                                     <div class="text text-info">
                                         <small>
-                                            Panduan / Contoh File Import Produk bisa dilihat pada link berikut
-                                            <a href="#" class="mr-2">
+                                            Panduan / Contoh File Import Mahasiswa bisa dilihat pada link berikut
+                                            <a href="{{ asset('/ImportMahasiswa.xlsx')}}" class="mr-2" download>
                                                 Download File
                                             </a>
                                         </small>

@@ -257,9 +257,25 @@
                 Akun
               </a>
               <ul class="dropdown-menu">
+                @role('mahasiswa|alumni')
+                  <li class="nav-item">
+                    <a class="dropdown-item" href="{{ route('profil-mahasiswa') }}">
+                      Profil
+                    </a>
+                  </li>
+                @endrole
+
+                @role('instansi')
+                  <li class="nav-item">
+                    <a class="dropdown-item" href="{{ route('profil-instansi') }}">
+                      Profil
+                    </a>
+                  </li>
+                @endrole
+
                 <li class="nav-item">
-                  <a class="dropdown-item" href="#">
-                    Profil
+                  <a class="dropdown-item" href="{{ route('password-user') }}">
+                    Password
                   </a>
                 </li>
 

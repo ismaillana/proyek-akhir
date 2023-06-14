@@ -25,7 +25,6 @@ class ProfilRequest extends FormRequest
             'name'              => 'required',
             'email'             => 'required|email',
             'wa'                => 'required|numeric',
-            // 'password'          => 'required|min:3'
         ];
         return $rules;
     }
@@ -38,8 +37,6 @@ class ProfilRequest extends FormRequest
             'email.email'           => 'Format Email Harus Sesuai',
             'wa.required'           => 'No WhatsApp Wajib Diisi',
             'wa.numeric'            => 'No WhatsApp Harus Berupa Angka',
-            // 'password.required'     => 'Password Wajib Diisi',
-            // 'password.min'          => 'Password minimal 3 huruf/angka',
         ];
     }
 }

@@ -4,11 +4,11 @@
     <section class="section">
       <div class="section-header">
         <div class="section-header-back">
-            <a href="{{route('pengajuan-izin-penelitian.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+            <a href="{{route('riwayat-pengajuan-izin-penelitian')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
             </div>
 
             <h1>
-                Detail Pengajuan
+                Detail Riwayat Pengajuan
             </h1>
         </div>
 
@@ -19,7 +19,7 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between w-100">
                                 <h4>
-                                    Detail Pengajuan Surat Izin Penelitian
+                                    Detail Riwayat Pengajuan Surat Izin Penelitian
                                 </h4>
 
                                 <div class="d-flex">
@@ -129,33 +129,12 @@
                                 </div>
                             </div>
                             <hr>
-                            @if (@$izinPenelitian->status == "Menunggu Konfirmasi")
-                                <div class="text-md-right">
-                                    <div class="float-lg-left mb-lg-0 mb-3">
-                                        <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$izinPenelitian->id}}">
-                                            <i class="fas fa-check"></i> 
-                                            Konfirmasi
-                                        </button>
-
-                                        <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$izinPenelitian->id}}">
-                                            <i class="fas fa-times"></i> 
-                                            Tolak
-                                        </button>
-                                    </div>
-
-                                    <button class="btn btn-warning btn-icon icon-left">
-                                        <i class="fas fa-print"></i> 
-                                        Print
-                                    </button>
-                                </div>
-                            @else
-                                <div class="text-md-right">
-                                    <button class="btn btn-warning btn-icon icon-left">
-                                        <i class="fas fa-print"></i> 
-                                        Print
-                                    </button>
-                                </div>
-                            @endif
+                            <div class="text-md-right">
+                                <button class="btn btn-warning btn-icon icon-left">
+                                    <i class="fas fa-print"></i> 
+                                    Print
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

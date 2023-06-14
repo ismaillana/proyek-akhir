@@ -54,7 +54,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($aktifKuliah as $item)
+                                {{-- @forelse ($collection as $item)
+                                    
+                                @empty
+                                    
+                                @endforelse --}}
+                                @forelse ($aktifKuliah as $item)
                                     <tr>
                                         <th scope="row">
                                             {{$loop->iteration}}
@@ -93,7 +98,19 @@
                                             </a>
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center">
+                                            <img class="img-fluid mb-2" width="250" src="{{ asset('template/assets/img/illustrations/3d1.png')}}" 
+                                            srcset="{{ asset('template/assets/img/illustrations/3d1@2x.png 2x')}}" alt="" />
+                                            
+                                            <p>
+                                            Anda belum pernah melakukan pengajuan layanan akademik, ayo ajukan sekarang disini ya!
+                                            <span class="text-danger">*</span>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

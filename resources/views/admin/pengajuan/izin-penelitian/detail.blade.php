@@ -131,7 +131,7 @@
                                 </div>
                             </div>
                             <hr>
-                            @if (@$izinPenelitian->status == "Menunggu Konfirmasi")
+                            @if ($user->hasRole('admin-jurusan') && @$izinPenelitian->status == "Menunggu Konfirmasi")
                                 <div class="text-md-right">
                                     <div class="float-lg-left mb-lg-0 mb-3">
                                         <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$izinPenelitian->id}}">

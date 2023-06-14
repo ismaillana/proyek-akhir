@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 
 use App\Http\Requests\ProfilRequest;
+use App\Http\Requests\PasswordRequest;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -17,27 +18,26 @@ class ProfilController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function profilSuperAdmin()
+    public function profil()
     {
         $user    =   auth()->user();
         
-        return view ('admin.profil.super-admin', [
+        return view ('admin.profil.index', [
             'user'   =>  $user,
-            'title'     => 'Profil Super Admin'
+            'title'     => 'Profil'
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function updateSuperAdmin(ProfilRequest $request, $id)
+    public function updateProfil(ProfilRequest $request, $id)
     {
         $data = [
             'name'        => $request->name,
             'wa'          => 62 . $request->wa,
             'nomor_induk' => $request->nomor_induk,
             'email'       => $request->email,
-            'password'    => Hash::make($request->password),
         ];
 
         $image = User::saveImage($request);
@@ -52,4 +52,71 @@ class ProfilController extends Controller
 
         return redirect()->back()->with('success', 'Data Berhasil Diedit');
     }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function password()
+    {
+        $user    =   auth()->user();
+        
+        return view ('admin.password.index', [
+            'user'   =>  $user,
+            'title'     => 'Password'
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function updatePassword(PasswordRequest $request, $id)
+    {
+        $data = [
+            'password'    => Hash::make($request->password)
+        ];
+
+        User::where('id', $id)->update($data);
+
+        return redirect()->back()->with('success', 'Data Berhasil Diedit');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function profilMahasiswa()
+    {
+        $user    =   auth()->user();
+        
+        return view ('user.profil.profil-mahasiswa', [
+            'user'   =>  $user,
+            'title'     => 'Profil'
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function profilInstansi()
+    {
+        $user    =   auth()->user();
+        
+        return view ('user.profil.profil-instansi', [
+            'user'   =>  $user,
+            'title'     => 'Profil'
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function passwordUser()
+    {
+        $user    =   auth()->user();
+        
+        return view ('user.profil.password', [
+            'user'   =>  $user,
+            'title'     => 'Password'
+        ]);
+    }
+    
 }

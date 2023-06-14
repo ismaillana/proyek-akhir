@@ -6,7 +6,7 @@
     <div class="row gx-lg-8 gx-xl-12 gy-10 gy-lg-0 mb-2 align-items-end">
       <div class="col-lg-12 text-center">
         <h2 class="fs-16 text-uppercase text-line text-primary mb-3">
-          Pengajuan
+          Riwayat
         </h2>
         <h3 class="display-4 text-center text-white">
           Surat Izin Penelitian
@@ -25,7 +25,7 @@
               <div class="card card-border-start border-primary">
                 <div class="card-header">
                     <h4>
-                        Form Pengajuan Surat Izin Penelitian
+                        Riwayat Pengajuan Surat Izin Penelitian
                     </h4>
                 </div>
 
@@ -52,7 +52,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($izinPenelitian as $item)
+                                @forelse ($izinPenelitian as $item)
                                     <tr>
                                         <th scope="row">
                                             {{$loop->iteration}}
@@ -91,7 +91,19 @@
                                             </a>
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                      <td colspan="4" class="text-center">
+                                          <img class="img-fluid mb-2" width="250" src="{{ asset('template/assets/img/illustrations/3d1.png')}}" 
+                                          srcset="{{ asset('template/assets/img/illustrations/3d1@2x.png 2x')}}" alt="" />
+                                          
+                                          <p>
+                                          Anda belum pernah melakukan pengajuan layanan akademik, ayo ajukan sekarang disini ya!
+                                          <span class="text-danger">*</span>
+                                          </p>
+                                      </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

@@ -51,7 +51,14 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
     Route::middleware('auth')->group(function () {
         //Dashboard
         Route::middleware(['role:super-admin|bagian-akademik|admin-jurusan|koor-pkl'])->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        
+        Route::middleware(['role:super-admin|bagian-akademik|admin-jurusan|koor-pkl'])->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        //Profil
+        Route::middleware(['role:super-admin|bagian-akademik|admin-jurusan|koor-pkl'])->get('profil', [ProfilController::class, 'profil'])->name('profil');
+        Route::post('update-profil/{update}', [ProfilController::class, 'updateProfil'])->name('update-profil');
+        //Password
+        Route::middleware(['role:super-admin|bagian-akademik|admin-jurusan|koor-pkl'])->get('password', [ProfilController::class, 'password'])->name('password');
+        Route::post('update-password/{update}', [ProfilController::class, 'updatePassword'])->name('update-password');
+
         Route::group(
             [
                 'middleware'    => ['role:super-admin'],
@@ -62,8 +69,6 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::resource('prodi', ProdiController::class);
                 Route::resource('adminJurusan', AdminJurusanController::class);
                 Route::resource('bagianAkademik', BagianAkademikController::class);
-                Route::get('profil-super-admin', [ProfilController::class, 'profilSuperAdmin'])->name('profil-super-admin');
-                Route::post('update-profil-super-admin/{update}', [ProfilController::class, 'updateSuperAdmin'])->name('update-profil-super-admin');
         });
 
         Route::group(
@@ -94,6 +99,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::post('konfirmasi-izin-penelitian/{id}', [IzinPenelitianController::class, 'konfirmasi'])->name('konfirmasi-izin-penelitian');
                 Route::post('update-status-izin-penelitian/{id}', [IzinPenelitianController::class, 'updateStatus'])->name('update-status-izin-penelitian');
                 Route::get('riwayat-pengajuan-izin-penelitian', [IzinPenelitianController::class, 'riwayat'])->name('riwayat-pengajuan-izin-penelitian');
+                Route::get('riwayat-pengajuan-izin-penelitian-detail/{id}', [IzinPenelitianController::class, 'showRiwayat'])->name('riwayat-pengajuan-izin-penelitian-detail');
 
                 //Verifikasi Ijazah
                 Route::resource('pengajuan-verifikasi-ijazah', VerifikasiIjazahController::class);
@@ -133,7 +139,12 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
 
     Route::middleware('auth')->group(function () {
         Route::middleware(['role:alumni|mahasiswa|instansi'])->get('/home', [HomeController::class, 'index'])->name('home');
-        
+        //Profil
+        Route::middleware(['role:alumni|mahasiswa|instansi'])->get('profil-mahasiswa', [ProfilController::class, 'profilMahasiswa'])->name('profil-mahasiswa');
+        Route::middleware(['role:alumni|mahasiswa|instansi'])->get('profil-instansi', [ProfilController::class, 'profilInstansi'])->name('profil-instansi');
+        //Password
+        Route::middleware(['role:alumni|mahasiswa|instansi'])->get('password-user', [ProfilController::class, 'passwordUser'])->name('password-user');
+
         Route::group(
             [
                 'middleware'    => ['role:alumni'],

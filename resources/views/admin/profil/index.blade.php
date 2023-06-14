@@ -22,7 +22,7 @@
           <div class="col-12 col-md-12 col-lg-12">
             <div class="card">
               <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST"
-                action="{{route('update-profil-super-admin', $user) }}">
+                action="{{route('update-profil', $user) }}">
                 @csrf
                 <div class="card-header">
                   <h4>
@@ -98,21 +98,6 @@
 
                             @if ($errors->has('wa'))
                                 <span class="text-danger">{{ $errors->first('wa') }}</span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-4">
-                        <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                            Password<sup class="text-danger">*</sup>
-                        </label>
-
-                        <div class="col-sm-12 col-md-7">
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
-                                name="password" autocomplete="new-password" placeholder="Masukkan Password">
-
-                            @if ($errors->has('password'))
-                                <span class="text-danger">{{ $errors->first('password') }}</span>
                             @endif
                         </div>
                     </div>

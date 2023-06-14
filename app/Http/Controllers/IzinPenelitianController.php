@@ -26,6 +26,7 @@ class IzinPenelitianController extends Controller
 
         $izinPenelitian = Pengajuan::where('jenis_pengajuan_id', 3)
             ->whereNot('status', 'Selesai')
+            ->whereNot('status', 'Tolak')
             ->latest()
             ->get();
 
@@ -105,10 +106,13 @@ class IzinPenelitianController extends Controller
             abort(404);
         }
 
+        $user = auth()->user();
+
         $izinPenelitian = Pengajuan::find($id);
         return view ('admin.pengajuan.izin-penelitian.detail', [
             'izinPenelitian'    =>  $izinPenelitian,
-            'title'         =>  'Detail Pengajuan Izin Penelitian'
+            'user'              =>  $user,
+            'title'             =>  'Detail Pengajuan Izin Penelitian'
         ]);
     }
 
@@ -199,6 +203,24 @@ class IzinPenelitianController extends Controller
         return view ('admin.riwayat.izin-penelitian.index', [
             'izinPenelitian'   => $izinPenelitian,
             'title'         => 'Surat Izin Penelitian'
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function showRiwayat(string $id)
+    {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $izinPenelitian = Pengajuan::find($id);
+        return view ('admin.riwayat.izin-penelitian.detail', [
+            'izinPenelitian'    =>  $izinPenelitian,
+            'title'             =>  'Detail Pengajuan Izin Penelitian'
         ]);
     }
 }
