@@ -3,7 +3,7 @@
   <div class="main-content">
     <section class="section">
       <div class="section-header">
-        <h1>Tabel Data Pengajuan Verifikasi Ijazah</h1>
+        <h1>Tabel Data Pengajuan Surat Pengantar Pkl</h1>
       </div>
 
       <div class="section-body">
@@ -13,7 +13,7 @@
               <div class="card-header">
                 <div class="d-flex justify-content-between w-100">
                     <h4>
-                        Data Pengajuan Verifikasi Ijazah
+                        Data Pengajuan Surat Pengantar Pkl
                     </h4>
                 </div>
               </div>
@@ -25,7 +25,7 @@
                         <th style="width: 10%">
                             #
                         </th>
-
+                        
                         <th>
                             Pengaju
                         </th>
@@ -35,19 +35,7 @@
                         </th>
 
                         <th>
-                            NIM
-                        </th>
-
-                        <th>
-                            Nomor Ijazah
-                        </th>
-
-                        <th>
-                            Tahun Lulus
-                        </th>
-
-                        <th class="text-center">
-                            Dokumen
+                            Nama Perusahaan
                         </th>
 
                         <th class="text-center">
@@ -60,57 +48,52 @@
                       </tr>
                     </thead>
                     <tbody>
-                        @foreach ($verifikasiIjazah as $item)
-                            <tr>
-                                <td>
-                                    {{$loop->iteration}}
-                                </td>
+                        @foreach ($pengantarPkl as $item)
+                            @if (@$item->mahasiswa->programStudi->jurusan->name == @$user->jurusan->name)
 
-                                <td>
-                                    {{@$item->instansi->user->name}}
-                                </td>
+                                <tr>
+                                    <td>
+                                        {{$loop->iteration}}
+                                    </td>
 
-                                <td>
-                                    {{$item->nama}}
-                                </td>
-                                
-                                <td>
-                                    {{$item->nim}}
-                                </td>
+                                    <td>
+                                        {{@$item->mahasiswa->user->name}}
+                                    </td>
 
-                                <td>
-                                    {{$item->no_ijazah}}
-                                </td>
+                                    <td>
+                                        {{$item->get_mahasiswa}}
+                                    </td>
 
-                                <td>
-                                    {{$item->tahun_lulus}}
-                                </td>
+                                    <td>
+                                        {{@$item->tempatPkl->name}}
+                                    </td>
 
-                                <td class="text-center">
-                                    <a href="{{ asset('storage/public/dokumen/'. $item->dokumen)}}" download="{{$item->dokumen}}">
-                                        File Pengajuan
-                                    </a>
-                                </td>
-                                
-                                <td class="text-center">
-                                    @if ($item->status == 'Menunggu Konfirmasi')
-                                        <span class="badge badge-warning">Menunggu Konfirmasi</span>
-                                    @elseif ($item->status == 'Konfirmasi')
-                                        <span class="badge badge-primary">Dikonfirmasi</span>
-                                    @elseif ($item->status == 'Proses')
-                                        <span class="badge badge-success">Diproses</span>
-                                    @elseif ($item->status == 'Tolak')
-                                        <span class="badge badge-danger">Ditolak</span>
-                                    @elseif ($item->status == 'Kendala')
-                                        <span class="badge badge-danger">Ada Kendala</span>
-                                    @else
-                                        <span class="badge badge-success">Selesai</span>
-                                    @endif
-                                </td>
-                                
-                                <td class="text-center">
-                                    @if (@$item->status == 'Tolak' || @$item->status == 'Selesai' || @$item->status == 'Menunggu Konfirmasi')
-                                        <a href="{{ route('pengajuan-verifikasi-ijazah.show',  Crypt::encryptString($item->id)) }}"
+                                    <td class="text-center">
+                                        @if ($item->status == 'Menunggu Konfirmasi')
+                                            <span class="badge badge-warning">Menunggu Konfirmasi</span>
+                                        @elseif ($item->status == 'Konfirmasi')
+                                            <span class="badge badge-primary">Dikonfirmasi</span>
+                                        @elseif ($item->status == 'Proses')
+                                            <span class="badge badge-success">Diproses</span>
+                                        @elseif ($item->status == 'Tolak')
+                                            <span class="badge badge-danger">Ditolak</span>
+                                        @elseif ($item->status == 'Kendala')
+                                            <span class="badge badge-danger">Ada Kendala</span>
+                                        @elseif ($item->status == 'Review')
+                                            <span class="badge badge-success">Direview</span>
+                                        @elseif ($item->status == 'Setuju')
+                                            <span class="badge badge-primary">Disetujui Koor.Pkl</span>
+                                        @elseif ($item->status == 'Diterima Perusahaan')
+                                            <span class="badge badge-primary">Diterima Perusahaan</span>
+                                        @elseif ($item->status == 'Ditolak Perusahaan')
+                                            <span class="badge badge-primary">Ditolak Perusahaan</span>
+                                        @else
+                                            <span class="badge badge-success">Selesai</span>
+                                        @endif
+                                    </td>
+                                    
+                                    <td class="text-center">
+                                        <a href="{{ route('riwayat-pengajuan-pengantar-pkl-detail',  Crypt::encryptString($item->id)) }}"
                                             class="btn btn-sm btn-outline-secondary" title="Detail">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 width="16" height="16" viewBox="0 0 24 24"
@@ -120,30 +103,11 @@
                                                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
                                         </a>
-                                    @else
-                                        <a href="{{ route('pengajuan-verifikasi-ijazah.show',  Crypt::encryptString($item->id)) }}"
-                                            class="btn btn-sm btn-outline-secondary" title="Detail">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                width="16" height="16" viewBox="0 0 24 24"
-                                                stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                        </a>
+                                    </td>
+                                </tr>
+                            @else
 
-                                        <a href="" class="btn btn-sm btn-outline-warning" data-toggle="modal" data-target="#edit{{$item->id}}"
-                                            title="update status">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                height="16" fill="none" viewBox="0 0 24 24"
-                                                stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M5 11l7-7 7 7M5 19l7-7 7 7" />
-                                            </svg>
-                                        </a>
-                                    @endif
-                                </td>
-                            </tr>
+                            @endif
                         @endforeach
                     </tbody>
                   </table>
@@ -156,10 +120,10 @@
     </section>
   </div>  
 
-@foreach ($verifikasiIjazah as $verifikasiIjazah)
-  <div class="modal fade" tabindex="-1" role="dialog" id="edit{{$verifikasiIjazah->id}}">
+@foreach ($pengantarPkl as $pengantarPkl)
+  <div class="modal fade" tabindex="-1" role="dialog" id="edit{{$pengantarPkl->id}}">
     <div class="modal-dialog" role="document">
-        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{route('update-status-verifikasi-ijazah', $verifikasiIjazah->id)}}" method="POST">
+        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{route('update-status-pengantar-pkl', $pengantarPkl->id)}}" method="POST">
             @csrf
             <div class="modal-content">
                 <div class="modal-header">
@@ -184,16 +148,16 @@
                                     Pilih Status
                                 </option>
                                 <option value="Konfirmasi"
-                                    {{ old('status', @$verifikasiIjazah->status) == 'Konfirmasi' ? 'selected' : '' }}>
+                                    {{ old('status', @$pengantarPkl->status) == 'Konfirmasi' ? 'selected' : '' }}>
                                         Dikonfirmasi</option>
                                 <option value="Proses"
-                                    {{ old('status', @$verifikasiIjazah->status) == 'Proses' ? 'selected' : '' }}>
+                                    {{ old('status', @$pengantarPkl->status) == 'Proses' ? 'selected' : '' }}>
                                         Diproses</option>
                                 <option value="Kendala"
-                                    {{ old('status', @$verifikasiIjazah->status) == 'Kendala' ? 'selected' : '' }}>
+                                    {{ old('status', @$pengantarPkl->status) == 'Kendala' ? 'selected' : '' }}>
                                         Ada Kendala</option>
                                 <option value="Selesai"
-                                    {{ old('status', @$verifikasiIjazah->status) == 'Selesai' ? 'selected' : '' }}>
+                                    {{ old('status', @$pengantarPkl->status) == 'Selesai' ? 'selected' : '' }}>
                                         Selesai</option>
                             </select>
 

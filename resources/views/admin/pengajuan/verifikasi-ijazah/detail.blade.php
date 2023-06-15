@@ -52,8 +52,8 @@
 
                                 <div class="col-sm-12 col-md-7">
                                     <input type="text" class="form-control @error('instansi_id')is-invalid @enderror"
-                                        id="instansi_id" name="instansi_id" placeholder="Masukkan Koordinator PKL" 
-                                        value="{{ old('instansi_id', @$verifikasiIjazah->instansi->user->instansi_id) }}" disabled readonly>
+                                        id="instansi_id" name="instansi_id" placeholder="Masukkan Nama Instansi" 
+                                        value="{{ old('instansi_id', @$verifikasiIjazah->instansi->user->name) }}" disabled readonly>
                                 </div>
                             </div>
 
@@ -64,14 +64,14 @@
 
                                 <div class="col-sm-12 col-md-7">
                                     <input type="text" class="form-control @error('name')is-invalid @enderror"
-                                        id="name" name="name" placeholder="Masukkan Koordinator PKL" 
-                                        value="{{ old('name', @$verifikasiIjazah->name) }}" disabled readonly>
+                                        id="name" name="name" placeholder="Masukkan Nama Mahasiswa" 
+                                        value="{{ old('name', @$verifikasiIjazah->nama) }}" disabled readonly>
                                 </div>
                             </div>
 
                             <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                    NIM<sup class="text-danger">*</sup>
+                                    NIM Mahasiswa<sup class="text-danger">*</sup>
                                 </label>
 
                                 <div class="col-sm-12 col-md-7">

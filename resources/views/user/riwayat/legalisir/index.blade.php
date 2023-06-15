@@ -6,7 +6,7 @@
     <div class="row gx-lg-8 gx-xl-12 gy-10 gy-lg-0 mb-2 align-items-end">
       <div class="col-lg-12 text-center">
         <h2 class="fs-16 text-uppercase text-line text-primary mb-3">
-          Pengajuan
+          Riwayat
         </h2>
 
         <h3 class="display-4 text-center text-white">
@@ -26,7 +26,7 @@
               <div class="card card-border-start border-primary">
                 <div class="card-header">
                     <h4>
-                        Form Pengajuan Legalisir
+                        Riwayat Pengajuan Legalisir
                     </h4>
                 </div>
 
@@ -43,17 +43,17 @@
                                     Tanggal Pengajuan
                                   </th>
 
-                                  <th scope="col">
+                                  <th scope="col" class="text-center">
                                     Status
                                   </th>
 
-                                  <th scope="col">
+                                  <th scope="col" class="text-center">
                                     Aksi
                                   </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($legalisir as $item)
+                                @forelse ($legalisir as $item)
                                     <tr>
                                         <th scope="row">
                                             {{$loop->iteration}}
@@ -63,7 +63,7 @@
                                             {{$item->created_at}}
                                         </td>
 
-                                        <td>
+                                        <td class="text-center">
                                             @if ($item->status == 'Menunggu Konfirmasi')
                                                 <span class="badge bg-primary rounded-pill">Menunggu Konfirmasi</span>
                                             @elseif ($item->status == 'Konfirmasi')
@@ -79,7 +79,7 @@
                                             @endif
                                         </td>
 
-                                        <td>
+                                        <td class="text-center">
                                             <a href="{{ route('pengajuan.tracking-legalisir', $item->id)}}"
                                                 class="btn btn-sm btn-outline-secondary" title="Detail">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -92,7 +92,19 @@
                                             </a>
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                      <td colspan="4" class="text-center">
+                                          <img class="img-fluid mb-2" width="250" src="{{ asset('template/assets/img/illustrations/3d1.png')}}" 
+                                          srcset="{{ asset('template/assets/img/illustrations/3d1@2x.png 2x')}}" alt="" />
+                                          
+                                          <p>
+                                          Anda belum pernah melakukan pengajuan layanan akademik ini!
+                                          <span class="text-danger">*</span>
+                                          </p>
+                                      </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

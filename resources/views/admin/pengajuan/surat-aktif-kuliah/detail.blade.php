@@ -88,7 +88,7 @@
                                 </label>
 
                                 <div class="col-sm-9">
-                                    <textarea name="keperluan" class="form-control" id="keperluan" cols="30" rows="10"
+                                    <textarea name="keperluan" class="summernote-simple" id="keperluan" cols="30" rows="10"
                                         placeholder="Masukan Keperluan" readonly disabled>{{ old('keperluan', @$aktifKuliah->keperluan) }}</textarea>
                                 </div>
                             </div>

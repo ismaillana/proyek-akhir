@@ -242,17 +242,17 @@
             {{ request()->is('menu-admin/riwayat-pengajuan-pengantar-pkl*') ? 'active' : ''}}">
               <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>Riwayat Pengajuan</span></a>
               <ul class="dropdown-menu">
-                <li>
+                <li class="{{ request()->is('menu-admin/riwayat-pengajuan-izin-penelitian*') ? 'active' : ''}}">
                   <a class="nav-link" href="{{route('riwayat-pengajuan-izin-penelitian')}}">
                     Izin Penelitian
                   </a>
                 </li>
-                <li>
-                  <a class="nav-link" href="{{route('pengajuan-pengantar-pkl.index')}}">
+                <li class="{{ request()->is('menu-admin/riwayat-pengajuan-pengantar-pkl*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('riwayat-pengajuan-pengantar-pkl')}}">
                     Pengantar PKL
                   </a>
                 </li>
-                <li>
+                <li class="{{ request()->is('menu-admin/riwayat-pengajuan-dispensasi*') ? 'active' : ''}}">
                   <a class="nav-link" href="{{route('riwayat-pengajuan-dispensasi')}}">
                     Surat Dispensasi
                   </a>
@@ -297,7 +297,7 @@
               <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>Riwayat Pengajuan</span></a>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="nav-link" href="{{route('pengajuan-pengantar-pkl.index')}}">
+                  <a class="nav-link" href="{{route('riwayat-pengajuan-pengantar-pkl')}}">
                     Pengantar PKL
                   </a>
                 </li>

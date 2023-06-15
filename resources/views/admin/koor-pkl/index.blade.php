@@ -51,6 +51,7 @@
                     </thead>
                     <tbody>
                         @foreach ($koorPkl as $item)
+                        @if (@$item->jurusan->name == @$user->jurusan->name)
                             <tr>
                                 <td>
                                     {{$loop->iteration}}
@@ -91,6 +92,9 @@
                                     </button>
                                 </td>
                             </tr>
+                        @else
+
+                        @endif
                         @endforeach
                     </tbody>
                   </table>

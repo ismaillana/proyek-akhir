@@ -49,7 +49,7 @@
                     </thead>
                     <tbody>
                     @foreach ($dispensasi as $item)
-                        @if (@$item->mahasiswa->jurusan->name == @$adminJurusan->jurusan->name)
+                        @if (@$item->mahasiswa->programStudi->jurusan->name == @$user->jurusan->name)
                             
                         <tr>
                             <td>
@@ -66,9 +66,7 @@
 
                             <td class="text-center">
                                 <a href="{{ asset('storage/public/dokumen/dispensasi/'. $item->dokumen)}}" download="{{$item->dokumen}}">
-                                    <button class="badge badge-primary" type="button">
-                                        Download
-                                    </button>
+                                    File Pengajuan
                                 </a>
                             </td>
 
@@ -84,7 +82,7 @@
                             
                             <td class="text-center">
 
-                                <a href="{{ route('pengajuan-dispensasi.show',  Crypt::encryptString($item->id)) }}"
+                                <a href="{{ route('riwayat-pengajuan-dispensasi-detail',  Crypt::encryptString($item->id)) }}"
                                     class="btn btn-sm btn-outline-secondary" title="Detail">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                         width="16" height="16" viewBox="0 0 24 24"
@@ -92,19 +90,6 @@
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             stroke-width="2"
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </a>
-
-                                <a href="{{ route('pengajuan-dispensasi.edit', $item->id) }}" class="btn btn-sm btn-outline-warning">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-
-                                <a href="{{ route('pengajuan-dispensasi.edit', $item->id) }}" class="btn btn-sm btn-outline-warning" title="update status">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                        height="16" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M5 11l7-7 7 7M5 19l7-7 7 7" />
                                     </svg>
                                 </a>
                             </td>

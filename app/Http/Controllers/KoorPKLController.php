@@ -21,12 +21,14 @@ class KoorPKLController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
         $koorPkl = User::latest()
             ->role('koor-pkl')
             ->get();
 
         return view ('admin.koor-pkl.index', [
             'koorPkl'  => $koorPkl,
+            'user'     => $user,
             'title'    => 'Koor-Pkl'
         ]);
     }

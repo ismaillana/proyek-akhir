@@ -3,7 +3,7 @@
   <div class="main-content">
     <section class="section">
       <div class="section-header">
-        <h1>Tabel Data Pengajuan Verifikasi Ijazah</h1>
+        <h1>Tabel Data Pengajuan Izin Penelitian</h1>
       </div>
 
       <div class="section-body">
@@ -13,7 +13,7 @@
               <div class="card-header">
                 <div class="d-flex justify-content-between w-100">
                     <h4>
-                        Data Pengajuan Verifikasi Ijazah
+                        Data Pengajuan Izin Penelitian
                     </h4>
                 </div>
               </div>
@@ -27,10 +27,6 @@
                         </th>
 
                         <th>
-                            Pengaju
-                        </th>
-
-                        <th>
                             Nama Mahasiswa
                         </th>
 
@@ -39,15 +35,7 @@
                         </th>
 
                         <th>
-                            Nomor Ijazah
-                        </th>
-
-                        <th>
-                            Tahun Lulus
-                        </th>
-
-                        <th class="text-center">
-                            Dokumen
+                            Tempat Penelitian
                         </th>
 
                         <th class="text-center">
@@ -60,38 +48,25 @@
                       </tr>
                     </thead>
                     <tbody>
-                        @foreach ($verifikasiIjazah as $item)
+                        @foreach ($izinPenelitian as $item)
+                            @if (@$item->mahasiswa->programStudi->jurusan->name == @$user->jurusan->name)
                             <tr>
                                 <td>
                                     {{$loop->iteration}}
                                 </td>
 
                                 <td>
-                                    {{@$item->instansi->user->name}}
+                                    {{@$item->mahasiswa->user->name}}
                                 </td>
 
                                 <td>
-                                    {{$item->nama}}
-                                </td>
-                                
-                                <td>
-                                    {{$item->nim}}
+                                    {{@$item->mahasiswa->nim}}
                                 </td>
 
                                 <td>
-                                    {{$item->no_ijazah}}
+                                    {{$item->nama_tempat}}
                                 </td>
 
-                                <td>
-                                    {{$item->tahun_lulus}}
-                                </td>
-
-                                <td class="text-center">
-                                    <a href="{{ asset('storage/public/dokumen/'. $item->dokumen)}}" download="{{$item->dokumen}}">
-                                        File Pengajuan
-                                    </a>
-                                </td>
-                                
                                 <td class="text-center">
                                     @if ($item->status == 'Tolak')
                                         <span class="badge badge-danger">Ditolak</span>
@@ -99,9 +74,9 @@
                                         <span class="badge badge-success">Selesai</span>
                                     @endif
                                 </td>
-                                
+
                                 <td class="text-center">
-                                    <a href="{{ route('riwayat-pengajuan-verifikasi-ijazah-detail',  Crypt::encryptString($item->id)) }}"
+                                    <a href="{{ route('riwayat-pengajuan-izin-penelitian-detail',  Crypt::encryptString($item->id)) }}"
                                         class="btn btn-sm btn-outline-secondary" title="Detail">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                             width="16" height="16" viewBox="0 0 24 24"
@@ -113,7 +88,10 @@
                                     </a>
                                 </td>
                             </tr>
-                        @endforeach
+                            @else
+
+                            @endif
+                        @endforeach 
                     </tbody>
                   </table>
                 </div>

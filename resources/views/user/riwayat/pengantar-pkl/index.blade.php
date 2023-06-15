@@ -6,7 +6,7 @@
     <div class="row gx-lg-8 gx-xl-12 gy-10 gy-lg-0 mb-2 align-items-end">
       <div class="col-lg-12 text-center">
         <h2 class="fs-16 text-uppercase text-line text-primary mb-3">
-          Pengajuan
+          Riwayat
         </h2>
 
         <h3 class="display-4 text-center text-white">
@@ -26,7 +26,7 @@
               <div class="card card-border-start border-primary">
                 <div class="card-header">
                     <h4>
-                        Form Pengajuan Pengantar PKL
+                        Riwayat Pengajuan Pengantar PKL
                     </h4>
                 </div>
 
@@ -43,17 +43,17 @@
                                     Tanggal Pengajuan
                                   </th>
 
-                                  <th scope="col">
+                                  <th scope="col" class="text-center">
                                     Status
                                   </th>
 
-                                  <th scope="col">
+                                  <th scope="col" class="text-center">
                                     Aksi
                                   </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($pengantarPkl as $item)
+                                @forelse ($pengantarPkl as $item)
                                     <tr>
                                         <th scope="row">
                                             {{$loop->iteration}}
@@ -63,7 +63,7 @@
                                             {{$item->created_at}}
                                         </td>
 
-                                        <td>
+                                        <td class="text-center">
                                             @if ($item->status == 'Menunggu Konfirmasi')
                                                 <span class="badge bg-primary rounded-pill">Menunggu Konfirmasi</span>
                                             @elseif ($item->status == 'Konfirmasi')
@@ -79,20 +79,32 @@
                                             @endif
                                         </td>
 
-                                        <td>
+                                        <td class="text-center">
                                             <a href="{{ route('pengajuan.tracking-pengantar-pkl', $item->id)}}"
-                                                class="btn btn-sm btn-outline-secondary" title="Detail">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    width="16" height="16" viewBox="0 0 24 24"
-                                                    stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
+                                                class="badge bg-black " title="Detail">
+                                                Detail
                                             </a>
+                                            @if ($item->status == 'Selesai')
+                                              <a href="#" data-bs-toggle="modal" data-bs-target="#modal-03-{{$item->id}}"
+                                                  class="badge bg-yellow" title="Konfirmasi">
+                                                  Konfirmasi
+                                              </a>
+                                            @endif
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                      <td colspan="4" class="text-center">
+                                          <img class="img-fluid mb-2" width="250" src="{{ asset('template/assets/img/illustrations/3d1.png')}}" 
+                                          srcset="{{ asset('template/assets/img/illustrations/3d1@2x.png 2x')}}" alt="" />
+                                          
+                                          <p>
+                                          Anda belum pernah melakukan pengajuan layanan akademik ini!
+                                          <span class="text-danger">*</span>
+                                          </p>
+                                      </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -103,43 +115,102 @@
     </div>
   </div>
 </section>
+@foreach ($pengantarPkl as $pengantarPkl)
+  <div class="modal fade" id="modal-03-{{$pengantarPkl->id}}" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content text-center">
+        <div class="modal-body">
+          <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h3 class="mb-4">Konfirmasi Hasil Pengajuan Surat Pengantar PKL</h3>
+          <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{route('pengajuan.konfirmasi-terima', $pengantarPkl->id)}}" method="POST">
+            @csrf
+            <div class="form-floating mb-4">
+              <select class="form-select" aria-label="Default select example" id="status" name="status">
+                <option disabled selected>Pilih Status</option>
+                <option value="Diterima Perusahaan"
+                    {{ old('status', @$pengantarPkl->status) == 'Diterima Perusahaan' ? 'selected' : '' }}>
+                        Diterima Perusahaan</option>
+                <option value="Ditolak Perusahaan"
+                    {{ old('status', @$pengantarPkl->status) == 'Ditolak Perusahaan' ? 'selected' : '' }}>
+                        Ditolak Perusahaan</option>
+              </select>
+
+              @if ($errors->has('status'))
+                  <span class="text-danger">
+                      {{ $errors->first('status') }}
+                  </span>
+              @endif
+              <label for="loginPassword">Status</label>
+            </div>
+
+            <div class="form-floating mb-4" id="bukti">
+              <div class="col-sm-12 col-md-12">
+                <input id="image" type="file" name="image" class="form-control @error('image')is-invalid @enderror" 
+                  value="{{ old('image', @$pengantarPkl->image) }}" placeholder="image">
+                
+                {{-- @if ($errors->has('image'))
+                    <span class="text-danger">{{ $errors->first('image') }}</span>
+                @endif --}}
+              </div>
+            </div>
+
+            <button class="btn btn-primary rounded-pill w-100 mb-2" type="submit">
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+@endforeach
+
 @endsection
 
 @section('script')
 <script type="text/javascript">
-  new MultiSelectTag('jenis_legalisir_id')  // id
+        // $('#myForm').submit(function(e) {
+        //     let form = this;
+        //     e.preventDefault();
 
-        $('#myForm').submit(function(e) {
-            let form = this;
-            e.preventDefault();
-
-            confirmSubmit(form);
-        });
+        //     confirmSubmit(form);
+        // });
         // Form
-        function confirmSubmit(form, buttonId) {
-            Swal.fire({
-                icon: 'question',
-                text: 'Apakah anda yakin ingin menyimpan data ini ?',
-                showCancelButton: true,
-                buttonsStyling: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Simpan',
-                cancelButtonText: 'Cancel',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    let button = 'btnSubmit';
+        // function confirmSubmit(form, buttonId) {
+        //     Swal.fire({
+        //         icon: 'question',
+        //         text: 'Apakah anda yakin ingin menyimpan data ini ?',
+        //         showCancelButton: true,
+        //         buttonsStyling: true,
+        //         confirmButtonColor: '#3085d6',
+        //         cancelButtonColor: '#d33',
+        //         confirmButtonText: 'Simpan',
+        //         cancelButtonText: 'Cancel',
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             let button = 'btnSubmit';
 
-                    if (buttonId) {
-                        button = buttonId;
-                    }
+        //             if (buttonId) {
+        //                 button = buttonId;
+        //             }
 
-                    $('#' + button).attr('disabled', 'disabled');
-                    $('#loader').removeClass('d-none');
+        //             $('#' + button).attr('disabled', 'disabled');
+        //             $('#loader').removeClass('d-none');
 
-                    form.submit();
-                }
-            });
-        }
+        //             form.submit();
+        //         }
+        //     });
+        // }
+
+        $("#bukti").hide();
+
+        $('#status').on('change', function(){
+            var selectedVal = $(this).val();
+
+            if (selectedVal == 'Ditolak Perusahaan') {
+                $('#bukti').show();
+            } else {
+                $("#bukti").hide();
+            }
+        })
 </script>
 @endsection

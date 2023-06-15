@@ -40,6 +40,10 @@
                                       <span class="badge badge-success">Direview</span>
                                   @elseif (@$pengantarPkl->status == 'Setuju')
                                       <span class="badge badge-primary">Disetujui Koor.Pkl</span>
+                                  @elseif (@$pengantarPkl->status == 'Diterima Perusahaan')
+                                      <span class="badge badge-primary">Diterima Perusahaan</span>
+                                  @elseif (@$pengantarPkl->status == 'Ditolak Perusahaan')
+                                      <span class="badge badge-primary">Ditolak Perusahaan</span>
                                   @else
                                       <span class="badge badge-success">Selesai</span>
                                   @endif

@@ -24,6 +24,7 @@ class VerifikasiIjazahController extends Controller
     {
         $verifikasiIjazah = Pengajuan::where('jenis_pengajuan_id', 6)
             ->whereNot('status', 'Selesai')
+            ->whereNot('status', 'Tolak')
             ->get();
 
         return view ('admin.pengajuan.verifikasi-ijazah.index', [
@@ -183,14 +184,33 @@ class VerifikasiIjazahController extends Controller
      */
     public function riwayat()
     {
-        $verifikasiIjazah = Pengajuan::where('status', 'Tolak')
-            ->orWhere('status', 'Selesai')
-            ->where('jenis_pengajuan_id', 6)
+        $verifikasiIjazah = Pengajuan::where('jenis_pengajuan_id', 6)
+            ->where('status', 'Tolak')
+            ->orWhere('jenis_pengajuan_id', 6)
+            ->where('status', 'Selesai')
             ->get();
 
         return view ('admin.riwayat.verifikasi-ijazah.index', [
             'verifikasiIjazah'   => $verifikasiIjazah,
             'title'         => 'Verifikasi Ijazah'
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function showRiwayat(string $id)
+    {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $verifikasiIjazah = Pengajuan::find($id);
+        return view ('admin.riwayat.verifikasi-ijazah.detail', [
+            'verifikasiIjazah'    =>  $verifikasiIjazah,
+            'title'        =>  'Detail Pengajuan verifikasi Ijazah'
         ]);
     }
 

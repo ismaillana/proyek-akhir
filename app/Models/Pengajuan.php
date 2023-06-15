@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Image;
 
 class Pengajuan extends Model
 {
@@ -113,5 +115,57 @@ class Pengajuan extends Model
 
         return $data->implode('name', ',');
     }
+
+    /**
+     * Save image.
+     *
+     * @param  $request
+     * @return string
+     */
+    public static function saveImage($request)
+    {
+        $filename = null;
+
+        if ($request->image) {
+            $file = $request->image;
+
+            $ext = $file->getClientOriginalExtension();
+            $filename = date('YmdHis') . uniqid() . '.' . $ext;
+            $file->storeAs('public/image/bukti-penolakan/', $filename);
+        }
+
+        return $filename;
+    }
+
+    /**
+     * Get the image .
+     *
+     * @return string
+     */
+    public function getImageUrlAttribute()
+    {
+        if ($this->image) {
+            return asset('storage/public/image/bukti-penolakan/' . $this->image);
+        }
+        
+        return null;
+    }
+
+    /**
+     * Delete image.
+     *
+     * @param  $id
+     * @return void
+     */
+    // public static function deleteImage(string $id)
+    // {
+    //     $user = User::firstWhere('id', $id);
+    //     if ($user->image != null) {
+    //         $path = 'public/image/user/' . $user->image;
+    //         if (Storage::exists($path)) {
+    //             Storage::delete('public/image/user/' . $user->image);
+    //         }
+    //     }
+    // }
 
 }

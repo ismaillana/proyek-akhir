@@ -83,6 +83,10 @@
                                             <span class="badge badge-success">Direview</span>
                                         @elseif ($item->status == 'Setuju')
                                             <span class="badge badge-primary">Disetujui Koor.Pkl</span>
+                                        @elseif ($item->status == 'Diterima Perusahaan')
+                                            <span class="badge badge-primary">Diterima Perusahaan</span>
+                                        @elseif ($item->status == 'Ditolak Perusahaan')
+                                            <span class="badge badge-primary">Ditolak Perusahaan</span>
                                         @else
                                             <span class="badge badge-success">Selesai</span>
                                         @endif

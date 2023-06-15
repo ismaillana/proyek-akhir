@@ -74,8 +74,14 @@
                                 <td class="text-center">
                                     @if ($item->status == 'Menunggu Konfirmasi')
                                         <span class="badge badge-warning">Menunggu Konfirmasi</span>
-                                    @elseif ($item->status == 'Diproses')
-                                        <span class="badge badge-warning">Menunggu Konfirmasi</span>
+                                    @elseif ($item->status == 'Konfirmasi')
+                                        <span class="badge badge-primary">Dikonfirmasi</span>
+                                    @elseif ($item->status == 'Proses')
+                                        <span class="badge badge-success">Diproses</span>
+                                    @elseif ($item->status == 'Tolak')
+                                        <span class="badge badge-danger">Ditolak</span>
+                                    @elseif ($item->status == 'Kendala')
+                                        <span class="badge badge-danger">Ada Kendala</span>
                                     @else
                                         <span class="badge badge-success">Selesai</span>
                                     @endif
@@ -93,22 +99,8 @@
                                                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                     </a>
-
-                                    <a href="{{ route('pengajuan-dispensasi.edit', $item->id) }}" class="btn btn-sm btn-outline-warning">
-                                        <i class="fas fa-pencil-alt"></i>
-                                    </a>
-
-                                    <a href="{{ route('pengajuan-dispensasi.edit', $item->id) }}" class="btn btn-sm btn-outline-warning" title="update status">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                            height="16" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M5 11l7-7 7 7M5 19l7-7 7 7" />
-                                        </svg>
-                                    </a>
                                 </td>
                             </tr>
-
                         @else
 
                         @endif

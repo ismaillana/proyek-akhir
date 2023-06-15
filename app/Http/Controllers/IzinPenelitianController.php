@@ -195,15 +195,28 @@ class IzinPenelitianController extends Controller
      */
     public function riwayat()
     {
+        $user = auth()->user();
+
         $izinPenelitian = Pengajuan::where('jenis_pengajuan_id', 3)
+            ->where('status', 'Tolak')
+            ->orWhere('jenis_pengajuan_id', 3)
             ->where('status', 'Selesai')
-            ->orWhere('status', 'Tolak')
+            ->latest()
             ->get();
 
-        return view ('admin.riwayat.izin-penelitian.index', [
-            'izinPenelitian'   => $izinPenelitian,
-            'title'         => 'Surat Izin Penelitian'
-        ]);
+        if ($user->hasRole('admin-jurusan')) {
+            return view ('admin.riwayat.izin-penelitian.index-admin-jurusan', [
+                'izinPenelitian'   => $izinPenelitian,
+                'user'             => $user,
+                'title'         => 'Surat Izin Penelitian'
+            ]);
+        } else {
+            return view ('admin.riwayat.izin-penelitian.index', [
+                'izinPenelitian'   => $izinPenelitian,
+                'title'         => 'Surat Izin Penelitian'
+            ]);
+        }
+        
     }
 
     /**

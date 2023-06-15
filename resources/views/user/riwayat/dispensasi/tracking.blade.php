@@ -6,7 +6,7 @@
     <div class="row gx-lg-8 gx-xl-12 gy-10 gy-lg-0 mb-2 align-items-end">
       <div class="col-lg-12 text-center">
         <h2 class="fs-16 text-uppercase text-line text-primary mb-3">
-          Pengajuan
+          Tracking
         </h2>
 
         <h3 class="display-4 text-center text-white">
@@ -26,7 +26,7 @@
               <div class="card card-border-start border-primary">
                 <div class="card-header">
                     <h4>
-                        Form Pengajuan Surat Dispensasi
+                        Tracking Pengajuan Surat Dispensasi
                     </h4>
                 </div>
 
@@ -57,7 +57,7 @@
                                     $i = $jumlah;
 
                                 @endphp
-                                @foreach ($riwayat as $item)
+                                @forelse ($riwayat as $item)
                                     <tr>
                                         <th scope="row">
                                             {{$i}}
@@ -90,7 +90,19 @@
                                 @php
                                     $i= $i-1;
                                 @endphp
-                                @endforeach
+                                @empty
+                                    <tr>
+                                      <td colspan="4" class="text-center">
+                                          <img class="img-fluid mb-2" width="250" src="{{ asset('template/assets/img/illustrations/3d1.png')}}" 
+                                          srcset="{{ asset('template/assets/img/illustrations/3d1@2x.png 2x')}}" alt="" />
+                                          
+                                          <p>
+                                          Anda belum pernah melakukan pengajuan layanan akademik ini!
+                                          <span class="text-danger">*</span>
+                                          </p>
+                                      </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

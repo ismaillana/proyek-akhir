@@ -44,7 +44,8 @@
                     <div class="form-group col-6">
                         <label for="name">{{ __('Name') }}</label>
 
-                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" autocomplete="name" autofocus>
+                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" 
+                              autocomplete="name" autofocus placeholder="Masukan Nama Perusahaan">
 
                             @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -60,7 +61,8 @@
                               +62
                             </div>
                             
-                            <input id="wa" type="text" class="form-control @error('wa') is-invalid @enderror" name="wa" value="{{ old('wa') }}" autocomplete="wa" autofocus>
+                            <input id="wa" type="text" class="form-control @error('wa') is-invalid @enderror" name="wa" value="{{ old('wa') }}" 
+                              autocomplete="wa" autofocus placeholder="Masukan No WhatsApp">
                             @error('wa')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -72,7 +74,8 @@
                   <div class="form-group col-6">
                       <label for="alamat">{{ __('Alamat') }}</label>
 
-                          <input id="alamat" type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" value="{{ old('alamat') }}" autocomplete="alamat" autofocus>
+                          <input id="alamat" type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" 
+                            value="{{ old('alamat') }}" autocomplete="alamat" autofocus placeholder="Masukan Alamat">
 
                           @error('alamat')
                               <span class="invalid-feedback" role="alert">
@@ -83,7 +86,8 @@
                     <div class="form-group col-6">
                         <label for="email">{{ __('Email Address') }}</label>
 
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email">
+                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" 
+                              autocomplete="email" placeholder="Masukan Email">
 
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
@@ -97,7 +101,8 @@
                     <div class="form-group col-6">
                       <label for="password">{{ __('Password') }}</label>
                                 
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" 
+                                  autocomplete="new-password" placeholder="Masukan Password">
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -108,8 +113,14 @@
                     <div class="form-group col-6">
                         <label for="password-confirm">{{ __('Confirm Password') }}</label>
 
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password">
-                        </div>
+                            <input id="password-confirm" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" 
+                              autocomplete="new-password" placeholder="Masukan Konfirmasi Password">
+                        
+                            @error('password_confirmation')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                     </div>
                   </div>
 
@@ -121,11 +132,11 @@
                   </div>
                 </form>
               </div>
-              <div class="mt-5 text-muted text-center">
+              <div class="text-muted text-center">
                 Sudah Punya Akun ?<a href="{{ route('login') }}"> Login</a>
               </div>
               <div class="simple-footer">
-                Copyright &copy; Stisla 2018
+                Copyright &copy; {{ date('Y') }} <div class="bullet"></div> Design By <a href="https://polsub.ac.id/">POLSUB</a>
               </div>
             </div>
           </div>

@@ -19,6 +19,8 @@ use App\Models\Riwayat;
 use App\Models\Log;
 use App\Models\TempatPkl;
 
+use App\Http\Requests\KonfirmasiPklRequest;
+
 class RiwayatController extends Controller
 {
     /**
@@ -50,7 +52,8 @@ class RiwayatController extends Controller
     {
         $jumlah = Riwayat::where('pengajuan_id', $id)->count();
         
-        $riwayat = Riwayat::where('pengajuan_id', $id)->latest()
+        $riwayat = Riwayat::where('pengajuan_id', $id)
+            ->latest()
             ->get();
 
         return view ('user.riwayat.legalisir.tracking', [
@@ -92,44 +95,6 @@ class RiwayatController extends Controller
             ->get();
 
         return view ('user.riwayat.aktif-kuliah.tracking', [
-            'riwayat'   =>  $riwayat,
-            'jumlah'    =>  $jumlah
-        ]);
-    }
-
-    /**
-     * Display a listing of the resource.
-     */
-    public function indexPengantarPkl(Request $request)
-    {
-        $user = auth()->user();
-
-        $mahasiswa       = Mahasiswa::with(['pengajuan'])->whereUserId($user->id)->first();
-
-        $title          = "Data Pengajuan Surat Pengantar PKL";
-
-        $pengantarPkl = Pengajuan::where('mahasiswa_id', $mahasiswa->id)
-            ->Where('jenis_pengajuan_id', 2)
-            ->latest()
-            ->get();
-
-        return view('user.riwayat.pengantar-pkl.index', [
-            'pengantarPkl'   => $pengantarPkl,
-            'title'            => $title,
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function trackingPengantarPkl(string $id)
-    {
-        $jumlah = Riwayat::where('pengajuan_id', $id)->count();
-        
-        $riwayat = Riwayat::where('pengajuan_id', $id)->latest()
-            ->get();
-
-        return view ('user.riwayat.pengantar-pkl.tracking', [
             'riwayat'   =>  $riwayat,
             'jumlah'    =>  $jumlah
         ]);
@@ -246,6 +211,62 @@ class RiwayatController extends Controller
         return view ('user.riwayat.verifikasi-ijazah.tracking', [
             'riwayat'   =>  $riwayat,
             'jumlah'=>  $jumlah
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function indexPengantarPkl(Request $request)
+    {
+        $user = auth()->user();
+
+        $mahasiswa       = Mahasiswa::with(['pengajuan'])->whereUserId($user->id)->first();
+
+        $title          = "Data Pengajuan Surat Pengantar PKL";
+
+        $pengantarPkl = Pengajuan::where('mahasiswa_id', $mahasiswa->id)
+            ->Where('jenis_pengajuan_id', 2)
+            ->latest()
+            ->get();
+
+        return view('user.riwayat.pengantar-pkl.index', [
+            'pengantarPkl'   => $pengantarPkl,
+            'title'            => $title,
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function konfirmasi(KonfirmasiPklRequest $request, string $id)
+    {
+        $image = Pengajuan::saveImage($request);
+
+        $data = [
+            'status'  =>  $request->status,
+            'image'   =>  $image
+        ];
+
+        Pengajuan::where('id', $id)->update($data);
+
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function trackingPengantarPkl(string $id)
+    {
+        $jumlah = Riwayat::where('pengajuan_id', $id)->count();
+        
+        $riwayat = Riwayat::where('pengajuan_id', $id)
+            ->latest()
+            ->get();
+
+        return view ('user.riwayat.pengantar-pkl.tracking', [
+            'riwayat'   =>  $riwayat,
+            'jumlah'    =>  $jumlah
         ]);
     }
 

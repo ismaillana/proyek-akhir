@@ -82,11 +82,11 @@
                 </form>
               </div>
             </div>
-            <div class="mt-5 text-muted text-center">
+            <div class="text-muted text-center">
               Tidak Punya Akun ?<a href="{{ route('register') }}"> Daftar</a>
             </div>
             <div class="simple-footer">
-              Copyright &copy; Stisla 2018
+              Copyright &copy; {{ date('Y') }} <div class="bullet"></div> Design By <a href="https://polsub.ac.id/">POLSUB</a>
             </div>
           </div>
         </div>

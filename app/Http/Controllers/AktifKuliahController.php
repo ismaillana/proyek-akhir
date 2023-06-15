@@ -23,6 +23,7 @@ class AktifKuliahController extends Controller
     {
         $aktifKuliah = Pengajuan::where('jenis_pengajuan_id', 1)
             ->whereNot('status', 'Selesai')
+            ->whereNot('status', 'Tolak')
             ->get();
 
         return view ('admin.pengajuan.surat-aktif-kuliah.index', [
@@ -175,12 +176,33 @@ class AktifKuliahController extends Controller
     {
         $aktifKuliah = Pengajuan::where('jenis_pengajuan_id', 1)
             ->where('status', 'Selesai')
-            ->orWhere('status', 'Tolak')
+            ->orWhere('jenis_pengajuan_id', 1)
+            ->where('status', 'Tolak')
+            ->latest()
             ->get();
 
         return view ('admin.riwayat.surat-aktif-kuliah.index', [
             'aktifKuliah'   => $aktifKuliah,
             'title'         => 'Surat Keterangan Aktif Kuliah'
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function showRiwayat(string $id)
+    {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $aktifKuliah = Pengajuan::find($id);
+
+        return view ('admin.riwayat.surat-aktif-kuliah.detail', [
+            'aktifKuliah'        =>  $aktifKuliah,
+            'title'             =>  'Detail Pengajuan Surat Keterangan AKtid Kuliah'
         ]);
     }
 }

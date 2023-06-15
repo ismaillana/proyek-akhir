@@ -25,11 +25,11 @@ class DispensasiController extends Controller
 
         $dispensasi = Pengajuan::where('jenis_pengajuan_id', 4)
             ->whereNot('status', 'Selesai')
+            ->whereNot('status', 'Tolak')
             ->latest()
             ->get();
 
         if ($user->hasRole('admin-jurusan')) {
-              
             return view ('admin.pengajuan.dispensasi.index-admin-jurusan', [
                 'dispensasi' => $dispensasi,
                 'user'       => $user,
@@ -118,6 +118,7 @@ class DispensasiController extends Controller
         } catch (DecryptException $e) {
             abort(404);
         }
+        $user = auth()->user();
 
         $dispensasi = Pengajuan::find($id);
 
@@ -126,6 +127,7 @@ class DispensasiController extends Controller
         return view ('admin.pengajuan.dispensasi.detail', [
             'dispensasi'    =>  $dispensasi,
             'data'          =>  $data,
+            'user'          =>  $user,
             'title'         =>  'Detail Pengajuan Dispensasi'
         ]);
     }
@@ -209,14 +211,48 @@ class DispensasiController extends Controller
      */
     public function riwayat()
     {
-        $dispensasi = Pengajuan::where('status', 'Tolak')
-            ->orWhere('status', 'Selesai')
-            ->where('jenis_pengajuan_id', 4)
+        $user = auth()->user();
+
+        $dispensasi = Pengajuan::where('jenis_pengajuan_id', 4)
+            ->where('status', 'Selesai')
+            ->orWhere('jenis_pengajuan_id', 4)
+            ->where('status', 'Tolak')
+            ->latest()
             ->get();
 
-        return view ('admin.riwayat.dispensasi.index', [
-            'dispensasi'   => $dispensasi,
-            'title'         => 'Surat Izin Dispensasi'
+        if ($user->hasRole('admin-jurusan')) {
+            return view ('admin.riwayat.dispensasi.index-admin-jurusan', [
+                'dispensasi'   => $dispensasi,
+                'user'         => $user,
+                'title'        => 'Surat Izin Dispensasi'
+            ]);
+        } else {
+            return view ('admin.riwayat.dispensasi.index', [
+                'dispensasi'   => $dispensasi,
+                'title'        => 'Surat Izin Dispensasi'
+            ]);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function showRiwayat(string $id)
+    {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $dispensasi = Pengajuan::find($id);
+
+        $data = Mahasiswa::whereIn('user_id', $dispensasi['nama_mahasiswa'])->get();
+
+        return view ('admin.riwayat.dispensasi.detail', [
+            'dispensasi'        =>  $dispensasi,
+            'data'              =>  $data,
+            'title'             =>  'Detail Pengajuan Izin Dispensasi'
         ]);
     }
 }

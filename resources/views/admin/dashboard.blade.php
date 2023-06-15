@@ -467,7 +467,7 @@
                         </th>
 
                         <th>
-                          Jurusan
+                          Email
                         </th>
 
                         <th class="text-center">
@@ -479,11 +479,11 @@
                       @forelse ($verifikasiIjazah as $item)
                         <tr>
                           <td>
-                            {{@$item->instansi->name}}
+                            {{$item->instansi->nama_perusahaan}}
                           </td>
 
                           <td>
-                            {{(@$item->user->email)}}
+                            {{(@$item->instansi->user->email)}}
                           </td>
 
                           <td class="text-center">

@@ -26,7 +26,8 @@ class RegisterRequest extends FormRequest
             'email'             => 'required|email|unique:users,email',
             'wa'                => 'required|numeric',
             'alamat'            => 'required',
-            'password'          => 'required|min:3|confirmed'
+            'password'          => 'required|min:3',
+            'password_confirmation' => 'required|min:3|same:password'
         ];
         return $rules;
     }
@@ -43,7 +44,9 @@ class RegisterRequest extends FormRequest
             'wa.numeric'            => 'No WhatsApp Harus Berupa Angka',
             'password.required'     => 'Password Wajib Diisi',
             'password.min'          => 'Password minimal 3 huruf/angka',
-            'password.confirmed'    => 'Data Password dan Konfirmasi Password Harus Sama',
+            'password_confirmation.required'=> 'Konfirmasi Password Wajib Diisi',
+            'password_confirmation.min'     => 'Konfirmasi Password minimal 3 huruf/angka',
+            'password_confirmation.same'    => 'Data Password dan Konfirmasi Password Harus Sama',
         ];
     }
 }

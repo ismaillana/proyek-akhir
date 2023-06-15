@@ -98,7 +98,7 @@
                                           srcset="{{ asset('template/assets/img/illustrations/3d1@2x.png 2x')}}" alt="" />
                                           
                                           <p>
-                                          Anda belum pernah melakukan pengajuan layanan akademik, ayo ajukan sekarang disini ya!
+                                          Anda belum pernah melakukan pengajuan layanan akademik ini!
                                           <span class="text-danger">*</span>
                                           </p>
                                       </td>

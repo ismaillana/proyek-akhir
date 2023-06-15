@@ -37,7 +37,7 @@
 
                   <div class="card-body">
                     <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                      @if (@$pengajuan->status == 'Selesai' || @$pengajuan->status == 'Tolak' || @$pengajuan == null)
+                      @if (@$pengajuan->status == 'Diterima Perusahaan' || @$pengajuan->status == 'Ditolak Perusahaan' || @$pengajuan == null)
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
                               <input id="tgl_mulai" type="date" name="tgl_mulai" class="form-control @error('tgl_mulai')is-invalid @enderror" 

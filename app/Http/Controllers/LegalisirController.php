@@ -24,6 +24,7 @@ class LegalisirController extends Controller
         $legalisir = Pengajuan::latest()
             ->where('jenis_pengajuan_id', 5)
             ->whereNot('status', 'Selesai')
+            ->whereNot('status', 'Tolak')
             ->get();
         
         return view ('admin.pengajuan.legalisir.index', [
@@ -62,7 +63,7 @@ class LegalisirController extends Controller
 
         $alumni       = Mahasiswa::whereUserId($user->id)->first();
         
-        $dokumen = Legalisir::saveDokumen($request);
+        $dokumen = Pengajuan::saveDokumen($request);
         
         $data = ([
             'jenis_pengajuan_id'        => 5,
@@ -186,12 +187,31 @@ class LegalisirController extends Controller
     {
         $legalisir = Pengajuan::where('jenis_pengajuan_id', 5)
             ->where('status', 'Selesai')
-            ->orWhere('status', 'Tolak')
+            ->orWhere('jenis_pengajuan_id', 5)
+            ->where('status', 'Tolak')
             ->get();
             
         return view ('admin.riwayat.legalisir.index', [
             'legalisir'   => $legalisir,
             'title'         => 'Legalisir'
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function showRiwayat(string $id)
+    {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $legalisir = Pengajuan::find($id);
+        return view ('admin.riwayat.legalisir.detail', [
+            'legalisir'    =>  $legalisir,
+            'title'        =>  'Detail Pengajuan Legalisir'
         ]);
     }
 

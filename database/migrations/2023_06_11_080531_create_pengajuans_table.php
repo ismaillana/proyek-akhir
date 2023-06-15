@@ -45,6 +45,7 @@ return new class extends Migration
             $table->date('tgl_selesai')->nullable();
             $table->text('keperluan')->nullable();
             $table->string('dokumen')->nullable();
+            $table->string('image')->nullable();
             $table->text('catatan')->nullable();
             $table->ENUM('status', ['Menunggu Konfirmasi', 'Konfirmasi', 
             'Proses', 'Kendala', 'Tolak', 'Selesai', 

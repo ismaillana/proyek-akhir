@@ -4,7 +4,7 @@
     <section class="section">
       <div class="section-header">
         <div class="section-header-back">
-          <a href="{{route('pengajuan-legalisir.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+          <a href="{{route('riwayat-pengajuan-legalisir')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
         </div>
 
         <h1>
@@ -110,9 +110,9 @@
                                 </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control @error('tempat_pekerjaan_terakhir')is-invalid @enderror"
-                                        id="tempat_pekerjaan_terakhir" name="tempat_pekerjaan_terakhir" placeholder="" 
-                                        value="{{ old('tempat_pekerjaan_terakhir', @$legalisir->tempat_pekerjaan_terakhir) }}" disabled readonly>
+                                    <input type="text" class="form-control @error('nama_tempat')is-invalid @enderror"
+                                        id="nama_tempat" name="nama_tempat" placeholder="" 
+                                        value="{{ old('nama_tempat', @$legalisir->nama_tempat) }}" disabled readonly>
                                 </div>
                             </div>
 
@@ -122,127 +122,28 @@
                                 </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control @error('jenis_legalisir_id')is-invalid @enderror"
-                                        id="jenis_legalisir_id" name="jenis_legalisir_id" placeholder="" 
-                                        value="{{ old('jenis_legalisir_id', @$legalisir->jenis_legalisir) }}" disabled readonly>
+                                    @if (@$legalisir->jenis_legalisir)
+                                        @foreach ( @$legalisir->jenis_legalisir as $dokumen)
+                                            
+                                        <input type="text" class="form-control @error('jenis_legalisir')is-invalid @enderror mb-2"
+                                            id="jenis_legalisir" name="jenis_legalisir" placeholder="" 
+                                            value="{{$dokumen}}" disabled readonly>
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                             <hr>
-                            @if (@$legalisir->status == "Menunggu Konfirmasi")
-                                <div class="text-md-right">
-                                    <div class="float-lg-left mb-lg-0 mb-3">
-                                        <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$legalisir->id}}">
-                                            <i class="fas fa-check"></i> 
-                                            Konfirmasi
-                                        </button>
-
-                                        <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$legalisir->id}}">
-                                            <i class="fas fa-times"></i> 
-                                            Tolak
-                                        </button>
-                                    </div>
-
-                                    <button class="btn btn-warning btn-icon icon-left">
-                                        <i class="fas fa-print"></i> 
-                                        Print
-                                    </button>
-                                </div>
-                            @else
-                                <div class="text-md-right">
-                                    <button class="btn btn-warning btn-icon icon-left">
-                                        <i class="fas fa-print"></i> 
-                                        Print
-                                    </button>
-                                </div>
-                            @endif
+                            <div class="text-md-right">
+                                <button class="btn btn-warning btn-icon icon-left">
+                                    <i class="fas fa-print"></i> 
+                                    Print
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-</div>
-
-<div class="modal fade" tabindex="-1" role="dialog" id="konfirmasi{{$legalisir->id}}">
-    <div class="modal-dialog" role="document">
-        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('konfirmasi-legalisir', $legalisir->id)}}" method="POST">
-            @csrf
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        Konfirmasi Pengajuan
-                    </h5>
-
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <p>
-                        Setujui Pengajuan ?
-                    </p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        Close
-                    </button>
-
-                    <button type="submit" class="btn btn-primary">
-                        Save changes
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="modal fade" tabindex="-1" role="dialog" id="tolak{{$legalisir->id}}">
-    <div class="modal-dialog" role="document">
-        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('tolak-legalisir', $legalisir->id)}}" method="POST">
-            @csrf
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        Modal Catatan Penolakan
-                    </h5>
-
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <div class="form-group row mb-4" id="catatan">
-                        <label for="name" class="col-sm-3 col-form-label">
-                            Catatan Penolakan <sup class="text-danger">*</sup>
-                        </label>
-
-                        <div class="col-sm-9">
-                            <textarea name="catatan" class="summernote-simple" id="catatan" cols="30" rows="10"
-                                placeholder="Masukan Catatan">{{ old('catatan', @$legalisir->catatan) }}</textarea>
-                            
-                            @if ($errors->has('catatan'))
-                                <span class="text-danger">
-                                    {{ $errors->first('catatan') }}
-                                </span>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer br">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        Close
-                    </button>
-
-                    <button type="submit" class="btn btn-primary">
-                        Save changes
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
 </div>
 @endsection

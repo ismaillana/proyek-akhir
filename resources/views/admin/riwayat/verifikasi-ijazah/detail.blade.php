@@ -4,7 +4,7 @@
     <section class="section">
         <div class="section-header">
             <div class="section-header-back">
-            <a href="{{route('pengajuan-verifikasi-ijazah.index')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+            <a href="{{route('riwayat-pengajuan-verifikasi-ijazah')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
             </div>
 
             <h1>
@@ -53,7 +53,7 @@
                                 <div class="col-sm-12 col-md-7">
                                     <input type="text" class="form-control @error('instansi_id')is-invalid @enderror"
                                         id="instansi_id" name="instansi_id" placeholder="Masukkan Koordinator PKL" 
-                                        value="{{ old('instansi_id', @$verifikasiIjazah->instansi->user->instansi_id) }}" disabled readonly>
+                                        value="{{ old('instansi_id', @$verifikasiIjazah->instansi->user->name) }}" disabled readonly>
                                 </div>
                             </div>
 
@@ -64,8 +64,8 @@
 
                                 <div class="col-sm-12 col-md-7">
                                     <input type="text" class="form-control @error('name')is-invalid @enderror"
-                                        id="name" name="name" placeholder="Masukkan Koordinator PKL" 
-                                        value="{{ old('name', @$verifikasiIjazah->name) }}" disabled readonly>
+                                        id="name" name="name" placeholder="Masukkan Nama Mahasiswa" 
+                                        value="{{ old('name', @$verifikasiIjazah->nama) }}" disabled readonly>
                                 </div>
                             </div>
 

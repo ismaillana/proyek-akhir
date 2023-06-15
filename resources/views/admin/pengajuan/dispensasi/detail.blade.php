@@ -56,7 +56,7 @@
                                         <br>
                                           Nama: {{@$dispensasi->mahasiswa->user->name}}<br>
                                           NIM: {{@$dispensasi->mahasiswa->nim}}<br>
-                                          Jurusan: {{@$dispensasi->mahasiswa->jurusan->name}}<br>
+                                          Jurusan: {{@$dispensasi->mahasiswa->programStudi->jurusan->name}}<br>
                                           Prodi: {{@$dispensasi->mahasiswa->programStudi->name}}
                                       </address>
                                     </div>
@@ -137,7 +137,7 @@
                                           </td>
 
                                           <td>
-                                            {{$item->jurusan->name}}
+                                            {{$item->programStudi->jurusan->name}}
                                           </td>
 
                                           <td>
@@ -150,7 +150,7 @@
                                 </div>
                               </div>
                             <hr>
-                            @if (@$dispensasi->status == "Menunggu Konfirmasi")
+                            @if ($user->hasRole('admin-jurusan') && @$dispensasi->status == "Menunggu Konfirmasi")
                                 <div class="text-md-right">
                                     <div class="float-lg-left mb-lg-0 mb-3">
                                         <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$dispensasi->id}}">

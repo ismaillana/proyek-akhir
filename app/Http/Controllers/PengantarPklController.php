@@ -26,6 +26,9 @@ class PengantarPklController extends Controller
         if ($user->hasRole('admin-jurusan')) {
             $pengantarPkl = Pengajuan::where('jenis_pengajuan_id', 2)
                 ->whereNot('status', 'Selesai')
+                ->whereNot('status', 'Tolak')
+                ->whereNot('status', 'Diterima Perusahaan')
+                ->whereNot('status', 'Ditolak Perusahaan')
                 ->get();
 
             return view ('admin.pengajuan.pengantar-pkl.index-admin-jurusan',[
@@ -47,6 +50,9 @@ class PengantarPklController extends Controller
         } else {
             $pengantarPkl = Pengajuan::where('jenis_pengajuan_id', 2)
             ->whereNot('status', 'Selesai')
+            ->whereNot('status', 'Tolak')
+            ->whereNot('status', 'Diterima Perusahaan')
+            ->whereNot('status', 'Ditolak Perusahaan')
             ->get();
 
             return view ('admin.pengajuan.pengantar-pkl.index',[
@@ -259,14 +265,57 @@ class PengantarPklController extends Controller
      */
     public function riwayat()
     {
-        $pengantarPkl = Pengajuan::where('status', 'Tolak')
-            ->orWhere('status', 'Selesai')
-            ->where('jenis_pengajuan_id',2)
+        $user = auth()->user();
+
+        $pengantarPkl = Pengajuan::where('jenis_pengajuan_id',2)
+            ->where('status', 'Tolak')
+            ->orWhere('jenis_pengajuan_id',2)
+            ->where('status', 'Selesai')
+            ->orWhere('jenis_pengajuan_id',2)
+            ->where('status', 'Diterima Perusahaan')
+            ->orWhere('jenis_pengajuan_id',2)
+            ->where('status', 'Ditolak Perusahaan')
             ->get();
 
-        return view ('admin.riwayat.pengantar-pkl.index', [
-            'pengantarPkl'   => $pengantarPkl,
-            'title'         => 'Surat Pengantar PKL'
+        if ($user->hasRole('admin-jurusan')) {
+            return view ('admin.riwayat.pengantar-pkl.index-admin-jurusan', [
+                'pengantarPkl'  => $pengantarPkl,
+                'user'          => $user,
+                'title'         => 'Surat Pengantar PKL'
+            ]);
+        } elseif ($user->hasRole('koor-pkl')) {
+            return view ('admin.riwayat.pengantar-pkl.index-koor-pkl', [
+                'pengantarPkl'  => $pengantarPkl,
+                'user'          => $user,
+                'title'         => 'Surat Pengantar PKL'
+            ]);
+        } else {
+            return view ('admin.riwayat.pengantar-pkl.index', [
+                'pengantarPkl'   => $pengantarPkl,
+                'title'         => 'Surat Pengantar PKL'
+            ]);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function showRiwayat(string $id)
+    {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $pengantarPkl = Pengajuan::find($id);
+
+        $data = Mahasiswa::whereIn('user_id', $pengantarPkl['nama_mahasiswa'])->get();
+
+        return view ('admin.riwayat.pengantar-pkl.detail', [
+            'pengantarPkl'  =>  $pengantarPkl,
+            'data'          =>  $data,
+            'title'         =>  'Detail Pengajuan Pengantar Pkl'
         ]);
     }
 }
