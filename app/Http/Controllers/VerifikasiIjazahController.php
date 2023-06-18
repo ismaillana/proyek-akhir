@@ -9,11 +9,16 @@ use App\Models\Pengajuan;
 
 use App\Http\Requests\VerifikasiIjazahRequest;
 use App\Http\Requests\KonfirmasiRequest;
+use App\Exports\VerifikasiIjazahExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Crypt;
 use File;
 use Repsonse;
+use PDF;
+use Carbon\Carbon;
+use setasign\Fpdi\Fpdi;
 
 class VerifikasiIjazahController extends Controller
 {
@@ -212,6 +217,46 @@ class VerifikasiIjazahController extends Controller
             'verifikasiIjazah'    =>  $verifikasiIjazah,
             'title'        =>  'Detail Pengajuan verifikasi Ijazah'
         ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function print(){
+        $now   = Carbon::now()->locale('id');
+        $data = [
+            'currentDate' => $now->translatedFormat('l, d F Y'), // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
+            // Mendapatkan tanggal saat ini dengan nama hari
+        ];
+        //mengambil data dan tampilan dari halaman laporan_pdf
+        //data di bawah ini bisa kalian ganti nantinya dengan data dari database
+        $data = PDF::loadview('admin.pengajuan.verifikasi-ijazah.print', $data);
+        //mendownload laporan.pdf
+    	return $data->stream('Surat-Verifikasi-Ijazah.pdf');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function export(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required',
+            'end_date'   => 'required',
+        ], [
+            'start_date.required' => 'Masukkan Tanggal Mulai',
+            'end_date.required'   => 'Masukkan Tanggal Selesai',
+        ]);
+        
+        $startDate = Carbon::parse($request->input('start_date'));
+        $endDate = Carbon::parse($request->input('end_date'))->endOfDay();
+
+        $data = Pengajuan::with(['instansi'])
+            ->where('jenis_pengajuan_id', 6)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->get();
+
+        return Excel::download(new VerifikasiIjazahExport($data), 'Verifikasi-Ijazah-Export.xlsx');
     }
 
 }

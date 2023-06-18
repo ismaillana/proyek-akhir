@@ -38,7 +38,8 @@ class MahasiswaController extends Controller
             'status'            => $request->status,
         ];
         
-        if ($request->angkatan) {
+        
+        if ($request->angkatan) {        
             $mahasiswa = Mahasiswa::where('angkatan', $request->angkatan)
             ->update([
                 'status'            => 'Alumni',
@@ -103,8 +104,6 @@ class MahasiswaController extends Controller
             //  import data
              $excel =  Excel::import(new MahasiswaImport($request->program_studi_id), $request->file('file'));
  
-            //  dd($excel);
-            
             if ($excel == null) {
                 return redirect()->back()->with('error', "Failed Import Data..!!");;
             }

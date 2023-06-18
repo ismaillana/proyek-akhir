@@ -67,7 +67,7 @@
                         <div class="col-md-3 col-sm-12">
                             <label for="angkatan" class="label-control">Ubah Status</label>
                             <input type="text" id="angkatan" name="angkatan" class="form-control"
-                                placeholder="Masukan Angkatan" value="{{ old('angkatan', request('angkatan')) }}">
+                                placeholder="Masukan Angkatan" value="{{ old('angkatan', request('angkatan')) }}" required>
                         </div>
 
                         <div class="col-md-2 col-sm-12 d-flex mt-auto">
