@@ -148,9 +148,9 @@
                 <input id="image" type="file" name="image" class="form-control @error('image')is-invalid @enderror" 
                   value="{{ old('image', @$pengantarPkl->image) }}" placeholder="image">
                 
-                {{-- @if ($errors->has('image'))
+                @if ($errors->has('image'))
                     <span class="text-danger">{{ $errors->first('image') }}</span>
-                @endif --}}
+                @endif
               </div>
             </div>
 

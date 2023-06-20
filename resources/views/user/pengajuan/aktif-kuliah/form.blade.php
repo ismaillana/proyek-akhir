@@ -35,22 +35,56 @@
                 <div class="card-body">
                   @if (@$pengajuan->status == 'Selesai' || @$pengajuan->status == 'Tolak' || @$pengajuan == null)
                     <div class="accordion accordion-wrapper" id="accordionExample">
-                      <div class="card plain accordion-item">
+                      <div class="card accordion-item">
                         <div class="card-header" id="headingOne">
-                          <button class="collapsed" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Pastikan Data Benar & Lengkap<sup class="text-danger">*</sup></button>
+                          <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> 
+                            Pastikan Data Benar & Lengkap 
+                          </button>
                         </div>
-            
-                        <div id="collapseOne" class="accordion-collapse collapse hide" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                          <div class="card-body">
-                            <ul class="unordered-list bullet-primary">
-                              <li>
-                                Nama Mahasiswa: {{(@$mahasiswa->user->name)}}
-                              </li>
-                              <li>NIM: {{(@$mahasiswa->nim)}}</li>
-                              <li>Jurusan: {{@$mahasiswa->jurusan->name}}</li>
-                              <li>Program Studi: {{@$mahasiswa->programStudi->name}}</li>
-                            </ul>
+                        <div class="row">
+
+                          <div id="collapseOne" class="accordion-collapse collapse show col-md-6" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="card-body">
+                              <ul>
+                                <li>
+                                  Nama Mahasiswa: {{(@$mahasiswa->user->name)}}
+                                </li>
+  
+                                <li>
+                                  NIM: {{(@$mahasiswa->nim)}}
+                                </li>
+  
+                                <li>
+                                  Jurusan: {{@$mahasiswa->programStudi->jurusan->name}}
+                                </li>
+  
+                                <li>
+                                  Program Studi: {{@$mahasiswa->programStudi->name}}
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+  
+                          <div id="collapseOne" class="accordion-collapse collapse show col-md-6" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="card-body">
+                              <ul>
+                                <li>
+                                  Nama Orang Tua: {{(@$mahasiswa->orang_tua)}}
+                                </li>
+  
+                                <li>
+                                  Pekerjaan: {{(@$mahasiswa->pekerjaan)}}
+                                </li>
+  
+                                <li>
+                                  NIP/NRP: {{@$mahasiswa->nip_nrp}}
+                                </li>
+  
+                                <li>
+                                  Pangkat: {{@$mahasiswa->pangkat}}
+                                </li>
+                              </ul>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -59,6 +93,125 @@
                     <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST" 
                       action="{{route('pengajuan.aktif-kuliah.store')}}">
                       {{ csrf_field() }}
+
+                      <div class="col-md-12">
+                        <div class="form-select-wrapper mb-4 mt-4">
+                          <select class="form-select" aria-label="Default select example" id="status_data" name="status_data">
+                            <option disabled selected value="">Pilih Status Data</option>
+                            <option value="Data Sudah Sesuai"> Data Sudah Sesuai</option>
+                            <option value="Update Data"> Update Data</option>
+                            
+                            @if ($errors->has('status_data'))
+                                <span class="text-danger">{{ $errors->first('status_data') }}</span>
+                            @endif
+                          </select>
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-12" id="data" style="display: none;">
+                        <div class="form-floating mb-4">
+                          <input id="orang_tua" type="text" name="orang_tua" class="form-control @error('orang_tua')is-invalid @enderror" 
+                            value="{{ old('orang_tua', @$aktifKuliah->mahasiswa->orang_tua) }}" placeholder="Masukan Nama Orang Tua">
+                          
+                          <label for="form_tujuan_surat">
+                            Nama Orang Tua<span class="text-danger">*</span>
+                          </label>
+
+                          @if ($errors->has('orang_tua'))
+                              <span class="text-danger">{{ $errors->first('orang_tua') }}</span>
+                          @endif
+                        </div>
+                      </div>
+
+                      <div class="col-md-12" id="data1" style="display: none;">
+                        <div class="form-floating mb-4">
+                          <input id="pekerjaan" type="text" name="pekerjaan" class="form-control @error('pekerjaan')is-invalid @enderror" 
+                            value="{{ old('pekerjaan', @$aktifKuliah->mahasiswa->pekerjaan) }}" placeholder="Masukan Pekerjaan Orang Tua">
+                          
+                          <label for="form_tujuan_surat">
+                            Pekerjaan Orang Tua<span class="text-danger">*</span>
+                          </label>
+
+                          @if ($errors->has('pekerjaan'))
+                              <span class="text-danger">{{ $errors->first('pekerjaan') }}</span>
+                          @endif
+                        </div>
+                      </div>
+
+                      <div class="col-md-12" id="data2" style="display: none;">
+                        <div class="form-floating mb-4">
+                          <input id="nip_nrp" type="text" name="nip_nrp" class="form-control @error('nip_nrp')is-invalid @enderror" 
+                            value="{{ old('nip_nrp', @$aktifKuliah->mahasiswa->nip_nrp) }}" placeholder="Masukan NIP/NRP">
+                          
+                          <label for="form_tujuan_surat">
+                            NIP/NRP<span class="text-danger">*</span>
+                          </label>
+
+                          @if ($errors->has('nip_nrp'))
+                              <span class="text-danger">{{ $errors->first('nip_nrp') }}</span>
+                          @endif
+                        </div>
+                      </div>
+
+                      <div class="col-md-12" id="data3" style="display: none;">
+                        <div class="form-floating mb-4">
+                          <input id="pangkat" type="text" name="pangkat" class="form-control @error('pangkat')is-invalid @enderror" 
+                            value="{{ old('pangkat', @$aktifKuliah->mahasiswa->pangkat) }}" placeholder="Masukan Pangkat">
+                          
+                          <label for="form_tujuan_surat">
+                            Pangkat<span class="text-danger">*</span>
+                          </label>
+
+                          @if ($errors->has('pangkat'))
+                              <span class="text-danger">{{ $errors->first('pangkat') }}</span>
+                          @endif
+                        </div>
+                      </div>
+
+                      <div class="col-md-12" id="data4" style="display: none;">
+                        <div class="form-floating mb-4">
+                          <input id="golongan" type="text" name="golongan" class="form-control @error('golongan')is-invalid @enderror" 
+                            value="{{ old('golongan', @$aktifKuliah->mahasiswa->golongan) }}" placeholder="Masukan Golongan">
+                          
+                          <label for="form_tujuan_surat">
+                            Golongan<span class="text-danger">*</span>
+                          </label>
+
+                          @if ($errors->has('golongan'))
+                              <span class="text-danger">{{ $errors->first('golongan') }}</span>
+                          @endif
+                        </div>
+                      </div>
+
+                      <div class="col-md-12" id="data5" style="display: none;">
+                        <div class="form-floating mb-4">
+                          <input id="jabatan" type="text" name="jabatan" class="form-control @error('jabatan')is-invalid @enderror" 
+                            value="{{ old('jabatan', @$aktifKuliah->mahasiswa->jabatan) }}" placeholder="Masukan Jabatan">
+                          
+                          <label for="form_tujuan_surat">
+                            Jabatan<span class="text-danger">*</span>
+                          </label>
+
+                          @if ($errors->has('jabatan'))
+                              <span class="text-danger">{{ $errors->first('jabatan') }}</span>
+                          @endif
+                        </div>
+                      </div>
+
+                      <div class="col-md-12" id="data6" style="display: none;">
+                        <div class="form-floating mb-4">
+                          <input id="instansi" type="text" name="instansi" class="form-control @error('instansi')is-invalid @enderror" 
+                            value="{{ old('instansi', @$aktifKuliah->mahasiswa->instansi) }}" placeholder="Masukan Instansi">
+                          
+                          <label for="form_tujuan_surat">
+                            Instansi<span class="text-danger">*</span>
+                          </label>
+
+                          @if ($errors->has('instansi'))
+                              <span class="text-danger">{{ $errors->first('instansi') }}</span>
+                          @endif
+                        </div>
+                      </div>
 
                       <div class="col-md-12">
                         <div class="form-floating mb-4">
@@ -138,5 +291,37 @@
                 }
             });
         }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var statusSelect = document.getElementById("status_data");
+            var alasanInput = document.getElementById("data");
+            var alasanInput1 = document.getElementById("data1");
+            var alasanInput2 = document.getElementById("data2");
+            var alasanInput3 = document.getElementById("data3");
+            var alasanInput4 = document.getElementById("data4");
+            var alasanInput5 = document.getElementById("data5");
+            var alasanInput6 = document.getElementById("data6");
+
+            statusSelect.addEventListener("change", function() {
+                var selectedValue = this.value;
+                if (selectedValue === "Update Data") {
+                    alasanInput.style.display = "block";
+                    alasanInput1.style.display = "block";
+                    alasanInput2.style.display = "block";
+                    alasanInput3.style.display = "block";
+                    alasanInput4.style.display = "block";
+                    alasanInput5.style.display = "block";
+                    alasanInput6.style.display = "block";
+                } else {
+                    alasanInput.style.display = "none";
+                    alasanInput1.style.display = "none";
+                    alasanInput2.style.display = "none";
+                    alasanInput3.style.display = "none";
+                    alasanInput4.style.display = "none";
+                    alasanInput5.style.display = "none";
+                    alasanInput6.style.display = "none";
+                }
+            });
+        });
 </script>   
 @endsection

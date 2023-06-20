@@ -103,6 +103,24 @@
                                       </address>
                                     </div>
                                   </div>
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <address>
+                                        <strong>
+                                          Dokumen Permohonan: 
+                                        </strong>
+                                        <br>
+                                        @if (@$pengantarPkl->dokumen_permohonan !== null)
+                                            <a class="btn btn-primary" href="{{ asset('storage/public/dokumen/dokumen-permohonan/'. @$pengantarPkl->dokumen_permohonan)}}" 
+                                                    download="{{@$pengantarPkl->dokumen_permohonan}}">
+                                                        Download Dokumen
+                                            </a>
+                                        @else
+                                            Belum Ada Dokumen Permohonan Dari Admin Jurusan
+                                        @endif
+                                      </address>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
               
@@ -180,11 +198,6 @@
                                             Tolak
                                         </button>
                                     </div>
-
-                                      <button class="btn btn-warning btn-icon icon-left">
-                                          <i class="fas fa-print"></i> 
-                                          Print
-                                      </button>
                                   </div>
                                 @elseif (@$pengantarPkl->status == "Setuju")
                                   <div class="text-md-right">
@@ -194,19 +207,9 @@
                                             Konfirmasi
                                         </button>
                                     </div>
-
-                                      <button class="btn btn-warning btn-icon icon-left">
-                                          <i class="fas fa-print"></i> 
-                                          Print
-                                      </button>
                                   </div>
                                 @else
-                                  <div class="text-md-right">
-                                      <button class="btn btn-warning btn-icon icon-left">
-                                          <i class="fas fa-print"></i> 
-                                          Print
-                                      </button>
-                                  </div>
+
                                 @endif
                                   
                               @elseif (@$pengantarPkl->status == "Review" && $user->hasRole('koor-pkl'))
@@ -222,11 +225,6 @@
                                           Tolak
                                       </button>
                                   </div>
-
-                                    <button class="btn btn-warning btn-icon icon-left">
-                                        <i class="fas fa-print"></i> 
-                                        Print
-                                    </button>
                                 </div>
                               @else
                                 <div class="text-md-right">
@@ -260,9 +258,24 @@
               </div>
 
               <div class="modal-body">
-                  <p>
-                      Setujui Pengajuan ?
-                  </p>
+                <div class="form-group row mb-4">
+                  <label for="image" class="col-form-label text-md-left col-12">
+                      Dokumen Permohonan
+                  </label>
+
+                  <div class="col-sm-12 col-md-12">
+                      <div class="input-group">
+                          <input class="dropify @error('dokumen_permohonan') is-invalid @enderror" type="file" 
+                              name="dokumen_permohonan" data-height='250' data-allowed-file-extensions="pdf doc docx" data-max-file-size="5M">
+                      </div>
+
+                      @if ($errors->has('dokumen_permohonan'))
+                          <span class="text-danger">
+                              {{ $errors->first('dokumen_permohonan') }}
+                          </span>
+                      @endif
+                  </div>
+                </div>
               </div>
 
               <div class="modal-footer">

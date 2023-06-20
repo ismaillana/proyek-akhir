@@ -156,9 +156,27 @@ class VerifikasiIjazahController extends Controller
      */
     public function updateStatus(Request $request, string $id)
     {
-        $data = [
-            'status'  =>  $request->status
-        ];
+        $request->validate([
+            'status' => 'required',
+            'dokumen_hasil' => 'required_if:status,Selesai',
+        ], [
+            'status.required' => 'Pilih Status',
+            'dokumen_hasil.required_if' => 'Masukkan Dokumen Hasil',
+        ]);
+
+        if ($request->status == 'Selesai') {
+
+            $dokumen = Pengajuan::saveDokumenHasil($request);
+
+            $data = [
+                'status'  =>  $request->status,
+                'dokumen_hasil' => $dokumen
+            ];
+        } else {
+            $data = [
+                'status'  =>  $request->status
+            ];
+        }
 
         Pengajuan::where('id', $id)->update($data);
 

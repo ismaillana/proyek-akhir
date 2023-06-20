@@ -50,32 +50,6 @@
                                 </div>
                             </div>
 
-                            {{-- <div class="form-group row mb-4">
-                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                    Status<sup class="text-danger">*</sup>
-                                </label>
-
-                                <div class="col-sm-12 col-md-7">
-                                    <select name="status" id="status"
-                                        class="form-control @error('status')
-                                        is-invalid @enderror">
-                                        <option disabled selected>Pilih Status</option>
-                                        <option value="Mahasiswa Aktif"
-                                            {{ old('status', @$mahasiswa->status) == 'Mahasiswa Aktif' ? 'selected' : '' }}>
-                                                Mahasiswa Aktif</option>
-                                        <option value="Alumni"
-                                            {{ old('status', @$mahasiswa->status) == 'Alumni' ? 'selected' : '' }}>
-                                                Alumni</option>
-                                    </select>
-
-                                    @if ($errors->has('status'))
-                                        <span class="text-danger">
-                                            {{ $errors->first('status') }}
-                                        </span>
-                                    @endif
-                                </div>
-                            </div> --}}
-
                             <div class="form-group row mb-4">
                                 <label for="image" class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
                                     File Excel

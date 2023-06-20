@@ -19,7 +19,7 @@
                 <div class="col-12 col-md-6 col-lg-6">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Form Mahasiswa</h4>
+                            <h4>Form Mahasiswa Alumni</h4>
                         </div>
                         
                         <div class="card-body">
@@ -139,6 +139,7 @@
                                     </select>
                                 </div>
                             </div>
+                            
 
                             <div class="form-group row">
                                 <label class="col-sm-12 col-form-label">
@@ -214,7 +215,7 @@
                 <div class="col-12 col-md-6 col-lg-6">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Form Mahasiswa</h4>
+                            <h4>Form Mahasiswa Alumni</h4>
                         </div>
                         
                         <div class="card-body">
@@ -275,6 +276,18 @@
                                     <input type="text" class="form-control @error('jabatan')is-invalid @enderror"
                                         id="jabatan" name="jabatan" placeholder="Masukkan Jabatan Orang Tua" 
                                         value="{{ old('jabatan', @$mahasiswa->jabatan) }}" readonly disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-12 col-form-label">
+                                    Golongan<sup class="text-danger">*</sup>
+                                </label>
+
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control @error('golongan')is-invalid @enderror"
+                                        id="golongan" name="golongan" placeholder="Masukkan Golongan Orang Tua" 
+                                        value="{{ old('golongan', @$mahasiswa->golongan) }}" readonly disabled>
                                 </div>
                             </div>
 

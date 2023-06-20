@@ -12,7 +12,11 @@ use App\Models\JenisPengajuan;
 
 use App\Http\Requests\PengantarPklRequest;
 use App\Http\Requests\KonfirmasiRequest;
+use App\Exports\PengantarPklExport;
 use Illuminate\Support\Facades\Crypt;
+use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
+
 
 class PengantarPklController extends Controller
 {
@@ -95,16 +99,28 @@ class PengantarPklController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PengantarPklRequest $request)
     {
         $user = auth()->user();
 
         $alumni       = Mahasiswa::whereUserId($user->id)->first();
 
+        $tempat_pkl_id = $request->tempat_pkl_id;
+        if ($request->tempat_pkl_id == 'perusahaan_lainnya') {
+            $tempatPkl = TempatPkl::create([
+                'name'      => $request->name,
+                'alamat'    => $request->alamat,
+                'telepon'   => $request->telepon,
+                'web'       => $request->web
+            ]);
+
+            $tempat_pkl_id = $tempatPkl->id;
+        }
+        
         $data = ([
             'jenis_pengajuan_id' => '2',
             'mahasiswa_id'     => $alumni->id,
-            'tempat_pkl_id'    => $request->tempat_pkl_id,
+            'tempat_pkl_id'    => $tempat_pkl_id,
             'tgl_mulai'        => $request->tgl_mulai,
             'tgl_selesai'      => $request->tgl_selesai,
             'tujuan_surat'     => $request->tujuan_surat,
@@ -151,8 +167,17 @@ class PengantarPklController extends Controller
      */
     public function konfirmasi(Request $request, string $id)
     {
+        $request->validate([
+            'dokumen_permohonan' => 'required',
+        ], [
+            'dokumen_permohonan.required' => 'Masukkan Dokumen Permohonan',
+        ]);
+
+        $dokumen = Pengajuan::saveDokumenPermohonan($request);
+
         $data = [
-            'status'  =>  'Konfirmasi'
+            'status'  =>  'Konfirmasi',
+            'dokumen_permohonan' => $dokumen
         ];
 
         Pengajuan::where('id', $id)->update($data);
@@ -317,5 +342,29 @@ class PengantarPklController extends Controller
             'data'          =>  $data,
             'title'         =>  'Detail Pengajuan Pengantar Pkl'
         ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function export(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required',
+            'end_date'   => 'required',
+        ], [
+            'start_date.required' => 'Masukkan Tanggal Mulai',
+            'end_date.required'   => 'Masukkan Tanggal Selesai',
+        ]);
+        
+        $startDate = Carbon::parse($request->input('start_date'));
+        $endDate = Carbon::parse($request->input('end_date'))->endOfDay();
+
+        $data = Pengajuan::with(['mahasiswa'])
+            ->where('jenis_pengajuan_id', 5)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->get();
+
+        return Excel::download(new PengantarPklExport($data), 'Pengantar-Pkl-Export.xlsx');
     }
 }

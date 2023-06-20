@@ -206,6 +206,25 @@
                             @endif
                         </div>
                     </div>
+
+                    <div class="form-group row mb-2" id="dokumenHasil">
+                        <label for="dokumen_hasil" class="col-form-label text-md-left col-12">
+                            Dokumen Hasil
+                        </label>
+        
+                        <div class="col-sm-12 col-md-12">
+                            <div class="input-group">
+                                <input class="dropify @error('dokumen_hasil') is-invalid @enderror" type="file" 
+                                    name="dokumen_hasil" data-height='250' data-allowed-file-extensions="pdf doc docx" data-max-file-size="5M">
+                            </div>
+        
+                            @if ($errors->has('dokumen_hasil'))
+                                <span class="text-danger">
+                                    {{ $errors->first('dokumen_hasil') }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer br">
@@ -263,5 +282,17 @@
                     })
             });
         });
+
+        $("#dokumenHasil").hide();
+
+        $('#status').on('change', function(){
+            var selectedVal = $(this).val();
+
+            if (selectedVal == 'Selesai') {
+                $('#dokumenHasil').show();
+            } else {
+                $("#dokumenHasil").hide();
+            }
+        })
     </script>
 @endsection

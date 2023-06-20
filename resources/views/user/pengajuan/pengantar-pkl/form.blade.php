@@ -92,13 +92,15 @@
                         <div class="col-md-12">
                           <div class="form-select-wrapper mb-4 mt-4">
                             <select class="form-select" aria-label="Default select example" id="tempat_pkl_id" name="tempat_pkl_id">
-                              <option selected>Pilih Perusahaan</option>
+                              <option disabled selected value="">Pilih Perusahaan</option>
                               @foreach ($tempatPkl as $item)
                                   <option value="{{ $item->id }}"
                                     {{ old('tempat_pkl_id', @$pengantarPkl->tempat_pkl_id) == $item->id ? 'selected' : '' }}>
                                     {{ $item->name }}
                                   </option>
                               @endforeach
+
+                              <option value="perusahaan_lainnya">Perusahaan Lainnya</option>
                             </select>
 
                             @if ($errors->has('tempat_pkl_id'))
@@ -107,22 +109,22 @@
                           </div>
                         </div>
 
-                        {{-- <div class="col-md-12">
+                        <div class="col-md-12" id="data" style="display: none;">
                             <div class="form-floating mb-4 mt-4">
-                              <input id="nama_perusahaan" type="text" name="nama_perusahaan" class="form-control @error('nama_perusahaan')is-invalid @enderror" 
-                                value="{{ old('nama_perusahaan', @$pengantarPkl->nama_perusahaan) }}" placeholder="Nama Perusahaan">
+                              <input id="name" type="text" name="name" class="form-control @error('name')is-invalid @enderror" 
+                                value="{{ old('name', @$pengantarPkl->name) }}" placeholder="Nama Perusahaan">
                               
                               <label for="form_nama_perusahaan">
                                 Nama Perusahaan<span class="text-danger">*</span>
                               </label>
 
-                              @if ($errors->has('nama_perusahaan'))
-                                  <span class="text-danger">{{ $errors->first('nama_perusahaan') }}</span>
+                              @if ($errors->has('name'))
+                                  <span class="text-danger">{{ $errors->first('name') }}</span>
                               @endif
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-md-12" id="data1" style="display: none;">
                             <div class="form-floating mb-4 mt-4">
                               <input id="web" type="text" name="web" class="form-control @error('web')is-invalid @enderror" 
                                 value="{{ old('web', @$pengantarPkl->web) }}" placeholder="Link Website Perusahaan">
@@ -137,7 +139,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-md-12" id="data2" style="display: none;">
                             <div class="form-floating mb-4 mt-4">
                               <input id="telepon" type="text" name="telepon" class="form-control @error('telepon')is-invalid @enderror" 
                                 value="{{ old('telepon', @$pengajuan->telepon) }}" placeholder="Nomor Telepon Perusahaan">
@@ -150,24 +152,9 @@
                                   <span class="text-danger">{{ $errors->first('telepon') }}</span>
                               @endif
                             </div>
-                        </div> --}}
-
-                        <div class="col-md-12">
-                            <div class="form-floating mb-4">
-                              <input id="tujuan_surat" type="text" name="tujuan_surat" class="form-control @error('tujuan_surat')is-invalid @enderror" 
-                                value="{{ old('tujuan_surat', @$pengantarPkl->tujuan_surat) }}" placeholder="Ditujakan Kepada">
-                              
-                              <label for="form_nama_tempat">
-                                Ditujakan Kepada<span class="text-danger">*</span>
-                              </label>
-
-                              @if ($errors->has('tujuan_surat'))
-                                  <span class="text-danger">{{ $errors->first('tujuan_surat') }}</span>
-                              @endif
-                            </div>
                         </div>
 
-                        {{-- <div class="col-12">
+                        <div class="col-12" id="data3" style="display: none;">
                             <div class="form-floating mb-4">
                               <textarea id="alamat" name="alamat" class="form-control @error('alamat')is-invalid @enderror" 
                                 style="height: 150px" placeholder="Alamat Lengkap">{{ old('alamat', @$pengajuan->alamat) }}</textarea>
@@ -180,7 +167,22 @@
                                   <span class="text-danger">{{ $errors->first('alamat') }}</span>
                               @endif
                             </div>
-                        </div> --}}
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="form-floating mb-4">
+                            <input id="tujuan_surat" type="text" name="tujuan_surat" class="form-control @error('tujuan_surat')is-invalid @enderror" 
+                              value="{{ old('tujuan_surat', @$pengantarPkl->tujuan_surat) }}" placeholder="Ditujakan Kepada">
+                            
+                            <label for="form_nama_tempat">
+                              Ditujakan Kepada<span class="text-danger">*</span>
+                            </label>
+
+                            @if ($errors->has('tujuan_surat'))
+                                <span class="text-danger">{{ $errors->first('tujuan_surat') }}</span>
+                            @endif
+                          </div>
+                        </div>
 
                         <div class="col-12 text-center">
                           <button type="submit" class="btn btn-primary rounded-pill btn-send mb-3" id="btnSubmit">
@@ -246,6 +248,38 @@
                 }
             });
         }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var statusSelect = document.getElementById("tempat_pkl_id");
+            var alasanInput = document.getElementById("data");
+            var alasanInput1 = document.getElementById("data1");
+            var alasanInput2 = document.getElementById("data2");
+            var alasanInput3 = document.getElementById("data3");
+            var alasanInput4 = document.getElementById("data4");
+            var alasanInput5 = document.getElementById("data5");
+            var alasanInput6 = document.getElementById("data6");
+
+            statusSelect.addEventListener("change", function() {
+                var selectedValue = this.value;
+                if (selectedValue === "perusahaan_lainnya") {
+                    alasanInput.style.display = "block";
+                    alasanInput1.style.display = "block";
+                    alasanInput2.style.display = "block";
+                    alasanInput3.style.display = "block";
+                    alasanInput4.style.display = "block";
+                    alasanInput5.style.display = "block";
+                    alasanInput6.style.display = "block";
+                } else {
+                    alasanInput.style.display = "none";
+                    alasanInput1.style.display = "none";
+                    alasanInput2.style.display = "none";
+                    alasanInput3.style.display = "none";
+                    alasanInput4.style.display = "none";
+                    alasanInput5.style.display = "none";
+                    alasanInput6.style.display = "none";
+                }
+            });
+        });
 
   new MultiSelectTag('nama_mahasiswa')  // id
 

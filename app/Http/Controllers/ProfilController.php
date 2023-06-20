@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Mahasiswa;
+use App\Models\Instansi;
+
 
 use App\Http\Requests\ProfilRequest;
 use App\Http\Requests\PasswordRequest;
@@ -94,16 +97,77 @@ class ProfilController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     */
+    public function updateProfilMahasiswa(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'wa'   => 'required',
+            'email'   => 'required',
+        ], [
+            'name.required' => 'Masukkan Nama',
+            'wa.required'   => 'Masukkan No WhatsApp',
+            'email.required'   => 'Masukkan Email',
+        ]);
+
+        $data = [
+            'name'        => $request->name,
+            'wa'          => 62 . $request->wa,
+            'email'       => $request->email,
+        ];
+
+        User::where('id', $id)->update($data);
+
+        return redirect()->back()->with('success', 'Data Berhasil Diedit');
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function profilInstansi()
     {
         $user    =   auth()->user();
+        $instansi = Instansi::whereUserId($user->id)->first();
         
         return view ('user.profil.profil-instansi', [
-            'user'   =>  $user,
+            'user'      =>  $user,
+            'instansi'  => $instansi,
             'title'     => 'Profil'
         ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function updateProfilInstansi(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'wa'   => 'required',
+            'email'   => 'required',
+            'alamat'   => 'required',
+        ], [
+            'name.required' => 'Masukkan Nama',
+            'wa.required'   => 'Masukkan No WhatsApp',
+            'email.required'   => 'Masukkan Email',
+            'alamat.required'   => 'Masukkan Alamat',
+        ]);
+
+        $data = [
+            'name'        => $request->name,
+            'wa'          => 62 . $request->wa,
+            'email'       => $request->email,
+        ];
+
+        User::where('id', $id)->update($data);
+
+        Instansi::where('user_id', $id)->update([
+            'nama_perusahaan'   => $request->name,
+            'alamat'            => $request->alamat,
+        ]);
+
+        return redirect()->back()->with('success', 'Data Berhasil Diedit');
     }
 
     /**
@@ -117,6 +181,20 @@ class ProfilController extends Controller
             'user'   =>  $user,
             'title'     => 'Password'
         ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function updatePasswordUser(PasswordRequest $request, $id)
+    {
+        $data = [
+            'password'    => Hash::make($request->password)
+        ];
+
+        User::where('id', $id)->update($data);
+
+        return redirect()->back()->with('success', 'Data Berhasil Diedit');
     }
     
 }

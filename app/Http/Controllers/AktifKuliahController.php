@@ -12,7 +12,11 @@ use App\Models\JenisPengajuan;
 
 use App\Http\Requests\AktifKuliahRequest;
 use App\Http\Requests\KonfirmasiRequest;
+use App\Exports\AktifKuliahExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Crypt;
+use Carbon\Carbon;
+
 
 class AktifKuliahController extends Controller
 {
@@ -62,11 +66,29 @@ class AktifKuliahController extends Controller
 
         $mahasiswa = Mahasiswa::whereUserId($user->id)->first();
 
-        $pengajuan = Pengajuan::create([
-            'jenis_pengajuan_id' => '1',
-            'mahasiswa_id'  => $mahasiswa->id,
-            'keperluan'     => $request->keperluan,
-        ]);
+        if ($request->status_data == 'Update Data') {
+            $mahasiswa->update([
+                'orang_tua'     => $request->orang_tua,
+                'pekerjaan'     => $request->pekerjaan,
+                'nip_nrp'       => $request->nip_nrp,
+                'pangkat'       => $request->pangkat,
+                'jabatan'       => $request->jabatan,
+                'golongan'       => $request->golongan,
+                'instansi'      => $request->instansi,
+            ]);
+
+            $pengajuan = Pengajuan::create([
+                'jenis_pengajuan_id' => '1',
+                'mahasiswa_id'  => $mahasiswa->id,
+                'keperluan'     => $request->keperluan,
+            ]);
+        } else {
+            $pengajuan = Pengajuan::create([
+                'jenis_pengajuan_id' => '1',
+                'mahasiswa_id'  => $mahasiswa->id,
+                'keperluan'     => $request->keperluan,
+            ]);
+        }
 
         Riwayat::create([
             'pengajuan_id'  => $pengajuan->id,
@@ -204,5 +226,29 @@ class AktifKuliahController extends Controller
             'aktifKuliah'        =>  $aktifKuliah,
             'title'             =>  'Detail Pengajuan Surat Keterangan AKtid Kuliah'
         ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function export(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required',
+            'end_date'   => 'required',
+        ], [
+            'start_date.required' => 'Masukkan Tanggal Mulai',
+            'end_date.required'   => 'Masukkan Tanggal Selesai',
+        ]);
+        
+        $startDate = Carbon::parse($request->input('start_date'));
+        $endDate = Carbon::parse($request->input('end_date'))->endOfDay();
+
+        $data = Pengajuan::with(['mahasiswa'])
+            ->where('jenis_pengajuan_id', 1)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->get();
+
+        return Excel::download(new AktifKuliahExport($data), 'Surat-Aktif-Kuliah-Export.xlsx');
     }
 }

@@ -11,8 +11,12 @@ use App\Models\Riwayat;
 
 use App\Http\Requests\LegalisirRequest;
 use App\Http\Requests\KonfirmasiRequest;
+use App\Exports\LegalisirExport;
 
 use Illuminate\Support\Facades\Crypt;
+use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
+
 
 class LegalisirController extends Controller
 {
@@ -213,6 +217,30 @@ class LegalisirController extends Controller
             'legalisir'    =>  $legalisir,
             'title'        =>  'Detail Pengajuan Legalisir'
         ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function export(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required',
+            'end_date'   => 'required',
+        ], [
+            'start_date.required' => 'Masukkan Tanggal Mulai',
+            'end_date.required'   => 'Masukkan Tanggal Selesai',
+        ]);
+        
+        $startDate = Carbon::parse($request->input('start_date'));
+        $endDate = Carbon::parse($request->input('end_date'))->endOfDay();
+
+        $data = Pengajuan::with(['mahasiswa'])
+            ->where('jenis_pengajuan_id', 5)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->get();
+
+        return Excel::download(new LegalisirExport($data), 'Legalisir-Export.xlsx');
     }
 
 }

@@ -106,6 +106,48 @@ class Pengajuan extends Model
         return $filename;
     }
 
+    /**
+     * Save dokumen.
+     *
+     * @param  $request
+     * @return string
+     */
+    public static function saveDokumenPermohonan($request)
+    {
+        $filename = null;
+
+        if ($request->dokumen_permohonan) {
+            $file = $request->dokumen_permohonan;
+
+            $ext = $file->getClientOriginalExtension();
+            $filename = date('YmdHis') . uniqid() . '.' . $ext;
+            $file->storeAs('public/dokumen/dokumen-permohonan', $filename);
+        }
+
+        return $filename;
+    }
+
+    /**
+     * Save dokumen.
+     *
+     * @param  $request
+     * @return string
+     */
+    public static function saveDokumenHasil($request)
+    {
+        $filename = null;
+
+        if ($request->dokumen_hasil) {
+            $file = $request->dokumen_hasil;
+
+            $ext = $file->getClientOriginalExtension();
+            $filename = date('YmdHis') . uniqid() . '.' . $ext;
+            $file->storeAs('public/dokumen/dokumen-hasil', $filename);
+        }
+
+        return $filename;
+    }
+
     public function getGetMahasiswaAttribute()
     {
         $data = User::whereIn('id', $this->nama_mahasiswa)->get();

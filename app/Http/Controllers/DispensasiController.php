@@ -12,7 +12,11 @@ use App\Models\Riwayat;
 
 use App\Http\Requests\DispensasiRequest;
 use App\Http\Requests\KonfirmasiRequest;
+use App\Exports\DispensasiExport;
 use Illuminate\Support\Facades\Crypt;
+use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
+
 
 class DispensasiController extends Controller
 {
@@ -137,8 +141,17 @@ class DispensasiController extends Controller
      */
     public function konfirmasi(Request $request, string $id)
     {
+        $request->validate([
+            'dokumen_permohonan' => 'required',
+        ], [
+            'dokumen_permohonan.required' => 'Masukkan Dokumen Permohonan',
+        ]);
+
+        $dokumen = Pengajuan::saveDokumenPermohonan($request);
+
         $data = [
-            'status'  =>  'Konfirmasi'
+            'status'  =>  'Konfirmasi',
+            'dokumen_permohonan' => $dokumen
         ];
 
         Pengajuan::where('id', $id)->update($data);
@@ -254,5 +267,29 @@ class DispensasiController extends Controller
             'data'              =>  $data,
             'title'             =>  'Detail Pengajuan Izin Dispensasi'
         ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function export(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required',
+            'end_date'   => 'required',
+        ], [
+            'start_date.required' => 'Masukkan Tanggal Mulai',
+            'end_date.required'   => 'Masukkan Tanggal Selesai',
+        ]);
+        
+        $startDate = Carbon::parse($request->input('start_date'));
+        $endDate = Carbon::parse($request->input('end_date'))->endOfDay();
+
+        $data = Pengajuan::with(['mahasiswa'])
+            ->where('jenis_pengajuan_id', 4)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->get();
+
+        return Excel::download(new DispensasiExport($data), 'Dispensasi-Export.xlsx');
     }
 }

@@ -130,26 +130,44 @@
                                         value="{{ old('perihal', @$izinPenelitian->perihal) }}" disabled readonly>
                                 </div>
                             </div>
-                            <hr>
-                            @if ($user->hasRole('admin-jurusan') && @$izinPenelitian->status == "Menunggu Konfirmasi")
-                                <div class="text-md-right">
-                                    <div class="float-lg-left mb-lg-0 mb-3">
-                                        <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$izinPenelitian->id}}">
-                                            <i class="fas fa-check"></i> 
-                                            Konfirmasi
-                                        </button>
 
-                                        <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$izinPenelitian->id}}">
-                                            <i class="fas fa-times"></i> 
-                                            Tolak
-                                        </button>
-                                    </div>
+                            <div class="form-group row mb-4">
+                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
+                                    Dokumen Permohonan<sup class="text-danger">*</sup>
+                                </label>
 
-                                    <button class="btn btn-warning btn-icon icon-left">
-                                        <i class="fas fa-print"></i> 
-                                        Print
-                                    </button>
+                                <div class="col-sm-9">
+                                    <label>
+                                        @if (@$izinPenelitian->dokumen_permohonan !== null)
+                                            <a class="btn btn-primary" href="{{ asset('storage/public/dokumen/dokumen-permohonan/'. @$izinPenelitian->dokumen_permohonan)}}" 
+                                                    download="{{@$izinPenelitian->dokumen_permohonan}}">
+                                                        Download Dokumen
+                                            </a>
+                                        @else
+                                            Belum Ada Dokumen Permohonan Dari Admin Jurusan
+                                        @endif
+                                    </label>
                                 </div>
+                            </div>
+                            <hr>
+                            @if ($user->hasRole('admin-jurusan'))
+                                @if (@$izinPenelitian->status == "Menunggu Konfirmasi")
+                                    <div class="text-md-right">
+                                        <div class="float-lg-left mb-lg-0 mb-3">
+                                            <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$izinPenelitian->id}}">
+                                                <i class="fas fa-check"></i> 
+                                                Konfirmasi
+                                            </button>
+
+                                            <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$izinPenelitian->id}}">
+                                                <i class="fas fa-times"></i> 
+                                                Tolak
+                                            </button>
+                                        </div>
+                                    </div> 
+                                @else
+
+                                @endif
                             @else
                                 <div class="text-md-right">
                                     <button class="btn btn-warning btn-icon icon-left">
@@ -182,9 +200,24 @@
                 </div>
 
                 <div class="modal-body">
-                    <p>
-                        Setujui Pengajuan ?
-                    </p>
+                    <div class="form-group row mb-4">
+                        <label for="image" class="col-form-label text-md-left col-12">
+                            Dokumen Permohonan
+                        </label>
+
+                        <div class="col-sm-12 col-md-12">
+                            <div class="input-group">
+                                <input class="dropify @error('dokumen_permohonan') is-invalid @enderror" type="file" 
+                                    name="dokumen_permohonan" data-height='250' data-allowed-file-extensions="pdf doc docx" data-max-file-size="5M">
+                            </div>
+
+                            @if ($errors->has('dokumen_permohonan'))
+                                <span class="text-danger">
+                                    {{ $errors->first('dokumen_permohonan') }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer">

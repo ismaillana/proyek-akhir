@@ -93,6 +93,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::post('update-status-aktif-kuliah/{id}', [AktifKuliahController::class, 'updateStatus'])->name('update-status-aktif-kuliah');
                 Route::get('riwayat-pengajuan-aktif-kuliah', [AktifKuliahController::class, 'riwayat'])->name('riwayat-pengajuan-aktif-kuliah');
                 Route::get('riwayat-pengajuan-aktif-kuliah-detail/{id}', [AktifKuliahController::class, 'showRiwayat'])->name('riwayat-pengajuan-aktif-kuliah-detail');
+                Route::get('export-aktif-kuliah', [AktifKuliahController::class, 'export'])->name('export-aktif-kuliah');
 
                 //Izin Penelitian
                 Route::resource('pengajuan-izin-penelitian', IzinPenelitianController::class);
@@ -101,6 +102,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::post('update-status-izin-penelitian/{id}', [IzinPenelitianController::class, 'updateStatus'])->name('update-status-izin-penelitian');
                 Route::get('riwayat-pengajuan-izin-penelitian', [IzinPenelitianController::class, 'riwayat'])->name('riwayat-pengajuan-izin-penelitian');
                 Route::get('riwayat-pengajuan-izin-penelitian-detail/{id}', [IzinPenelitianController::class, 'showRiwayat'])->name('riwayat-pengajuan-izin-penelitian-detail');
+                Route::get('export-izin-penelitian', [IzinPenelitianController::class, 'export'])->name('export-izin-penelitian');
 
                 //Verifikasi Ijazah
                 Route::resource('pengajuan-verifikasi-ijazah', VerifikasiIjazahController::class);
@@ -119,6 +121,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::post('update-status-legalisir/{id}', [LegalisirController::class, 'updateStatus'])->name('update-status-legalisir');
                 Route::get('riwayat-pengajuan-legalisir', [LegalisirController::class, 'riwayat'])->name('riwayat-pengajuan-legalisir');
                 Route::get('riwayat-pengajuan-legalisir-detail/{id}', [LegalisirController::class, 'showRiwayat'])->name('riwayat-pengajuan-legalisir-detail');
+                Route::get('export-legalisir', [LegalisirController::class, 'export'])->name('export-legalisir');
 
                 //Dispensasi
                 Route::resource('pengajuan-dispensasi', DispensasiController::class);
@@ -127,6 +130,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::post('update-status-dispensasi/{id}', [DispensasiController::class, 'updateStatus'])->name('update-status-dispensasi');
                 Route::get('riwayat-pengajuan-dispensasi', [DispensasiController::class, 'riwayat'])->name('riwayat-pengajuan-dispensasi');
                 Route::get('riwayat-pengajuan-dispensasi-detail/{id}', [DispensasiController::class, 'showRiwayat'])->name('riwayat-pengajuan-dispensasi-detail');
+                Route::get('export-dispensasi', [DispensasiController::class, 'export'])->name('export-dispensasi');
 
                 //Pengantar PKL
                 Route::resource('pengajuan-pengantar-pkl', PengantarPklController::class);
@@ -137,6 +141,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::get('riwayat-pengajuan-pengantar-pkl', [PengantarPklController::class, 'riwayat'])->name('riwayat-pengajuan-pengantar-pkl');
                 Route::post('setuju-pengantar-pkl/{id}', [PengantarPklController::class, 'setuju'])->name('setuju-pengantar-pkl');
                 Route::get('riwayat-pengajuan-pengantar-pkl-detail/{id}', [PengantarPklController::class, 'showRiwayat'])->name('riwayat-pengajuan-pengantar-pkl-detail');
+                Route::get('export-pengantar-pkl', [PengantarPklController::class, 'export'])->name('export-pengantar-pkl');
 
                 Route::get('import-excel', [MahasiswaController::class, 'createImport'])->name('import-excel');
                 Route::post('import-excel-store', [MahasiswaController::class, 'import'])->name('import-excel-store');
@@ -147,10 +152,14 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
     Route::middleware('auth')->group(function () {
         Route::middleware(['role:alumni|mahasiswa|instansi'])->get('/home', [HomeController::class, 'index'])->name('home');
         //Profil
-        Route::middleware(['role:alumni|mahasiswa|instansi'])->get('profil-mahasiswa', [ProfilController::class, 'profilMahasiswa'])->name('profil-mahasiswa');
-        Route::middleware(['role:alumni|mahasiswa|instansi'])->get('profil-instansi', [ProfilController::class, 'profilInstansi'])->name('profil-instansi');
+        Route::middleware(['role:alumni|mahasiswa'])->get('profil-mahasiswa', [ProfilController::class, 'profilMahasiswa'])->name('profil-mahasiswa');
+        Route::post('update-profil-mahasiswa/{update}', [ProfilController::class, 'updateProfilMahasiswa'])->name('update-profil-mahasiswa');
+        
+        Route::middleware(['role:instansi'])->get('profil-instansi', [ProfilController::class, 'profilInstansi'])->name('profil-instansi');
+        Route::post('update-profil-instansi/{update}', [ProfilController::class, 'updateProfilInstansi'])->name('update-profil-instansi');
         //Password
         Route::middleware(['role:alumni|mahasiswa|instansi'])->get('password-user', [ProfilController::class, 'passwordUser'])->name('password-user');
+        Route::post('update-password-user/{update}', [ProfilController::class, 'updatePasswordUser'])->name('update-password-user');
 
         Route::group(
             [

@@ -4,67 +4,69 @@
   
   <!-- /section -->
   <section class="wrapper bg-light">
-    <div class="container py-14 pt-lg-16 pb-lg-0">
+    <div class="container py-14 pt-lg-4 pb-lg-8">
       <div class="row gx-lg-8 gx-xl-0 gy-10 align-items-center">
         <div class="col-md-8 col-lg-6 position-relative">
             <div class="shape bg-dot primary rellax w-17 h-21" data-rellax-speed="1" style="top: -2rem; left: -1.9rem;"></div>
             <div class="shape rounded bg-soft-primary rellax d-md-block" data-rellax-speed="0" style="bottom: -1.8rem; right: -1.5rem; width: 85%; height: 90%; "></div>
-            <figure class="rounded"><img src="{{ asset('template/assets/img/photos/about14.jpg')}}" srcset="{{ asset('template/assets/img/photos/about14@2x.jpg 2x')}}" alt="" /></figure>
-          </div>
-        <!--/column -->
+          <figure class="rounded">
+            <img src="{{ asset('template/assets/img/illustrations/i5.png')}}" srcset="{{ asset('template/assets/img/illustrations/i5@2x.png 2x')}}" alt="" />
+          </figure>
+        </div>
+
         <div class="col-lg-6 col-xl-5 offset-xl-1">
-          <h2 class="display-4 mb-3">Get in Touch</h2>
-          <p class="lead mb-8 pe-xl-10">Have any questions? Reach out to us from our contact form and we will get back to you shortly.</p>
-          <form class="contact-form needs-validation" method="post" action="./assets/php/contact.php" novalidate>
+          <h2 class="display-4 mb-3">
+            Profil Instansi
+          </h2>
+          <p class="lead mb-8 pe-xl-10">
+            Perbaiki informasi pribadi disini!
+          </p>
+
+          <form id="myForm" class="contact-form needs-validation" enctype="multipart/form-data" method="POST" action="{{route('update-profil-mahasiswa', $user)}}">
+            @csrf
             <div class="messages"></div>
             <div class="form-floating mb-4">
-              <input id="form_name2" type="text" name="name" class="form-control" placeholder="Jane" required="required" data-error="Name is required.">
-              <label for="form_name2">Name *</label>
-              <div class="valid-feedback">
-                Looks good!
-              </div>
-              <div class="invalid-feedback">
-                Please enter your name.
-              </div>
+              <input id="form_name2" type="text" name="name" class="form-control" placeholder="Masukkan Nama" value="{{ old('name', @$user->name) }}">
+              <label for="form_name2">Nama *</label>
+
+              @if ($errors->has('name'))
+                  <span class="text-danger">{{ $errors->first('name') }}</span>
+              @endif
             </div>
+
             <div class="form-floating mb-4">
-              <input id="form_email2" type="email" name="email" class="form-control" placeholder="jane.doe@example.com" required="required" data-error="Valid email is required.">
+              <input id="form_email2" type="email" name="email" class="form-control" placeholder="Masukkan Email" value="{{ old('name', @$user->email) }}">
               <label for="form_email2">Email *</label>
-              <div class="valid-feedback">
-                Looks good!
-              </div>
-              <div class="invalid-feedback">
-                Please provide a valid email address.
-              </div>
+
+              @if ($errors->has('email'))
+                  <span class="text-danger">{{ $errors->first('email') }}</span>
+              @endif
             </div>
+
             <div class="form-floating mb-4">
-              <textarea id="form_message2" name="message" class="form-control" placeholder="Your message" style="height: 150px" required></textarea>
-              <label for="form_message2">Message *</label>
-              <div class="valid-feedback">
-                Looks good!
-              </div>
-              <div class="invalid-feedback">
-                Please enter your messsage.
-              </div>
+              <input id="wa" type="number" name="wa" class="form-control" placeholder="Masukkan No WhatsApp" value="{{ old('wa', @$user->wa) }}">
+              <label for="wa">No WhatsApp *</label>
+
+              @if ($errors->has('wa'))
+                  <span class="text-danger">{{ $errors->first('wa') }}</span>
+              @endif
             </div>
-            <input type="submit" class="btn btn-primary rounded-pill btn-send mb-3" value="Send message">
-            <p class="text-muted"><strong>*</strong> These fields are required.</p>
+
+            <button class="btn btn-primary rounded-pill btn-send mb-3" id="btnSubmit" type="submit">
+              Submit
+              <span class="spinner-border ml-2 d-none" id="loader"
+                  style="width: 1rem; height: 1rem;" role="status">
+              </span>
+            </button>
           </form>
-          <!-- /form -->
         </div>
-        <!--/column -->
       </div>
-      <!--/.row -->
     </div>
-    <!-- /.container -->
   </section>
-  <!-- /section -->
 @endsection
 
 @section('script')
 <script>
-  new MultiSelectTag('nama_mahasiswa')  // id
-
         $('#myForm').submit(function(e) {
             let form = this;
             e.preventDefault();

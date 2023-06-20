@@ -23,7 +23,7 @@ class KonfirmasiPklRequest extends FormRequest
     {
         $rules = [
             'status' =>  'required',
-            // 'image' =>  'required_if'
+            'image' =>  'required_if:status,Ditolak Perusahaan'
         ];
         return $rules;
     }
@@ -32,7 +32,7 @@ class KonfirmasiPklRequest extends FormRequest
     {
         return [
             'status.required' => 'Status Wajib Diisi',
-            // 'image.required_if' => 'Gambar Wajib Diisi'
+            'image.required_if' => 'Gambar Wajib Diisi'
         ];
     }
 }

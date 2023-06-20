@@ -66,8 +66,16 @@
                     <div class="row align-items-center" style="margin-bottom: 10px;">
                         <div class="col-md-3 col-sm-12">
                             <label for="angkatan" class="label-control">Ubah Status</label>
-                            <input type="text" id="angkatan" name="angkatan" class="form-control"
-                                placeholder="Masukan Angkatan" value="{{ old('angkatan', request('angkatan')) }}" required>
+                            <input type="text" id="angkatan" name="angkatan" class="form-control @error('angkatan') is-invalid @enderror"
+                                placeholder="Masukan Angkatan" value="{{ old('angkatan', request('angkatan')) }}" required autocomplete="angkatan" autofocus>
+                            {{-- @error('password') --}}
+                            <div class="invalid-feedback">
+jkhjkkjkhjjk
+                                {{-- <span > --}}
+                                    {{-- <strong>kjsdfhuskd</strong> --}}
+                                {{-- </span> --}}
+                            </div>
+                            {{-- @enderror --}}
                         </div>
 
                         <div class="col-md-2 col-sm-12 d-flex mt-auto">

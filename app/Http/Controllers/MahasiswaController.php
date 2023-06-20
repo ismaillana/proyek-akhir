@@ -158,6 +158,7 @@ class MahasiswaController extends Controller
                 'nip_nrp'       => $request->nip_nrp,
                 'pangkat'       => $request->pangkat,
                 'jabatan'       => $request->jabatan,
+                'golongan'       => $request->golongan,
                 'instansi'      => $request->instansi,
                 'status'        => $request->status
             ];
@@ -243,6 +244,7 @@ class MahasiswaController extends Controller
             'nip_nrp'       => $request->nip_nrp,
             'pangkat'       => $request->pangkat,
             'jabatan'       => $request->jabatan,
+            'golongan'       => $request->golongan,
             'instansi'      => $request->instansi,
             'status'            => $request->status,
         ];

@@ -15,6 +15,11 @@
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{asset('/assets/css/style.css')}}">
   <link rel="stylesheet" href="{{asset('/assets/css/components.css')}}">
+  <style>
+    .fa-eye-slash {
+        cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
@@ -43,28 +48,38 @@
                   @csrf
                   <div class="form-group">
                     <label for="username">{{ __('Nomor Induk / Email') }}</label>
-                        <input id="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
-                        @error('username')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
+                        <input id="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" 
+                          value="{{ old('username') }}" required autocomplete="username" autofocus>
+                        <div class="invalid-feedback">
+                          <strong>Masukkan Nomor Induk/Email</strong>
+                        </div>
+                        {{-- @error('username')
+                            <span class="invalid-feedback">
+                                <strong>Masukkan </strong>
                             </span>
                         @enderror
 
                         @error('nomor_induk')
                             <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
+                                <strong>jdks</strong>
                             </span>
-                        @enderror
+                        @enderror --}}
                   </div>
 
                   <div class="form-group">
                     <label for="password">{{ __('Password') }}</label>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-                        @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                      <div class="input-group">
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
+                          name="password" required autocomplete="current-password">
+
+                        <span class="input-group-text">
+                          <i id="password-toggle" class="fa fa-eye-slash" onclick="togglePassword()"></i>
+                        </span>
+                      </div>
+
+                        <div class="invalid-feedback">
+                            <strong>Masukkan Password</strong>
+                        </div>
                   </div>
 
                   <div class="form-group">
@@ -130,6 +145,21 @@
           @endif ()
 
       });
+
+      function togglePassword() {
+          var passwordInput = document.getElementById("password");
+          var passwordToggle = document.getElementById("password-toggle");
+
+          if (passwordInput.type === "password") {
+              passwordInput.type = "text";
+              passwordToggle.classList.remove("fa-eye-slash");
+              passwordToggle.classList.add("fa-eye");
+          } else {
+              passwordInput.type = "password";
+              passwordToggle.classList.remove("fa-eye");
+              passwordToggle.classList.add("fa-eye-slash");
+          }
+      }
   </script>
 </body>
 </html>

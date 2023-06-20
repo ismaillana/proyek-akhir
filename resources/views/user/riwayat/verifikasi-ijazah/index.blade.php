@@ -48,6 +48,10 @@
                                   </th>
 
                                   <th scope="col" class="text-center">
+                                    Hasil
+                                  </th>
+
+                                  <th scope="col" class="text-center">
                                     Aksi
                                   </th>
                                 </tr>
@@ -77,6 +81,18 @@
                                             @else
                                                 <span class="badge bg-green rounded-pill">Selesai</span>
                                             @endif
+                                        </td>
+
+                                        <td class="text-center">
+                                          @if ($item->dokumen_hasil !== null )
+                                            <a href="{{ asset('storage/public/dokumen/dokumen-hasil/'. @$item->dokumen_hasil)}}" 
+                                              download="{{@$item->dokumen_hasil}}"
+                                                class="btn btn-sm btn-outline-primary" title="Download Hasil">
+                                                  Download Hasil
+                                            </a>
+                                          @else
+                                            Belum Selesai
+                                          @endif
                                         </td>
 
                                         <td class="text-center">

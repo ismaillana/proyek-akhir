@@ -12,8 +12,12 @@ use App\Models\JenisPengajuan;
 
 use App\Http\Requests\IzinPenelitianRequest;
 use App\Http\Requests\KonfirmasiRequest;
+use App\Exports\IzinPenelitianExport;
 
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Crypt;
+use Carbon\Carbon;
+
 
 class IzinPenelitianController extends Controller
 {
@@ -121,8 +125,17 @@ class IzinPenelitianController extends Controller
      */
     public function konfirmasi(Request $request, string $id)
     {
+        $request->validate([
+            'dokumen_permohonan' => 'required',
+        ], [
+            'dokumen_permohonan.required' => 'Masukkan Dokumen Permohonan',
+        ]);
+
+        $dokumen = Pengajuan::saveDokumenPermohonan($request);
+
         $data = [
-            'status'  =>  'Konfirmasi'
+            'status'  =>  'Konfirmasi',
+            'dokumen_permohonan' => $dokumen
         ];
 
         Pengajuan::where('id', $id)->update($data);
@@ -235,5 +248,29 @@ class IzinPenelitianController extends Controller
             'izinPenelitian'    =>  $izinPenelitian,
             'title'             =>  'Detail Pengajuan Izin Penelitian'
         ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function export(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required',
+            'end_date'   => 'required',
+        ], [
+            'start_date.required' => 'Masukkan Tanggal Mulai',
+            'end_date.required'   => 'Masukkan Tanggal Selesai',
+        ]);
+        
+        $startDate = Carbon::parse($request->input('start_date'));
+        $endDate = Carbon::parse($request->input('end_date'))->endOfDay();
+
+        $data = Pengajuan::with(['mahasiswa'])
+            ->where('jenis_pengajuan_id', 3)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->get();
+
+        return Excel::download(new IzinPenelitianExport($data), 'Izin-Penelitian-Export.xlsx');
     }
 }
