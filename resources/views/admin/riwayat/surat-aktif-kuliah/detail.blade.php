@@ -8,7 +8,7 @@
             </div>
 
             <h1>
-                Detail Pengajuan
+                Detail Riwayat
             </h1>
         </div>
 
@@ -19,7 +19,7 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between w-100">
                                 <h4>
-                                    Detail Pengajuan Surat Aktif Kuliah
+                                    Detail Riwayat Pengajuan Surat Aktif Kuliah
                                 </h4>
 
                                 <div class="d-flex">

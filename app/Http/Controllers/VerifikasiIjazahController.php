@@ -240,15 +240,25 @@ class VerifikasiIjazahController extends Controller
     /**
      * Display the specified resource.
      */
-    public function print(){
+    public function print($id)
+    {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $verifikasiIjazah = Pengajuan::find($id);
+
         $now   = Carbon::now()->locale('id');
-        $data = [
-            'currentDate' => $now->translatedFormat('l, d F Y'), // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
+        $currentDate =  $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
             // Mendapatkan tanggal saat ini dengan nama hari
-        ];
         //mengambil data dan tampilan dari halaman laporan_pdf
         //data di bawah ini bisa kalian ganti nantinya dengan data dari database
-        $data = PDF::loadview('admin.pengajuan.verifikasi-ijazah.print', $data);
+        $data = PDF::loadview('admin.pengajuan.verifikasi-ijazah.print', [
+            'currentDate' => $currentDate,
+            'verifikasiIjazah' => $verifikasiIjazah
+        ]);
         //mendownload laporan.pdf
     	return $data->stream('Surat-Verifikasi-Ijazah.pdf');
     }

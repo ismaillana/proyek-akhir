@@ -77,10 +77,16 @@
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
                                     
-                                    <button value="{{ route('instansi.destroy', $item->id) }}"
-                                        class="btn btn-sm btn-outline-danger delete" title="Hapus"> 
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    @php
+                                        $pengajuan = \App\Models\Pengajuan::where('instansi_id', $item->id)->exists();
+                                    @endphp
+
+                                    @if (!$pengajuan)
+                                        <button value="{{ route('instansi.destroy', $item->id) }}"
+                                            class="btn btn-sm btn-outline-danger delete" title="Hapus"> 
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -122,6 +128,9 @@
                                 type: "DELETE",
                                 url: url,
                                 dataType: 'json',
+                                // if () {
+                                    
+                                // }
                                 success: function(response) {
                                     swal(response.status, {
                                             icon: "success",
@@ -130,6 +139,8 @@
                                             location.reload();
                                         });
                                 }
+
+
                             });
                         }
                     })

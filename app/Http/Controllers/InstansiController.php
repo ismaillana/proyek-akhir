@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Instansi;
+use App\Models\Pengajuan;
 
 use App\Http\Requests\InstansiRequest;
 use App\Http\Requests\InstansiUpdateRequest;
@@ -21,12 +22,14 @@ class InstansiController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    {   
+        $pengajuan = Pengajuan::get();
         $instansi = Instansi::latest()
             ->get();
 
         return view ('admin.instansi.index', [
             'instansi' => $instansi,
+            'pengajuan'=> $pengajuan,
             'title'    => 'Instansi'
         ]);
     }
@@ -157,19 +160,19 @@ class InstansiController extends Controller
      */
     public function destroy(string $id)
     {
-        $instansi = Instansi::find($id);
-
-        $param = (object) [
-            'type'  => 'image',
-            'id'    => $instansi->id
-        ];
-
-        Instansi::deleteImage($param);
-
-        $instansi->delete();
-
-        User::where('id', $instansi->user_id)->update(['status' => '0']);
-
-        return response()->json(['status' => 'Data Berhasil Dihapus']);
+            $instansi = Instansi::find($id);
+            
+            $param = (object) [
+                'type'  => 'image',
+                'id'    => $instansi->id
+            ];
+    
+            Instansi::deleteImage($param);
+    
+            $instansi->delete();
+    
+            User::where('id', $instansi->user_id)->update(['status' => '0']);
+    
+            return response()->json(['status' => 'Data Berhasil Dihapus']);
     }
 }

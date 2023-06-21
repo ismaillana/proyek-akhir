@@ -80,14 +80,16 @@
             <li class="nav-item dropdown 
               {{ request()->is('menu-admin/mahasiswa*') ? 'active' : ''}} ||
               {{ request()->is('menu-admin/instansi*') ? 'active' : ''}} ||
-              {{ request()->is('menu-admin/koorPkl*') ? 'active' : ''}} ||">
+              {{ request()->is('menu-admin/koorPkl*') ? 'active' : ''}} ||
+              {{ request()->is('menu-admin/import-excel*') ? 'active' : ''}} ||">
     
               <a class="nav-link has-dropdown" data-toggle="dropdown">
                 <i class="far fa-user"></i> 
                 <span>Manajemen User</span>
               </a>
               <ul class="dropdown-menu">
-                <li class="{{ request()->is('menu-admin/mahasiswa*') ? 'active' : ''}}">
+                <li class="{{ request()->is('menu-admin/mahasiswa*') ? 'active' : ''}} ||
+                {{ request()->is('menu-admin/import-excel*') ? 'active' : ''}}">
                   <a class="nav-link" href="{{route('mahasiswa.index')}}">
                     Mahasiswa Alumni
                   </a>

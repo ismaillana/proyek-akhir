@@ -3,7 +3,7 @@
 <div class="main-content">
     <section class="section">
       <div class="section-header">
-        <h1>Tabel Data Pengajuan Surat Aktif Kuliah</h1>
+        <h1>Tabel Data Riwayat Pengajuan Surat Aktif Kuliah</h1>
       </div>
 
       <div class="section-body">
@@ -13,7 +13,7 @@
               <div class="card-header">
                 <div class="d-flex justify-content-between w-100">
                     <h4>
-                        Data Pengajuan Surat AKtif Kuliah
+                        Data Riwayat Pengajuan Surat AKtif Kuliah
                     </h4>
                 </div>
               </div>

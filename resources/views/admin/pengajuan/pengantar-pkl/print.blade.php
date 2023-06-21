@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Surat Pengajuan Verifikasi Ijazah </title>
+    <title>Surat Pengantar PKL </title>
     <style type= "text/css">
     *{
             margin: 1;
@@ -92,10 +92,10 @@
             <tr>
                   <td style="width:20%"><p>Nomor</p></td>
                   <td style="width:2%"><p>:</p></td>
-                  <td style="width:78%"><p>723234328</p></td>
+                  <td style="width:78%"><p>{{$pengantarPkl->no_surat}}</p></td>
             </tr>
             <tr>
-                  <td style="width:20%"><p>Lapiran</p></td>
+                  <td style="width:20%"><p>Lampiran</p></td>
                   <td style="width:2%"><p>:</p></td>
                   <td style="width:78%"><p>-</p></td>
             </tr>
@@ -145,14 +145,14 @@
       @php
       $i = 0;
       @endphp
-      {{-- -- @foreach($keranjang as $data) -- --}}
+      @foreach($mahasiswa as $item)
       @php
       $i = $i+1;
       @endphp
       <tr>
-            <td style="text-align:center;width:10%" class="td"><p>1</p></td>
-            <td class="td" style="width:40%"><p>Lana Ismail</p></td>
-            <td class="td" style="text-align:center;width:30%"><p>10107036</p></td>
+            <td style="text-align:center;width:10%" class="td"><p>{{$loop->iteration}}</p></td>
+            <td class="td" style="width:40%"><p>{{$item->user->name}}</p></td>
+            <td class="td" style="text-align:center;width:30%"><p>{{$item->nim}}</p></td>
             <td class="td" style="text-align:center;width:20%"><p>2023</p></td>
             <td class="td" style="text-align:center;width:15%">
                   {{-- -- <p>
@@ -173,7 +173,7 @@
                   </p> -- --}}
             </td>
       </tr>
-      {{-- -- @endforeach -- --}}
+      @endforeach
       </table>
 
       <table width="100%" class="kegiatan">
