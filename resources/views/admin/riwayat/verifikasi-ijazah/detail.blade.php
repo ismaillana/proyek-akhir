@@ -116,122 +116,18 @@
                                         value="{{ old('created_at', @$verifikasiIjazah->created_at) }}" disabled readonly>
                                 </div>
                             </div>
-                            <hr>
-                            @if (@$verifikasiIjazah->status == "Menunggu Konfirmasi")
-                                <div class="text-md-right">
-                                    <div class="float-lg-left mb-lg-0 mb-3">
-                                        <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$verifikasiIjazah->id}}">
-                                            <i class="fas fa-check"></i> 
-                                            Konfirmasi
-                                        </button>
-
-                                        <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$verifikasiIjazah->id}}">
-                                            <i class="fas fa-times"></i> 
-                                            Tolak
-                                        </button>
-                                    </div>
-
-                                    <button class="btn btn-warning btn-icon icon-left">
-                                        <i class="fas fa-print"></i> 
-                                        Print
-                                    </button>
-                                </div>
-                            @else
+                            {{-- <hr>
                                 <div class="text-md-right">
                                     <button class="btn btn-warning btn-icon icon-left">
                                         <i class="fas fa-print"></i> 
                                         Print
                                     </button>
-                                </div>
-                            @endif
+                                </div> --}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-</div>
-
-<div class="modal fade" tabindex="-1" role="dialog" id="konfirmasi{{$verifikasiIjazah->id}}">
-    <div class="modal-dialog" role="document">
-        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('konfirmasi-verifikasi-ijazah', $verifikasiIjazah->id)}}" method="POST">
-            @csrf
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        Konfirmasi Pengajuan
-                    </h5>
-
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <p>
-                        Setujui Pengajuan ?
-                    </p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        Close
-                    </button>
-
-                    <button type="submit" class="btn btn-primary">
-                        Save changes
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="modal fade" tabindex="-1" role="dialog" id="tolak{{$verifikasiIjazah->id}}">
-    <div class="modal-dialog" role="document">
-        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('tolak-verifikasi-ijazah', $verifikasiIjazah->id)}}" method="POST">
-            @csrf
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        Modal Catatan Penolakan
-                    </h5>
-
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <div class="form-group row mb-4" id="catatan">
-                        <label for="name" class="col-sm-3 col-form-label">
-                            Catatan Penolakan <sup class="text-danger">*</sup>
-                        </label>
-
-                        <div class="col-sm-9">
-                            <textarea name="catatan" class="summernote-simple" id="catatan" cols="30" rows="10"
-                                placeholder="Masukan Catatan">{{ old('catatan', @$verifikasiIjazah->catatan) }}</textarea>
-                            
-                            @if ($errors->has('catatan'))
-                                <span class="text-danger">
-                                    {{ $errors->first('catatan') }}
-                                </span>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer br">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        Close
-                    </button>
-
-                    <button type="submit" class="btn btn-primary">
-                        Save changes
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
 </div>
 @endsection

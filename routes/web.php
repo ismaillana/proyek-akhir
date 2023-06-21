@@ -94,6 +94,8 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::get('riwayat-pengajuan-aktif-kuliah', [AktifKuliahController::class, 'riwayat'])->name('riwayat-pengajuan-aktif-kuliah');
                 Route::get('riwayat-pengajuan-aktif-kuliah-detail/{id}', [AktifKuliahController::class, 'showRiwayat'])->name('riwayat-pengajuan-aktif-kuliah-detail');
                 Route::get('export-aktif-kuliah', [AktifKuliahController::class, 'export'])->name('export-aktif-kuliah');
+                Route::get('print-aktif-kuliah', [AktifKuliahController::class, 'print'])->name('print-aktif-kuliah');
+                Route::post('update-surat-aktif-kuliah/{id}', [AktifKuliahController::class, 'updateNoSurat'])->name('update-surat-aktif-kuliah');
 
                 //Izin Penelitian
                 Route::resource('pengajuan-izin-penelitian', IzinPenelitianController::class);
@@ -103,6 +105,8 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::get('riwayat-pengajuan-izin-penelitian', [IzinPenelitianController::class, 'riwayat'])->name('riwayat-pengajuan-izin-penelitian');
                 Route::get('riwayat-pengajuan-izin-penelitian-detail/{id}', [IzinPenelitianController::class, 'showRiwayat'])->name('riwayat-pengajuan-izin-penelitian-detail');
                 Route::get('export-izin-penelitian', [IzinPenelitianController::class, 'export'])->name('export-izin-penelitian');
+                Route::get('print-izin-penelitian', [IzinPenelitianController::class, 'print'])->name('print-izin-penelitian');
+                Route::post('update-surat-izin-penelitian/{id}', [IzinPenelitianController::class, 'updateNoSurat'])->name('update-surat-izin-penelitian');
 
                 //Verifikasi Ijazah
                 Route::resource('pengajuan-verifikasi-ijazah', VerifikasiIjazahController::class);
@@ -113,6 +117,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::get('riwayat-pengajuan-verifikasi-ijazah-detail/{id}', [VerifikasiIjazahController::class, 'showRiwayat'])->name('riwayat-pengajuan-verifikasi-ijazah-detail');
                 Route::get('print-verifikasi-ijazah', [VerifikasiIjazahController::class, 'print'])->name('print-verifikasi-ijazah');
                 Route::get('export-verifikasi-ijazah', [VerifikasiIjazahController::class, 'export'])->name('export-verifikasi-ijazah');
+                Route::post('update-surat-verifikasi-ijazah/{id}', [VerifikasiIjazahController::class, 'updateNoSurat'])->name('update-surat-verifikasi-ijazah');
 
                 //Legalisir
                 Route::resource('pengajuan-legalisir', LegalisirController::class);
@@ -131,6 +136,8 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::get('riwayat-pengajuan-dispensasi', [DispensasiController::class, 'riwayat'])->name('riwayat-pengajuan-dispensasi');
                 Route::get('riwayat-pengajuan-dispensasi-detail/{id}', [DispensasiController::class, 'showRiwayat'])->name('riwayat-pengajuan-dispensasi-detail');
                 Route::get('export-dispensasi', [DispensasiController::class, 'export'])->name('export-dispensasi');
+                Route::get('print-dispensasi', [DispensasiController::class, 'print'])->name('print-dispensasi');
+                Route::post('update-surat-dispensasi/{id}', [DispensasiController::class, 'updateNoSurat'])->name('update-surat-dispensasi');
 
                 //Pengantar PKL
                 Route::resource('pengajuan-pengantar-pkl', PengantarPklController::class);
@@ -142,6 +149,8 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::post('setuju-pengantar-pkl/{id}', [PengantarPklController::class, 'setuju'])->name('setuju-pengantar-pkl');
                 Route::get('riwayat-pengajuan-pengantar-pkl-detail/{id}', [PengantarPklController::class, 'showRiwayat'])->name('riwayat-pengajuan-pengantar-pkl-detail');
                 Route::get('export-pengantar-pkl', [PengantarPklController::class, 'export'])->name('export-pengantar-pkl');
+                Route::get('print-pengantar-pkl', [PengantarPklController::class, 'print'])->name('print-pengantar-pkl');
+                Route::post('update-surat-pengantar-pkl/{id}', [PengantarPklController::class, 'updateNoSurat'])->name('update-surat-pengantar-pkl');
 
                 Route::get('import-excel', [MahasiswaController::class, 'createImport'])->name('import-excel');
                 Route::post('import-excel-store', [MahasiswaController::class, 'import'])->name('import-excel-store');

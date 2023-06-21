@@ -132,13 +132,13 @@
                                     @endif
                                 </div>
                             </div>
-                            <hr>
+                            {{-- <hr>
                             <div class="text-md-right">
                                 <button class="btn btn-warning btn-icon icon-left">
                                     <i class="fas fa-print"></i> 
                                     Print
                                 </button>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>

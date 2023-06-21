@@ -277,4 +277,24 @@ class VerifikasiIjazahController extends Controller
         return Excel::download(new VerifikasiIjazahExport($data), 'Verifikasi-Ijazah-Export.xlsx');
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
+    public function updateNoSurat(Request $request, string $id)
+    {
+        $request->validate([
+            'no_surat' => 'required',
+        ], [
+            'no_surat.required' => 'Masukkan Nomor Surat',
+        ]);
+        
+        $data = [
+            'no_surat'  =>  $request->no_surat
+        ];
+
+        Pengajuan::where('id', $id)->update($data);
+
+        return redirect()->back()->with('success', 'No Surat Berhasil Diubah');
+    }
+
 }

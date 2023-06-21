@@ -17,6 +17,10 @@ use App\Exports\IzinPenelitianExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Crypt;
 use Carbon\Carbon;
+use File;
+use Repsonse;
+use PDF;
+use setasign\Fpdi\Fpdi;
 
 
 class IzinPenelitianController extends Controller
@@ -272,5 +276,41 @@ class IzinPenelitianController extends Controller
             ->get();
 
         return Excel::download(new IzinPenelitianExport($data), 'Izin-Penelitian-Export.xlsx');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function print(){
+        $now   = Carbon::now()->locale('id');
+        $data = [
+            'currentDate' => $now->translatedFormat('l, d F Y'), // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
+            // Mendapatkan tanggal saat ini dengan nama hari
+        ];
+        //mengambil data dan tampilan dari halaman laporan_pdf
+        //data di bawah ini bisa kalian ganti nantinya dengan data dari database
+        $data = PDF::loadview('admin.pengajuan.izin-penelitian.print', $data);
+        //mendownload laporan.pdf
+    	return $data->stream('Surat-izin-penelitian.pdf');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function updateNoSurat(Request $request, string $id)
+    {
+        $request->validate([
+            'no_surat' => 'required',
+        ], [
+            'no_surat.required' => 'Masukkan Nomor Surat',
+        ]);
+        
+        $data = [
+            'no_surat'  =>  $request->no_surat
+        ];
+
+        Pengajuan::where('id', $id)->update($data);
+
+        return redirect()->back()->with('success', 'No Surat Berhasil Diubah');
     }
 }

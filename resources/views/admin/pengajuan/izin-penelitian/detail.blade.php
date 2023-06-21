@@ -150,6 +150,44 @@
                                 </div>
                             </div>
                             <hr>
+                            @role('bagian-akademik')
+                            <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST"
+                                action="{{route('update-surat-aktif-kuliah', $izinPenelitian->id) }}">
+                                    @csrf
+
+                                <div class="form-group row">
+                                    <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
+                                        Nomor Surat<sup class="text-danger">*</sup>
+                                    </label>
+    
+                                    <div class="col-sm-12 col-md-9">
+                                        <input type="text" class="form-control @error('no_surat')is-invalid @enderror"
+                                            id="no_surat" name="no_surat" placeholder="Masukkan Nomor Surat" 
+                                            value="{{ old('no_surat', @$izinPenelitian->no_surat) }}">
+
+                                        @if ($errors->has('no_surat'))
+                                            <span class="text-danger">{{ $errors->first('no_surat') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-12 col-md-7 offset-md-3">
+                                        <button type="submit" class="btn btn-primary" id="btnSubmit">
+                                            @if (@$izinPenelitian->no_surat == null)
+                                                Tambah
+                                            @else
+                                                Update
+                                            @endif
+                                            <span class="spinner-border ml-2 d-none" id="loader"
+                                                style="width: 1rem; height: 1rem;" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            @endrole
+                            <hr>
                             @if ($user->hasRole('admin-jurusan'))
                                 @if (@$izinPenelitian->status == "Menunggu Konfirmasi")
                                     <div class="text-md-right">
@@ -170,10 +208,10 @@
                                 @endif
                             @else
                                 <div class="text-md-right">
-                                    <button class="btn btn-warning btn-icon icon-left">
+                                    <a href="{{ route('print-izin-penelitian') }}" class="btn btn-warning btn-icon icon-left">
                                         <i class="fas fa-print"></i> 
-                                        Print
-                                    </button>
+                                            Print
+                                    </a>
                                 </div>
                             @endif
                         </div>

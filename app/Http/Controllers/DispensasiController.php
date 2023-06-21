@@ -16,6 +16,10 @@ use App\Exports\DispensasiExport;
 use Illuminate\Support\Facades\Crypt;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
+use File;
+use Repsonse;
+use PDF;
+use setasign\Fpdi\Fpdi;
 
 
 class DispensasiController extends Controller
@@ -291,5 +295,41 @@ class DispensasiController extends Controller
             ->get();
 
         return Excel::download(new DispensasiExport($data), 'Dispensasi-Export.xlsx');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function print(){
+        $now   = Carbon::now()->locale('id');
+        $data = [
+            'currentDate' => $now->translatedFormat('l, d F Y'), // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
+            // Mendapatkan tanggal saat ini dengan nama hari
+        ];
+        //mengambil data dan tampilan dari halaman laporan_pdf
+        //data di bawah ini bisa kalian ganti nantinya dengan data dari database
+        $data = PDF::loadview('admin.pengajuan.dispensasi.print', $data);
+        //mendownload laporan.pdf
+    	return $data->stream('Surat-dispensasi.pdf');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function updateNoSurat(Request $request, string $id)
+    {
+        $request->validate([
+            'no_surat' => 'required',
+        ], [
+            'no_surat.required' => 'Masukkan Nomor Surat',
+        ]);
+        
+        $data = [
+            'no_surat'  =>  $request->no_surat
+        ];
+
+        Pengajuan::where('id', $id)->update($data);
+
+        return redirect()->back()->with('success', 'No Surat Berhasil Diubah');
     }
 }
