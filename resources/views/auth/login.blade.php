@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="{{ asset('/node_modules/izitoast/dist/css/iziToast.min.css')}}">
 
   <!-- Template CSS -->
+  <link rel="shortcut icon" href="{{asset('/assets/img/logoPOLSUB.png')}}">
   <link rel="stylesheet" href="{{asset('/assets/css/style.css')}}">
   <link rel="stylesheet" href="{{asset('/assets/css/components.css')}}">
   <style>
@@ -83,10 +84,8 @@
                   </div>
 
                   <div class="form-group">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember-me">
-                      <label class="custom-control-label" for="remember-me">Remember Me</label>
-                    </div>
+                    <a href="lupa-password">Lupa Password ?</a>
+                    
                   </div>
 
                   <div class="form-group">

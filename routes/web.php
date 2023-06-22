@@ -48,6 +48,12 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
     //Login
     Auth::routes();
 
+    Route::get('lupa-password', function () {
+        return view('auth.passwords.reset',[
+            'title' => 'Lupa Password'
+        ]);
+    });
+
     Route::middleware('auth')->group(function () {
         //Dashboard
         Route::middleware(['role:super-admin|bagian-akademik|admin-jurusan|koor-pkl'])->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

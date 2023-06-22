@@ -15,7 +15,7 @@
         <title>{{ $title ?? config('app.name') }}</title>
   @endif
   
-  <link rel="shortcut icon" href="{{ asset('template/assets/img/favicon.png')}}">
+  <link rel="shortcut icon" href="{{ asset('template/assets/img/logoPOLSUB.png')}}">
   <link rel="stylesheet" href="{{ asset('template/assets/css/plugins.css')}}">
   <link rel="stylesheet" href="{{ asset('template/assets/css/style.css')}}">
   <link rel="stylesheet" href="{{ asset('template/assets/css/colors/aqua.css')}}">

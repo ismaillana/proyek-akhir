@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
   <!-- CSS Libraries -->
+  <link rel="shortcut icon" href="{{asset('/assets/img/logoPOLSUB.png')}}">
   <link rel="stylesheet" href="{{asset('/node_modules/jqvmap/dist/jqvmap.min.css')}}">
   <link rel="stylesheet" href="{{asset('/node_modules/weathericons/css/weather-icons.min.css')}}">
   <link rel="stylesheet" href="{{asset('/node_modules/weathericons/css/weather-icons-wind.min.css')}}">
