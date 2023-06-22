@@ -101,20 +101,20 @@
                   <tr>
                         <td style="width:20%"><p>Nomor</p></td>
                         <td style="width:2%"><p>:</p></td>
-                        <td style="width:58%"><p>723234328</p></td>
-                        <td style="width:20%" class="right"><p>{{ $currentDate }}</p></td>
+                        <td style="width:48%"><p>{{@$verifikasiIjazah->no_surat}}</p></td>
+                        <td style="width:30%" class="right"><p>{{ $currentDate }}</p></td>
                   </tr>
                   <tr>
                         <td style="width:20%"><p>Lapiran</p></td>
                         <td style="width:2%"><p>:</p></td>
-                        <td style="width:58%"><p>-</p></td>
-                        <td style="width:20%"></td>
+                        <td style="width:48%"><p>-</p></td>
+                        <td style="width:30%"></td>
                   </tr>
                   <tr>
                         <td style="width:20%"><p>Perihal</p></td>
                         <td style="width:2%"><p>:</p></td>
-                        <td style="width:58%"><p>Keabsahan Ijazah</p></td>
-                        <td style="width:20%"></td>
+                        <td style="width:48%"><p>Keabsahan Ijazah</p></td>
+                        <td style="width:30%"></td>
                   </tr>
                   <br>
                   <tr>
@@ -129,8 +129,9 @@
                   <br>
                   <tr align="justify">
                         <td colspan="4">
-                              <p>Berdasarkan surat dari {{@$verifikasiIjazah->instansi->nama_perusahaan}} pada tanggal 14 Juli
-                              2022 perihal permohonan verifikasi ijazah untuk mahasiswa yang bekerja di Rumah Sakit
+                              <p>Berdasarkan surat dari {{@$verifikasiIjazah->instansi->nama_perusahaan}} 
+                              pada tanggal {{ Carbon\Carbon::parse($verifikasiIjazah->created_at)->translatedFormat('d F Y') }} 
+                              perihal permohonan verifikasi ijazah untuk mahasiswa yang bekerja di Rumah Sakit
                               tersebut.</p>
                         </td>
                   </tr>

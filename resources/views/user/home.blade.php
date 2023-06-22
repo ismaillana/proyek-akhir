@@ -49,7 +49,7 @@
 
 <section class="wrapper bg-light">
   <div class="container pt-19 pt-md-21 pb-16 pb-md-18">
-    <div class="row">
+    {{-- <div class="row">
       <div class="col-lg-8 col-xl-7 col-xxl-6">
         <h2 class="fs-16 text-uppercase text-line text-primary mb-3">
           What We Do?
@@ -59,9 +59,9 @@
           The service we offer is specifically designed to meet your needs.
         </h3>
       </div>
-    </div>
+    </div> --}}
 
-    <div class="row gx-md-8 gy-8 mb-14 mb-md-18">
+    {{-- <div class="row gx-md-8 gy-8 mb-14 mb-md-18">
       <div class="col-md-6 col-lg-3">
         <div class="icon btn btn-block btn-lg btn-soft-primary disabled mb-6">
           <i class="uil uil-phone-volume"></i>
@@ -133,7 +133,7 @@
           Learn More
         </a>
       </div>
-    </div>
+    </div> --}}
 
     <div class="row gy-10 gy-sm-13 gx-lg-3 mb-16 mb-md-18 align-items-center">
       <div class="col-md-8 col-lg-6 position-relative">
@@ -143,15 +143,15 @@
       </div>
 
       <div class="col-lg-5 col-xl-4 offset-lg-1">
-        <h2 class="fs-16 text-uppercase text-line text-primary mb-3">How It Works?</h2>
-        <h3 class="display-4 mb-7">Here are the 3 working steps on success.</h3>
+        <h2 class="fs-16 text-uppercase text-line text-primary mb-3">Mau Melakukan Pengajuan?</h2>
+        <h3 class="display-4 mb-7">Berikut Langkah Melakukan Pengajuan.</h3>
         <div class="d-flex flex-row mb-6">
           <div>
             <span class="icon btn btn-block btn-soft-primary disabled me-5"><span class="number fs-18">1</span></span>
           </div>
           <div>
-            <h4 class="mb-1">Collect Ideas</h4>
-            <p class="mb-0">Nulla vitae elit libero pharetra augue dapibus. Praesent commodo cursus.</p>
+            <h4 class="mb-1">Menyiapkan Berkas/Data</h4>
+            <p class="mb-0">Siapkan data dan berkas pengajuan sebelum melakukan pengajuan</p>
           </div>
         </div>
         <div class="d-flex flex-row mb-6">
@@ -159,8 +159,8 @@
             <span class="icon btn btn-block btn-soft-primary disabled me-5"><span class="number fs-18">2</span></span>
           </div>
           <div>
-            <h4 class="mb-1">Data Analysis</h4>
-            <p class="mb-0">Vivamus sagittis lacus vel augue laoreet. Etiam porta sem malesuada magna.</p>
+            <h4 class="mb-1">Cek Data</h4>
+            <p class="mb-0">Ketika mengisi data pengajuan pastikan data yang diinputkan sudah benar dan sesuai</p>
           </div>
         </div>
         <div class="d-flex flex-row">
@@ -168,14 +168,14 @@
             <span class="icon btn btn-block btn-soft-primary disabled me-5"><span class="number fs-18">3</span></span>
           </div>
           <div>
-            <h4 class="mb-1">Finalize Product</h4>
-            <p class="mb-0">Cras mattis consectetur purus sit amet. Aenean lacinia bibendum nulla sed.</p>
+            <h4 class="mb-1">Progres pengajuan</h4>
+            <p class="mb-0">Cek progres pengajuan melalui halaman riwayat->tracking. Atau tanya</p>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="row gy-10 gy-sm-13 gx-lg-3 align-items-center">
+    {{-- <div class="row gy-10 gy-sm-13 gx-lg-3 align-items-center">
       <div class="col-md-8 col-lg-6 offset-lg-1 order-lg-2 position-relative">
         <div class="shape rounded-circle bg-line primary rellax w-18 h-18" data-rellax-speed="1" style="top: -2rem; right: -1.9rem;"></div>
         <div class="shape rounded bg-soft-primary rellax d-md-block" data-rellax-speed="0" style="bottom: -1.8rem; left: -1.5rem; width: 85%; height: 90%; "></div>
@@ -224,11 +224,11 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> --}}
   </div>
 </section>
 
-<section class="wrapper image-wrapper bg-image bg-overlay" data-image-src="{{ asset('template/assets/img/photos/bg1.jpg')}}">
+{{-- <section class="wrapper image-wrapper bg-image bg-overlay" data-image-src="{{ asset('template/assets/img/photos/bg1.jpg')}}">
   <div class="container py-18">
     <div class="row">
       <div class="col-lg-8">
@@ -515,5 +515,5 @@
       </div>
     </div>
   </div>
-</section>
+</section> --}}
 @endsection

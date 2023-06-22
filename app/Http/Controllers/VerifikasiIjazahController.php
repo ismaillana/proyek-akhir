@@ -10,6 +10,7 @@ use App\Models\Pengajuan;
 use App\Http\Requests\VerifikasiIjazahRequest;
 use App\Http\Requests\KonfirmasiRequest;
 use App\Exports\VerifikasiIjazahExport;
+use App\Services\WhatsappGatewayService;
 use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Support\Facades\Storage;
@@ -115,6 +116,10 @@ class VerifikasiIjazahController extends Controller
      */
     public function konfirmasi(Request $request, string $id)
     {
+        $pengajuan = Pengajuan::where('id',$id)->first();
+        
+        $waGateway = $pengajuan->instansi->user->wa; //get no wa
+
         $data = [
             'status'  =>  'Konfirmasi'
         ];
@@ -126,6 +131,12 @@ class VerifikasiIjazahController extends Controller
             'status'        => 'Dikonfirmasi',
             'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
         ]);
+
+        WhatsappGatewayService::sendMessage($waGateway, 
+        'Hay!' . PHP_EOL .
+                PHP_EOL .
+                'Pengajuan Kamu Berhasil! ',
+        ); //->Kirim Chat
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }

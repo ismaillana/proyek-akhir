@@ -1,5 +1,5 @@
 <footer class="bg-dark text-inverse">
-  <div class="container pt-17 pt-md-19 pb-13 pb-md-15">
+  <div class="container pt-15 md-19 md-15 pb-5">
     <div class="row gy-6 gy-lg-0">
       <div class="col-md-4 col-lg-3">
         <div class="widget">
@@ -35,8 +35,8 @@
       <div class="col-md-12 col-lg-3">
         <div class="widget">
           <h4 class="widget-title text-white mb-3">Alamat</h4>
-          <p class="mb-5">Kampus 1: Belakang RSUD, Jl. Brigjen Katamso No.37, Dangdeur, Kec. Subang, Kabupaten Subang, Jawa Barat 41211.</p>
-          <p class="mb-5">Kampus 2: Blok Kaleng Banteng Desa Cibogo, Subang.</p>
+          <p class="mb-2">Kampus 1: Belakang RSUD, Jl. Brigjen Katamso No.37, Dangdeur, Kec. Subang, Kabupaten Subang, Jawa Barat 41211.</p>
+          <p>Kampus 2: Blok Kaleng Banteng Desa Cibogo, Subang.</p>
         </div>
       </div>
     </div>

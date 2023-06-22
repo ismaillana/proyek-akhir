@@ -281,15 +281,25 @@ class IzinPenelitianController extends Controller
     /**
      * Display the specified resource.
      */
-    public function print(){
+    public function print($id)
+    {
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+        
+        $izinPenelitian = Pengajuan::find($id);
         $now   = Carbon::now()->locale('id');
-        $data = [
-            'currentDate' => $now->translatedFormat('l, d F Y'), // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
+        $currentDate = $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
             // Mendapatkan tanggal saat ini dengan nama hari
-        ];
+        
         //mengambil data dan tampilan dari halaman laporan_pdf
         //data di bawah ini bisa kalian ganti nantinya dengan data dari database
-        $data = PDF::loadview('admin.pengajuan.izin-penelitian.print', $data);
+        $data = PDF::loadview('admin.pengajuan.izin-penelitian.print', [
+            'currentDate' => $currentDate,
+            'izinPenelitian'=> $izinPenelitian
+        ]);
         //mendownload laporan.pdf
     	return $data->stream('Surat-izin-penelitian.pdf');
     }

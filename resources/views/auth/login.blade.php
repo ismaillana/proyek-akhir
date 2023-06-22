@@ -84,7 +84,7 @@
                   </div>
 
                   <div class="form-group">
-                    <a href="lupa-password">Lupa Password ?</a>
+                    Lupa Password ? <a href="https://api.whatsapp.com/send?phone=083804046583">Hubungi Admin!</a>
                     
                   </div>
 

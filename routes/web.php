@@ -23,6 +23,7 @@ use App\Http\Controllers\PengantarPklController;
 use App\Http\Controllers\BagianAkademikController;
 use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\ProfilController;
+use App\Services\WhatsappGatewayService;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +36,9 @@ use App\Http\Controllers\ProfilController;
 |
 */
 
-
+// Route::get('whatsapp-gateway/{wa}', function ($wa) {
+//     WhatsappGatewayService::sendMessage($wa, );
+// });
 //Prevent-Back
 Route::group(['middleware' => 'prevent-back-history'],function(){
     
@@ -100,7 +103,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::get('riwayat-pengajuan-aktif-kuliah', [AktifKuliahController::class, 'riwayat'])->name('riwayat-pengajuan-aktif-kuliah');
                 Route::get('riwayat-pengajuan-aktif-kuliah-detail/{id}', [AktifKuliahController::class, 'showRiwayat'])->name('riwayat-pengajuan-aktif-kuliah-detail');
                 Route::get('export-aktif-kuliah', [AktifKuliahController::class, 'export'])->name('export-aktif-kuliah');
-                Route::get('print-aktif-kuliah', [AktifKuliahController::class, 'print'])->name('print-aktif-kuliah');
+                Route::get('print-aktif-kuliah/{id}', [AktifKuliahController::class, 'print'])->name('print-aktif-kuliah');
                 Route::post('update-surat-aktif-kuliah/{id}', [AktifKuliahController::class, 'updateNoSurat'])->name('update-surat-aktif-kuliah');
 
                 //Izin Penelitian
@@ -111,7 +114,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::get('riwayat-pengajuan-izin-penelitian', [IzinPenelitianController::class, 'riwayat'])->name('riwayat-pengajuan-izin-penelitian');
                 Route::get('riwayat-pengajuan-izin-penelitian-detail/{id}', [IzinPenelitianController::class, 'showRiwayat'])->name('riwayat-pengajuan-izin-penelitian-detail');
                 Route::get('export-izin-penelitian', [IzinPenelitianController::class, 'export'])->name('export-izin-penelitian');
-                Route::get('print-izin-penelitian', [IzinPenelitianController::class, 'print'])->name('print-izin-penelitian');
+                Route::get('print-izin-penelitian/{id}', [IzinPenelitianController::class, 'print'])->name('print-izin-penelitian');
                 Route::post('update-surat-izin-penelitian/{id}', [IzinPenelitianController::class, 'updateNoSurat'])->name('update-surat-izin-penelitian');
 
                 //Verifikasi Ijazah
@@ -142,7 +145,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::get('riwayat-pengajuan-dispensasi', [DispensasiController::class, 'riwayat'])->name('riwayat-pengajuan-dispensasi');
                 Route::get('riwayat-pengajuan-dispensasi-detail/{id}', [DispensasiController::class, 'showRiwayat'])->name('riwayat-pengajuan-dispensasi-detail');
                 Route::get('export-dispensasi', [DispensasiController::class, 'export'])->name('export-dispensasi');
-                Route::get('print-dispensasi', [DispensasiController::class, 'print'])->name('print-dispensasi');
+                Route::get('print-dispensasi/{id}', [DispensasiController::class, 'print'])->name('print-dispensasi');
                 Route::post('update-surat-dispensasi/{id}', [DispensasiController::class, 'updateNoSurat'])->name('update-surat-dispensasi');
 
                 //Pengantar PKL

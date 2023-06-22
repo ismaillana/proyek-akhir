@@ -117,7 +117,7 @@ class BagianAkademikController extends Controller
         $data = [
             'name'        => $request->name,
             'wa'          => 62 . $request->wa,
-            // 'password'    => Hash::make($request->nomor_induk)
+            'password'    => Hash::make($request->nomor_induk)
         ];
 
         $image = User::saveImage($request);

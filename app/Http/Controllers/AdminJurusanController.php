@@ -127,6 +127,7 @@ class AdminJurusanController extends Controller
             'name'        => $request->name,
             'wa'          => 62 . $request->wa,
             'jurusan_id'        => $request->jurusan_id,
+            'password'    => Hash::make($request->nomor_induk)
         ];
 
         $image = User::saveImage($request);

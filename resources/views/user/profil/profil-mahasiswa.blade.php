@@ -4,7 +4,7 @@
   
   <!-- /section -->
   <section class="wrapper bg-light">
-    <div class="container py-14 pt-lg-4 pb-lg-8">
+    <div class="container py-14 lg-4 pb-lg-15">
       <div class="row gx-lg-8 gx-xl-0 gy-10 align-items-center">
         <div class="col-md-8 col-lg-6 position-relative">
             <div class="shape bg-dot primary rellax w-17 h-21" data-rellax-speed="1" style="top: -2rem; left: -1.9rem;"></div>

@@ -184,6 +184,11 @@
               });
           @endif ()
       });
+
+    document.getElementById('wa').addEventListener('input', function(evt) {
+        var input = evt.target;
+        input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+    });
   </script>
 </body>
 </html>

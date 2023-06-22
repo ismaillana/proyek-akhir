@@ -3,9 +3,9 @@
     <div class="container flex-lg-row flex-nowrap align-items-center">
       <div class="navbar-brand w-100">
         <a href="./index.html">
-          <img class="logo-dark" src="{{ asset('template/assets/img/logoPOLSUB.png')}}" srcset="{{ asset('template/assets/img/logoPOLSUB.png 2x')}}" alt="" width="20%" />
+          <img class="logo-dark" src="{{ asset('template/assets/img/logoPOLSUB.png')}}" srcset="{{ asset('template/assets/img/logoPOLSUB.png 2x')}}" alt="" width="15%" />
           SIPAM
-          <img class="logo-light" src="{{ asset('template/assets/img/logoPOLSUB.png')}}" srcset="{{ asset('template/assets/img/logoPOLSUB.png 2x')}}" alt="" width="20%" />
+          <img class="logo-light" src="{{ asset('template/assets/img/logoPOLSUB.png')}}" srcset="{{ asset('template/assets/img/logoPOLSUB.png 2x')}}" alt="" width="15%" />
           SIPAM
         </a>
       </div>

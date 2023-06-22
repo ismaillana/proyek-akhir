@@ -169,7 +169,7 @@
                                         </button>
                                     </div>
 
-                                    <a href="{{ route('print-verifikasi-ijazah') }}" class="btn btn-warning btn-icon icon-left">
+                                    <a href="{{ route('print-verifikasi-ijazah', Crypt::encryptString($verifikasiIjazah->id)) }}" class="btn btn-warning btn-icon icon-left">
                                         <i class="fas fa-print"></i> 
                                             Print
                                     </a>
