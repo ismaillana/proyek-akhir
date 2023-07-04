@@ -62,7 +62,7 @@
                                 </label>
 
                                 <div class="col-sm-12 col-md-7">
-                                    <input type="number" class="form-control @error('nomor_induk')is-invalid @enderror"
+                                    <input type="text" class="form-control @error('nomor_induk')is-invalid @enderror"
                                         id="nomor_induk" name="nomor_induk" placeholder="Masukkan NIP" 
                                         value="{{ old('nomor_induk', @$bagianAkademik->nomor_induk) }}">
 
@@ -100,7 +100,7 @@
                                             +62
                                         </div>
 
-                                        <input type="number" class="form-control @error('wa') is-invalid @enderror"
+                                        <input type="text" class="form-control @error('wa') is-invalid @enderror"
                                             id="wa" name="wa" placeholder="Masukan Nomer Whatsapp "
                                             value="{{ old('wa', Str::substr(@$bagianAkademik->wa, 2)) }}">
                                     </div>
@@ -177,5 +177,15 @@
                 }
             });
         }
+
+        document.getElementById('wa').addEventListener('input', function(evt) {
+            var input = evt.target;
+            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+        });
+
+        document.getElementById('nomor_induk').addEventListener('input', function(evt) {
+            var input = evt.target;
+            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+        });
 </script>
 @endsection

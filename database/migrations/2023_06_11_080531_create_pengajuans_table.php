@@ -50,6 +50,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('no_surat')->nullable();
             $table->text('catatan')->nullable();
+            $table->string('tanggal_surat')->nullable();
             $table->ENUM('status', ['Menunggu Konfirmasi', 'Konfirmasi', 
             'Proses', 'Kendala', 'Tolak', 'Selesai', 
             'Diterima Perusahaan', 'Ditolak Perusahaan', 'Review', 'Setuju'])

@@ -117,7 +117,7 @@
                 console.log(url);
                 swal({
                         title: "Apakah anda yakin?",
-                        text: "Setelah dihapus, Anda tidak dapat memulihkan Tag ini lagi!",
+                        text: "Setelah dihapus, Anda tidak dapat memulihkan Data ini lagi!",
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,
@@ -128,9 +128,6 @@
                                 type: "DELETE",
                                 url: url,
                                 dataType: 'json',
-                                // if () {
-                                    
-                                // }
                                 success: function(response) {
                                     swal(response.status, {
                                             icon: "success",
@@ -139,8 +136,6 @@
                                             location.reload();
                                         });
                                 }
-
-
                             });
                         }
                     })

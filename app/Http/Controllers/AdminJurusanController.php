@@ -53,13 +53,21 @@ class AdminJurusanController extends Controller
         DB::beginTransaction();
 
         try {
+            $nomorWa = $request->input('wa');
+            
+            if (substr($nomorWa, 0, 1) === '0') {
+                $wa = '62' . substr($nomorWa, 1);
+            } else {
+                $wa = 62 . $nomorWa;
+            }
+            
             $image = User::saveImage($request);
 
             $user = User::create([
                 'name'        => $request->name,
                 'nomor_induk' => $request->nomor_induk,
                 'email'       => $request->email,
-                'wa'          => 62 . $request->wa,
+                'wa'          => $wa,
                 'jurusan_id'  => $request->jurusan_id,
                 'password'    => Hash::make($request->nomor_induk),
                 'image'       => $image
@@ -121,13 +129,40 @@ class AdminJurusanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(AdminJurusanUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
+        $request->validate([
+            'name'              => 'required',
+            'email'             => 'required|email|unique:users,email,' . $id,
+            'nomor_induk'       => 'required|unique:users,nomor_induk,' .$id,
+            'wa'                => 'required',
+            'jurusan_id'        => 'required',
+        ], [
+            'name.required'         => 'Nama Admin Wajib Diisi',
+            'email.required'        => 'Email Wajib Diisi',
+            'email.email'           => 'Format Email Harus Sesuai',
+            'nomor_induk.required'  => 'NIP Wajib Diisi',
+            'nomor_induk.unique'    => 'NIP Sudah Ada',
+            'wa.required'           => 'No WhatsApp Wajib Diisi',
+            'jurusan_id.required'   => 'Jurusan Wajib Diisi',
+            'email.unique'          => 'Email Sudah Digunakan'
+        ]);
+
+        $nomorWa = $request->input('wa');
+            
+        if (substr($nomorWa, 0, 1) === '0') {
+            $wa = '62' . substr($nomorWa, 1);
+        } else {
+            $wa = 62 . $nomorWa;
+        }
+
         $data = [
             'name'        => $request->name,
-            'wa'          => 62 . $request->wa,
-            'jurusan_id'        => $request->jurusan_id,
-            'password'    => Hash::make($request->nomor_induk)
+            'nomor_induk' => $request->nomor_induk,
+            'email'       => $request->email,
+            'wa'          => $wa,
+            'jurusan_id'  => $request->jurusan_id,
+            'password'    => Hash::make($request->nomor_induk),
         ];
 
         $image = User::saveImage($request);

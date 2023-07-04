@@ -102,7 +102,7 @@
                         <td style="width:20%"><p>Nomor</p></td>
                         <td style="width:2%"><p>:</p></td>
                         <td style="width:48%"><p>{{@$verifikasiIjazah->no_surat}}</p></td>
-                        <td style="width:30%" class="right"><p>{{ $currentDate }}</p></td>
+                        <td style="width:30%" class="right"><p>{{ @$verifikasiIjazah->tanggal_surat }}</p></td>
                   </tr>
                   <tr>
                         <td style="width:20%"><p>Lapiran</p></td>

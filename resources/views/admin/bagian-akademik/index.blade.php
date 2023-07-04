@@ -40,6 +40,10 @@
                             NIP
                         </th>
 
+                        <th>
+                            Email
+                        </th>
+
                         <th class="text-center">
                             Aksi
                         </th>
@@ -58,6 +62,10 @@
 
                                 <td>
                                     {{ $item->nomor_induk}}
+                                </td>
+
+                                <td>
+                                    {{ $item->email}}
                                 </td>
 
                                 <td class="text-center">
@@ -111,7 +119,7 @@
                 console.log(url);
                 swal({
                         title: "Apakah anda yakin?",
-                        text: "Setelah dihapus, Anda tidak dapat memulihkan Tag ini lagi!",
+                        text: "Setelah dihapus, Anda tidak dapat memulihkan Data ini lagi!",
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,

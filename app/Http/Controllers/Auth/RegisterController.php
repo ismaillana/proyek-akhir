@@ -54,17 +54,45 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function register(RegisterRequest $request)
+    protected function register(Request $request)
     {
+        $request->validate([
+            'name'              => 'required',
+            'email'             => 'required|email|unique:users,email',
+            'wa'                => 'required|numeric',
+            'alamat'            => 'required',
+            'password'          => 'required|min:3',
+            'password_confirmation' => 'required|min:3|same:password'
+        ], [
+            'name.required'         => 'Nama Instansi Wajib Diisi',
+            'email.required'        => 'Email Wajib Diisi',
+            'email.email'           => 'Format Email Harus Sesuai',
+            'wa.required'           => 'No WhatsApp Wajib Diisi',
+            'alamat.required'       => 'Alamat Wajib Diisi',
+            'email.unique'          => 'Email Sudah Digunakan',
+            'wa.numeric'            => 'No WhatsApp Harus Berupa Angka',
+            'password.required'     => 'Password Wajib Diisi',
+            'password.min'          => 'Password minimal 3 huruf/angka',
+            'password_confirmation.required'=> 'Konfirmasi Password Wajib Diisi',
+            'password_confirmation.min'     => 'Konfirmasi Password minimal 3 huruf/angka',
+            'password_confirmation.same'    => 'Data Password dan Konfirmasi Password Harus Sama',
+        ]);
 
         DB::beginTransaction();
 
         try {
+            $nomorWa = $request->input('wa');
+            
+            if (substr($nomorWa, 0, 1) === '0') {
+                $wa = '62' . substr($nomorWa, 1);
+            } else {
+                $wa = 62 . $nomorWa;
+            }
 
             $user = User::create([
                 'name'        => $request->name,
                 'email'       => $request->email,
-                'wa'          => 62 . $request->wa,
+                'wa'          => $wa,
                 'password'    => Hash::make($request->password)
             ]);
 

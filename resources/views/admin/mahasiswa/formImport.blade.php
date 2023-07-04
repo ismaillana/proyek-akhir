@@ -81,7 +81,13 @@
 
                             <div class="form-group row mb-4">
                                 <div class="col-sm-12 col-md-7 offset-md-3">
-                                    <button class="btn btn-primary">Import</button>
+                                    <button type="submit" class="btn btn-primary" id="btnSubmit">
+                                        Import
+                                        <span class="spinner-border ml-2 d-none" id="loader"
+                                            style="width: 1rem; height: 1rem;" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -92,4 +98,41 @@
         </form>
     </section>
 </div>
+@endsection
+
+@section('script')
+<script>
+        $('#myForm').submit(function(e) {
+            let form = this;
+            e.preventDefault();
+
+            confirmSubmit(form);
+        });
+        // Form
+        function confirmSubmit(form, buttonId) {
+            Swal.fire({
+                icon: 'question',
+                text: 'Apakah anda yakin ingin menyimpan data ini ?',
+                showCancelButton: true,
+                buttonsStyling: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Simpan',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let button = 'btnSubmit';
+
+                    if (buttonId) {
+                        button = buttonId;
+                    }
+
+                    $('#' + button).attr('disabled', 'disabled');
+                    $('#loader').removeClass('d-none');
+
+                    form.submit();
+                }
+            });
+        }
+</script>
 @endsection

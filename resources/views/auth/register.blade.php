@@ -35,10 +35,20 @@
                     <i class="fas fa-arrow-left"></i></a>
                 </div>  
                 
-                <h4>Form Registrasi</h4>
+                <h4>
+                  Form Registrasi
+                </h4>
               </div>
 
               <div class="card-body">
+                <div class="alert alert-light alert-has-icon">
+                  <div class="alert-icon"><i class="far fa-lightbulb"></i></div>
+                  <div class="alert-body">
+                    <div class="alert-title">Informasi</div>
+                    Untuk Mahasiswa dan Alumni yang belum memiliki akun dapat menghubungi <a href="https://api.whatsapp.com/send?phone=083804046583">Admin.</a> Terima Kasih!
+                  </div>
+                </div>
+
                 <form method="POST" action="{{ route('register') }}">
                   @csrf
                   <div class="row">
@@ -62,7 +72,7 @@
                               +62
                             </div>
                             
-                            <input id="wa" type="text" class="form-control @error('wa') is-invalid @enderror" name="wa" value="{{ old('wa') }}" 
+                            <input id="wa" type="text" class="form-control @error('wa') is-invalid @enderror" name="wa" value="{{ old('wa',) }}" 
                               autocomplete="wa" autofocus placeholder="Masukan No WhatsApp">
                             @error('wa')
                                 <span class="invalid-feedback" role="alert">
@@ -91,7 +101,7 @@
                               autocomplete="email" placeholder="Masukan Email">
 
                             @error('email')
-                                <span class="invalid-feedback" role="alert">
+                                <span class="invalid-feedback" >
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror

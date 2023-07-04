@@ -14,7 +14,8 @@ class TempatPKLController extends Controller
      */
     public function index()
     {
-        $tempatPKL = TempatPkl::all();
+        $tempatPKL = TempatPkl::latest()
+            ->get();
 
         return view ('admin.tempat-pkl.index',[
             'tempatPKL' => $tempatPKL,

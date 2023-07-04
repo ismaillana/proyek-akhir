@@ -52,10 +52,18 @@ class InstansiController extends Controller
         DB::beginTransaction();
 
         try {
+            $nomorWa = $request->input('wa');
+            
+            if (substr($nomorWa, 0, 1) === '0') {
+                $wa = '62' . substr($nomorWa, 1);
+            } else {
+                $wa = 62 . $nomorWa;
+            }
+            
             $user = User::create([
                 'name'        => $request->name,
                 'email'       => $request->email,
-                'wa'          => 62 . $request->wa,
+                'wa'          => $wa,
                 'password'    => Hash::make('123456')
             ]);
 
@@ -125,6 +133,14 @@ class InstansiController extends Controller
      */
     public function update(InstansiUpdateRequest $request, Instansi $instansi)
     {
+        $nomorWa = $request->input('wa');
+            
+        if (substr($nomorWa, 0, 1) === '0') {
+            $wa = '62' . substr($nomorWa, 1);
+        } else {
+            $wa = 62 . $nomorWa;
+        }
+
         $data = [
             'nama_perusahaan'   => $request->name,
             'alamat'            => $request->alamat,
@@ -144,11 +160,11 @@ class InstansiController extends Controller
         }
 
         Instansi::where('id', $instansi->id)->update($data);
-
+        
         User::whereId($instansi->user_id)->update([
             'name'        => $request->name,
             'email'       => $request->email,
-            'wa'          => 62 . $request->wa,
+            'wa'          => $wa,
             'password'    => Hash::make($request->nomor_induk)
         ]);
 

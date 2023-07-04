@@ -88,7 +88,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
             function () {
                 //Mahasiswa
                 Route::resource('mahasiswa', MahasiswaController::class);
-                Route::post('update-status/{$mahasiswa}', [MahasiswaController::class, 'updateStatus'])->name('update-status');
+                Route::post('update-status', [MahasiswaController::class, 'updateStatus'])->name('update-status');
                 //Instansi
                 Route::resource('instansi', InstansiController::class);
                 //koor-pkl

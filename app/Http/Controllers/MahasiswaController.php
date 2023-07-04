@@ -38,23 +38,6 @@ class MahasiswaController extends Controller
             'status'            => $request->status,
         ];
         
-        
-        if ($request->angkatan) {        
-            $mahasiswa = Mahasiswa::where('angkatan', $request->angkatan)
-            ->update([
-                'status'            => 'Alumni',
-            ]);
-
-           $data = Mahasiswa::where('angkatan', $request->angkatan)->get();
-            foreach ($data as $item) {
-                $user = User::where('id', $item->user_id)->get();
-                foreach ($user as $user) {
-                    $user->syncRoles('alumni');
-                }
-            }
-            return redirect()->back()->with('success', 'Status Berhasil Diubah');
-        }
-        
         $mahasiswa = Mahasiswa::filter($param)
             ->latest()
             ->get();
@@ -135,12 +118,19 @@ class MahasiswaController extends Controller
         DB::beginTransaction();
 
         try {
+            $nomorWa = $request->input('wa');
+            
+            if (substr($nomorWa, 0, 1) === '0') {
+                $wa = '62' . substr($nomorWa, 1);
+            } else {
+                $wa = 62 . $nomorWa;
+            }
 
             $user = User::create([
                 'name'        => $request->name,
                 'nomor_induk' => $request->nomor_induk,
                 'email'       => $request->email,
-                'wa'          => 62 . $request->wa,
+                'wa'          => $wa,
                 'password'    => Hash::make($request->nomor_induk)
             ]);
 
@@ -231,6 +221,14 @@ class MahasiswaController extends Controller
      */
     public function update(MahasiswaUpdateRequest $request, Mahasiswa $mahasiswa)
     {
+        $nomorWa = $request->input('wa');
+            
+        if (substr($nomorWa, 0, 1) === '0') {
+            $wa = '62' . substr($nomorWa, 1);
+        } else {
+            $wa = 62 . $nomorWa;
+        }
+
         $data = [
             'nim'               => $request->nomor_induk,
             'angkatan'          => $request->angkatan,
@@ -244,9 +242,9 @@ class MahasiswaController extends Controller
             'nip_nrp'       => $request->nip_nrp,
             'pangkat'       => $request->pangkat,
             'jabatan'       => $request->jabatan,
-            'golongan'       => $request->golongan,
+            'golongan'      => $request->golongan,
             'instansi'      => $request->instansi,
-            'status'            => $request->status,
+            'status'        => $request->status,
         ];
         
         $image = Mahasiswa::saveImage($request);
@@ -268,7 +266,7 @@ class MahasiswaController extends Controller
             'name'        => $request->name,
             'nomor_induk' => $request->nomor_induk,
             'email'       => $request->email,
-            'wa'          => 62 . $request->wa,
+            'wa'          => $wa,
             'password'    => Hash::make($request->nomor_induk)
         ]);
 
@@ -278,16 +276,40 @@ class MahasiswaController extends Controller
         }else {
             $user->syncRoles('mahasiswa');
         }
-        
 
         return redirect()->route('mahasiswa.index')->with('success', 'Data Berhasil Diubah');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Update the specified resource in storage.
      */
-    public function destroy(string $id)
+    public function updateStatus(Request $request)
     {
+        $request->validate([
+            'angkatan'              => 'required',
+        ], [
+            'angkatan.required'     => 'Angkatan Wajib Diisi',
+        ]);
+
+        $checkAngkatan = Mahasiswa::where('angkatan', $request->angkatan)->get();
+
+        if ($checkAngkatan->isEmpty()) {
+            return redirect()->back()->with('error', 'Status Gagal Diubah');
+        }
+
+        $mahasiswa = Mahasiswa::where('angkatan', $request->angkatan)
+        ->update([
+            'status'            => 'Alumni',
+        ]);
+
+        $data = Mahasiswa::where('angkatan', $request->angkatan)->get();
+        foreach ($data as $item) {
+            $user = User::where('id', $item->user_id)->get();
+            foreach ($user as $user) {
+                $user->syncRoles('alumni');
+            }
+        }
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
         
     }
 }

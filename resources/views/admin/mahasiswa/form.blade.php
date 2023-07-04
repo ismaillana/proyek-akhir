@@ -62,7 +62,7 @@
                                     </label>
 
                                     <div class="col-sm-12">
-                                        <input type="number" class="form-control @error('nomor_induk')is-invalid @enderror"
+                                        <input type="text" class="form-control @error('nomor_induk')is-invalid @enderror"
                                             id="nomor_induk" name="nomor_induk" placeholder="Masukkan NIM" 
                                             value="{{ old('nomor_induk', @$mahasiswa->user->nomor_induk) }}">
 
@@ -132,7 +132,7 @@
                                                 +62
                                             </div>
 
-                                            <input type="number" class="form-control @error('wa') is-invalid @enderror"
+                                            <input type="text" class="form-control @error('wa') is-invalid @enderror"
                                                 id="wa" name="wa" placeholder="Masukan Nomer Whatsapp "
                                                 value="{{ old('wa', Str::substr(@$mahasiswa->user->wa, 2)) }}">
                                         </div>
@@ -154,7 +154,7 @@
                                                 Tahun
                                             </div>
                                         
-                                            <input type="number" class="form-control @error('angkatan')is-invalid @enderror"
+                                            <input type="text" class="form-control @error('angkatan')is-invalid @enderror"
                                                 id="angkatan" name="angkatan" placeholder="Masukkan Angkatan" 
                                                 value="{{ old('angkatan', @$mahasiswa->angkatan )}}">
                                         </div>
@@ -236,7 +236,7 @@
                                                 Tahun
                                             </div>
                                         
-                                            <input type="number" class="form-control @error('tahun_ajaran')is-invalid @enderror"
+                                            <input type="text" class="form-control @error('tahun_ajaran')is-invalid @enderror"
                                                 id="tahun_ajaran" name="tahun_ajaran" placeholder="Masukkan Tahun Ajaran" 
                                                 value="{{ old('tahun_ajaran', @$mahasiswa->tahun_ajaran )}}">
                                         </div>
@@ -396,6 +396,9 @@
                                             <option value="Alumni"
                                                 {{ old('status', @$mahasiswa->status) == 'Alumni' ? 'selected' : '' }}>
                                                     Alumni</option>
+                                            <option value="Keluar"
+                                                {{ old('status', @$mahasiswa->status) == 'Keluar' ? 'selected' : '' }}>
+                                                    Keluar</option>
                                         </select>
 
                                         @if ($errors->has('status'))
@@ -462,5 +465,25 @@
             });
         }
 
+        document.getElementById('nomor_induk').addEventListener('input', function(evt) {
+            var input = evt.target;
+            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+        });
+        document.getElementById('wa').addEventListener('input', function(evt) {
+            var input = evt.target;
+            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+        });
+        document.getElementById('angkatan').addEventListener('input', function(evt) {
+            var input = evt.target;
+            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+        });
+        document.getElementById('nip_nrp').addEventListener('input', function(evt) {
+            var input = evt.target;
+            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+        });
+        document.getElementById('tahun_ajaran').addEventListener('input', function(evt) {
+            var input = evt.target;
+            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+        });
 </script>
 @endsection

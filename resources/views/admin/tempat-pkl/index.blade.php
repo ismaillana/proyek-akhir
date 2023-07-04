@@ -57,11 +57,11 @@
                                 </td>
                                 
                                 <td>
-                                    {{ $item->web}}
+                                    <a href="{{ $item->web}}">Kunjungi</a>
                                 </td>
 
                                 <td class="text-center">
-                                    <a href="{{ route('tempat-pkl.show', Crypt::encryptString($item->id)) }}"
+                                    {{-- <a href="{{ route('tempat-pkl.show', Crypt::encryptString($item->id)) }}"
                                         class="btn btn-sm btn-outline-secondary" title="Detail">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                             width="16" height="16" viewBox="0 0 24 24"
@@ -70,17 +70,22 @@
                                                 stroke-width="2"
                                                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
-                                    </a>
+                                    </a> --}}
 
                                     <a href="{{ route('tempat-pkl.edit', Crypt::encryptString($item->id)) }}" title="Edit" 
                                         class="btn btn-sm btn-outline-warning">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
-                                    
-                                    <button value="{{ route('tempat-pkl.destroy', $item->id) }}"
-                                        class="btn btn-sm btn-outline-danger delete" title="Hapus"> 
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    @php
+                                        $pengajuan = \App\Models\Pengajuan::where('tempat_pkl_id', $item->id)->exists();
+                                    @endphp
+
+                                    @if (!$pengajuan)
+                                        <button value="{{ route('tempat-pkl.destroy', $item->id) }}"
+                                            class="btn btn-sm btn-outline-danger delete" title="Hapus"> 
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

@@ -258,16 +258,22 @@ class VerifikasiIjazahController extends Controller
         } catch (DecryptException $e) {
             abort(404);
         }
+        // $checkAngkatan = Mahasiswa::where('angkatan', $request->angkatan)->get();
+
+        
 
         $verifikasiIjazah = Pengajuan::find($id);
-
-        $now   = Carbon::now()->locale('id');
-        $currentDate =  $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
-            // Mendapatkan tanggal saat ini dengan nama hari
+        // dd($verifikasiIjazah->tanggal_surat);
+        if ($verifikasiIjazah->tanggal_surat == null) {
+            $now   = Carbon::now()->locale('id');
+            $currentDate =  $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
+            
+            $verifikasiIjazah->update([
+                'tanggal_surat'            => $currentDate,
+            ]);
+        }
         //mengambil data dan tampilan dari halaman laporan_pdf
-        //data di bawah ini bisa kalian ganti nantinya dengan data dari database
         $data = PDF::loadview('admin.pengajuan.verifikasi-ijazah.print', [
-            'currentDate' => $currentDate,
             'verifikasiIjazah' => $verifikasiIjazah
         ]);
         //mendownload laporan.pdf

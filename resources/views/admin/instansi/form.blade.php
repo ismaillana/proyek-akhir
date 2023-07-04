@@ -84,7 +84,7 @@
                                             +62
                                         </div>
 
-                                        <input type="number" class="form-control @error('wa') is-invalid @enderror"
+                                        <input type="text" class="form-control @error('wa') is-invalid @enderror"
                                             id="wa" name="wa" placeholder="Masukan Nomer Whatsapp "
                                             value="{{ old('wa', Str::substr(@$instansi->user->wa, 2)) }}">
                                     </div>
@@ -177,5 +177,10 @@
                 }
             });
         }
+
+        document.getElementById('wa').addEventListener('input', function(evt) {
+            var input = evt.target;
+            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+        });
 </script>
 @endsection

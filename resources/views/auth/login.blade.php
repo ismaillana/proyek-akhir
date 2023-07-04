@@ -34,14 +34,16 @@
             </div>
 
             <div class="card card-primary">
-              
               <div class="card-header">
                 <div class="section-header-back">
                   <a href="/" class="btn btn-icon">
-                    <i class="fas fa-arrow-left"></i></a>
+                    <i class="fas fa-arrow-left"></i>
+                  </a>
                 </div>  
 
-                <h4>Form Login</h4>
+                <h4>
+                  Form Login
+                </h4>
               </div>
 
               <div class="card-body">
@@ -76,16 +78,16 @@
                         <span class="input-group-text">
                           <i id="password-toggle" class="fa fa-eye-slash" onclick="togglePassword()"></i>
                         </span>
-                      </div>
-
+                        
                         <div class="invalid-feedback">
                             <strong>Masukkan Password</strong>
                         </div>
+                      </div>
+
                   </div>
 
                   <div class="form-group">
                     Lupa Password ? <a href="https://api.whatsapp.com/send?phone=083804046583">Hubungi Admin!</a>
-                    
                   </div>
 
                   <div class="form-group">

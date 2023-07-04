@@ -46,9 +46,9 @@
                                 </label>
 
                                 <div class="col-sm-12 col-md-7">
-                                    <input type="number" class="form-control @error('nomor_induk')is-invalid @enderror"
+                                    <input type="text" class="form-control @error('nomor_induk')is-invalid @enderror"
                                         id="nomor_induk" name="nomor_induk" placeholder="Masukkan NIP" 
-                                        value="{{ old('nomor_induk', @$adminJurusan->nomor_induk) }}" disabled readonly>
+                                        value="{{ old('nomor_induk', @$adminJurusan->nomor_induk) }}">
 
                                     @if ($errors->has('nomor_induk'))
                                         <span class="text-danger">{{ $errors->first('nomor_induk') }}</span>
@@ -64,7 +64,7 @@
                                 <div class="col-sm-12 col-md-7">
                                     <input type="email" class="form-control @error('email')is-invalid @enderror"
                                         id="email" name="email" placeholder="Masukkan Email" 
-                                        value="{{ old('email', @$adminJurusan->email) }}" disabled readonly>
+                                        value="{{ old('email', @$adminJurusan->email) }}">
 
                                     @if ($errors->has('email'))
                                         <span class="text-danger">{{ $errors->first('email') }}</span>
@@ -84,7 +84,7 @@
                                             +62
                                         </div>
 
-                                        <input type="number" class="form-control @error('wa') is-invalid @enderror"
+                                        <input type="text" class="form-control @error('wa') is-invalid @enderror"
                                             id="wa" name="wa" placeholder="Masukan Nomer Whatsapp "
                                             value="{{ old('wa', Str::substr(@$adminJurusan->wa, 2)) }}">
                                     </div>
@@ -187,5 +187,15 @@
                 }
             });
         }
+
+        document.getElementById('wa').addEventListener('input', function(evt) {
+            var input = evt.target;
+            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+        });
+
+        document.getElementById('nomor_induk').addEventListener('input', function(evt) {
+            var input = evt.target;
+            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+        });
 </script>
 @endsection

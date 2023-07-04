@@ -119,7 +119,7 @@
                 console.log(url);
                 swal({
                         title: "Apakah anda yakin?",
-                        text: "Setelah dihapus, Anda tidak dapat memulihkan Tag ini lagi!",
+                        text: "Setelah dihapus, Anda tidak dapat memulihkan Data ini lagi!",
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,

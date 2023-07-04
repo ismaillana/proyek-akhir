@@ -62,15 +62,26 @@
                 </div>
               </div>
               <div class="card-body">
-                <form id="myValidation" class="forms-sample" enctype="multipart/form-data">
+                <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST" action="{{route('update-status')}}">
+                    @csrf
                     <div class="row align-items-center" style="margin-bottom: 10px;">
                         <div class="col-md-3 col-sm-12">
-                            <label for="angkatan" class="label-control">Ubah Status</label>
+                            <label for="angkatan" class="label-control">
+                                Ubah Status
+                            </label>
+
                             <input type="text" id="angkatan" name="angkatan" class="form-control @error('angkatan') is-invalid @enderror"
-                                placeholder="Masukan Angkatan" value="{{ old('angkatan', request('angkatan')) }}" required>
+                                placeholder="Masukan Angkatan" value="{{ old('angkatan', request('angkatan')) }}">
+
+                            @if ($errors->has('angkatan'))
+                                <span class="text-danger">
+                                    {{ $errors->first('angkatan') }}
+                                </span>
+                            @endif
                         </div>
 
-                        <div class="col-md-2 col-sm-12 d-flex mt-auto">
+                        <div class="col-md-3 col-sm-12">
+                            <label for="">&nbsp;</label>
                             <button id="btn-submit" type="submit"
                                 class="btn btn-success btn-block">Update</button>
                         </div>
@@ -135,8 +146,10 @@
                                 <td class="text-center">
                                     @if ($item->status == 'Mahasiswa Aktif')
                                         <span class="badge badge-success">Mahasiswa Aktif</span>
-                                    @else
+                                    @elseif ($item->status == 'Alumni')
                                         <span class="badge badge-warning">Alumni</span>
+                                    @else 
+                                        <span class="badge badge-danger">Keluar</span>
                                     @endif
                                 </td>
 
@@ -186,7 +199,7 @@
                 console.log(url);
                 swal({
                         title: "Apakah anda yakin?",
-                        text: "Setelah dihapus, Anda tidak dapat memulihkan Tag ini lagi!",
+                        text: "Setelah dihapus, Anda tidak dapat memulihkan Data ini lagi!",
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,
@@ -209,6 +222,11 @@
                         }
                     })
             });
+        });
+
+        document.getElementById('angkatan').addEventListener('input', function(evt) {
+            var input = evt.target;
+            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
         });
     </script>
 @endsection

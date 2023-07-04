@@ -23,7 +23,7 @@ class ProfilRequest extends FormRequest
     {
         $rules = [
             'name'              => 'required',
-            'email'             => 'required|email',
+            'email'             => 'required|email|unique:users,email,'  . $this->id,
             'wa'                => 'required|numeric',
         ];
         return $rules;
@@ -37,6 +37,7 @@ class ProfilRequest extends FormRequest
             'email.email'           => 'Format Email Harus Sesuai',
             'wa.required'           => 'No WhatsApp Wajib Diisi',
             'wa.numeric'            => 'No WhatsApp Harus Berupa Angka',
+            'email.unique'          => 'Email Sudah Digunakan'
         ];
     }
 }

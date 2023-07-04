@@ -198,21 +198,22 @@
               <a href="{{route('dashboard')}}" class="nav-link"><i class="fas fa-home"></i>
                   <span>Dashboard</span></a>
             </li>
+          <li class="menu-header">Master Data</li>
+            <li class="{{ request()->is('menu-admin/tempat-pkl*') ? 'active' : ''}}">
+              <a class="nav-link" href="{{route('tempat-pkl.index')}}">
+                <i class="fas fa-columns"></i>
+                <span>Tempat PKL</span>
+              </a>
+            </li>
           <li class="menu-header">Manajemen User</li>
             <li class="nav-item dropdown 
               {{ request()->is('menu-admin/koorPkl*') ? 'active' : ''}} ||">
-    
-              <a class="nav-link has-dropdown" data-toggle="dropdown">
-                <i class="far fa-user"></i> 
-                <span>Manajemen User</span>
-              </a>
-              <ul class="dropdown-menu">
-                <li class="{{ request()->is('menu-admin/koorPkl*') ? 'active' : ''}}">
-                  <a class="nav-link" href="{{route('koorPkl.index')}}">
-                    Koor.PKL Jurusan
-                  </a>
-                </li>
-              </ul>
+              <li class="{{ request()->is('menu-admin/koorPkl*') ? 'active' : ''}}">
+                <a class="nav-link" href="{{route('koorPkl.index')}}">
+                  <i class="far fa-user"></i> 
+                  <span>Koor.PKL Jurusan</span> 
+                </a>
+              </li>
             </li>
           <li class="menu-header">Pengajuan</li>
             <li class="nav-item dropdown
