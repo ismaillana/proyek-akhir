@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Instansi;
 use App\Models\Riwayat;
 use App\Models\Pengajuan;
+use App\Models\User;
 
 use App\Http\Requests\VerifikasiIjazahRequest;
 use App\Http\Requests\KonfirmasiRequest;
@@ -28,7 +29,8 @@ class VerifikasiIjazahController extends Controller
      */
     public function index()
     {
-        $verifikasiIjazah = Pengajuan::where('jenis_pengajuan_id', 6)
+        $verifikasiIjazah = Pengajuan::latest()
+            ->where('jenis_pengajuan_id', 6)
             ->whereNot('status', 'Selesai')
             ->whereNot('status', 'Tolak')
             ->get();
@@ -66,7 +68,14 @@ class VerifikasiIjazahController extends Controller
     {
         $user = auth()->user();
 
+        $bagianAkademik = User::role('bagian-akademik') 
+            ->get();
+        $numbers = $bagianAkademik->pluck('wa')->toArray();
+        // dd($numbers);
+
         $instansi       = Instansi::whereUserId($user->id)->first();
+
+        $waGateway = $user->wa; //get no wa
 
         $data = ([
             'jenis_pengajuan_id' => 6,
@@ -89,6 +98,24 @@ class VerifikasiIjazahController extends Controller
             'status'        => 'Menunggu Konfirmasi',
             'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
         ]);
+
+        WhatsappGatewayService::sendMessage($waGateway, 
+            'Hai, ' . $user->name . PHP_EOL .
+                PHP_EOL .
+                'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan Berhasil! ' . PHP_EOL .
+                'Harap tunggu Konfirmasi dari bagian akademik.' . PHP_EOL .
+                PHP_EOL .
+                'Terima Kasih'
+        ); //->Kirim Chat
+
+        foreach ($numbers as $number) {
+            WhatsappGatewayService::sendMessage($number, 
+                'Hai, Bagian Akademik!' . PHP_EOL .
+                    PHP_EOL .
+                    'Ada pengajuan baru dari '. $user->name . PHP_EOL .
+                    'Segera lakukan pengecekan data pengajuan!'
+            ); //->Kirim Chat
+        }
 
         return redirect()->back()->with('success', 'Pengajuan Berhasil');
     }
@@ -133,9 +160,12 @@ class VerifikasiIjazahController extends Controller
         ]);
 
         WhatsappGatewayService::sendMessage($waGateway, 
-        'Hay!' . PHP_EOL .
+        'Hai, ' . $pengajuan->instansi->user->name . ',' . PHP_EOL .
                 PHP_EOL .
-                'Pengajuan Kamu Berhasil! ',
+                'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan telah dikonfirmasi oleh Bagian Akademik! ' . PHP_EOL .
+                'Harap tunggu pemberitahuan selanjutnya.' . PHP_EOL .
+                PHP_EOL .
+                'Terima Kasih'
         ); //->Kirim Chat
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
@@ -146,6 +176,10 @@ class VerifikasiIjazahController extends Controller
      */
     public function tolak(KonfirmasiRequest $request, string $id)
     {
+        $pengajuan = Pengajuan::where('id',$id)->first();
+        
+        $waGateway = $pengajuan->instansi->user->wa; //get no wa
+
         $data = [
             'status'  =>  'Tolak',
             'catatan' =>  $request->catatan
@@ -158,6 +192,15 @@ class VerifikasiIjazahController extends Controller
         ]);
 
         Pengajuan::where('id', $id)->update($data);
+
+        WhatsappGatewayService::sendMessage($waGateway, 
+        'Hai, ' . $pengajuan->instansi->user->name . ',' . PHP_EOL .
+                PHP_EOL .
+                'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan tidak ditolak oleh Bagian Akademik dengan alasan/catatan ' . PHP_EOL .
+                $request->catatan . PHP_EOL .
+                PHP_EOL .
+                'Terima Kasih'
+        ); //->Kirim Chat
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
@@ -191,24 +234,55 @@ class VerifikasiIjazahController extends Controller
 
         Pengajuan::where('id', $id)->update($data);
 
+        $pengajuan = Pengajuan::where('id',$id)->first();
+        
+        $waGateway = $pengajuan->instansi->user->wa; //get no wa
+
         if ($request->status == 'Proses' ) {
             Riwayat::create([
                 'pengajuan_id'  => $id,
                 'status'        => 'Diproses',
                 'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
             ]);
+
+            WhatsappGatewayService::sendMessage($waGateway, 
+                'Hai, ' . $pengajuan->instansi->user->name . ',' . PHP_EOL .
+                    PHP_EOL .
+                    'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan sedang Diproses oleh Bagian Akademik!' . PHP_EOL .
+                    'Proses dilakukan selama 3-5 hari kerja, namun bisa saja kurang atau melebihi waktu tersebut. Harap tunggu informasi selanjutnya' . PHP_EOL .
+                    PHP_EOL .
+                    'Terima Kasih'
+            ); //->Kirim Chat
         }elseif ($request->status == 'Kendala' ) {
             Riwayat::create([
                 'pengajuan_id'  => $id,
                 'status'        => 'Ada Kendala',
                 'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
             ]);
+
+            WhatsappGatewayService::sendMessage($waGateway, 
+                'Hai, ' . $pengajuan->instansi->user->name . ',' . PHP_EOL .
+                    PHP_EOL .
+                    'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan sedang Dalam Kendala!' . PHP_EOL .
+                    'Harap menunggu pemberitahuan selanjutnya dikarenakan di lingkungan kampus sedang terdapat kegiatan yang melibatkan Bagian Akademik!' . PHP_EOL .
+                    PHP_EOL .
+                    'Terima Kasih'
+            ); //->Kirim Chat
         }elseif ($request->status == 'Selesai' ) {
             Riwayat::create([
                 'pengajuan_id'  => $id,
                 'status'        => 'Selesai',
                 'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
             ]);
+
+            WhatsappGatewayService::sendMessage($waGateway, 
+                'Hai, ' . $pengajuan->instansi->user->name . ',' . PHP_EOL .
+                    PHP_EOL .
+                    'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan Telah Selesa!' . PHP_EOL .
+                    'Silahkan login kembali ke website pengajuan kemudian buka menu Riwayat Pengajuan untuk mengunduh hasil pengajuan.' . PHP_EOL .
+                    PHP_EOL .
+                    'Terima Kasih'
+            ); //->Kirim Chat
         }
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }

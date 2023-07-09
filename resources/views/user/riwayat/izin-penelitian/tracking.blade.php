@@ -62,7 +62,7 @@
                                         </th>
 
                                         <td>
-                                            {{$item->created_at}}
+                                            {{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y H:i:s') }}
                                         </td>
 
                                         <td class="text-center">

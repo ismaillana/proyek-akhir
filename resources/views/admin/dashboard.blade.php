@@ -2,8 +2,16 @@
 @section('content')
 <div class="main-content">
     <section class="section">
-      <div class="section-header">
-        <h1>Dashboard</h1>
+      <div class="section-header d-flex justify-content-between w-100">
+        <h1>
+          Dashboard
+        </h1>
+
+        @if(count($pengajuans) > 0)
+            <div class="alert alert-warning ml-4 col-auto">
+                <strong>Pemberitahuan:</strong> Terdapat {{ count($pengajuans) }} pengajuan yang belum dikonfirmasi lebih dari 1 hari.
+            </div>
+        @endif
       </div>
       <div class="row d-flex justify-content-between w-100">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">

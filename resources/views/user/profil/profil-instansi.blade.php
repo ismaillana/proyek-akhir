@@ -44,7 +44,7 @@
             </div>
 
             <div class="form-floating mb-4">
-              <input id="wa" type="number" name="wa" class="form-control" placeholder="Masukkan No WhatsApp" value="{{ old('wa', @$user->wa) }}">
+              <input id="wa" type="text" name="wa" class="form-control" placeholder="Masukkan No WhatsApp" value="{{ old('wa', @$user->wa) }}">
               <label for="wa">No WhatsApp *</label>
 
               @if ($errors->has('wa'))
@@ -110,5 +110,10 @@
                 }
             });
         }
+
+        document.getElementById('wa').addEventListener('input', function(evt) {
+            var input = evt.target;
+            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+        });
 </script>
 @endsection

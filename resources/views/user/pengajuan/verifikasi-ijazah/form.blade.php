@@ -179,5 +179,20 @@
           }
       });
   }
+
+  document.getElementById('nim').addEventListener('input', function(evt) {
+      var input = evt.target;
+      input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+  });
+
+  document.getElementById('tahun_lulus').addEventListener('input', function(evt) {
+      var input = evt.target;
+      input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+  });
+
+  document.getElementById('no_ijazah').addEventListener('input', function(evt) {
+      var input = evt.target;
+      input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+  });
 </script>
 @endsection

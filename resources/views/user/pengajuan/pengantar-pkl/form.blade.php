@@ -281,6 +281,11 @@
             });
         });
 
+        document.getElementById('telepon').addEventListener('input', function(evt) {
+            var input = evt.target;
+            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+        });
+
   new MultiSelectTag('nama_mahasiswa')  // id
 
 </script>

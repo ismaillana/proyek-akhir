@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Pengajuan;
+use Carbon\Carbon;
+
 
 class DashboardController extends Controller
 {
@@ -25,7 +27,14 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $oneDayAgo = Carbon::now()->subDay();
+
+        $pengajuans = Pengajuan::where('status', 'Menunggu Konfirmasi')
+        ->where('created_at', '<=', $oneDayAgo)
+        ->get();
+
         $user = User::count();
+
         $riwayat = Pengajuan::where('status', 'Selesai')
             ->orWhere('status', 'Tolak')
             ->count();
@@ -79,6 +88,7 @@ class DashboardController extends Controller
             'legalisir'     => $legalisir,
             'verifikasiIjazah' => $verifikasiIjazah,
             'pengajuan' => $pengajuan,
+            'pengajuans' => $pengajuans,
             'title'         => 'Dashboard'
         ]);
     }
