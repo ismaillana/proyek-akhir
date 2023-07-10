@@ -196,8 +196,9 @@ class VerifikasiIjazahController extends Controller
         WhatsappGatewayService::sendMessage($waGateway, 
         'Hai, ' . $pengajuan->instansi->user->name . ',' . PHP_EOL .
                 PHP_EOL .
-                'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan tidak ditolak oleh Bagian Akademik dengan alasan/catatan ' . PHP_EOL .
-                $request->catatan . PHP_EOL .
+                'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan Ditolak oleh Bagian Akademik dengan alasan/catatan ' . PHP_EOL .
+                PHP_EOL .
+                '**' . $request->catatan . PHP_EOL .
                 PHP_EOL .
                 'Terima Kasih'
         ); //->Kirim Chat
