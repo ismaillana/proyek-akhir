@@ -106,23 +106,23 @@ class IzinPenelitianController extends Controller
             'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
         ]);
 
-        WhatsappGatewayService::sendMessage($waGateway, 
-            'Hai, ' . $user->name . PHP_EOL .
-                PHP_EOL .
-                'Pengajuan Pembuatan Surat Izin Penelitian yang kamu lakukan Berhasil! ' . PHP_EOL .
-                'Harap tunggu Konfirmasi dari bagian akademik.' . PHP_EOL .
-                PHP_EOL .
-                'Terima Kasih'
-        ); //->Kirim Chat
+        // WhatsappGatewayService::sendMessage($waGateway, 
+        //     'Hai, ' . $user->name . PHP_EOL .
+        //         PHP_EOL .
+        //         'Pengajuan Pembuatan Surat Izin Penelitian yang kamu lakukan Berhasil! ' . PHP_EOL .
+        //         'Harap tunggu Konfirmasi dari bagian akademik.' . PHP_EOL .
+        //         PHP_EOL .
+        //         'Terima Kasih'
+        // ); //->Kirim Chat
 
-        foreach ($numbers as $number) {
-            WhatsappGatewayService::sendMessage($number, 
-                'Hai, Admin Jurusan!' . PHP_EOL .
-                    PHP_EOL .
-                    'Ada pengajuan baru dari '. $user->name . PHP_EOL .
-                    'Segera lakukan pengecekan data pengajuan!'
-            ); //->Kirim Chat
-        }
+        // foreach ($numbers as $number) {
+        //     WhatsappGatewayService::sendMessage($number, 
+        //         'Hai, Admin Jurusan!' . PHP_EOL .
+        //             PHP_EOL .
+        //             'Ada pengajuan baru dari '. $user->name . PHP_EOL .
+        //             'Segera lakukan pengecekan data pengajuan!'
+        //     ); //->Kirim Chat
+        // }
 
         return redirect()->back()->with('success', 'Pengajuan Berhasil');
     }
@@ -385,14 +385,20 @@ class IzinPenelitianController extends Controller
         }
         
         $izinPenelitian = Pengajuan::find($id);
-        $now   = Carbon::now()->locale('id');
-        $currentDate = $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
+
+        if ($izinPenelitian->tanggal_surat == null) {
+            $now   = Carbon::now()->locale('id');
+            $currentDate =  $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
+            
+            $izinPenelitian->update([
+                'tanggal_surat'            => $currentDate,
+            ]);
+        } // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
             // Mendapatkan tanggal saat ini dengan nama hari
         
         //mengambil data dan tampilan dari halaman laporan_pdf
         //data di bawah ini bisa kalian ganti nantinya dengan data dari database
         $data = PDF::loadview('admin.pengajuan.izin-penelitian.print', [
-            'currentDate' => $currentDate,
             'izinPenelitian'=> $izinPenelitian
         ]);
         //mendownload laporan.pdf

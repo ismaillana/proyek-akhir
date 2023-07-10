@@ -130,7 +130,7 @@
                   <tr align="justify">
                         <td colspan="4">
                               <p>Berdasarkan surat dari {{@$verifikasiIjazah->instansi->nama_perusahaan}} 
-                              pada tanggal {{ Carbon\Carbon::parse($verifikasiIjazah->created_at)->translatedFormat('d F Y') }} 
+                              pada tanggal {{ Carbon\Carbon::parse(@$verifikasiIjazah->created_at)->translatedFormat('d F Y') }} 
                               perihal permohonan verifikasi ijazah untuk mahasiswa yang bekerja di Rumah Sakit
                               tersebut.</p>
                         </td>
@@ -164,9 +164,9 @@
                   @endphp
                   <tr>
                         <td style="text-align:center;width:10%" class="td"><p>1</p></td>
-                        <td class="td" style="width:50%"><p>Lana Ismail</p></td>
-                        <td class="td" style="text-align:center;width:30%"><p>10107036</p></td>
-                        <td class="td" style="text-align:center;width:20%"><p>2023</p></td>
+                        <td class="td" style="width:50%"><p>{{@$verifikasiIjazah->nama}}</p></td>
+                        <td class="td" style="text-align:center;width:30%"><p>{{@$verifikasiIjazah->nim}}</p></td>
+                        <td class="td" style="text-align:center;width:20%"><p>{{@$verifikasiIjazah->tahun_lulus}}</p></td>
                         <td class="td" style="text-align:center;width:15%">
                               {{-- -- <p>
                                     @if($data->kondisi_item == "Ready")
@@ -213,12 +213,12 @@
                         <tr>
                               <td><p></p></td>
                               <td style="width:50%"></td>
-                              <td><p>Lana Ismail</p></td>
+                              <td><p>Wiwik Endah Rahayu, S.TP.,M.Si.</p></td>
                         </tr>
                         <tr>
                               <td><p></p></td>
                               <td style="width:50%"></td>
-                              <td><p>NIP. 376723923489234</p></td>
+                              <td><p>NIP. 198311282015042001</p></td>
                         </tr>
                   </table>
             </div>

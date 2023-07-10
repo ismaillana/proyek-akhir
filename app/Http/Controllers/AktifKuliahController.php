@@ -352,14 +352,18 @@ class AktifKuliahController extends Controller
         }
         
         $aktifKuliah = Pengajuan::find($id);
-        $now   = Carbon::now()->locale('id');
-        $currentDate =  $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
+        if ($aktifKuliah->tanggal_surat == null) {
+            $now   = Carbon::now()->locale('id');
+            $currentDate =  $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
+            
+            $aktifKuliah->update([
+                'tanggal_surat'            => $currentDate,
+            ]);
+        } // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
             // Mendapatkan tanggal saat ini dengan nama hari
-        
         //mengambil data dan tampilan dari halaman laporan_pdf
         //data di bawah ini bisa kalian ganti nantinya dengan data dari database
         $data = PDF::loadview('admin.pengajuan.surat-aktif-kuliah.print', [
-            'currentDate' => $currentDate,
             'aktifKuliah'   => $aktifKuliah
         ]);
         //mendownload laporan.pdf

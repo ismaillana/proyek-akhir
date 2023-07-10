@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Surat Pengajuan Verifikasi Ijazah </title>
+    <title>Surat Pengajuan Izin Penelitian </title>
     <style type= "text/css">
     *{
             margin: 1;
@@ -102,7 +102,7 @@
                         <td style="width:20%"><p>Nomor</p></td>
                         <td style="width:2%"><p>:</p></td>
                         <td style="width:48%"><p>{{@$izinPenelitian->no_surat}}</p></td>
-                        <td style="width:30%" class="right"><p>{{ $currentDate }}</p></td>
+                        <td style="width:30%" class="right"><p>{{ @$izinPenelitian->tanggal_surat }}</p></td>
                   </tr>
                   <tr>
                         <td style="width:20%"><p>Lapiran</p></td>
@@ -113,87 +113,54 @@
                   <tr>
                         <td style="width:20%"><p>Perihal</p></td>
                         <td style="width:2%"><p>:</p></td>
-                        <td style="width:48%"><p>{{@$izinPenelitian->perihal}}</p></td>
-                        <td style="width:30%"></td>
+                        <td style="width:30%">{{ @$izinPenelitian->perihal }}</td>
                   </tr>
                   <br>
                   <tr>
                         <td style="width:20%"><p>Kepada Yth</p></td>
                   </tr>
                   <tr>
-                        <td style="width:20%" colspan="4"><p>Direktur {{@$izinPenelitian->nama_tempat}}</p></td>
+                        <td style="width:20%" colspan="4"><p>Direktur {{@$izinPenelitian->tujuan_surat}}</p></td>
                   </tr>
                   <tr>
                         <td style="width:20%"><p>Ditempat </p></td>
                   </tr>
-                  <br>
+            </table>
+
+            <table width="100%" class="kegiatan">
                   <tr align="justify">
-                        <td colspan="4">
-                              <p>Berdasarkan surat dari GHHhhhh 
-                              pada tanggal {{ Carbon\Carbon::parse($izinPenelitian->created_at)->translatedFormat('d F Y') }} 
-                              perihal permohonan verifikasi ijazah untuk mahasiswa yang bekerja di Rumah Sakit
-                              tersebut.</p>
+                        <td>
+                              <p>Dengan Hormat,</p>
                         </td>
                   </tr>
+            </table>
+
+            <table width="100%">
                   <tr align="justify">
-                        <td colspan="4">
-                              <p>Maka dengan ini kami sampaikan data alumni tersebut adalah benar alumni dari Politeknik
-                                    Negeri Subang pada program studi D III Keperawatan atas nama :</p>
+                        <td>
+                              <p>Berdasarkan dengan adanya tugas Proyek Akhir Program {{@$izinPenelitian->mahasiswa->programStudi->name}} 
+                                 di Politeknik Negeri Subang, dengan ini kami meminta izin untuk melakukan penelitian ditempat yang Bapak/Ibu pimpin.</p>
                         </td>
                   </tr>
             </table>
 
             <table width="100%" class="list">
                   <tr>
-                        <th class="th" rowspan="2">No</th>
-                        <th class="th" rowspan="2">Nama</th>
-                        <th class="th" rowspan="2"><p>NIM</p></th>
-                        <th class="th" rowspan="2"><p>Tahun Lulus</p></th>
-                        <th class="th" colspan="2"><p>Hasil Verifikasi</p></th>
+                        <th class="th">No</th>
+                        <th class="th">Nama</th>
+                        <th class="th"><p>NIM</p></th>
                   </tr>
-                  <tr>
-                        <th class="th"><p>Ya</p></th>
-                        <th class="th"><p>Tidak</p></th>
-                  </tr>
-                  @php
-                  $i = 0;
-                  @endphp
-                  {{-- -- @foreach($keranjang as $data) -- --}}
-                  @php
-                  $i = $i+1;
-                  @endphp
+                  
                   <tr>
                         <td style="text-align:center;width:10%" class="td"><p>1</p></td>
-                        <td class="td" style="width:50%"><p>Lana Ismail</p></td>
-                        <td class="td" style="text-align:center;width:30%"><p>10107036</p></td>
-                        <td class="td" style="text-align:center;width:20%"><p>2023</p></td>
-                        <td class="td" style="text-align:center;width:15%">
-                              {{-- -- <p>
-                                    @if($data->kondisi_item == "Ready")
-                                    Baik
-                                    @elseif($data->kondisi_item == "Rusak")
-                                    Rusak
-                                    @endif
-                              </p> -- --}}
-                              <span class="checklist"><i class="fas fa-check"></i></span>
-                        </td>
-                        <td class="td" style="text-align:center;width:15%">
-                              {{-- -- <p>
-                                    @if($data->kondisi_item == "Ready")
-                                    Baik
-                                    @elseif($data->kondisi_item == "Rusak")
-                                    Rusak
-                                    @endif
-                              </p> -- --}}
-                        </td>
+                        <td class="td" style="width:50%"><p>{{@$izinPenelitian->mahasiswa->user->name}}</p></td>
+                        <td class="td" style="text-align:center;width:40%"><p>{{@$izinPenelitian->mahasiswa->user->nomor_induk}}</p></td>
                   </tr>
-                  {{-- -- @endforeach -- --}}
             </table>
 
             <table width="100%" class="kegiatan">
                   <tr align="justify">
-                        <td colspan="3"><p>Demikian surat ini dibuat untuk dipergunakan sebagaimana mestinya. Atas perhatiannya
-                              diucapkan terima kasih.</p></td>
+                        <td colspan="3"><p>Demikian surat permohonan ini kami sampaikan, atas perhatian dan kerjasamanya diucapkan terima kasih.</p></td>
                   </tr>
             </table>
             <br>
@@ -213,12 +180,12 @@
                         <tr>
                               <td><p></p></td>
                               <td style="width:50%"></td>
-                              <td><p>Lana Ismail</p></td>
+                              <td><p>Wiwik Endah Rahayu, S.TP.,M.Si.</p></td>
                         </tr>
                         <tr>
                               <td><p></p></td>
                               <td style="width:50%"></td>
-                              <td><p>NIP. 376723923489234</p></td>
+                              <td><p>NIP. 198311282015042001</p></td>
                         </tr>
                   </table>
             </div>
