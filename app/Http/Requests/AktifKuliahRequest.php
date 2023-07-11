@@ -23,6 +23,7 @@ class AktifKuliahRequest extends FormRequest
     {
         $rules = [
             'keperluan'          => 'required',
+            'status_data'        => 'required',
             'orang_tua'          => 'required_if:status_data,Update Data',
             'pekerjaan'          => 'required_if:status_data,Update Data',
             'pangkat'            => 'required_if:status_data,Update Data',
@@ -30,6 +31,10 @@ class AktifKuliahRequest extends FormRequest
             'golongan'           => 'required_if:status_data,Update Data',
             'jabatan'            => 'required_if:status_data,Update Data',
             'instansi'           => 'required_if:status_data,Update Data',
+            'semester'           => 'required_if:status_data,Update Data',
+            'tahun_ajaran'       => 'required_if:status_data,Update Data',
+            'tempat_lahir'       => 'required_if:status_data,Update Data',
+            'tanggal_lahir'       => 'required_if:status_data,Update Data',
         ];
         return $rules;
     }
@@ -45,7 +50,11 @@ class AktifKuliahRequest extends FormRequest
             'golongan.required_if'   => 'Golongan Wajib Diisi',
             'jabatan.required_if'    => 'Jabatan Wajib Diisi',
             'instansi.required_if'   => 'Instansi Wajib Diisi',
-
+            'semester.required_if'   => 'Semester Wajib Diisi',
+            'tahun_ajaran.required_if'   => 'Tahun Ajaran Wajib Diisi',
+            'status_data.required'   => 'Pilih Status Data',
+            'tempat_lahir.required_if'   => 'Tempat Lahir Wajib Diisi',
+            'tanggal_lahir.required_if'   => 'Tanggal Lahir Wajib Diisi',
         ];
     }
 }

@@ -2,71 +2,69 @@
 <head>
     <title>Surat Pengajuan Izin Penelitian </title>
     <style type= "text/css">
-    *{
-            margin: 1;
-        }
-    body {font-family: 'Times New Roman', Times, serif; background-color : #fff }
-    .rangkasurat {margin:auto ;background-color : #fff;padding: 10px}
-   .header {border-bottom : 3px solid black; padding: 0px;margin-top:0em;line-height: 1.5}
-    .tengah {text-align : center;font-size:16px;}
-    .judul{
-      text-align:center;line-height:5px;font-size:12px;margin-top:1em;}
-     .isi{
-      margin-left:3em;margin-top:1em;margin-right:3em;font-size:12px;
-     }
+            *{
+                        margin: 1;
+                  }
+            body {font-family: 'Times New Roman', Times, serif; background-color : #fff }
+            .rangkasurat {margin:auto ;background-color : #fff;padding: 10px}
+            .header {border-bottom : 3px solid black; padding: 0px;margin-top:0em;line-height: 1.5}
+            .tengah {text-align : center;font-size:16px;}
+            .judul{
+                  text-align:center;line-height:5px;font-size:12px;margin-top:1em;}
+            .isi{
+                  margin-left:3em;margin-top:1em;margin-right:3em;font-size:12px;
+            }
 
-     .list{
-      margin-top:1em;
-     }
+            .list{
+                  margin-top:1em;
+            }
 
-     .checklist {
-      font-size: 24px;
-      color: rgb(0, 0, 0);
-    }
+            .checklist {
+                  font-size: 24px;
+                  color: rgb(0, 0, 0);
+            }
 
-     .list, .th, .td {
-      border: 1px solid black;
-      border-collapse: collapse;
-      font-size:12pt;
-      margin-top:1.5em;
-      margin-left:0.4em;
-      }
-
-      .kegiatan{
-            margin-top:1.5em;
-      }
-
-      .right{
-            text-align: right;
-      }
-      .persyaratan{
-            margin-top:1.5em;
-            line-height:1;
-      }
-
-      h6{
+            .list, .th, .td {
+            border: 1px solid black;
+            border-collapse: collapse;
             font-size:12pt;
-            font-weight:400;
-            line-height:1.5;
-      }
-      p{
-            font-size:12pt;
-      }
+            margin-top:1.5em;
+            margin-left:0.4em;
+            }
 
-      .koordinator{
-            margin-left:auto;
-            margin-right:auto;
-            line-height:1;
-      }
+            .kegiatan{
+                  margin-top:1.5em;
+            }
 
-      .staff{
-            line-height:1;
-      }
-      
+            .right{
+                  text-align: right;
+            }
+            .persyaratan{
+                  margin-top:1.5em;
+                  line-height:1;
+            }
 
+            h6{
+                  font-size:12pt;
+                  font-weight:400;
+                  line-height:1.5;
+            }
+            p{
+                  font-size:12pt;
+            }
 
-    
-     </style >
+            .koordinator{
+                  margin-left:auto;
+                  margin-right:auto;
+                  line-height:1;
+            }
+
+            .staff{
+                  line-height:1;
+            }
+    </style >
+
+    <link rel="shortcut icon" href="{{ asset('template/assets/img/logoPOLSUB.png')}}">
 </head>
 <body>
 

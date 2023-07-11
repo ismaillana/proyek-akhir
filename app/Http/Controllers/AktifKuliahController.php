@@ -85,8 +85,12 @@ class AktifKuliahController extends Controller
                 'nip_nrp'       => $request->nip_nrp,
                 'pangkat'       => $request->pangkat,
                 'jabatan'       => $request->jabatan,
-                'golongan'       => $request->golongan,
+                'golongan'      => $request->golongan,
                 'instansi'      => $request->instansi,
+                'semester'      => $request->semester,
+                'tahun_ajaran'  => $request->tahun_ajaran,
+                'tempat_lahir'  => $request->tempat_lahir,
+                'tanggal_lahir'  => $request->tanggal_lahir,
             ]);
 
             $pengajuan = Pengajuan::create([

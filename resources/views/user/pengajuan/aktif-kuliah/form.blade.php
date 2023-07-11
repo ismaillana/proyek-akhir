@@ -101,13 +101,88 @@
                             <option value="Data Sudah Sesuai"> Data Sudah Sesuai</option>
                             <option value="Update Data"> Update Data</option>
                             
-                            @if ($errors->has('status_data'))
-                                <span class="text-danger">{{ $errors->first('status_data') }}</span>
-                            @endif
                           </select>
+                          @if ($errors->has('status_data'))
+                              <span class="text-danger">{{ $errors->first('status_data') }}</span>
+                          @endif
+                        </div>
+                      </div>
+
+                      <div class="col-md-12" id="data9" style="display: none;">
+                        <div class="form-floating mb-4">
+                          <input id="tempat_lahir" type="text" name="tempat_lahir" class="form-control @error('tempat_lahir')is-invalid @enderror" 
+                            value="{{ old('tempat_lahir', @$aktifKuliah->mahasiswa->tempat_lahir) }}" placeholder="Masukan Tempat Lahir Mahasiswa">
+                          
+                          <label for="form_tujuan_surat">
+                            Tempat Lahir<span class="text-danger">*</span>
+                          </label>
+
+                          @if ($errors->has('tempat_lahir'))
+                              <span class="text-danger">{{ $errors->first('tempat_lahir') }}</span>
+                          @endif
+                        </div>
+                      </div>
+
+                      <div class="col-md-12" id="data10" style="display: none;">
+                        <div class="form-floating mb-4">
+                          <input id="tanggal_lahir" type="text" name="tanggal_lahir" class="form-control @error('tanggal_lahir')is-invalid @enderror" 
+                            value="{{ old('tanggal_lahir', @$aktifKuliah->mahasiswa->tanggal_lahir) }}" placeholder="Masukan Tanggal Lahir Mahasiswa">
+                          
+                          <label for="form_tujuan_surat">
+                            Tanggal Lahir<span class="text-danger">*</span>
+                          </label>
+
+                          @if ($errors->has('tanggal_lahir'))
+                              <span class="text-danger">{{ $errors->first('tanggal_lahir') }}</span>
+                          @endif
+                        </div>
+                      </div>
+
+                      <div class="col-md-12" id="data7" style="display: none;">
+                        <div class="form-select-wrapper mb-4 mt-4">
+                          <select class="form-select" aria-label="Default select example" id="semester" name="semester">
+                            <option disabled selected value="">Pilih Semester</option>
+                            <option value="1"
+                              {{ old('semester', @$aktifKuliah->mahasiswa->semester) == '1' ? 'selected' : '' }}>
+                                1</option>
+                            <option value="2"
+                              {{ old('semester', @$aktifKuliah->mahasiswa->semester) == '2' ? 'selected' : '' }}>
+                                2</option>
+                            <option value="3"
+                              {{ old('semester', @$aktifKuliah->mahasiswa->semester) == '3' ? 'selected' : '' }}>
+                                3</option>
+                            <option value="4"
+                              {{ old('semester', @$aktifKuliah->mahasiswa->semester) == '4' ? 'selected' : '' }}>
+                                4</option>
+                            <option value="5"
+                              {{ old('semester', @$aktifKuliah->mahasiswa->semester) == '5' ? 'selected' : '' }}>
+                                5</option>
+                            <option value="6"
+                              {{ old('semester', @$aktifKuliah->mahasiswa->semester) == '6' ? 'selected' : '' }}>
+                                6</option>
+                            
+                          </select>
+                              @if ($errors->has('semester'))
+                                  <span class="text-danger">{{ $errors->first('semester') }}</span>
+                              @endif
                         </div>
                       </div>
                       
+                      <div class="col-md-12" id="data8" style="display: none;">
+                        <div class="form-floating mb-4">
+                          <input id="tahun_ajaran" type="text" name="tahun_ajaran" class="form-control @error('tahun_ajaran')is-invalid @enderror" 
+                            value="{{ old('tahun_ajaran', @$aktifKuliah->mahasiswa->tahun_ajaran) }}" placeholder="Masukan Tahun Ajaran">
+                          
+                          <label for="form_tahun_ajaran">
+                            Tahun Ajaran<span class="text-danger">*</span>
+                          </label>
+
+                          @if ($errors->has('tahun_ajaran'))
+                              <span class="text-danger">{{ $errors->first('tahun_ajaran') }}</span>
+                          @endif
+                        </div>
+                      </div>
+
                       <div class="col-md-12" id="data" style="display: none;">
                         <div class="form-floating mb-4">
                           <input id="orang_tua" type="text" name="orang_tua" class="form-control @error('orang_tua')is-invalid @enderror" 
@@ -301,6 +376,10 @@
             var alasanInput4 = document.getElementById("data4");
             var alasanInput5 = document.getElementById("data5");
             var alasanInput6 = document.getElementById("data6");
+            var alasanInput7 = document.getElementById("data7");
+            var alasanInput8 = document.getElementById("data8");
+            var alasanInput9 = document.getElementById("data9");
+            var alasanInput10 = document.getElementById("data10");
 
             statusSelect.addEventListener("change", function() {
                 var selectedValue = this.value;
@@ -312,6 +391,10 @@
                     alasanInput4.style.display = "block";
                     alasanInput5.style.display = "block";
                     alasanInput6.style.display = "block";
+                    alasanInput7.style.display = "block";
+                    alasanInput8.style.display = "block";
+                    alasanInput9.style.display = "block";
+                    alasanInput10.style.display = "block";
                 } else {
                     alasanInput.style.display = "none";
                     alasanInput1.style.display = "none";
@@ -320,11 +403,20 @@
                     alasanInput4.style.display = "none";
                     alasanInput5.style.display = "none";
                     alasanInput6.style.display = "none";
+                    alasanInput7.style.display = "none";
+                    alasanInput8.style.display = "none";
+                    alasanInput9.style.display = "none";
+                    alasanInput10.style.display = "none";
                 }
             });
         });
 
         document.getElementById('nip_nrp').addEventListener('input', function(evt) {
+            var input = evt.target;
+            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+        });
+
+        document.getElementById('tahun_ajaran').addEventListener('input', function(evt) {
             var input = evt.target;
             input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
         });

@@ -62,11 +62,9 @@
       .staff{
             line-height:1;
       }
-      
-
-
-    
      </style >
+
+      <link rel="shortcut icon" href="{{ asset('template/assets/img/logoPOLSUB.png')}}">
 </head>
 <body>
 
