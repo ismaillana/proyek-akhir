@@ -90,8 +90,9 @@
                         </div>
 
                         <div class="col-md-12">
-                          <div class="form-select-wrapper mb-4 mt-4">
-                            <select class="form-select" aria-label="Default select example" id="tempat_pkl_id" name="tempat_pkl_id">
+                          <div class="form-floating mb-4 mt-4 col-sm-12">
+                            <select style="max-width: 100%;" class="form-select @error('tempat_pkl_id') 
+                            is-invalid @enderror" id="tempat_pkl_id" name="tempat_pkl_id">
                               <option disabled selected value="">Pilih Perusahaan</option>
                               @foreach ($tempatPkl as $item)
                                   <option value="{{ $item->id }}"
@@ -255,9 +256,6 @@
             var alasanInput1 = document.getElementById("data1");
             var alasanInput2 = document.getElementById("data2");
             var alasanInput3 = document.getElementById("data3");
-            var alasanInput4 = document.getElementById("data4");
-            var alasanInput5 = document.getElementById("data5");
-            var alasanInput6 = document.getElementById("data6");
 
             statusSelect.addEventListener("change", function() {
                 var selectedValue = this.value;
@@ -266,17 +264,11 @@
                     alasanInput1.style.display = "block";
                     alasanInput2.style.display = "block";
                     alasanInput3.style.display = "block";
-                    alasanInput4.style.display = "block";
-                    alasanInput5.style.display = "block";
-                    alasanInput6.style.display = "block";
                 } else {
                     alasanInput.style.display = "none";
                     alasanInput1.style.display = "none";
                     alasanInput2.style.display = "none";
                     alasanInput3.style.display = "none";
-                    alasanInput4.style.display = "none";
-                    alasanInput5.style.display = "none";
-                    alasanInput6.style.display = "none";
                 }
             });
         });

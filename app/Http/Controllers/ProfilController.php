@@ -125,19 +125,21 @@ class ProfilController extends Controller
     public function updateProfilMahasiswa(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
             'wa'   => 'required',
-            'email'   => 'required',
         ], [
-            'name.required' => 'Masukkan Nama',
             'wa.required'   => 'Masukkan No WhatsApp',
-            'email.required'   => 'Masukkan Email',
         ]);
 
+        $nomorWa = $request->input('wa');
+            
+        if (substr($nomorWa, 0, 1) === '0') {
+            $wa = '62' . substr($nomorWa, 1);
+        } else {
+            $wa = 62 . $nomorWa;
+        }
+
         $data = [
-            'name'        => $request->name,
-            'wa'          => 62 . $request->wa,
-            'email'       => $request->email,
+            'wa'          => $wa,
         ];
 
         User::where('id', $id)->update($data);
@@ -168,18 +170,28 @@ class ProfilController extends Controller
         $request->validate([
             'name' => 'required',
             'wa'   => 'required',
-            'email'   => 'required',
+            'email'    => 'required|email|unique:users,email,' . $id,
             'alamat'   => 'required',
         ], [
             'name.required' => 'Masukkan Nama',
             'wa.required'   => 'Masukkan No WhatsApp',
-            'email.required'   => 'Masukkan Email',
+            'email.required'        => 'Email Wajib Diisi',
+            'email.email'           => 'Format Email Harus Sesuai',
+            'email.unique'          => 'Email Sudah Digunakan',
             'alamat.required'   => 'Masukkan Alamat',
         ]);
 
+        $nomorWa = $request->input('wa');
+            
+        if (substr($nomorWa, 0, 1) === '0') {
+            $wa = '62' . substr($nomorWa, 1);
+        } else {
+            $wa = 62 . $nomorWa;
+        }
+
         $data = [
             'name'        => $request->name,
-            'wa'          => 62 . $request->wa,
+            'wa'          => $wa,
             'email'       => $request->email,
         ];
 

@@ -35,7 +35,7 @@
             </div>
 
             <div class="form-floating mb-4">
-              <input id="form_email2" type="email" name="email" class="form-control" placeholder="Masukkan Email" value="{{ old('name', @$user->email) }}">
+              <input id="form_email2" type="email" name="email" class="form-control" placeholder="Masukkan Email" value="{{ old('email', @$user->email) }}">
               <label for="form_email2">Email *</label>
 
               @if ($errors->has('email'))
@@ -44,7 +44,7 @@
             </div>
 
             <div class="form-floating mb-4">
-              <input id="wa" type="text" name="wa" class="form-control" placeholder="Masukkan No WhatsApp" value="{{ old('wa', @$user->wa) }}">
+              <input id="wa" type="text" name="wa" class="form-control" placeholder="Masukkan No WhatsApp" value="{{ old('wa', Str::substr(@$user->wa, 2)) }}">
               <label for="wa">No WhatsApp *</label>
 
               @if ($errors->has('wa'))

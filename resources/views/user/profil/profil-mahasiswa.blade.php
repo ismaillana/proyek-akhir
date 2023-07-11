@@ -26,16 +26,17 @@
             @csrf
             <div class="messages"></div>
             <div class="form-floating mb-4">
-              <input id="form_name2" type="text" name="name" class="form-control" placeholder="Masukkan Nama" value="{{ old('name', @$user->name) }}">
+              <input id="form_name2" type="text" name="name" class="form-control" placeholder="Masukkan Nama" value="{{ old('name', @$user->name) }}" readonly disabled>
               <label for="form_name2">Nama *</label>
-
-              @if ($errors->has('name'))
-                  <span class="text-danger">{{ $errors->first('name') }}</span>
-              @endif
             </div>
 
             <div class="form-floating mb-4">
-              <input id="form_email2" type="email" name="email" class="form-control" placeholder="Masukkan Email" value="{{ old('name', @$user->email) }}">
+              <input id="form_nim" type="text" name="nim" class="form-control" placeholder="Masukkan NIM" value="{{ old('nomor_induk', @$user->nomor_induk) }}" readonly disabled>
+              <label for="form_nim">NIM *</label>
+            </div>
+
+            <div class="form-floating mb-4">
+              <input id="form_email2" type="email" name="email" class="form-control" placeholder="Masukkan Email" value="{{ old('email', @$user->email) }}" readonly disabled>
               <label for="form_email2">Email *</label>
 
               @if ($errors->has('email'))
@@ -44,7 +45,7 @@
             </div>
 
             <div class="form-floating mb-4">
-              <input id="wa" type="text" name="wa" class="form-control" placeholder="Masukkan No WhatsApp" value="{{ old('wa', @$user->wa) }}">
+              <input id="wa" type="text" name="wa" class="form-control" placeholder="Masukkan No WhatsApp" value="{{ old('wa', Str::substr(@$user->wa, 2)) }}">
               <label for="wa">No WhatsApp *</label>
 
               @if ($errors->has('wa'))
