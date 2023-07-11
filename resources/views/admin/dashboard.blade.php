@@ -2,16 +2,34 @@
 @section('content')
 <div class="main-content">
     <section class="section">
+      
       <div class="section-header d-flex justify-content-between w-100">
         <h1>
           Dashboard
         </h1>
+        @role('bagian-akademik')
+          @if(count($pengajuans) > 0)
+              <div class="alert alert-warning ml-4 col-auto">
+                  <strong>Pemberitahuan:</strong> Terdapat {{ count($pengajuans) }} pengajuan yang belum dikonfirmasi lebih dari 1 hari.
+              </div>
+          @endif
+        @endrole
 
-        @if(count($pengajuans) > 0)
-            <div class="alert alert-warning ml-4 col-auto">
-                <strong>Pemberitahuan:</strong> Terdapat {{ count($pengajuans) }} pengajuan yang belum dikonfirmasi lebih dari 1 hari.
-            </div>
-        @endif
+        @role('admin-jurusan')
+          @if(count($pengajuanJurusan) > 0)
+              <div class="alert alert-warning ml-4 col-auto">
+                  <strong>Pemberitahuan:</strong> Terdapat {{ count($pengajuanJurusan) }} pengajuan yang belum dikonfirmasi lebih dari 1 hari.
+              </div>
+          @endif
+        @endrole
+
+        @role('koor-pkl')
+          @if(count($pengajuanPkls) > 0)
+              <div class="alert alert-warning ml-4 col-auto">
+                  <strong>Pemberitahuan:</strong> Terdapat {{ count($pengajuanPkls) }} pengajuan yang belum dikonfirmasi lebih dari 1 hari.
+              </div>
+          @endif
+        @endrole
       </div>
       <div class="row d-flex justify-content-between w-100">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">

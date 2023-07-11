@@ -92,14 +92,13 @@
                                         placeholder="Masukan Keperluan" readonly disabled>{{ old('keperluan', @$aktifKuliah->keperluan) }}</textarea>
                                 </div>
                             </div>
-                            {{-- <hr>
-                            
-                                <div class="text-md-right">
-                                    <button class="btn btn-warning btn-icon icon-left">
-                                        <i class="fas fa-print"></i> 
+                            <hr>
+                            <div class="text-md-right">
+                                <a href="{{ route('print-aktif-kuliah', Crypt::encryptString($aktifKuliah->id)) }}" class="btn btn-warning btn-icon icon-left">
+                                    <i class="fas fa-print"></i> 
                                         Print
-                                    </button>
-                                </div> --}}
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -149,13 +149,13 @@
                                   </div>
                                 </div>
                               </div>
-                            {{-- <hr>
-                              <div class="text-md-right">
-                                  <button class="btn btn-warning btn-icon icon-left">
-                                      <i class="fas fa-print"></i> 
-                                      Print
-                                  </button>
-                              </div> --}}
+                            <hr>
+                            <div class="text-md-right">
+                              <a href="{{ route('print-dispensasi', Crypt::encryptString($dispensasi->id)) }}" class="btn btn-warning btn-icon icon-left">
+                                <i class="fas fa-print"></i> 
+                                    Print
+                              </a>
+                            </div>
                         </div>
                     </div>
                 </div>

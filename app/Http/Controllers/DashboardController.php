@@ -33,8 +33,17 @@ class DashboardController extends Controller
         ->where('created_at', '<=', $oneDayAgo)
         ->get();
 
-        $user = User::count();
+        $pengajuanJurusan = Pengajuan::where('status', 'Menunggu Konfirmasi')
+        ->whereIn('jenis_pengajuan_id', [2,3,4])
+        ->where('created_at', '<=', $oneDayAgo)
+        ->get();
 
+        $pengajuanPkls = Pengajuan::where('status', 'Menunggu Konfirmasi')
+        ->where('jenis_pengajuan_id', 2)
+        ->where('created_at', '<=', $oneDayAgo)
+        ->get();
+
+        $user = User::count();
         $riwayat = Pengajuan::where('status', 'Selesai')
             ->orWhere('status', 'Tolak')
             ->count();
@@ -89,6 +98,8 @@ class DashboardController extends Controller
             'verifikasiIjazah' => $verifikasiIjazah,
             'pengajuan' => $pengajuan,
             'pengajuans' => $pengajuans,
+            'pengajuanJurusan' => $pengajuanJurusan,
+            'pengajuanPkls' => $pengajuanPkls,
             'title'         => 'Dashboard'
         ]);
     }

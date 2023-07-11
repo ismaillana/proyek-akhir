@@ -116,13 +116,13 @@
                                         value="{{ old('created_at', @$verifikasiIjazah->created_at) }}" disabled readonly>
                                 </div>
                             </div>
-                            {{-- <hr>
-                                <div class="text-md-right">
-                                    <button class="btn btn-warning btn-icon icon-left">
-                                        <i class="fas fa-print"></i> 
+                            <hr>
+                            <div class="text-md-right">
+                                <a href="{{ route('print-verifikasi-ijazah', Crypt::encryptString($verifikasiIjazah->id)) }}" class="btn btn-warning btn-icon icon-left">
+                                    <i class="fas fa-print"></i> 
                                         Print
-                                    </button>
-                                </div> --}}
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

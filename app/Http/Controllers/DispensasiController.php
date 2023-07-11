@@ -119,23 +119,23 @@ class DispensasiController extends Controller
             'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
         ]);
 
-        WhatsappGatewayService::sendMessage($waGateway, 
-            'Hai, ' . $user->name . PHP_EOL .
-                PHP_EOL .
-                'Pengajuan Pembuatan Surat Izin Dispensasi yang kamu lakukan Berhasil! ' . PHP_EOL .
-                'Harap tunggu Konfirmasi dari bagian akademik.' . PHP_EOL .
-                PHP_EOL .
-                'Terima Kasih'
-        ); //->Kirim Chat
+        // WhatsappGatewayService::sendMessage($waGateway, 
+        //     'Hai, ' . $user->name . PHP_EOL .
+        //         PHP_EOL .
+        //         'Pengajuan Pembuatan Surat Izin Dispensasi yang kamu lakukan Berhasil! ' . PHP_EOL .
+        //         'Harap tunggu Konfirmasi dari bagian akademik.' . PHP_EOL .
+        //         PHP_EOL .
+        //         'Terima Kasih'
+        // ); //->Kirim Chat
 
-        foreach ($numbers as $number) {
-            WhatsappGatewayService::sendMessage($number, 
-                'Hai, Admin Jurusan!' . PHP_EOL .
-                    PHP_EOL .
-                    'Ada pengajuan baru dari '. $user->name . PHP_EOL .
-                    'Segera lakukan pengecekan data pengajuan!'
-            ); //->Kirim Chat
-        }
+        // foreach ($numbers as $number) {
+        //     WhatsappGatewayService::sendMessage($number, 
+        //         'Hai, Admin Jurusan!' . PHP_EOL .
+        //             PHP_EOL .
+        //             'Ada pengajuan baru dari '. $user->name . PHP_EOL .
+        //             'Segera lakukan pengecekan data pengajuan!'
+        //     ); //->Kirim Chat
+        // }
 
         return redirect()->back()->with('success', 'Pengajuan Berhasil');
     }
@@ -404,16 +404,21 @@ class DispensasiController extends Controller
         }
         
         $dispensasi = Pengajuan::find($id);
-        $mahasiswa = Mahasiswa::whereIn('user_id', $pengantarPkl['nama_mahasiswa'])->get();
+        $mahasiswa = Mahasiswa::whereIn('user_id', $dispensasi['nama_mahasiswa'])->get();
 
-        $now   = Carbon::now()->locale('id');
-        $currentDate =  $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
+        if ($dispensasi->tanggal_surat == null) {
+            $now   = Carbon::now()->locale('id');
+            $currentDate =  $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
+            
+            $dispensasi->update([
+                'tanggal_surat'            => $currentDate,
+            ]);
+        } // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
             // Mendapatkan tanggal saat ini dengan nama hari
 
         //mengambil data dan tampilan dari halaman laporan_pdf
         //data di bawah ini bisa kalian ganti nantinya dengan data dari database
-        $currentDate = PDF::loadview('admin.pengajuan.dispensasi.print', [
-            'currentDate' => $currentDate,
+        $data = PDF::loadview('admin.pengajuan.dispensasi.print', [
             'dispensasi' => $dispensasi,
             'mahasiswa' =>  $mahasiswa
         ]);

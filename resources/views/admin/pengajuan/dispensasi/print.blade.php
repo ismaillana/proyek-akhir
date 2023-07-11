@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Surat Pengajuan Verifikasi Ijazah </title>
+    <title>Surat Pengajuan Izin Penelitian </title>
     <style type= "text/css">
     *{
             margin: 1;
@@ -12,12 +12,17 @@
     .judul{
       text-align:center;line-height:5px;font-size:12px;margin-top:1em;}
      .isi{
-      margin-left:2em;margin-top:1em;margin-right:2em;font-size:12px;
+      margin-left:3em;margin-top:1em;margin-right:3em;font-size:12px;
      }
 
      .list{
       margin-top:1em;
      }
+
+     .checklist {
+      font-size: 24px;
+      color: rgb(0, 0, 0);
+    }
 
      .list, .th, .td {
       border: 1px solid black;
@@ -29,6 +34,10 @@
 
       .kegiatan{
             margin-top:1.5em;
+      }
+
+      .right{
+            text-align: right;
       }
       .persyaratan{
             margin-top:1.5em;
@@ -84,130 +93,104 @@
       </div> --}}
 
       <div class="isi" style="font-size:14px">
-      <table width="100%" class="mt-2">
-            {{-- <tr align="justify">
-                  <td colspan="3"><p>
-                        Pada Hari Ini, {{ $currentDate }} Rabu Tanggal 25343 Bulan 234543 Tahun 45325 45325 telah memberikan izin kepada:</p></td>
-            </tr> --}}
-            <tr>
-                  <td style="width:20%"><p>Nomor</p></td>
-                  <td style="width:2%"><p>:</p></td>
-                  <td style="width:78%"><p>723234328</p></td>
-            </tr>
-            <tr>
-                  <td style="width:20%"><p>Lapiran</p></td>
-                  <td style="width:2%"><p>:</p></td>
-                  <td style="width:78%"><p>-</p></td>
-            </tr>
-            <tr>
-                  <td style="width:20%"><p>Perihal</p></td>
-                  <td style="width:2%"><p>:</p></td>
-                  <td style="width:78%"><p>Keabsahan Ijazah</p></td>
-            </tr>
-            <br>
-            <tr>
-                  <td style="width:20%"><p>Kepada Yth</p></td>
-            </tr>
-            <tr>
-                  <td style="width:20%"><p>Direktur </p></td>
-            </tr>
-            <tr>
-                  <td style="width:20%"><p>Ditempat </p></td>
-            </tr>
-            <br>
-            <tr>
-                  <td colspan="3">
-                        <p>Berdasarkan surat dari Rumah Sakit Umum Daerah Kabupaten Bekasi pada tanggal 14 Juli
-                        2022 perihal permohonan verifikasi ijazah untuk mahasiswa yang bekerja di Rumah Sakit
-                        tersebut.</p>
-                  </td>
-            </tr>
-            <tr>
-                  <td colspan="3">
-                        <p>Maka dengan ini kami sampaikan data alumni tersebut adalah benar alumni dari Politeknik
-                              Negeri Subang pada program studi D III Keperawatan atas nama :</p>
-                  </td>
-            </tr>
-      </table>
-
-      <table width="90%" class="list">
-      <tr>
-            <th class="th" rowspan="2">No</th>
-            <th class="th" rowspan="2">Nama</th>
-            <th class="th" rowspan="2"><p>NIM</p></th>
-            <th class="th" rowspan="2"><p>Tahun Lulus</p></th>
-            <th class="th" colspan="2"><p>Hasil Verifikasi</p></th>
-      </tr>
-      <tr>
-            <th class="th"><p>Ya</p></th>
-            <th class="th"><p>Tidak</p></th>
-      </tr>
-      @php
-      $i = 0;
-      @endphp
-      {{-- -- @foreach($keranjang as $data) -- --}}
-      @php
-      $i = $i+1;
-      @endphp
-      <tr>
-            <td style="text-align:center;width:10%" class="td"><p>1</p></td>
-            <td class="td" style="width:40%"><p>Lana Ismail</p></td>
-            <td class="td" style="text-align:center;width:30%"><p>10107036</p></td>
-            <td class="td" style="text-align:center;width:20%"><p>2023</p></td>
-            <td class="td" style="text-align:center;width:15%">
-                  {{-- -- <p>
-                        @if($data->kondisi_item == "Ready")
-                        Baik
-                        @elseif($data->kondisi_item == "Rusak")
-                        Rusak
-                        @endif
-                  </p> -- --}}
-            </td>
-            <td class="td" style="text-align:center;width:15%">
-                  {{-- -- <p>
-                        @if($data->kondisi_item == "Ready")
-                        Baik
-                        @elseif($data->kondisi_item == "Rusak")
-                        Rusak
-                        @endif
-                  </p> -- --}}
-            </td>
-      </tr>
-      {{-- -- @endforeach -- --}}
-      </table>
-
-      <table width="100%" class="kegiatan">
-            <tr>
-                  <td colspan="3"><p>Demikian surat ini dibuat untuk dipergunakan sebagaimana mestinya. Atas perhatiannya
-                        diucapkan terima kasih.</p></td>
-            </tr>
-      </table>
-      <br>
-      <div class="ttd">
-            <table class="staff" width="100%">
+            <table width="100%" class="mt-2">
+                  {{-- <tr align="justify">
+                        <td colspan="4"><p>
+                              Pada Hari Ini, {{ $currentDate }} Rabu Tanggal 25343 Bulan 234543 Tahun 45325 45325 telah memberikan izin kepada:</p></td>
+                  </tr> --}}
                   <tr>
-                        <td><p></p></td>
-                        <td style="width:50%"></td>
-                        <td><p>Wakil Direktur I,</p></td>
+                        <td style="width:20%"><p>Nomor</p></td>
+                        <td style="width:2%"><p>:</p></td>
+                        <td style="width:48%"><p>{{@$dispensasi->no_surat}}</p></td>
+                        <td style="width:30%" class="right"><p>{{ @$dispensasi->tanggal_surat }}</p></td>
                   </tr>
                   <tr>
-                        <td><p></p></td>
+                        <td style="width:20%"><p>Lapiran</p></td>
+                        <td style="width:2%"><p>:</p></td>
+                        <td style="width:48%"><p>-</p></td>
+                        <td style="width:30%"></td>
                   </tr>
                   <tr>
-                        <td style="height:60px" colspan="3"></td>
+                        <td style="width:20%"><p>Perihal</p></td>
+                        <td style="width:2%"><p>:</p></td>
+                        <td style="width:30%">Permohonan Izin Dispensasi Kuliah</td>
+                  </tr>
+                  <br>
+                  <tr>
+                        <td style="width:20%"><p>Yang Terhormat,</p></td>
                   </tr>
                   <tr>
-                        <td><p></p></td>
-                        <td style="width:50%"></td>
-                        <td><p>Lana Ismail</p></td>
+                        <td style="width:20%" colspan="4"><p>Bapak/Ibu Dosen Pengampu Mata Kuliah</p></td>
                   </tr>
                   <tr>
-                        <td><p></p></td>
-                        <td style="width:50%"></td>
-                        <td><p>NIP. 376723923489234</p></td>
+                        <td style="width:20%"><p>Ditempat</p></td>
                   </tr>
             </table>
-      </div>
+
+            <table width="100%" class="kegiatan">
+                  <tr align="justify">
+                        <td>
+                              <p>Dengan Hormat,</p>
+                        </td>
+                  </tr>
+            </table>
+
+            <table width="100%">
+                  <tr align="justify">
+                        <td>
+                              <p>Sehubungan dengan adanya kegiatan {{@$dispensasi->kegiatan}} yang akan dilaksanakan di {{@$dispensasi->nama_tempat}}, 
+                              kami mohon kepada Bapak/Ibu agar memberika izin kepada mahasiswatersebut dibawah untuk tidak mengikuti kegiatan perkuliahan sebagaimana mestinya:</p>
+                        </td>
+                  </tr>
+            </table>
+
+            <table width="100%" class="list">
+                  <tr>
+                        <th class="th">No</th>
+                        <th class="th">Nama</th>
+                        <th class="th"><p>NIM</p></th>
+                  </tr>
+                  @foreach($mahasiswa as $item)
+                  
+                  <tr>
+                        <td style="text-align:center;width:10%" class="td"><p>{{$loop->iteration}}</p></td>
+                        <td class="td" style="width:50%"><p>{{$item->user->name}}</p></td>
+                        <td class="td" style="text-align:center;width:40%"><p>{{$item->nim}}</p></td>
+                  </tr>
+                  @endforeach
+                  </table>
+
+            <table width="100%" class="kegiatan">
+                  <tr align="justify">
+                        <td colspan="3"><p>Demikian surat permohonan ini kami sampaikan, atas perhatiannya kami ucapkan terima kasih.</p></td>
+                  </tr>
+            </table>
+            <br>
+            <div class="ttd">
+                  <table class="staff" width="100%">
+                        <tr>
+                              <td><p></p></td>
+                              <td style="width:50%"></td>
+                              <td><p>Wakil Direktur I,</p></td>
+                        </tr>
+                        <tr>
+                              <td><p></p></td>
+                        </tr>
+                        <tr>
+                              <td style="height:60px" colspan="3"></td>
+                        </tr>
+                        <tr>
+                              <td><p></p></td>
+                              <td style="width:50%"></td>
+                              <td><p>Wiwik Endah Rahayu, S.TP.,M.Si.</p></td>
+                        </tr>
+                        <tr>
+                              <td><p></p></td>
+                              <td style="width:50%"></td>
+                              <td><p>NIP. 198311282015042001</p></td>
+                        </tr>
+                  </table>
+            </div>
       </div>
 </div>
 
