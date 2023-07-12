@@ -85,9 +85,11 @@
                       </div>
 
                   </div>
-
+                  @php
+                      $user = \App\Models\User::role('bagian-akademik')->first();
+                  @endphp
                   <div class="form-group">
-                    Lupa Password ? <a href="https://api.whatsapp.com/send?phone=083804046583">Hubungi Admin!</a>
+                    Lupa Password ? <a href="https://api.whatsapp.com/send?phone=0{{Str::substr(@$user->wa, 2)}}">Hubungi Admin!</a>
                   </div>
 
                   <div class="form-group">

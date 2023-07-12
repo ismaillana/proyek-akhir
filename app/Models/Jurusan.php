@@ -17,7 +17,7 @@ class Jurusan extends Model
     protected $guarded = ['id'];
 
     /**
-     * Get all of the comments for the Jurusan
+     * Get all of the comments for the Program Studi
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -27,7 +27,7 @@ class Jurusan extends Model
     }
 
     /**
-     * Get all of the comments for the Jurusan
+     * Get all of the comments for the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

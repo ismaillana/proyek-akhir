@@ -17,7 +17,7 @@ class ProgramStudi extends Model
     protected $guarded = ['id'];
 
     /**
-     * Get the user that owns the ProgramStudi
+     * Get the user that owns the Jurusan
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -27,7 +27,7 @@ class ProgramStudi extends Model
     }
 
     /**
-     * Get all of the comments for the ProgramStudi
+     * Get all of the comments for the Mahasiswa
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

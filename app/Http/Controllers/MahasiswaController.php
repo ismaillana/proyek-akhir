@@ -131,7 +131,8 @@ class MahasiswaController extends Controller
                 'nomor_induk' => $request->nomor_induk,
                 'email'       => $request->email,
                 'wa'          => $wa,
-                'password'    => Hash::make($request->nomor_induk)
+                'password'    => Hash::make($request->nomor_induk),
+                'email_verified_at' => now()
             ]);
 
             $data = [
@@ -148,7 +149,6 @@ class MahasiswaController extends Controller
                 'nip_nrp'       => $request->nip_nrp,
                 'pangkat'       => $request->pangkat,
                 'jabatan'       => $request->jabatan,
-                'golongan'       => $request->golongan,
                 'instansi'      => $request->instansi,
                 'status'        => $request->status
             ];
@@ -242,7 +242,6 @@ class MahasiswaController extends Controller
             'nip_nrp'       => $request->nip_nrp,
             'pangkat'       => $request->pangkat,
             'jabatan'       => $request->jabatan,
-            'golongan'      => $request->golongan,
             'instansi'      => $request->instansi,
             'status'        => $request->status,
         ];

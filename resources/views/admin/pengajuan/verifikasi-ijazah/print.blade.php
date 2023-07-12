@@ -68,9 +68,6 @@
 </head>
 <body>
 
-
-
-
 <div class = "rangkasurat">
      <table class="header" width = "100%">
            <tr>
@@ -85,17 +82,9 @@
                  </td>
             </tr>
       </table>
-     {{-- <div class="judul">
-      <h4 style="font-weight:bold; font-size:14px;" >BERITA ACARA PEMINJAMAN BARANG INVENTARIS</h4>
-      <h4 style="line-height:20px; font-size:14px;">POLITEKNIK NEGERI SUBANG</h4>
-      </div> --}}
 
       <div class="isi" style="font-size:14px">
             <table width="100%" class="mt-2">
-                  {{-- <tr align="justify">
-                        <td colspan="4"><p>
-                              Pada Hari Ini, {{ $currentDate }} Rabu Tanggal 25343 Bulan 234543 Tahun 45325 45325 telah memberikan izin kepada:</p></td>
-                  </tr> --}}
                   <tr>
                         <td style="width:20%"><p>Nomor</p></td>
                         <td style="width:2%"><p>:</p></td>
@@ -153,39 +142,19 @@
                         <th class="th"><p>Ya</p></th>
                         <th class="th"><p>Tidak</p></th>
                   </tr>
-                  @php
-                  $i = 0;
-                  @endphp
-                  {{-- -- @foreach($keranjang as $data) -- --}}
-                  @php
-                  $i = $i+1;
-                  @endphp
+                  
                   <tr>
                         <td style="text-align:center;width:10%" class="td"><p>1</p></td>
                         <td class="td" style="width:50%"><p>{{@$verifikasiIjazah->nama}}</p></td>
                         <td class="td" style="text-align:center;width:30%"><p>{{@$verifikasiIjazah->nim}}</p></td>
                         <td class="td" style="text-align:center;width:20%"><p>{{@$verifikasiIjazah->tahun_lulus}}</p></td>
                         <td class="td" style="text-align:center;width:15%">
-                              {{-- -- <p>
-                                    @if($data->kondisi_item == "Ready")
-                                    Baik
-                                    @elseif($data->kondisi_item == "Rusak")
-                                    Rusak
-                                    @endif
-                              </p> -- --}}
-                              <span class="checklist"><i class="fas fa-check"></i></span>
+                             
                         </td>
                         <td class="td" style="text-align:center;width:15%">
-                              {{-- -- <p>
-                                    @if($data->kondisi_item == "Ready")
-                                    Baik
-                                    @elseif($data->kondisi_item == "Rusak")
-                                    Rusak
-                                    @endif
-                              </p> -- --}}
+                              
                         </td>
                   </tr>
-                  {{-- -- @endforeach -- --}}
             </table>
 
             <table width="100%" class="kegiatan">

@@ -32,6 +32,7 @@ class MahasiswaImport implements ToCollection, WithHeadingRow, SkipsOnError
                'name' => $row['nama'],
                'nomor_induk' => $row['nim'],
                'email'    => $row['email'],
+               'email_verified_at'    => now(),
                'password' => Hash::make($row['nim']),
            ]);
 

@@ -11,8 +11,11 @@
 
       <div class="col-md-4 col-lg-3">
         <div class="widget">
+          @php
+              $user = \App\Models\User::role('bagian-akademik')->first();
+          @endphp
           <h4 class="widget-title text-white mb-3">Kontak Admin</h4>
-          <a href="mailto:#">polsub@gmail.com</a><br /> +00 (123) 456 78 90
+          <a href=" ">polsub@gmail.com</a><br /> <a href="https://api.whatsapp.com/send?phone=0{{Str::substr(@$user->wa, 2)}}">+62{{Str::substr(@$user->wa, 2)}}</a>
         </div>
       </div>
 

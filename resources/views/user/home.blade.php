@@ -82,8 +82,11 @@
             <span class="icon btn btn-block btn-soft-primary disabled me-5"><span class="number fs-18">3</span></span>
           </div>
           <div>
+            @php
+                $user = \App\Models\User::role('bagian-akademik')->first();
+            @endphp
             <h4 class="mb-1">Progres pengajuan</h4>
-            <p class="mb-0">Cek progres pengajuan melalui halaman riwayat->tracking. Atau tanya</p>
+            <p class="mb-0">Cek progres pengajuan melalui halaman riwayat->tracking. Atau <a href="https://api.whatsapp.com/send?phone=0{{Str::substr(@$user->wa, 2)}}">Hubungi Admin!</a> </p>
           </div>
         </div>
       </div>

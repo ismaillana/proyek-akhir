@@ -190,8 +190,8 @@ class LegalisirController extends Controller
             WhatsappGatewayService::sendMessage($waGateway, 
                 'Hai, ' . $pengajuan->mahasiswa->user->name . ',' . PHP_EOL .
                     PHP_EOL .
-                    'Pengajuan Legalisir yang kamu lakukan Telah Selesa!' . PHP_EOL .
-                    'Surat Keterangan Aktif Kuliah dapat diambil diruangan akademik dengan nomor surat ' . @$pengajuan->nomor_surat . PHP_EOL .
+                    'Pengajuan Legalisir yang kamu lakukan Telah Selesai!' . PHP_EOL .
+                    'Hasil Legalisir dapat diambil diruangan akademik' . PHP_EOL .
                     PHP_EOL .
                     'Terima Kasih'
             ); //->Kirim Chat

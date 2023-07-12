@@ -26,7 +26,7 @@ class Instansi extends Model
     protected $appends = ['image_url'];
 
     /**
-     * Get the user that owns the Mahasiswa
+     * Get the user that owns the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

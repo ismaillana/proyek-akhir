@@ -33,7 +33,6 @@ return new class extends Migration
             $table->string('pekerjaan')->nullable();
             $table->string('nip_nrp')->nullable();
             $table->string('pangkat')->nullable();
-            $table->string('golongan')->nullable();
             $table->string('jabatan')->nullable();
             $table->string('instansi')->nullable();
             $table->string('image')->nullable();

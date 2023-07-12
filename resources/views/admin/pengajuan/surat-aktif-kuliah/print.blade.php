@@ -59,9 +59,6 @@
 </head>
 <body>
 
-
-
-
 <div class = "rangkasurat">
      <table class="header" width = "100%">
            <tr>

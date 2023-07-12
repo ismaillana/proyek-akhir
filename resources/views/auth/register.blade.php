@@ -41,11 +41,14 @@
               </div>
 
               <div class="card-body">
+                  @php
+                      $user = \App\Models\User::role('bagian-akademik')->first();
+                  @endphp
                 <div class="alert alert-light alert-has-icon">
                   <div class="alert-icon"><i class="far fa-lightbulb"></i></div>
                   <div class="alert-body">
                     <div class="alert-title">Informasi</div>
-                    Untuk Mahasiswa dan Alumni yang belum memiliki akun dapat menghubungi <a href="https://api.whatsapp.com/send?phone=083804046583">Admin.</a> Terima Kasih!
+                    Untuk Mahasiswa dan Alumni yang belum memiliki akun dapat menghubungi <a href="https://api.whatsapp.com/send?phone=0{{Str::substr(@$user->wa, 2)}}">Admin.</a>Untuk Instansi yang telah melakukan registrasi jangan lupa untuk melakukan verifikasi Email! Terima Kasih!
                   </div>
                 </div>
 

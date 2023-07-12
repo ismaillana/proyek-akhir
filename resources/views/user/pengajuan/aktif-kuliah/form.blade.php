@@ -231,29 +231,14 @@
                       <div class="col-md-12" id="data3" style="display: none;">
                         <div class="form-floating mb-4">
                           <input id="pangkat" type="text" name="pangkat" class="form-control @error('pangkat')is-invalid @enderror" 
-                            value="{{ old('pangkat', @$aktifKuliah->mahasiswa->pangkat) }}" placeholder="Masukan Pangkat">
+                            value="{{ old('pangkat', @$aktifKuliah->mahasiswa->pangkat) }}" placeholder="Masukan Pangkat/Golongan Orang Tua">
                           
                           <label for="form_tujuan_surat">
-                            Pangkat<span class="text-danger">*</span>
+                            Pangkat/Golongan Orang Tua<span class="text-danger">*</span>
                           </label>
 
                           @if ($errors->has('pangkat'))
                               <span class="text-danger">{{ $errors->first('pangkat') }}</span>
-                          @endif
-                        </div>
-                      </div>
-
-                      <div class="col-md-12" id="data4" style="display: none;">
-                        <div class="form-floating mb-4">
-                          <input id="golongan" type="text" name="golongan" class="form-control @error('golongan')is-invalid @enderror" 
-                            value="{{ old('golongan', @$aktifKuliah->mahasiswa->golongan) }}" placeholder="Masukan Golongan">
-                          
-                          <label for="form_tujuan_surat">
-                            Golongan<span class="text-danger">*</span>
-                          </label>
-
-                          @if ($errors->has('golongan'))
-                              <span class="text-danger">{{ $errors->first('golongan') }}</span>
                           @endif
                         </div>
                       </div>
@@ -373,7 +358,6 @@
             var alasanInput1 = document.getElementById("data1");
             var alasanInput2 = document.getElementById("data2");
             var alasanInput3 = document.getElementById("data3");
-            var alasanInput4 = document.getElementById("data4");
             var alasanInput5 = document.getElementById("data5");
             var alasanInput6 = document.getElementById("data6");
             var alasanInput7 = document.getElementById("data7");
@@ -388,7 +372,6 @@
                     alasanInput1.style.display = "block";
                     alasanInput2.style.display = "block";
                     alasanInput3.style.display = "block";
-                    alasanInput4.style.display = "block";
                     alasanInput5.style.display = "block";
                     alasanInput6.style.display = "block";
                     alasanInput7.style.display = "block";
@@ -400,7 +383,6 @@
                     alasanInput1.style.display = "none";
                     alasanInput2.style.display = "none";
                     alasanInput3.style.display = "none";
-                    alasanInput4.style.display = "none";
                     alasanInput5.style.display = "none";
                     alasanInput6.style.display = "none";
                     alasanInput7.style.display = "none";

@@ -26,7 +26,7 @@ class Mahasiswa extends Model
     protected $appends = ['image_url'];
 
     /**
-     * Get the user that owns the Mahasiswa
+     * Get the user that owns the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -36,7 +36,7 @@ class Mahasiswa extends Model
     }
 
     /**
-     * Get the user that owns the Mahasiswa
+     * Get the user that owns the Program Studi
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

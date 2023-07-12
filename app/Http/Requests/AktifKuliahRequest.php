@@ -47,7 +47,6 @@ class AktifKuliahRequest extends FormRequest
             'pekerjaan.required_if'  => 'Pekerjaan Orang Tua Wajib Diisi',
             'pangkat.required_if'    => 'Pangkat Wajib Diisi',
             'nip_nrp.required_if'    => 'NIP/NRP Wajib Diisi',
-            'golongan.required_if'   => 'Golongan Wajib Diisi',
             'jabatan.required_if'    => 'Jabatan Wajib Diisi',
             'instansi.required_if'   => 'Instansi Wajib Diisi',
             'semester.required_if'   => 'Semester Wajib Diisi',

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 use Image;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -61,7 +61,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get all of the mahasiswa for the User
+     * Get all of the mahasiswa for the Mahasiswa
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -71,7 +71,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get all of the Instansi for the User
+     * Get all of the Instansi for the Instansi
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

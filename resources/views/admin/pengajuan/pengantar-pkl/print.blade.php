@@ -68,9 +68,6 @@
 </head>
 <body>
 
-
-
-
 <div class = "rangkasurat">
      <table class="header" width = "100%">
            <tr>
@@ -85,17 +82,9 @@
                  </td>
             </tr>
       </table>
-     {{-- <div class="judul">
-      <h4 style="font-weight:bold; font-size:14px;" >BERITA ACARA PEMINJAMAN BARANG INVENTARIS</h4>
-      <h4 style="line-height:20px; font-size:14px;">POLITEKNIK NEGERI SUBANG</h4>
-      </div> --}}
-
+     
       <div class="isi" style="font-size:14px">
             <table width="100%" class="mt-2">
-                  {{-- <tr align="justify">
-                        <td colspan="4"><p>
-                              Pada Hari Ini, {{ $currentDate }} Rabu Tanggal 25343 Bulan 234543 Tahun 45325 45325 telah memberikan izin kepada:</p></td>
-                  </tr> --}}
                   <tr>
                         <td style="width:20%"><p>Nomor</p></td>
                         <td style="width:2%"><p>:</p></td>

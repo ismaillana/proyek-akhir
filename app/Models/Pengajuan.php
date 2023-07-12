@@ -76,7 +76,7 @@ class Pengajuan extends Model
     }
     
     /**
-     * Get all of the Log for the User
+     * Get all of the Log for the Riwayat
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -192,22 +192,5 @@ class Pengajuan extends Model
         
         return null;
     }
-
-    /**
-     * Delete image.
-     *
-     * @param  $id
-     * @return void
-     */
-    // public static function deleteImage(string $id)
-    // {
-    //     $user = User::firstWhere('id', $id);
-    //     if ($user->image != null) {
-    //         $path = 'public/image/user/' . $user->image;
-    //         if (Storage::exists($path)) {
-    //             Storage::delete('public/image/user/' . $user->image);
-    //         }
-    //     }
-    // }
 
 }

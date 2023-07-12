@@ -8,13 +8,15 @@ use App\Models\User;
 use App\Models\Instansi;
 
 use App\Http\Requests\RegisterRequest;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -106,9 +108,10 @@ class RegisterController extends Controller
 
             $instansi = Instansi::create($data);
 
+            event(new Registered($user));
             DB::commit();
 
-            return redirect()->route('login')->with('success', 'Silahkan Login.');
+            return redirect()->route('login')->with('success', 'Segera Lakukan Verifikasi Email!');
         } catch (\Throwable $th) {
             DB::rollback();
             return back()->withError('Silahkakn Hubungi Admin');

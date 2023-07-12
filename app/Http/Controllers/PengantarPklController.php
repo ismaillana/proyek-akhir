@@ -150,23 +150,23 @@ class PengantarPklController extends Controller
             'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
         ]);
 
-        // WhatsappGatewayService::sendMessage($waGateway, 
-        //     'Hai, ' . $user->name . PHP_EOL .
-        //         PHP_EOL .
-        //         'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan Berhasil! ' . PHP_EOL .
-        //         'Harap tunggu Konfirmasi dari bagian akademik.' . PHP_EOL .
-        //         PHP_EOL .
-        //         'Terima Kasih'
-        // ); //->Kirim Chat
+        WhatsappGatewayService::sendMessage($waGateway, 
+            'Hai, ' . $user->name . PHP_EOL .
+                PHP_EOL .
+                'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan Berhasil! ' . PHP_EOL .
+                'Harap tunggu Konfirmasi dari bagian akademik.' . PHP_EOL .
+                PHP_EOL .
+                'Terima Kasih'
+        ); //->Kirim Chat
 
-        // foreach ($numbers as $number) {
-        //     WhatsappGatewayService::sendMessage($number, 
-        //         'Hai, Admin Jurusan!' . PHP_EOL .
-        //             PHP_EOL .
-        //             'Ada pengajuan baru dari '. $user->name . PHP_EOL .
-        //             'Segera lakukan pengecekan data pengajuan!'
-        //     ); //->Kirim Chat
-        // }
+        foreach ($numbers as $number) {
+            WhatsappGatewayService::sendMessage($number, 
+                'Hai, Admin Jurusan!' . PHP_EOL .
+                    PHP_EOL .
+                    'Ada pengajuan baru dari '. $user->name . PHP_EOL .
+                    'Segera lakukan pengecekan data pengajuan!'
+            ); //->Kirim Chat
+        }
 
         return redirect()->back()->with('success', 'Pengajuan Berhasil');
     }
@@ -380,8 +380,8 @@ class PengantarPklController extends Controller
             WhatsappGatewayService::sendMessage($waGateway, 
                 'Hai, ' . $pengajuan->mahasiswa->user->name . ',' . PHP_EOL .
                     PHP_EOL .
-                    'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan Telah Selesa!' . PHP_EOL .
-                    'Surat Keterangan Aktif Kuliah dapat diambil diruangan akademik dengan nomor surat ' . @$pengajuan->nomor_surat . PHP_EOL .
+                    'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan Telah Selesai!' . PHP_EOL .
+                    'Surat Pengantar PKL dapat diambil diruangan akademik dengan nomor surat ' . @$pengajuan->no_surat . PHP_EOL .
                     PHP_EOL .
                     'Terima Kasih'
             ); //->Kirim Chat
@@ -493,11 +493,8 @@ class PengantarPklController extends Controller
             $pengantarPkl->update([
                 'tanggal_surat'            => $currentDate,
             ]);
-        } // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
-            // Mendapatkan tanggal saat ini dengan nama hari
-        
+        } 
         //mengambil data dan tampilan dari halaman laporan_pdf
-        //data di bawah ini bisa kalian ganti nantinya dengan data dari database
         $data = PDF::loadview('admin.pengajuan.pengantar-pkl.print', [
             'pengantarPkl'=> $pengantarPkl,
             'mahasiswa'   => $mahasiswa

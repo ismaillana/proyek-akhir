@@ -339,22 +339,6 @@
 
                                 <div class="form-group row">
                                     <label class="col-sm-12 col-form-label">
-                                        Golongan<sup class="text-danger">*</sup>
-                                    </label>
-
-                                    <div class="col-sm-12">
-                                        <input type="text" class="form-control @error('golongan')is-invalid @enderror"
-                                            id="golongan" name="golongan" placeholder="Masukkan Golongan Orang Tua" 
-                                            value="{{ old('golongan', @$mahasiswa->golongan) }}">
-
-                                        @if ($errors->has('golongan'))
-                                            <span class="text-danger">{{ $errors->first('golongan') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-12 col-form-label">
                                         Instansi Orang Tua<sup class="text-danger">*</sup>
                                     </label>
 
