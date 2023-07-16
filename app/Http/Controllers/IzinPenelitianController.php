@@ -110,17 +110,21 @@ class IzinPenelitianController extends Controller
             'Hai, ' . $user->name . PHP_EOL .
                 PHP_EOL .
                 'Pengajuan Pembuatan Surat Izin Penelitian yang kamu lakukan Berhasil! ' . PHP_EOL .
-                'Harap tunggu Konfirmasi dari bagian akademik.' . PHP_EOL .
+                'Harap tunggu Konfirmasi dari Admin Jurusan.' . PHP_EOL .
                 PHP_EOL .
-                'Terima Kasih'
+                'Terima Kasih'. PHP_EOL .
+                PHP_EOL .
+                '[Politeknik Negeri Subang]'
         ); //->Kirim Chat
 
         foreach ($numbers as $number) {
             WhatsappGatewayService::sendMessage($number, 
                 'Hai, Admin Jurusan!' . PHP_EOL .
                     PHP_EOL .
-                    'Ada pengajuan baru dari '. $user->name . PHP_EOL .
-                    'Segera lakukan pengecekan data pengajuan!'
+                    'Ada pengajuan Surat Izin Penelian baru dari '. $user->name . PHP_EOL .
+                    'Segera lakukan pengecekan data pengajuan!'. PHP_EOL .
+                    PHP_EOL .
+                    '[Politeknik Negeri Subang]'
             ); //->Kirim Chat
         }
 
@@ -188,15 +192,19 @@ class IzinPenelitianController extends Controller
                 'Pengajuan Pembuatan Surat Izin Penelitian yang kamu lakukan telah dikonfirmasi oleh Bagian Akademik! ' . PHP_EOL .
                 'Harap tunggu pemberitahuan selanjutnya.' . PHP_EOL .
                 PHP_EOL .
-                'Terima Kasih'
+                'Terima Kasih' . PHP_EOL .
+                PHP_EOL .
+                '[Politeknik Negeri Subang]'
         ); //->Kirim Chat
 
         foreach ($numbers as $number) {
             WhatsappGatewayService::sendMessage($number, 
-                'Hai, Admin Jurusan!' . PHP_EOL .
+                'Hai, Bagian Akademik!' . PHP_EOL .
                     PHP_EOL .
-                    'Ada pengajuan baru dari '. $pengajuan->mahasiswa->user->name . PHP_EOL .
-                    'Segera lakukan pengecekan data pengajuan!'
+                    'Ada pengajuan Surat Izin Penelitian baru Yang Telah Dikonfirmasi Oleh Admin Jurusan dari '. $pengajuan->mahasiswa->user->name . PHP_EOL .
+                    'Segera lakukan pengecekan data pengajuan!' . PHP_EOL .
+                    PHP_EOL .
+                    '[Politeknik Negeri Subang]'
             ); //->Kirim Chat
         }
 
@@ -228,11 +236,13 @@ class IzinPenelitianController extends Controller
         WhatsappGatewayService::sendMessage($waGateway, 
         'Hai, ' . $pengajuan->mahasiswa->user->name . ',' . PHP_EOL .
                 PHP_EOL .
-                'Pengajuan Pembuatan Surat Izin Penelitian yang kamu lakukan Ditolak oleh Bagian Akademik dengan alasan/catatan ' . PHP_EOL .
+                'Pengajuan Pembuatan Surat Izin Penelitian yang kamu lakukan Ditolak oleh Admin Jurusan dengan alasan/catatan ' . PHP_EOL .
                 PHP_EOL .
                 '**' . $request->catatan . PHP_EOL .
                 PHP_EOL .
-                'Terima Kasih'
+                'Terima Kasih'. PHP_EOL .
+                PHP_EOL .
+                '[Politeknik Negeri Subang]'
         ); //->Kirim Chat
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
@@ -266,7 +276,9 @@ class IzinPenelitianController extends Controller
                     'Pengajuan Pembuatan Surat Izin Penelitian yang kamu lakukan sedang Diproses oleh Bagian Akademik!' . PHP_EOL .
                     'Proses dilakukan selama 3-5 hari kerja, namun bisa saja kurang atau melebihi waktu tersebut. Harap tunggu informasi selanjutnya' . PHP_EOL .
                     PHP_EOL .
-                    'Terima Kasih'
+                    'Terima Kasih'. PHP_EOL .
+                    PHP_EOL .
+                    '[Politeknik Negeri Subang]'
             ); //->Kirim Chat
         }elseif ($request->status == 'Kendala' ) {
             Riwayat::create([
@@ -281,7 +293,9 @@ class IzinPenelitianController extends Controller
                     'Pengajuan Pembuatan Surat Izin Penelitian yang kamu lakukan sedang Dalam Kendala!' . PHP_EOL .
                     'Harap menunggu pemberitahuan selanjutnya dikarenakan di lingkungan kampus sedang terdapat kegiatan yang melibatkan Bagian Akademik!' . PHP_EOL .
                     PHP_EOL .
-                    'Terima Kasih'
+                    'Terima Kasih'. PHP_EOL .
+                    PHP_EOL .
+                    '[Politeknik Negeri Subang]'
             ); //->Kirim Chat
         }elseif ($request->status == 'Selesai' ) {
             Riwayat::create([
@@ -296,7 +310,9 @@ class IzinPenelitianController extends Controller
                     'Pengajuan Pembuatan Surat Izin Penelitian yang kamu lakukan Telah Selesai!' . PHP_EOL .
                     'Surat Izin Penelitian dapat diambil diruangan akademik dengan nomor surat ' . @$pengajuan->no_surat . PHP_EOL .
                     PHP_EOL .
-                    'Terima Kasih'
+                    'Terima Kasih'. PHP_EOL .
+                    PHP_EOL .
+                    '[Politeknik Negeri Subang]'
             ); //->Kirim Chat
         }
         return redirect()->back()->with('success', 'Status Berhasil Diubah');

@@ -105,15 +105,19 @@ class VerifikasiIjazahController extends Controller
                 'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan Berhasil! ' . PHP_EOL .
                 'Harap tunggu Konfirmasi dari bagian akademik.' . PHP_EOL .
                 PHP_EOL .
-                'Terima Kasih'
+                'Terima Kasih'. PHP_EOL .
+                PHP_EOL .
+                '[Politeknik Negeri Subang]'
         ); //->Kirim Chat
 
         foreach ($numbers as $number) {
             WhatsappGatewayService::sendMessage($number, 
                 'Hai, Bagian Akademik!' . PHP_EOL .
                     PHP_EOL .
-                    'Ada pengajuan baru dari '. $user->name . PHP_EOL .
-                    'Segera lakukan pengecekan data pengajuan!'
+                    'Ada pengajuan Verifikasi Ijazah baru dari '. $user->name . PHP_EOL .
+                    'Segera lakukan pengecekan data pengajuan!'. PHP_EOL .
+                    PHP_EOL .
+                    '[Politeknik Negeri Subang]'
             ); //->Kirim Chat
         }
 
@@ -165,7 +169,9 @@ class VerifikasiIjazahController extends Controller
                 'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan telah dikonfirmasi oleh Bagian Akademik! ' . PHP_EOL .
                 'Harap tunggu pemberitahuan selanjutnya.' . PHP_EOL .
                 PHP_EOL .
-                'Terima Kasih'
+                'Terima Kasih'. PHP_EOL .
+                PHP_EOL .
+                '[Politeknik Negeri Subang]'
         ); //->Kirim Chat
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
@@ -200,7 +206,9 @@ class VerifikasiIjazahController extends Controller
                 PHP_EOL .
                 '**' . $request->catatan . PHP_EOL .
                 PHP_EOL .
-                'Terima Kasih'
+                'Terima Kasih'. PHP_EOL .
+                PHP_EOL .
+                '[Politeknik Negeri Subang]'
         ); //->Kirim Chat
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
@@ -252,7 +260,9 @@ class VerifikasiIjazahController extends Controller
                     'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan sedang Diproses oleh Bagian Akademik!' . PHP_EOL .
                     'Proses dilakukan selama 3-5 hari kerja, namun bisa saja kurang atau melebihi waktu tersebut. Harap tunggu informasi selanjutnya' . PHP_EOL .
                     PHP_EOL .
-                    'Terima Kasih'
+                    'Terima Kasih'. PHP_EOL .
+                    PHP_EOL .
+                    '[Politeknik Negeri Subang]'
             ); //->Kirim Chat
         }elseif ($request->status == 'Kendala' ) {
             Riwayat::create([
@@ -267,7 +277,9 @@ class VerifikasiIjazahController extends Controller
                     'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan sedang Dalam Kendala!' . PHP_EOL .
                     'Harap menunggu pemberitahuan selanjutnya dikarenakan di lingkungan kampus sedang terdapat kegiatan yang melibatkan Bagian Akademik!' . PHP_EOL .
                     PHP_EOL .
-                    'Terima Kasih'
+                    'Terima Kasih'. PHP_EOL .
+                    PHP_EOL .
+                    '[Politeknik Negeri Subang]'
             ); //->Kirim Chat
         }elseif ($request->status == 'Selesai' ) {
             Riwayat::create([
@@ -282,7 +294,9 @@ class VerifikasiIjazahController extends Controller
                     'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan Telah Selesai!' . PHP_EOL .
                     'Silahkan login kembali ke website pengajuan kemudian buka menu Riwayat Pengajuan untuk mengunduh hasil pengajuan.' . PHP_EOL .
                     PHP_EOL .
-                    'Terima Kasih'
+                    'Terima Kasih'. PHP_EOL .
+                    PHP_EOL .
+                    '[Politeknik Negeri Subang]'
             ); //->Kirim Chat
         }
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
