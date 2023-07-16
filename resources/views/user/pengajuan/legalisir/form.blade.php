@@ -125,7 +125,7 @@
 
                         <div class="col-md-12">
                           <label for="form_name" class="mt-1 mb-1">
-                              Dokumen<span class="text-danger">*</span>
+                              Dokumen Yang Akan Dilegalisir<span class="text-danger">*</span>
                           </label>
 
                           <div class="form-floating mb-4">
@@ -172,8 +172,6 @@
 
 @section('script')
 <script type="text/javascript">
-  new MultiSelectTag('jenis_legalisir')  // id
-
         $('#myForm').submit(function(e) {
             let form = this;
             e.preventDefault();
@@ -184,13 +182,13 @@
         function confirmSubmit(form, buttonId) {
             Swal.fire({
                 icon: 'question',
-                text: 'Apakah anda yakin ingin menyimpan data ini ?',
+                text: 'Apakah anda yakin Data Sudah Benar ?',
                 showCancelButton: true,
                 buttonsStyling: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Simpan',
-                cancelButtonText: 'Cancel',
+                cancelButtonText: 'Batal',
             }).then((result) => {
                 if (result.isConfirmed) {
                     let button = 'btnSubmit';

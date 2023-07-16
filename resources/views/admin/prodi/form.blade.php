@@ -123,7 +123,7 @@
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Simpan',
-                cancelButtonText: 'Cancel',
+                cancelButtonText: 'Batal',
             }).then((result) => {
                 if (result.isConfirmed) {
                     let button = 'btnSubmit';

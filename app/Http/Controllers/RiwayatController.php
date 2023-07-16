@@ -250,6 +250,55 @@ class RiwayatController extends Controller
 
         Pengajuan::where('id', $id)->update($data);
 
+        Riwayat::create([
+            'pengajuan_id'  => $id,
+            'status'        => $request->status,
+            'catatan'       => 'Status Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
+        ]);
+
+        if ($request->status == 'Diterima Perusahaan') {
+            Riwayat::create([
+                'pengajuan_id'  => $id,
+                'status'        => $request->status,
+                'catatan'       => 'Selamat! Pengajuan Anda Diterima Perusahaan. Jika Ingin Melakukan Pengajuan Kembali Harap Konfirmasi Jika PKL Anda Telah Selesai'
+            ]);
+        }else {
+            Riwayat::create([
+                'pengajuan_id'  => $id,
+                'status'        => $request->status,
+                'catatan'       => 'Tetap Semangat! Walaupun Pengajuan Anda Ditolak Perusahaan. Jika Ingin Melakukan Pengajuan Kembali Harap Konfirmasi Penolakan Anda'
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function konfirmasiSelesai(Request $request, string $id)
+    {
+        $request->validate([
+            'bukti_selesai' => 'required',
+        ], [
+            'bukti_selesai.required' => 'Bukti Wajib Diisi',
+        ]);
+
+        $bukti = Pengajuan::saveBukti($request);
+
+        $data = [
+            'bukti_selesai'   =>  $bukti,
+            'status'   =>  'Selesai PKL'
+        ];
+
+        Pengajuan::where('id', $id)->update($data);
+
+        Riwayat::create([
+            'pengajuan_id'  => $id,
+            'status'        => 'Selesai PKL',
+            'catatan'       => 'Kamu Hebat! PKL Kamu Telah Selesai, Sekarang Anda Dapat Melakukan Pengajuan Kembali'
+        ]);
+
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
 
@@ -266,7 +315,8 @@ class RiwayatController extends Controller
 
         return view ('user.riwayat.pengantar-pkl.tracking', [
             'riwayat'   =>  $riwayat,
-            'jumlah'    =>  $jumlah
+            'jumlah'    =>  $jumlah,
+            'title'     => 'Tracking Pengajuan PKL'
         ]);
     }
 

@@ -105,7 +105,7 @@
                                 value="{{ old('perihal', @$izinPenelitian->perihal) }}" placeholder="Perihal">
                               
                               <label for="form_perihal">
-                                Perihal<span class="text-danger">*</span>
+                                Perihal Surat<span class="text-danger">*</span>
                               </label>
     
                               @if ($errors->has('perihal'))
@@ -155,13 +155,13 @@
   function confirmSubmit(form, buttonId) {
       Swal.fire({
           icon: 'question',
-          text: 'Apakah anda yakin ingin menyimpan data ini ?',
+          text: 'Apakah anda yakin Data Sudah Benar ?',
           showCancelButton: true,
           buttonsStyling: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'Simpan',
-          cancelButtonText: 'Cancel',
+          cancelButtonText: 'Batal',
       }).then((result) => {
           if (result.isConfirmed) {
               let button = 'btnSubmit';

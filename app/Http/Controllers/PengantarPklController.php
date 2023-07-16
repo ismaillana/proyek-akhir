@@ -139,7 +139,8 @@ class PengantarPklController extends Controller
             'tgl_mulai'        => $request->tgl_mulai,
             'tgl_selesai'      => $request->tgl_selesai,
             'tujuan_surat'     => $request->tujuan_surat,
-            'nama_mahasiswa'   => $request->nama_mahasiswa
+            'nama_mahasiswa'   => $request->nama_mahasiswa,
+            'link_pendukung'   => $request->link_pendukung,
         ]);
 
         $pengajuan = Pengajuan::create($data);

@@ -226,6 +226,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::get('riwayat-pengantar-pkl', [RiwayatController::class, 'indexPengantarPkl'])->name('riwayat-pengantar-pkl');
                 Route::get('tracking-pengantar-pkl/{id}', [RiwayatController::class, 'trackingPengantarPkl'])->name('tracking-pengantar-pkl');
                 Route::post('konfirmasi-terima/{id}', [RiwayatController::class, 'konfirmasi'])->name('konfirmasi-terima');
+                Route::post('konfirmasi-selesai/{id}', [RiwayatController::class, 'konfirmasiSelesai'])->name('konfirmasi-selesai');
             }
         );
 

@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Surat Pengajuan Izin Penelitian </title>
+    <title>Surat Pengajuan Izin Dispensasi </title>
     <style type= "text/css">
             *{
                         margin: 1;

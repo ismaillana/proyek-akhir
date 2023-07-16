@@ -58,11 +58,17 @@
                                     <i class="fas fa-pencil-alt"></i>
                                   </a>
                                   
-                                  <button value="{{ route('jurusan.destroy', $item->id) }}"
-                                      class="btn btn-sm btn-outline-danger delete"
-                                      data-toggle="tooltip" data-placement="bottom" title="Hapus"> 
-                                      <i class="fas fa-trash"></i>
-                                  </button>
+                                  @php
+                                      $user = \App\Models\User::where('jurusan_id', $item->id)->exists();
+                                  @endphp
+
+                                  @if (!$user)
+                                    <button value="{{ route('jurusan.destroy', $item->id) }}"
+                                        class="btn btn-sm btn-outline-danger delete"
+                                        data-toggle="tooltip" data-placement="bottom" title="Hapus"> 
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                  @endif
                               </td>
                           </tr>
                       @endforeach

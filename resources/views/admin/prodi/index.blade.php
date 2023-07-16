@@ -65,10 +65,16 @@
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
                                     
-                                    <button value="{{ route('prodi.destroy', $item->id) }}"
-                                        class="btn btn-sm btn-outline-danger delete"> 
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    @php
+                                        $mahasiswa = \App\Models\Mahasiswa::where('program_studi_id', $item->id)->exists();
+                                    @endphp
+
+                                    @if (!$mahasiswa)
+                                        <button value="{{ route('prodi.destroy', $item->id) }}"
+                                            class="btn btn-sm btn-outline-danger delete"> 
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

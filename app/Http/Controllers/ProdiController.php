@@ -17,7 +17,7 @@ class ProdiController extends Controller
     {
         $prodi = ProgramStudi::all();
 
-        return view ('admin.Prodi.index', [
+        return view ('admin.prodi.index', [
             'prodi' => $prodi,
             'title'     => 'Program Studi'
         ]);

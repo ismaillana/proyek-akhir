@@ -180,6 +180,27 @@ class Pengajuan extends Model
     }
 
     /**
+     * Save image.
+     *
+     * @param  $request
+     * @return string
+     */
+    public static function saveBukti($request)
+    {
+        $filename = null;
+
+        if ($request->bukti_selesai) {
+            $file = $request->bukti_selesai;
+
+            $ext = $file->getClientOriginalExtension();
+            $filename = date('YmdHis') . uniqid() . '.' . $ext;
+            $file->storeAs('public/image/bukti-selesai/', $filename);
+        }
+
+        return $filename;
+    }
+
+    /**
      * Get the image .
      *
      * @return string

@@ -49,11 +49,13 @@ return new class extends Migration
             $table->string('dokumen_hasil')->nullable();
             $table->string('image')->nullable();
             $table->string('no_surat')->nullable();
+            $table->string('bukti_selesai')->nullable();
+            $table->string('link_pendukung')->nullable();
             $table->text('catatan')->nullable();
             $table->string('tanggal_surat')->nullable();
             $table->ENUM('status', ['Menunggu Konfirmasi', 'Konfirmasi', 
             'Proses', 'Kendala', 'Tolak', 'Selesai', 
-            'Diterima Perusahaan', 'Ditolak Perusahaan', 'Review', 'Setuju'])
+            'Diterima Perusahaan', 'Ditolak Perusahaan', 'Review', 'Setuju', 'Selesai PKL'])
             ->default('Menunggu Konfirmasi')
             ->nullable();
             $table->timestamps();

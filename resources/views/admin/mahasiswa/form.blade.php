@@ -432,7 +432,7 @@
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Simpan',
-                cancelButtonText: 'Cancel',
+                cancelButtonText: 'Batal',
             }).then((result) => {
                 if (result.isConfirmed) {
                     let button = 'btnSubmit';
@@ -462,10 +462,6 @@
             input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
         });
         document.getElementById('nip_nrp').addEventListener('input', function(evt) {
-            var input = evt.target;
-            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
-        });
-        document.getElementById('tahun_ajaran').addEventListener('input', function(evt) {
             var input = evt.target;
             input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
         });

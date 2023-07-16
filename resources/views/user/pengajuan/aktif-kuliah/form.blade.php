@@ -329,13 +329,13 @@
         function confirmSubmit(form, buttonId) {
             Swal.fire({
                 icon: 'question',
-                text: 'Apakah anda yakin ingin menyimpan data ini ?',
+                text: 'Apakah anda yakin Data Sudah Benar ?',
                 showCancelButton: true,
                 buttonsStyling: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Simpan',
-                cancelButtonText: 'Cancel',
+                cancelButtonText: 'Batal',
             }).then((result) => {
                 if (result.isConfirmed) {
                     let button = 'btnSubmit';
@@ -394,11 +394,6 @@
         });
 
         document.getElementById('nip_nrp').addEventListener('input', function(evt) {
-            var input = evt.target;
-            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
-        });
-
-        document.getElementById('tahun_ajaran').addEventListener('input', function(evt) {
             var input = evt.target;
             input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
         });

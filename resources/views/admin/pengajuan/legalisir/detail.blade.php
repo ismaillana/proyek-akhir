@@ -191,11 +191,11 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        Close
+                        Batal
                     </button>
 
                     <button type="submit" class="btn btn-primary">
-                        Save changes
+                        Simpan
                     </button>
                 </div>
             </div>
@@ -239,11 +239,11 @@
 
                 <div class="modal-footer br">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        Close
+                        Batal
                     </button>
 
                     <button type="submit" class="btn btn-primary">
-                        Save changes
+                        Simpan
                     </button>
                 </div>
             </div>

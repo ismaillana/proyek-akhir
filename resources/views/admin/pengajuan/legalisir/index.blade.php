@@ -210,11 +210,11 @@
 
                 <div class="modal-footer br">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        Close
+                        Batal
                     </button>
 
                     <button type="submit" class="btn btn-primary">
-                        Save changes
+                        Simpan
                     </button>
                 </div>
             </div>
@@ -222,46 +222,4 @@
     </div>
   </div>
 @endforeach
-@endsection
-
-@section('script')
-    <script>
-        $(document).ready(function() {
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            $(document).on('click', '.delete', function() {
-                let url = $(this).val();
-                console.log(url);
-                swal({
-                        title: "Apakah anda yakin?",
-                        text: "Setelah dihapus, Anda tidak dapat memulihkan Tag ini lagi!",
-                        icon: "warning",
-                        buttons: true,
-                        dangerMode: true,
-                    })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            $.ajax({
-                                type: "DELETE",
-                                url: url,
-                                dataType: 'json',
-                                success: function(response) {
-                                    swal(response.status, {
-                                            icon: "success",
-                                        })
-                                        .then((result) => {
-                                            location.reload();
-                                        });
-                                }
-                            });
-                        }
-                    })
-            });
-        });
-    </script>
 @endsection

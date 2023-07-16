@@ -68,19 +68,25 @@
                                         </td>
 
                                         <td class="text-center">
-                                            @if ($item->status == 'Menunggu Konfirmasi')
-                                                <span class="badge bg-primary rounded-pill">Menunggu Konfirmasi</span>
-                                            @elseif ($item->status == 'Dikonfirmasi')
-                                                <span class="badge bg-blue rounded-pill">Dikonfirmasi</span>
-                                            @elseif ($item->status == 'Diproses')
-                                                <span class="badge bg-green rounded-pill">Diproses</span>
-                                            @elseif ($item->status == 'Ditolak')
-                                                <span class="badge bg-red rounded-pill">Ditolak</span>
-                                            @elseif ($item->status == 'Ada Kendala')
-                                                <span class="badge bg-red rounded-pill">Ada Kendala</span>
-                                            @else
-                                                <span class="badge bg-green rounded-pill">Selesai</span>
-                                            @endif
+                                          @if ($item->status == 'Menunggu Konfirmasi')
+                                              <span class="badge bg-primary rounded-pill">Menunggu Konfirmasi</span>
+                                          @elseif ($item->status == 'Konfirmasi')
+                                              <span class="badge bg-blue rounded-pill">Dikonfirmasi</span>
+                                          @elseif ($item->status == 'Proses')
+                                              <span class="badge bg-green rounded-pill">Diproses</span>
+                                          @elseif ($item->status == 'Tolak')
+                                              <span class="badge bg-red rounded-pill">Ditolak</span>
+                                          @elseif ($item->status == 'Kendala')
+                                              <span class="badge bg-red rounded-pill">Ada Kendala</span>
+                                          @elseif ($item->status == 'Diterima Perusahaan')
+                                              <span class="badge bg-warning rounded-pill">Diterima Perusahaan</span>
+                                          @elseif ($item->status == 'Ditolak Perusahaan')
+                                              <span class="badge bg-red rounded-pill">Ditolak Perusahaan</span>
+                                          @elseif ($item->status == 'Selesai PKL')
+                                              <span class="badge bg-green rounded-pill">Selesai PKL</span>
+                                          @else
+                                              <span class="badge bg-green rounded-pill">Selesai</span>
+                                          @endif                    
                                         </td>
 
                                         <td>
@@ -113,43 +119,4 @@
     </div>
   </div>
 </section>
-@endsection
-
-@section('script')
-<script type="text/javascript">
-  new MultiSelectTag('jenis_legalisir_id')  // id
-
-        $('#myForm').submit(function(e) {
-            let form = this;
-            e.preventDefault();
-
-            confirmSubmit(form);
-        });
-        // Form
-        function confirmSubmit(form, buttonId) {
-            Swal.fire({
-                icon: 'question',
-                text: 'Apakah anda yakin ingin menyimpan data ini ?',
-                showCancelButton: true,
-                buttonsStyling: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Simpan',
-                cancelButtonText: 'Cancel',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    let button = 'btnSubmit';
-
-                    if (buttonId) {
-                        button = buttonId;
-                    }
-
-                    $('#' + button).attr('disabled', 'disabled');
-                    $('#loader').removeClass('d-none');
-
-                    form.submit();
-                }
-            });
-        }
-</script>
 @endsection

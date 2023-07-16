@@ -48,14 +48,16 @@
                   <div class="alert-icon"><i class="far fa-lightbulb"></i></div>
                   <div class="alert-body">
                     <div class="alert-title">Informasi</div>
-                    Untuk Mahasiswa dan Alumni yang belum memiliki akun dapat menghubungi <a href="https://api.whatsapp.com/send?phone=0{{Str::substr(@$user->wa, 2)}}">Admin.</a>Untuk Instansi yang telah melakukan registrasi jangan lupa untuk melakukan verifikasi Email! Terima Kasih!
+                    Untuk Mahasiswa dan Alumni yang belum memiliki akun dapat menghubungi 
+                    <a href="https://api.whatsapp.com/send?phone=0{{Str::substr(@$user->wa, 2)}}">Admin. </a>
+                    Untuk Instansi yang telah melakukan registrasi jangan lupa untuk melakukan verifikasi Email! Terima Kasih!
                   </div>
                 </div>
 
                 <form method="POST" action="{{ route('register') }}">
                   @csrf
                   <div class="row">
-                    <div class="form-group col-6">
+                    <div class="form-group col-12">
                         <label for="name">{{ __('Name') }}</label>
 
                             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" 
@@ -68,7 +70,7 @@
                             @enderror
                     </div>
 
-                    <div class="form-group col-6">
+                    <div class="form-group col-12">
                         <label for="wa">{{ __('No WhatsApp') }}</label>
                           <div class="input-group">
                             <div class="input-group-text">
@@ -85,7 +87,7 @@
                           </div>
                     </div>
 
-                  <div class="form-group col-6">
+                  <div class="form-group col-12">
                       <label for="alamat">{{ __('Alamat') }}</label>
 
                           <input id="alamat" type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" 
@@ -97,7 +99,7 @@
                               </span>
                           @enderror
                   </div>
-                    <div class="form-group col-6">
+                    <div class="form-group col-12">
                         <label for="email">{{ __('Email Address') }}</label>
 
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" 
@@ -112,7 +114,7 @@
                   </div>
 
                   <div class="row">
-                    <div class="form-group col-6">
+                    <div class="form-group col-12">
                       <label for="password">{{ __('Password') }}</label>
                                 
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" 
@@ -124,7 +126,7 @@
                                     </span>
                                 @enderror
                     </div>
-                    <div class="form-group col-6">
+                    <div class="form-group col-12">
                         <label for="password-confirm">{{ __('Confirm Password') }}</label>
 
                             <input id="password-confirm" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" 

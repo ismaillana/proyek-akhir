@@ -157,13 +157,13 @@
   function confirmSubmit(form, buttonId) {
       Swal.fire({
           icon: 'question',
-          text: 'Apakah anda yakin ingin menyimpan data ini ?',
+          text: 'Apakah anda yakin Data Sudah Benar ?',
           showCancelButton: true,
           buttonsStyling: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'Simpan',
-          cancelButtonText: 'Cancel',
+          cancelButtonText: 'Batal',
       }).then((result) => {
           if (result.isConfirmed) {
               let button = 'btnSubmit';

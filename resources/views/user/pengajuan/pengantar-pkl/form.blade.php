@@ -37,7 +37,7 @@
 
                   <div class="card-body">
                     <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                      @if (@$pengajuan->status == 'Diterima Perusahaan' || @$pengajuan->status == 'Ditolak Perusahaan' || @$pengajuan == null)
+                      @if (@$pengajuan->status == 'Selesai PKL' || @$pengajuan->status == 'Ditolak Perusahaan' || @$pengajuan->status == 'Tolak' || @$pengajuan == null)
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
                               <input id="tgl_mulai" type="date" name="tgl_mulai" class="form-control @error('tgl_mulai')is-invalid @enderror" 
@@ -93,7 +93,7 @@
                           <div class="form-floating mb-4 mt-4 col-sm-12">
                             <select style="max-width: 100%;" class="form-select @error('tempat_pkl_id') 
                             is-invalid @enderror" id="tempat_pkl_id" name="tempat_pkl_id">
-                              <option disabled selected value="">Pilih Perusahaan</option>
+                              <option disabled selected value="">Pilih Perusahaan<span class="text-danger">*</span></option>
                               @foreach ($tempatPkl as $item)
                                   <option value="{{ $item->id }}"
                                     {{ old('tempat_pkl_id', @$pengantarPkl->tempat_pkl_id) == $item->id ? 'selected' : '' }}>
@@ -185,6 +185,23 @@
                           </div>
                         </div>
 
+                        <div class="col-md-12 mb-4">
+                          <div class="form-floating">
+                            <input id="link_pendukung" type="text" name="link_pendukung" class="form-control @error('link_pendukung')is-invalid @enderror" 
+                              value="{{ old('link_pendukung', @$pengantarPkl->link_pendukung) }}" placeholder="Link Drive Dokumen Pendukung">
+                            
+                            <label for="form_nama_tempat">
+                              Link Drive Dokumen Pendukung
+                            </label>
+                          </div>
+
+                          <div class="text text-info">
+                            <small>
+                                Masukkan Link Drive Yang Berisi Dokumen Pendukung. Pastikan Pengaturan Link Dapat Diakses Semua Orang!
+                            </small>
+                        </div>
+                        </div>
+
                         <div class="col-12 text-center">
                           <button type="submit" class="btn btn-primary rounded-pill btn-send mb-3" id="btnSubmit">
                             Kirim Pengajuan
@@ -199,7 +216,7 @@
                           srcset="{{ asset('template/assets/img/illustrations/3d1@2x.png 2x')}}" alt="" />
                           
                           <p>
-                            Pengajuan Dapat Dilakukan Kembali Setelah Pengajuan Sebelumnya Selesai!
+                            Pengajuan Dapat Dilakukan Kembali Jika Mahasiswa Ditolak Oleh Perusahaan Atau Setelah Mahasiswa Selesai Melaksanakan PKL!
                             <span class="text-danger">*</span>
                           </p>
                         </div>
@@ -217,23 +234,23 @@
 
 @section('script')
 <script>
-          $('#myForm').submit(function(e) {
-            let form = this;
-                  e.preventDefault();
+        $('#myForm').submit(function(e) {
+          let form = this;
+                e.preventDefault();
 
-                  confirmSubmit(form);
-          });
+                confirmSubmit(form);
+        });
         // Form
         function confirmSubmit(form, buttonId) {
           Swal.fire({
                 icon: 'question',
-                text: 'Apakah anda yakin ingin menyimpan data ini ?',
+                text: 'Apakah anda yakin Data Sudah Benar ?',
                 showCancelButton: true,
                 buttonsStyling: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Simpan',
-                cancelButtonText: 'Cancel',
+                cancelButtonText: 'Batal',
             }).then((result) => {
                 if (result.isConfirmed) {
                     let button = 'btnSubmit';

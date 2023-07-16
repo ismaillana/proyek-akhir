@@ -74,9 +74,16 @@
                                                 <span class="badge bg-red rounded-pill">Ditolak</span>
                                             @elseif ($item->status == 'Kendala')
                                                 <span class="badge bg-red rounded-pill">Ada Kendala</span>
+                                            @elseif ($item->status == 'Diterima Perusahaan')
+                                                <span class="badge bg-warning rounded-pill">Diterima Perusahaan</span>
+                                            @elseif ($item->status == 'Ditolak Perusahaan')
+                                                <span class="badge bg-red rounded-pill">Ditolak Perusahaan</span>
+                                            @elseif ($item->status == 'Selesai PKL')
+                                                <span class="badge bg-green rounded-pill">Selesai PKL</span>
                                             @else
                                                 <span class="badge bg-green rounded-pill">Selesai</span>
                                             @endif
+
                                         </td>
 
                                         <td class="text-center">
@@ -87,8 +94,15 @@
                                             @if ($item->status == 'Selesai')
                                               <a href="#" data-bs-toggle="modal" data-bs-target="#modal-03-{{$item->id}}"
                                                   class="badge bg-yellow" title="Konfirmasi">
-                                                  Konfirmasi
+                                                  Konfirmasi Penerimaan
                                               </a>
+                                            @elseif ($item->status == 'Diterima Perusahaan')
+                                              <a href="#" data-bs-toggle="modal" data-bs-target="#modal-04-{{$item->id}}"
+                                                  class="badge bg-yellow" title="Konfirmasi">
+                                                  Konfirmasi Selesai PKL
+                                              </a>
+                                            @else
+
                                             @endif
                                         </td>
                                     </tr>
@@ -145,11 +159,46 @@
 
             <div class="form-floating mb-4" id="bukti">
               <div class="col-sm-12 col-md-12">
+                <label for="form_nama_tempat">
+                  Bukti Penolakan<span class="text-danger">*</span>
+                </label>
+
                 <input id="image" type="file" name="image" class="form-control @error('image')is-invalid @enderror" 
                   value="{{ old('image', @$pengantarPkl->image) }}" placeholder="image">
                 
                 @if ($errors->has('image'))
                     <span class="text-danger">{{ $errors->first('image') }}</span>
+                @endif
+              </div>
+            </div>
+
+            <button class="btn btn-primary rounded-pill w-100 mb-2" type="submit">
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal-04-{{$pengantarPkl->id}}" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content text-center">
+        <div class="modal-body">
+          <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h3 class="mb-4">Konfirmasi PKL Telah Selesai</h3>
+          <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{route('pengajuan.konfirmasi-selesai', $pengantarPkl->id)}}" method="POST">
+            @csrf
+            <div class="form-floating mb-4" id="bukti">
+              <div class="col-sm-12 col-md-12">
+                <label for="form_nama_tempat">
+                  Bukti Selesai PKL<span class="text-danger">*</span>
+                </label>
+                <input id="bukti_selesai" type="file" name="bukti_selesai" class="form-control @error('bukti_selesai')is-invalid @enderror" 
+                  value="{{ old('bukti_selesai', @$pengantarPkl->bukti_selesai) }}" placeholder="bukti_selesai">
+                
+                @if ($errors->has('bukti_selesai'))
+                    <span class="text-danger">{{ $errors->first('bukti_selesai') }}</span>
                 @endif
               </div>
             </div>
@@ -168,39 +217,6 @@
 
 @section('script')
 <script type="text/javascript">
-        // $('#myForm').submit(function(e) {
-        //     let form = this;
-        //     e.preventDefault();
-
-        //     confirmSubmit(form);
-        // });
-        // Form
-        // function confirmSubmit(form, buttonId) {
-        //     Swal.fire({
-        //         icon: 'question',
-        //         text: 'Apakah anda yakin ingin menyimpan data ini ?',
-        //         showCancelButton: true,
-        //         buttonsStyling: true,
-        //         confirmButtonColor: '#3085d6',
-        //         cancelButtonColor: '#d33',
-        //         confirmButtonText: 'Simpan',
-        //         cancelButtonText: 'Cancel',
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             let button = 'btnSubmit';
-
-        //             if (buttonId) {
-        //                 button = buttonId;
-        //             }
-
-        //             $('#' + button).attr('disabled', 'disabled');
-        //             $('#loader').removeClass('d-none');
-
-        //             form.submit();
-        //         }
-        //     });
-        // }
-
         $("#bukti").hide();
 
         $('#status').on('change', function(){
