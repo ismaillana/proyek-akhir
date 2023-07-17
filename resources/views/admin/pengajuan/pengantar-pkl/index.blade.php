@@ -42,6 +42,10 @@
                             Nama Perusahaan
                         </th>
 
+                        <th>
+                            Jumlah Mahasiswa PKL
+                        </th>
+
                         <th class="text-center">
                             Status
                         </th>
@@ -72,6 +76,10 @@
 
                                 <td>
                                     {{@$item->tempatPkl->name}}
+                                </td>
+
+                                <td>
+                                    {{count(@$item->nama_mahasiswa)}}
                                 </td>
 
                                 <td class="text-center">

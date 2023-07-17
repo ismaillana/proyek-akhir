@@ -32,7 +32,7 @@ class PengantarPklController extends Controller
     public function index()
     {
         $user = auth()->user();
-
+        
         if ($user->hasRole('admin-jurusan')) {
             $pengantarPkl = Pengajuan::latest()
                 ->where('jenis_pengajuan_id', 2)
@@ -482,7 +482,7 @@ class PengantarPklController extends Controller
         $pengantarPkl = Pengajuan::latest()
             ->where('jenis_pengajuan_id',2)
             ->get();
-
+       
         if ($user->hasRole('admin-jurusan')) {
             return view ('admin.riwayat.pengantar-pkl.index-admin-jurusan', [
                 'pengantarPkl'  => $pengantarPkl,
@@ -498,6 +498,7 @@ class PengantarPklController extends Controller
         } else {
             return view ('admin.riwayat.pengantar-pkl.index', [
                 'pengantarPkl'   => $pengantarPkl,
+                'user'          => $user,
                 'title'         => 'Surat Pengantar PKL'
             ]);
         }

@@ -53,7 +53,18 @@ class TempatPKLController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $id = Crypt::decryptString($id);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
+
+        $tempatPkl = TempatPkl::findOrFail($id);
+
+        return view ('admin.tempat-pkl.detail', [
+            'tempatPkl' => $tempatPkl,
+            'title'     => 'Detail Tempat PKL'
+        ]);
     }
 
     /**

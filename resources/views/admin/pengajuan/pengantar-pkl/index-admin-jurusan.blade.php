@@ -42,6 +42,10 @@
                             Nama Perusahaan
                         </th>
 
+                        <th>
+                            Jumlah Mahasiswa PKL
+                        </th>
+
                         <th class="text-center">
                             Status
                         </th>
@@ -54,7 +58,6 @@
                     <tbody>
                         @foreach ($pengantarPkl as $item)
                             @if (@$item->mahasiswa->programStudi->jurusan->name == @$user->jurusan->name)
-
                                 <tr>
                                     <td>
                                         {{$loop->iteration}}
@@ -74,6 +77,10 @@
 
                                     <td>
                                         {{@$item->tempatPkl->name}}
+                                    </td>
+
+                                    <td>
+                                        {{count(@$item->nama_mahasiswa)}}
                                     </td>
 
                                     <td class="text-center">

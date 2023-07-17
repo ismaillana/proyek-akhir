@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Pengajuan;
+use App\Models\TempatPkl;
+use App\Models\Instansi;
+use App\Models\Mahasiswa;
+
 use Carbon\Carbon;
 
 
@@ -27,6 +31,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $akun = auth()->user();
+        //Bagian Akademik & Super Admin
         $oneDayAgo = Carbon::now()->subDay();
 
         $pengajuans = Pengajuan::where('status', 'Menunggu Konfirmasi')
@@ -45,43 +51,61 @@ class DashboardController extends Controller
         ->get();
 
         $user = User::count();
+
+        $mahasiswa = Mahasiswa::where('status', 'Mahasiswa Aktif')->count();
+
+        $alumni = Mahasiswa::where('status', 'Alumni')->count();
+
+        $instansi = Instansi::count();
+
+        //Admin Jurusan
+        $pengajuanIzinPenelitian = Pengajuan::where('jenis_pengajuan_id', 3)
+            ->count();
+        
+        $pengajuanIzinDispensasi = Pengajuan::where('jenis_pengajuan_id', 4)
+            ->count();
+        
+        $pengajuanPengantarPkl = Pengajuan::where('jenis_pengajuan_id', 2)
+            ->count();
+
+
         $riwayat = Pengajuan::where('status', 'Selesai')
             ->orWhere('status', 'Tolak')
             ->count();
-        $pengajuan = Pengajuan::whereNot('status', 'Selesai')
-            ->WhereNot('status', 'Tolak')
-            ->count();
+
+        $pengajuan = Pengajuan::count();
+
+        $tempatPkl = TempatPkl::count();
+
         $aktifKuliah = Pengajuan::latest()
             ->where('jenis_pengajuan_id', 1)
             ->whereNot('status', 'Selesai')
             ->whereNot('status', 'Tolak')
             ->get()
             ->take(3);
+
         $pengantarPkl = Pengajuan::latest()
             ->where('jenis_pengajuan_id', 2)
-            ->whereNot('status', 'Selesai')
-            ->whereNot('status', 'Tolak')
             ->get()
             ->take(3);
+
         $izinPenelitian = Pengajuan::latest()
             ->where('jenis_pengajuan_id', 3)
-            ->whereNot('status', 'Selesai')
-            ->whereNot('status', 'Tolak')
             ->get()
             ->take(3);
         
         $dispensasi = Pengajuan::latest()
             ->where('jenis_pengajuan_id', 4)
-            ->whereNot('status', 'Selesai')
-            ->whereNot('status', 'Tolak')
             ->get()
             ->take(3);
+
         $verifikasiIjazah = Pengajuan::latest()
             ->where('jenis_pengajuan_id', 6)
             ->whereNot('status', 'Selesai')
             ->whereNot('status', 'Tolak')
             ->get()
             ->take(3);
+
         $legalisir = Pengajuan::latest()
             ->where('jenis_pengajuan_id', 5)
             ->whereNot('status', 'Selesai')
@@ -102,6 +126,14 @@ class DashboardController extends Controller
             'pengajuans' => $pengajuans,
             'pengajuanJurusan' => $pengajuanJurusan,
             'pengajuanPkls' => $pengajuanPkls,
+            'tempatPkl' => $tempatPkl,
+            'instansi' => $instansi,
+            'alumni' => $alumni,
+            'mahasiswa' => $mahasiswa,
+            'pengajuanIzinDispensasi' => $pengajuanIzinDispensasi,
+            'pengajuanPengantarPkl' => $pengajuanPengantarPkl,
+            'pengajuanIzinPenelitian' => $pengajuanIzinPenelitian,
+            'akun' => $akun,
             'title'         => 'Dashboard'
         ]);
     }

@@ -127,13 +127,47 @@
                                           Dokumen Permohonan Admin Jurusan: 
                                         </strong>
                                         <br>
-                                        @if (@$dispensasi->dokumen_permohonan !== null)
-                                            <a class="btn btn-primary" href="{{ asset('storage/public/dokumen/dokumen-permohonan/'. @$dispensasi->dokumen_permohonan)}}" 
-                                                    download="{{@$dispensasi->dokumen_permohonan}}">
+                                        @if (@$pengantarPkl->dokumen_permohonan !== null)
+                                            <a class="btn btn-primary" href="{{ asset('storage/public/dokumen/dokumen-permohonan/'. @$pengantarPkl->dokumen_permohonan)}}" 
+                                                    download="{{@$pengantarPkl->dokumen_permohonan}}">
                                                         Download Dokumen
                                             </a>
                                         @else
                                             Belum Ada Dokumen Permohonan Dari Admin Jurusan
+                                        @endif
+                                      </address>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <address>
+                                        <strong>
+                                          Bukti Penolakan: 
+                                        </strong>
+                                        <br>
+                                        @if (@$pengantarPkl->image !== null)
+                                            <a class="btn btn-primary" href="{{ asset('storage/public/image/bukti-penolakan/'. @$pengantarPkl->image)}}" 
+                                                    download="{{@$pengantarPkl->image}}">
+                                                        Download Bukti
+                                            </a>
+                                        @else
+                                            Tidak Ada Bukti Penolakan
+                                        @endif
+                                      </address>
+                                    </div>
+                                    <div class="col-md-6 text-md-right">
+                                      <address>
+                                        <strong>
+                                          Bukti Selesai PKL: 
+                                        </strong>
+                                        <br>
+                                        @if (@$pengantarPkl->bukti_selesai !== null)
+                                            <a class="btn btn-primary" href="{{ asset('storage/public/image/bukti-selesai/'. @$pengantarPkl->bukti_selesai)}}" 
+                                                    download="{{@$pengantarPkl->bukti_selesai}}">
+                                                        Download Bukti
+                                            </a>
+                                        @else
+                                            Belum Ada Bukti Selesai PKL
                                         @endif
                                       </address>
                                     </div>
