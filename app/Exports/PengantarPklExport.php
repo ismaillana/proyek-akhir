@@ -31,6 +31,8 @@ class PengantarPklExport implements FromCollection, WithHeadings, WithMapping
             'Tanggal Pengajuan',
             'Nama Pengaju',
             'NIM Pengaju',
+            'Nama Mahasiswa PKL',
+            'Tempat PKL',
             'Status Pengajuan',
             // Tambahkan atribut-atribut lain yang ingin Anda ekspor
         ];
@@ -46,6 +48,8 @@ class PengantarPklExport implements FromCollection, WithHeadings, WithMapping
             $pengajuan->created_at,
             $pengajuan->mahasiswa->user->name,
             $pengajuan->mahasiswa->nim,
+            $pengajuan->get_mahasiswa,
+            $pengajuan->tempatPkl->name,
             $pengajuan->status,
             // Tambahkan value-value lain yang ingin Anda ekspor
         ];

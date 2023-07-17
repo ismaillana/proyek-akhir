@@ -30,6 +30,7 @@ class DashboardController extends Controller
         $oneDayAgo = Carbon::now()->subDay();
 
         $pengajuans = Pengajuan::where('status', 'Menunggu Konfirmasi')
+        ->whereIn('jenis_pengajuan_id', [1,5,6])
         ->where('created_at', '<=', $oneDayAgo)
         ->get();
 
@@ -68,6 +69,7 @@ class DashboardController extends Controller
             ->whereNot('status', 'Tolak')
             ->get()
             ->take(3);
+        
         $dispensasi = Pengajuan::latest()
             ->where('jenis_pengajuan_id', 4)
             ->whereNot('status', 'Selesai')
