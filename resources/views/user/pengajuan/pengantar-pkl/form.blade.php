@@ -196,10 +196,10 @@
                           </div>
 
                           <div class="text text-info">
-                            <small>
-                                Masukkan Link Drive Yang Berisi Dokumen Pendukung. Pastikan Pengaturan Link Dapat Diakses Semua Orang!
-                            </small>
-                        </div>
+                              <small>
+                                  Masukkan Link Drive Yang Berisi Dokumen Pendukung. Pastikan Pengaturan Link Dapat Diakses Semua Orang!
+                              </small>
+                          </div>
                         </div>
 
                         <div class="col-12 text-center">

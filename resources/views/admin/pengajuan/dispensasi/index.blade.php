@@ -26,6 +26,10 @@
                             #
                         </th>
 
+                        <th class="text-center">
+                            Tanggal Pengajuan
+                        </th>
+
                         <th>
                             Pengaju
                         </th>
@@ -34,9 +38,6 @@
                             Nama Mahasiswa
                         </th>
 
-                        <th class="text-center">
-                            Dokumen
-                        </th>
 
                         <th class="text-center">
                             Status
@@ -53,6 +54,10 @@
                             <td>
                                 {{$loop->iteration}}
                             </td>
+                            
+                            <td class="text-center">
+                                {{ Carbon\Carbon::parse(@$item->created_at)->translatedFormat('d F Y H:i:s') }}
+                            </td>
 
                             <td>
                                 {{@$item->mahasiswa->user->name}}
@@ -62,11 +67,6 @@
                                 {{$item->get_mahasiswa}}
                             </td>
 
-                            <td class="text-center">
-                                <a href="{{ asset('storage/public/dokumen/'. $item->dokumen)}}" download="{{$item->dokumen}}">
-                                    File Pengajuan
-                                </a>
-                            </td>
 
                             <td class="text-center">
                                 @if ($item->status == 'Menunggu Konfirmasi')

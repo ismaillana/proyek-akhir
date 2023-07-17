@@ -27,17 +27,17 @@
                                     Status Pengajuan
                                 </h4>
                                     @if (@$verifikasiIjazah->status == 'Menunggu Konfirmasi')
-                                        <span class="badge badge-warning">Menunggu Konfirmasi</span>
+                                        <span class="btn btn-warning">Menunggu Konfirmasi</span>
                                     @elseif (@$verifikasiIjazah->status == 'Konfirmasi')
-                                        <span class="badge badge-primary">Dikonfirmasi</span>
+                                        <span class="btn btn-primary">Dikonfirmasi</span>
                                     @elseif (@$verifikasiIjazah->status == 'Proses')
-                                        <span class="badge badge-success">Diproses</span>
+                                        <span class="btn btn-success">Diproses</span>
                                     @elseif (@$verifikasiIjazah->status == 'Tolak')
-                                        <span class="badge badge-danger">Ditolak</span>
+                                        <span class="btn btn-danger">Ditolak</span>
                                     @elseif (@$verifikasiIjazah->status == 'Kendala')
-                                        <span class="badge badge-danger">Ada Kendala</span>
+                                        <span class="btn btn-danger">Ada Kendala</span>
                                     @else
-                                        <span class="badge badge-success">Selesai</span>
+                                        <span class="btn btn-success">Selesai</span>
                                     @endif
                                 </div>
                                 
@@ -45,60 +45,72 @@
                         </div>
                         
                         <div class="card-body">
-                            <div class="form-group row mb-4">
+                            <div class="form-group row">
+                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
+                                    Tanggal Pengajuan<sup class="text-danger">*</sup>
+                                </label>
+
+                                <div class="col-sm-12 col-md-9">
+                                    <input type="text" class="form-control @error('tanggal_pengajuan')is-invalid @enderror"
+                                        id="tanggal_pengajuan" name="tanggal_pengajuan" placeholder="" 
+                                        value="{{ \Carbon\Carbon::parse(@$verifikasiIjazah->created_at)->translatedFormat('d F Y H:i:s') }}" disabled readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
                                     Pengaju<sup class="text-danger">*</sup>
                                 </label>
 
-                                <div class="col-sm-12 col-md-7">
+                                <div class="col-sm-12 col-md-9">
                                     <input type="text" class="form-control @error('instansi_id')is-invalid @enderror"
                                         id="instansi_id" name="instansi_id" placeholder="Masukkan Nama Instansi" 
                                         value="{{ old('instansi_id', @$verifikasiIjazah->instansi->user->name) }}" disabled readonly>
                                 </div>
                             </div>
 
-                            <div class="form-group row mb-4">
+                            <div class="form-group row">
                                 <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
                                     Nama Mahasiswa<sup class="text-danger">*</sup>
                                 </label>
 
-                                <div class="col-sm-12 col-md-7">
+                                <div class="col-sm-12 col-md-9">
                                     <input type="text" class="form-control @error('name')is-invalid @enderror"
                                         id="name" name="name" placeholder="Masukkan Nama Mahasiswa" 
                                         value="{{ old('name', @$verifikasiIjazah->nama) }}" disabled readonly>
                                 </div>
                             </div>
 
-                            <div class="form-group row mb-4">
+                            <div class="form-group row">
                                 <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
                                     NIM Mahasiswa<sup class="text-danger">*</sup>
                                 </label>
 
-                                <div class="col-sm-12 col-md-7">
+                                <div class="col-sm-12 col-md-9">
                                     <input type="number" class="form-control @error('nomor_induk')is-invalid @enderror"
                                         id="nomor_induk" name="nomor_induk" placeholder="" 
                                         value="{{ old('nim', @$verifikasiIjazah->nim) }}" disabled readonly>
                                 </div>
                             </div>
 
-                            <div class="form-group row mb-4">
+                            <div class="form-group row">
                                 <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
                                     Nomor Ijazah<sup class="text-danger">*</sup>
                                 </label>
 
-                                <div class="col-sm-12 col-md-7">
+                                <div class="col-sm-12 col-md-9">
                                     <input type="text" class="form-control @error('no_ijazah')is-invalid @enderror"
                                         id="no_ijazah" name="no_ijazah" placeholder="" 
                                         value="{{ old('no_ijazah', @$verifikasiIjazah->no_ijazah) }}" disabled readonly>
                                 </div>
                             </div>
 
-                            <div class="form-group row mb-4">
+                            <div class="form-group row">
                                 <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
                                     Tahun Lulus<sup class="text-danger">*</sup>
                                 </label>
 
-                                <div class="col-sm-12 col-md-7">
+                                <div class="col-sm-12 col-md-9">
                                     <input type="number" class="form-control @error('tahun_lulus')is-invalid @enderror"
                                         id="tahun_lulus" name="tahun_lulus" placeholder="" 
                                         value="{{ old('tahun_lulus', @$verifikasiIjazah->tahun_lulus) }}" disabled readonly>
@@ -107,13 +119,16 @@
 
                             <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                    Tanggal Pengajuan<sup class="text-danger">*</sup>
+                                    Dokumen Surat Pengajuan<sup class="text-danger">*</sup>
                                 </label>
 
-                                <div class="col-sm-12 col-md-7">
-                                    <input type="text" class="form-control @error('tanggal_pengajuan')is-invalid @enderror"
-                                        id="tanggal_pengajuan" name="tanggal_pengajuan" placeholder="" 
-                                        value="{{ old('created_at', @$verifikasiIjazah->created_at) }}" disabled readonly>
+                                <div class="col-sm-9">
+                                    <label>
+                                        <a class="btn btn-primary" href="{{ asset('storage/public/dokumen/'. @$verifikasiIjazah->dokumen)}}" 
+                                                download="{{@$verifikasiIjazah->dokumen}}">
+                                                    Download Dokumen
+                                        </a>
+                                    </label>
                                 </div>
                             </div>
                             <hr>
@@ -127,7 +142,7 @@
                                         Nomor Surat<sup class="text-danger">*</sup>
                                     </label>
     
-                                    <div class="col-sm-12 col-md-7">
+                                    <div class="col-sm-12 col-md-9">
                                         <input type="text" class="form-control @error('no_surat')is-invalid @enderror"
                                             id="no_surat" name="no_surat" placeholder="Masukkan Nomor Surat" 
                                             value="{{ old('no_surat', @$verifikasiIjazah->no_surat) }}">
@@ -138,7 +153,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-sm-12 col-md-7 offset-md-3">
+                                    <div class="col-sm-12 col-md-9 offset-md-3">
                                         <button type="submit" class="btn btn-primary" id="btnSubmit">
                                             @if (@$verifikasiIjazah->no_surat == null)
                                                 Tambah
@@ -241,7 +256,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="form-group row mb-4" id="catatan">
+                    <div class="form-group row" id="catatan">
                         <label for="name" class="col-sm-3 col-form-label">
                             Catatan Penolakan <sup class="text-danger">*</sup>
                         </label>

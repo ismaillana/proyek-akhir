@@ -286,10 +286,8 @@ class LegalisirController extends Controller
      */
     public function riwayat()
     {
-        $legalisir = Pengajuan::where('jenis_pengajuan_id', 5)
-            ->where('status', 'Selesai')
-            ->orWhere('jenis_pengajuan_id', 5)
-            ->where('status', 'Tolak')
+        $legalisir = Pengajuan::latest()
+            ->where('jenis_pengajuan_id', 5)
             ->get();
             
         return view ('admin.riwayat.legalisir.index', [
@@ -323,10 +321,11 @@ class LegalisirController extends Controller
     {
         $request->validate([
             'start_date' => 'required',
-            'end_date'   => 'required',
+            'end_date'   => 'required|after_or_equal:start_date',
         ], [
-            'start_date.required' => 'Masukkan Tanggal Mulai',
-            'end_date.required'   => 'Masukkan Tanggal Selesai',
+            'start_date.required' => 'Masukkan Tanggal Mulai!',
+            'end_date.required'   => 'Masukkan Tanggal Selesai!',
+            'end_date.after_or_equal'   => 'Pilih Tanggal Setelah Atau Sama Dengan Tanggal Mulai!',
         ]);
         
         $startDate = Carbon::parse($request->input('start_date'));

@@ -27,17 +27,17 @@
                                   Status Pengajuan
                               </h4>
                                   @if (@$dispensasi->status == 'Menunggu Konfirmasi')
-                                      <span class="badge badge-warning">Menunggu Konfirmasi</span>
+                                      <span class="btn btn-warning">Menunggu Konfirmasi</span>
                                   @elseif (@$dispensasi->status == 'Konfirmasi')
-                                      <span class="badge badge-primary">Dikonfirmasi</span>
+                                      <span class="btn btn-primary">Dikonfirmasi</span>
                                   @elseif (@$dispensasi->status == 'Proses')
-                                      <span class="badge badge-success">Diproses</span>
+                                      <span class="btn btn-success">Diproses</span>
                                   @elseif (@$dispensasi->status == 'Tolak')
-                                      <span class="badge badge-danger">Ditolak</span>
+                                      <span class="btn btn-danger">Ditolak</span>
                                   @elseif (@$dispensasi->status == 'Kendala')
-                                      <span class="badge badge-danger">Ada Kendala</span>
+                                      <span class="btn btn-danger">Ada Kendala</span>
                                   @else
-                                      <span class="badge badge-success">Selesai</span>
+                                      <span class="btn btn-success">Selesai</span>
                                   @endif
                               </div>
                               
@@ -78,8 +78,8 @@
                                           Tanggal Dispensasi:
                                         </strong>
                                         <br>
-                                        Tanggal Mulai: {{@$dispensasi->tgl_mulai}}<br>
-                                        Tanggal Selesai: {{@$dispensasi->tgl_selesai}}
+                                        Tanggal Mulai: {{ Carbon\Carbon::parse(@$dispensasi->tgl_mulai)->translatedFormat('d F Y') }}<br>
+                                        Tanggal Selesai: {{ Carbon\Carbon::parse(@$dispensasi->tgl_selesai)->translatedFormat('d F Y') }}
                                       </address>
                                     </div>
                                     <div class="col-md-6 text-md-right">
@@ -88,12 +88,24 @@
                                           Tanggal Pengajuan:
                                         </strong>
                                         <br>
-                                        {{@$dispensasi->created_at}}<br><br>
+                                        {{ Carbon\Carbon::parse(@$dispensasi->created_at)->translatedFormat('d F Y H:i:s') }}<br><br>
                                       </address>
                                     </div>
                                   </div>
                                   <div class="row">
                                     <div class="col-md-6">
+                                      <address>
+                                        <strong>
+                                          Dokumen Pendukung Pengajuan: 
+                                        </strong>
+                                        <br>
+                                            <a class="btn btn-primary" href="{{ asset('storage/public/dokumen/'. @$dispensasi->dokumen)}}" 
+                                                    download="{{@$dispensasi->dokumen}}">
+                                                        Download Dokumen
+                                            </a>
+                                      </address>
+                                    </div>
+                                    <div class="col-md-6 text-md-right">
                                       <address>
                                         <strong>
                                           Dokumen Permohonan: 
@@ -112,44 +124,6 @@
                                   </div>
                                 </div>
                               </div>
-                              <hr>
-                              @role('bagian-akademik')
-                              <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST"
-                                  action="{{route('update-surat-aktif-kuliah', $dispensasi->id) }}">
-                                      @csrf
-
-                                  <div class="form-group row">
-                                      <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                          Nomor Surat<sup class="text-danger">*</sup>
-                                      </label>
-      
-                                      <div class="col-sm-12 col-md-9">
-                                          <input type="text" class="form-control @error('no_surat')is-invalid @enderror"
-                                              id="no_surat" name="no_surat" placeholder="Masukkan Nomor Surat" 
-                                              value="{{ old('no_surat', @$dispensasi->no_surat) }}">
-
-                                          @if ($errors->has('no_surat'))
-                                              <span class="text-danger">{{ $errors->first('no_surat') }}</span>
-                                          @endif
-                                      </div>
-                                  </div>
-                                  <div class="form-group row">
-                                      <div class="col-sm-12 col-md-7 offset-md-3">
-                                          <button type="submit" class="btn btn-primary" id="btnSubmit">
-                                              @if (@$dispensasi->no_surat == null)
-                                                  Tambah
-                                              @else
-                                                  Update
-                                              @endif
-                                              <span class="spinner-border ml-2 d-none" id="loader"
-                                                  style="width: 1rem; height: 1rem;" role="status">
-                                                  <span class="sr-only">Loading...</span>
-                                              </span>
-                                          </button>
-                                      </div>
-                                  </div>
-                              </form>
-                              @endrole
                               <hr>
                               <div class="row mt-4">
                                 <div class="col-md-12">
@@ -205,33 +179,71 @@
                                   </div>
                                 </div>
                               </div>
-                            <hr>
-                            @if ($user->hasRole('admin-jurusan'))
-                              @if (@$dispensasi->status == "Menunggu Konfirmasi")
-                                <div class="text-md-right">
-                                    <div class="float-lg-left mb-lg-0 mb-3">
-                                        <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$dispensasi->id}}">
-                                            <i class="fas fa-check"></i> 
-                                            Konfirmasi
-                                        </button>
+                              <hr>
+                              @role('bagian-akademik')
+                                <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST"
+                                    action="{{route('update-surat-aktif-kuliah', $dispensasi->id) }}">
+                                        @csrf
 
-                                        <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$dispensasi->id}}">
-                                            <i class="fas fa-times"></i> 
-                                            Tolak
-                                        </button>
+                                    <div class="form-group row">
+                                        <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
+                                            Nomor Surat<sup class="text-danger">*</sup>
+                                        </label>
+        
+                                        <div class="col-sm-12 col-md-9">
+                                            <input type="text" class="form-control @error('no_surat')is-invalid @enderror"
+                                                id="no_surat" name="no_surat" placeholder="Masukkan Nomor Surat" 
+                                                value="{{ old('no_surat', @$dispensasi->no_surat) }}">
+
+                                            @if ($errors->has('no_surat'))
+                                                <span class="text-danger">{{ $errors->first('no_surat') }}</span>
+                                            @endif
+                                        </div>
                                     </div>
-                                </div>
-                              @else
+                                    <div class="form-group row">
+                                        <div class="col-sm-12 col-md-7 offset-md-3">
+                                            <button type="submit" class="btn btn-primary" id="btnSubmit">
+                                                @if (@$dispensasi->no_surat == null)
+                                                    Tambah
+                                                @else
+                                                    Update
+                                                @endif
+                                                <span class="spinner-border ml-2 d-none" id="loader"
+                                                    style="width: 1rem; height: 1rem;" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                              @endrole
+                              <hr>
+                              @if ($user->hasRole('admin-jurusan'))
+                                @if (@$dispensasi->status == "Menunggu Konfirmasi")
+                                  <div class="text-md-right">
+                                      <div class="float-lg-left mb-lg-0 mb-3">
+                                          <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$dispensasi->id}}">
+                                              <i class="fas fa-check"></i> 
+                                              Konfirmasi
+                                          </button>
 
+                                          <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$dispensasi->id}}">
+                                              <i class="fas fa-times"></i> 
+                                              Tolak
+                                          </button>
+                                      </div>
+                                  </div>
+                                @else
+
+                                @endif
+                              @else
+                                  <div class="text-md-right">
+                                    <a href="{{ route('print-dispensasi', Crypt::encryptString($dispensasi->id)) }}" class="btn btn-warning btn-icon icon-left">
+                                      <i class="fas fa-print"></i> 
+                                          Print
+                                    </a>
+                                  </div>
                               @endif
-                            @else
-                                <div class="text-md-right">
-                                  <a href="{{ route('print-dispensasi', Crypt::encryptString($dispensasi->id)) }}" class="btn btn-warning btn-icon icon-left">
-                                    <i class="fas fa-print"></i> 
-                                        Print
-                                  </a>
-                                </div>
-                            @endif
                         </div>
                     </div>
                 </div>

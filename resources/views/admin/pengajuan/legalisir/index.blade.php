@@ -28,24 +28,16 @@
                             #
                         </th>
 
+                        <th class="text-center">
+                            Tanggal Pengajuan
+                        </th>
+
                         <th>
                             Pengaju
                         </th>
 
-                        {{-- <th>
-                            Nomor Ijazah
-                        </th>
-
-                        <th>
-                            Tahun Lulus
-                        </th> --}}
-
                         <th>
                             Jenis Dokumen
-                        </th>
-
-                        <th class="text-center">
-                            Dokumen
                         </th>
 
                         <th class="text-center">
@@ -64,17 +56,13 @@
                                     {{$loop->iteration}}
                                 </td>
 
+                                <td class="text-center">
+                                    {{ Carbon\Carbon::parse(@$item->created_at)->translatedFormat('d F Y H:i:s') }}
+                                </td>
+
                                 <td>
                                     {{@$item->mahasiswa->user->name}}
                                 </td>
-
-                                {{-- <td>
-                                    {{@$item->ijazah->no_ijazah}}
-                                </td>
-
-                                <td>
-                                    {{$item->ijazah->tahun_lulus}}
-                                </td> --}}
 
                                 <td>
                                     @if ($item->jenis_legalisir)
@@ -82,15 +70,6 @@
                                             {{$dokumen}}
                                         @endforeach
                                     @endif
-                                    {{-- {{$item->jenis_dokumen}} --}}
-                                </td>
-
-                                <td class="text-center">
-                                    <a href="{{ asset('storage/public/dokumen/'. $item->dokumen)}}" download="{{$item->dokumen}}">
-                                        <p>
-                                            File Pengajuan
-                                        </p>
-                                    </a>
                                 </td>
                                 
                                 <td class="text-center">

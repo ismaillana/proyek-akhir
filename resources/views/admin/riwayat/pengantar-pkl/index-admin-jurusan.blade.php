@@ -3,7 +3,7 @@
   <div class="main-content">
     <section class="section">
       <div class="section-header">
-        <h1>Tabel Data Pengajuan Surat Pengantar Pkl</h1>
+        <h1>Tabel Data Riwayat Pengajuan Surat Pengantar Pkl</h1>
       </div>
 
       <div class="section-body">
@@ -13,7 +13,7 @@
               <div class="card-header">
                 <div class="d-flex justify-content-between w-100">
                     <h4>
-                        Data Pengajuan Surat Pengantar Pkl
+                        Data Riwayat Pengajuan Surat Pengantar Pkl
                     </h4>
                 </div>
               </div>
@@ -45,7 +45,8 @@
                             @endif
                         </div>
 
-                        <div class="col-md-2 col-sm-12 d-flex mt-auto">
+                        <div class="col-md-2 col-sm-12">
+                            <label for="">&nbsp;</label>
                             <button id="btn-submit" type="submit"
                                 class="btn btn-success btn-block">Export Excel</button>
                         </div>
@@ -57,6 +58,10 @@
                       <tr>
                         <th style="width: 10%">
                             #
+                        </th>
+
+                        <th class="text-center">
+                            Tanggal Pengajuan
                         </th>
                         
                         <th>
@@ -89,6 +94,10 @@
                                         {{$loop->iteration}}
                                     </td>
 
+                                    <td class="text-center">
+                                        {{ Carbon\Carbon::parse(@$item->created_at)->translatedFormat('d F Y H:i:s') }}
+                                    </td>
+
                                     <td>
                                         {{@$item->mahasiswa->user->name}}
                                     </td>
@@ -113,13 +122,15 @@
                                         @elseif ($item->status == 'Kendala')
                                             <span class="badge badge-danger">Ada Kendala</span>
                                         @elseif ($item->status == 'Review')
-                                            <span class="badge badge-success">Direview</span>
+                                            <span class="badge badge-warning">Direview</span>
                                         @elseif ($item->status == 'Setuju')
                                             <span class="badge badge-primary">Disetujui Koor.Pkl</span>
                                         @elseif ($item->status == 'Diterima Perusahaan')
                                             <span class="badge badge-primary">Diterima Perusahaan</span>
                                         @elseif ($item->status == 'Ditolak Perusahaan')
                                             <span class="badge badge-primary">Ditolak Perusahaan</span>
+                                        @elseif ($item->status == 'Selesai PKL')
+                                            <span class="badge badge-success">Selesai PKL</span>
                                         @else
                                             <span class="badge badge-success">Selesai</span>
                                         @endif

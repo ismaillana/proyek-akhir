@@ -91,12 +91,16 @@ class PengantarPklController extends Controller
 
         $tempatPkl = TempatPkl::get();
 
-        $user = User::whereHas('roles', function ($q)
-        {
+        $user = User::whereIn('id', function ($query) use ($mahasiswa) {
+            $query->select('user_id')
+                ->from('mahasiswas')
+                ->where('program_studi_id', $mahasiswa->program_studi_id);
+        })
+        ->whereHas('roles', function ($q) {
             $q->whereIn('name', ['mahasiswa']);
         })
         ->get();
-        
+
         return view ('user.pengajuan.pengantar-pkl.form', [
             'user'      => $user,
             'pengajuan' => $pengajuan,
@@ -475,14 +479,8 @@ class PengantarPklController extends Controller
     {
         $user = auth()->user();
 
-        $pengantarPkl = Pengajuan::where('jenis_pengajuan_id',2)
-            ->where('status', 'Tolak')
-            ->orWhere('jenis_pengajuan_id',2)
-            ->where('status', 'Selesai')
-            ->orWhere('jenis_pengajuan_id',2)
-            ->where('status', 'Diterima Perusahaan')
-            ->orWhere('jenis_pengajuan_id',2)
-            ->where('status', 'Ditolak Perusahaan')
+        $pengantarPkl = Pengajuan::latest()
+            ->where('jenis_pengajuan_id',2)
             ->get();
 
         if ($user->hasRole('admin-jurusan')) {
@@ -532,21 +530,70 @@ class PengantarPklController extends Controller
      */
     public function export(Request $request)
     {
+        $user = auth()->user();
+
+        $adminJurusan = auth()->user()->jurusan_id;
+
+        $koorPkl = auth()->user()->jurusan_id;
+
         $request->validate([
             'start_date' => 'required',
-            'end_date'   => 'required',
+            'end_date'   => 'required|after_or_equal:start_date',
         ], [
-            'start_date.required' => 'Masukkan Tanggal Mulai',
-            'end_date.required'   => 'Masukkan Tanggal Selesai',
+            'start_date.required' => 'Masukkan Tanggal Mulai!',
+            'end_date.required'   => 'Masukkan Tanggal Selesai!',
+            'end_date.after_or_equal'   => 'Pilih Tanggal Setelah Atau Sama Dengan Tanggal Mulai!',
         ]);
         
         $startDate = Carbon::parse($request->input('start_date'));
         $endDate = Carbon::parse($request->input('end_date'))->endOfDay();
 
-        $data = Pengajuan::with(['mahasiswa'])
-            ->where('jenis_pengajuan_id', 5)
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->get();
+        $data = collect(); // Membuat koleksi kosong untuk menyimpan pengajuan
+
+
+        if ($user->hasRole('admin-jurusan')) {
+
+            // Mendapatkan pengajuan dari mahasiswa dengan ID jurusan yang sama dengan admin jurusan
+            $mahasiswa = Mahasiswa::whereHas('programStudi', function ($query) use ($koorPkl) {
+                $query->where('jurusan_id', $koorPkl);
+            })->get();  
+
+            $id = $mahasiswa->pluck('id')->toArray();
+
+            foreach ($id as $id) {
+                
+                $pengajuan = Pengajuan::with(['mahasiswa'])
+                ->where('jenis_pengajuan_id', 2)
+                ->where('mahasiswa_id', $id)
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->get();
+
+                $data = $data->concat($pengajuan);
+            }
+        }elseif ($user->hasRole('koor-pkl')) {
+            // Mendapatkan pengajuan dari mahasiswa dengan ID jurusan yang sama dengan admin jurusan
+            $mahasiswa = Mahasiswa::whereHas('programStudi', function ($query) use ($adminJurusan) {
+                $query->where('jurusan_id', $adminJurusan);
+            })->get();  
+
+            $id = $mahasiswa->pluck('id')->toArray();
+
+            foreach ($id as $id) {
+                
+                $pengajuan = Pengajuan::with(['mahasiswa'])
+                ->where('jenis_pengajuan_id', 2)
+                ->where('mahasiswa_id', $id)
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->get();
+
+                $data = $data->concat($pengajuan);
+            }
+        }else {
+            $data = Pengajuan::with(['mahasiswa'])
+                ->where('jenis_pengajuan_id', 2)
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->get();
+        }
 
         return Excel::download(new PengantarPklExport($data), 'Pengantar-Pkl-Export.xlsx');
     }

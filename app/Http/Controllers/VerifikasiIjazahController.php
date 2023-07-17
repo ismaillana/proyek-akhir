@@ -307,10 +307,8 @@ class VerifikasiIjazahController extends Controller
      */
     public function riwayat()
     {
-        $verifikasiIjazah = Pengajuan::where('jenis_pengajuan_id', 6)
-            ->where('status', 'Tolak')
-            ->orWhere('jenis_pengajuan_id', 6)
-            ->where('status', 'Selesai')
+        $verifikasiIjazah = Pengajuan::latest()
+            ->where('jenis_pengajuan_id', 6)
             ->get();
 
         return view ('admin.riwayat.verifikasi-ijazah.index', [
@@ -376,10 +374,11 @@ class VerifikasiIjazahController extends Controller
     {
         $request->validate([
             'start_date' => 'required',
-            'end_date'   => 'required',
+            'end_date'   => 'required|after_or_equal:start_date',
         ], [
-            'start_date.required' => 'Masukkan Tanggal Mulai',
-            'end_date.required'   => 'Masukkan Tanggal Selesai',
+            'start_date.required' => 'Masukkan Tanggal Mulai!',
+            'end_date.required'   => 'Masukkan Tanggal Selesai!',
+            'end_date.after_or_equal'   => 'Pilih Tanggal Setelah Atau Sama Dengan Tanggal Mulai!',
         ]);
         
         $startDate = Carbon::parse($request->input('start_date'));

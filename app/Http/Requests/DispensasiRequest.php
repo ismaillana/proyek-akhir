@@ -26,7 +26,7 @@ class DispensasiRequest extends FormRequest
             'kegiatan'          => 'required',
             'nama_tempat'       => 'required',
             'tgl_mulai'         => 'required',
-            'tgl_selesai'       => 'required',
+            'tgl_selesai'       => 'required|after_or_equal:tgl_mulai',
             'dokumen'           => 'required|mimes:pdf'
         ];
         return $rules;
@@ -42,6 +42,7 @@ class DispensasiRequest extends FormRequest
             'tgl_selesai.required'      => 'Tanggal dan Waktu Selesai Wajib Diisi',
             'dokumen.required'          => 'Dokumen Wajib Diisi',
             'dokumen.mimes'             => 'Dokumen yang diupload harus berupa pdf',
+            'tgl_selesai.after_or_equal'   => 'Pilih Tanggal Setelah Atau Sama Dengan Tanggal Mulai!',
         ];
     }
 }

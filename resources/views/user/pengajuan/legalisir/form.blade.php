@@ -172,6 +172,8 @@
 
 @section('script')
 <script type="text/javascript">
+        new MultiSelectTag('jenis_legalisir')  // id
+
         $('#myForm').submit(function(e) {
             let form = this;
             e.preventDefault();
@@ -204,5 +206,10 @@
                 }
             });
         }
+
+        document.getElementById('no_ijazah').addEventListener('input', function(evt) {
+            var input = evt.target;
+            input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+        });
 </script>
 @endsection

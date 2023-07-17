@@ -23,7 +23,6 @@ use App\Http\Controllers\PengantarPklController;
 use App\Http\Controllers\BagianAkademikController;
 use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\ProfilController;
-use App\Services\WhatsappGatewayService;
 
 /*
 |--------------------------------------------------------------------------
@@ -167,8 +166,8 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
         });
     });
 
-    Route::middleware('auth')->group(function () {
-        Route::middleware(['role:alumni|mahasiswa|instansi'])->get('/home', [HomeController::class, 'index'])->name('home')->middleware('verified');
+    Route::middleware(['auth','verified'])->group(function () {
+        Route::middleware(['role:alumni|mahasiswa|instansi'])->get('/home', [HomeController::class, 'index'])->name('home');
         //Profil
         Route::middleware(['role:alumni|mahasiswa'])->get('profil-mahasiswa', [ProfilController::class, 'profilMahasiswa'])->name('profil-mahasiswa');
         Route::post('update-profil-mahasiswa/{update}', [ProfilController::class, 'updateProfilMahasiswa'])->name('update-profil-mahasiswa');

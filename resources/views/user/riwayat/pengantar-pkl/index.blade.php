@@ -74,6 +74,10 @@
                                                 <span class="badge bg-red rounded-pill">Ditolak</span>
                                             @elseif ($item->status == 'Kendala')
                                                 <span class="badge bg-red rounded-pill">Ada Kendala</span>
+                                            @elseif ($item->status == 'Setuju')
+                                                <span class="badge bg-primary rounded-pill">Disetujui Koor. PKL </span>
+                                            @elseif ($item->status == 'Review')
+                                                <span class="badge bg-warning rounded-pill">Direview</span>
                                             @elseif ($item->status == 'Diterima Perusahaan')
                                                 <span class="badge bg-warning rounded-pill">Diterima Perusahaan</span>
                                             @elseif ($item->status == 'Ditolak Perusahaan')

@@ -29,17 +29,17 @@
                                     Status Pengajuan
                                 </h4>
                                     @if (@$izinPenelitian->status == 'Menunggu Konfirmasi')
-                                        <span class="badge badge-warning">Menunggu Konfirmasi</span>
+                                        <span class="btn btn-warning">Menunggu Konfirmasi</span>
                                     @elseif (@$izinPenelitian->status == 'Konfirmasi')
-                                        <span class="badge badge-primary">Dikonfirmasi</span>
+                                        <span class="btn btn-primary">Dikonfirmasi</span>
                                     @elseif (@$izinPenelitian->status == 'Proses')
-                                        <span class="badge badge-success">Diproses</span>
+                                        <span class="btn btn-success">Diproses</span>
                                     @elseif (@$izinPenelitian->status == 'Tolak')
-                                        <span class="badge badge-danger">Ditolak</span>
+                                        <span class="btn btn-danger">Ditolak</span>
                                     @elseif (@$izinPenelitian->status == 'Kendala')
-                                        <span class="badge badge-danger">Ada Kendala</span>
+                                        <span class="btn btn-danger">Ada Kendala</span>
                                     @else
-                                        <span class="badge badge-success">Selesai</span>
+                                        <span class="btn btn-success">Selesai</span>
                                     @endif
                                 </div>
                                 
@@ -79,7 +79,7 @@
                                 <div class="col-sm-9">
                                     <input type="" class="form-control @error('created_at')is-invalid @enderror"
                                         id="created_at" name="created_at" placeholder="" 
-                                        value="{{ old('created_at', @$izinPenelitian->created_at) }}" disabled readonly>
+                                        value="{{ \Carbon\Carbon::parse(@$izinPenelitian->created_at)->translatedFormat('d F Y H:i:s') }}" disabled readonly>
                                 </div>
                             </div>
 

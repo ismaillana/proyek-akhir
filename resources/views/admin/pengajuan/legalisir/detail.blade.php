@@ -26,17 +26,17 @@
                                     Status Pengajuan
                                 </h4>
                                     @if (@$legalisir->status == 'Menunggu Konfirmasi')
-                                        <span class="badge badge-warning">Menunggu Konfirmasi</span>
+                                        <span class="btn btn-warning">Menunggu Konfirmasi</span>
                                     @elseif (@$legalisir->status == 'Konfirmasi')
-                                        <span class="badge badge-primary">Dikonfirmasi</span>
+                                        <span class="btn btn-primary">Dikonfirmasi</span>
                                     @elseif (@$legalisir->status == 'Proses')
-                                        <span class="badge badge-success">Diproses</span>
+                                        <span class="btn btn-success">Diproses</span>
                                     @elseif (@$legalisir->status == 'Tolak')
-                                        <span class="badge badge-danger">Ditolak</span>
+                                        <span class="btn btn-danger">Ditolak</span>
                                     @elseif (@$legalisir->status == 'Kendala')
-                                        <span class="badge badge-danger">Ada Kendala</span>
+                                        <span class="btn btn-danger">Ada Kendala</span>
                                     @else
-                                        <span class="badge badge-success">Selesai</span>
+                                        <span class="btn btn-success">Selesai</span>
                                     @endif
                                 </div>
                                 
@@ -76,7 +76,7 @@
                                 <div class="col-sm-9">
                                     <input type="" class="form-control @error('created_at')is-invalid @enderror"
                                         id="created_at" name="created_at" placeholder="" 
-                                        value="{{ old('created_at', @$legalisir->created_at) }}" disabled readonly>
+                                        value="{{ \Carbon\Carbon::parse(@$legalisir->created_at)->translatedFormat('d F Y H:i:s') }}" disabled readonly>
                                 </div>
                             </div>
 
@@ -132,6 +132,22 @@
                                     @endif
                                 </div>
                             </div>
+
+                            <div class="form-group row mb-4">
+                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
+                                    Dokumen Yang Akan Dilegalisir<sup class="text-danger">*</sup>
+                                </label>
+
+                                <div class="col-sm-9">
+                                    <label>
+                                        <a class="btn btn-primary" href="{{ asset('storage/public/dokumen/'. @$legalisir->dokumen)}}" 
+                                                download="{{@$legalisir->dokumen}}">
+                                                    Download Dokumen
+                                        </a>
+                                    </label>
+                                </div>
+                            </div>
+
                             <hr>
                             @if (@$legalisir->status == "Menunggu Konfirmasi")
                                 <div class="text-md-right">
@@ -146,19 +162,9 @@
                                             Tolak
                                         </button>
                                     </div>
-
-                                    <button class="btn btn-warning btn-icon icon-left">
-                                        <i class="fas fa-print"></i> 
-                                        Print
-                                    </button>
                                 </div>
                             @else
-                                <div class="text-md-right">
-                                    <button class="btn btn-warning btn-icon icon-left">
-                                        <i class="fas fa-print"></i> 
-                                        Print
-                                    </button>
-                                </div>
+                                
                             @endif
                         </div>
                     </div>

@@ -64,7 +64,8 @@ class InstansiController extends Controller
                 'name'        => $request->name,
                 'email'       => $request->email,
                 'wa'          => $wa,
-                'password'    => Hash::make('123456')
+                'password'    => Hash::make('123456'),
+                'email_verified_at' => now()
             ]);
 
             $user->assignRole('instansi');
@@ -176,6 +177,7 @@ class InstansiController extends Controller
      */
     public function destroy(string $id)
     {
+
             $instansi = Instansi::find($id);
             
             $param = (object) [
@@ -186,8 +188,10 @@ class InstansiController extends Controller
             Instansi::deleteImage($param);
     
             $instansi->delete();
-    
-            User::where('id', $instansi->user_id)->update(['status' => '0']);
+            
+            $user = User::where('id', $instansi->user_id)->first();
+
+            $user->delete();
     
             return response()->json(['status' => 'Data Berhasil Dihapus']);
     }

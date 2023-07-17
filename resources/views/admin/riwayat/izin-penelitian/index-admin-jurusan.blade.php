@@ -3,7 +3,7 @@
   <div class="main-content">
     <section class="section">
       <div class="section-header">
-        <h1>Tabel Data Pengajuan Izin Penelitian</h1>
+        <h1>Tabel Data Riwayat Pengajuan Izin Penelitian</h1>
       </div>
 
       <div class="section-body">
@@ -13,7 +13,7 @@
               <div class="card-header">
                 <div class="d-flex justify-content-between w-100">
                     <h4>
-                        Data Pengajuan Izin Penelitian
+                        Data Riwayat Pengajuan Izin Penelitian
                     </h4>
                 </div>
               </div>
@@ -45,7 +45,8 @@
                             @endif
                         </div>
 
-                        <div class="col-md-2 col-sm-12 d-flex mt-auto">
+                        <div class="col-md-2 col-sm-12">
+                            <label for="">&nbsp;</label>
                             <button id="btn-submit" type="submit"
                                 class="btn btn-success btn-block">Export Excel</button>
                         </div>
@@ -57,6 +58,10 @@
                       <tr>
                         <th style="width: 10%">
                             #
+                        </th>
+
+                        <th class="text-center">
+                            Tanggal Pengajuan
                         </th>
 
                         <th>
@@ -88,6 +93,10 @@
                                     {{$loop->iteration}}
                                 </td>
 
+                                <td class="text-center">
+                                    {{ Carbon\Carbon::parse(@$item->created_at)->translatedFormat('d F Y H:i:s') }}
+                                </td>
+
                                 <td>
                                     {{@$item->mahasiswa->user->name}}
                                 </td>
@@ -101,8 +110,16 @@
                                 </td>
 
                                 <td class="text-center">
-                                    @if ($item->status == 'Tolak')
+                                    @if ($item->status == 'Menunggu Konfirmasi')
+                                        <span class="badge badge-warning">Menunggu Konfirmasi</span>
+                                    @elseif ($item->status == 'Konfirmasi')
+                                        <span class="badge badge-primary">Dikonfirmasi</span>
+                                    @elseif ($item->status == 'Proses')
+                                        <span class="badge badge-success">Diproses</span>
+                                    @elseif ($item->status == 'Tolak')
                                         <span class="badge badge-danger">Ditolak</span>
+                                    @elseif ($item->status == 'Kendala')
+                                        <span class="badge badge-danger">Ada Kendala</span>
                                     @else
                                         <span class="badge badge-success">Selesai</span>
                                     @endif

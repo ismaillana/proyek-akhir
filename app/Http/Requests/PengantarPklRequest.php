@@ -25,11 +25,11 @@ class PengantarPklRequest extends FormRequest
             'nama_mahasiswa'    => 'required',
             'tempat_pkl_id'     => 'required',
             'tgl_mulai'         => 'required',
-            'tgl_selesai'       => 'required',
+            'tgl_selesai'       => 'required|after_or_equal:tgl_mulai',
             'name'              => 'required_if:tempat_pkl_id,perusahaan_lainnya',
             'alamat'            => 'required_if:tempat_pkl_id,perusahaan_lainnya',
             'telepon'           => 'required_if:tempat_pkl_id,perusahaan_lainnya',
-            'tujuan_surat'            => 'required',
+            'tujuan_surat'      => 'required'
         ];
         return $rules;
     }
@@ -45,6 +45,7 @@ class PengantarPklRequest extends FormRequest
             'alamat.required_if'        => 'Alamat Lengkap Wajib Diisi',
             'telepon.required_if'       => 'Nomor Telepon Wajib Diisi',
             'tujuan_surat.required'     => 'Tujuan Surat Wajib Diisi',
+            'tgl_selesai.after_or_equal'   => 'Pilih Tanggal Setelah Atau Sama Dengan Tanggal Mulai!',
         ];
     }
 }

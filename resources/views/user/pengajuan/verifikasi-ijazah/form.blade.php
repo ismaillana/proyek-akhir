@@ -100,7 +100,7 @@
 
                         <div class="col-md-12">
                           <label for="form_name">
-                              Dokumen<span class="text-danger">*</span>
+                              Dokumen Surat Pengajuan<span class="text-danger">*</span>
                           </label>
 
                           <div class="form-floating mb-4">
@@ -112,6 +112,12 @@
                                     <span class="text-danger">{{ $errors->first('dokumen') }}</span>
                                 @endif
                               </div>
+
+                              <div class="text text-info">
+                                <small>
+                                    Masukkan Dokumen Surat Pengajuan Verifikasi Ijazah!
+                                </small>
+                            </div>
                           </div>
                         </div>
 

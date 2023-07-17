@@ -26,27 +26,29 @@
                               <h4>
                                   Status Pengajuan
                               </h4>
-                                  @if (@$pengantarPkl->status == 'Menunggu Konfirmasi')
-                                      <span class="badge badge-warning">Menunggu Konfirmasi</span>
-                                  @elseif (@$pengantarPkl->status == 'Konfirmasi')
-                                      <span class="badge badge-primary">Dikonfirmasi</span>
-                                  @elseif (@$pengantarPkl->status == 'Proses')
-                                      <span class="badge badge-success">Diproses</span>
-                                  @elseif (@$pengantarPkl->status == 'Tolak')
-                                      <span class="badge badge-danger">Ditolak</span>
-                                  @elseif (@$pengantarPkl->status == 'Kendala')
-                                      <span class="badge badge-danger">Ada Kendala</span>
-                                  @elseif (@$pengantarPkl->status == 'Review')
-                                      <span class="badge badge-success">Direview</span>
-                                  @elseif (@$pengantarPkl->status == 'Setuju')
-                                      <span class="badge badge-primary">Disetujui Koor.Pkl</span>
-                                  @elseif (@$pengantarPkl->status == 'Diterima Perusahaan')
-                                      <span class="badge badge-primary">Diterima Perusahaan</span>
-                                  @elseif (@$pengantarPkl->status == 'Ditolak Perusahaan')
-                                      <span class="badge badge-primary">Ditolak Perusahaan</span>
-                                  @else
-                                      <span class="badge badge-success">Selesai</span>
-                                  @endif
+                                @if (@$pengantarPkl->status == 'Menunggu Konfirmasi')
+                                    <span class="btn btn-warning">Menunggu Konfirmasi</span>
+                                @elseif (@$pengantarPkl->status == 'Konfirmasi')
+                                    <span class="btn btn-primary">Dikonfirmasi</span>
+                                @elseif (@$pengantarPkl->status == 'Proses')
+                                    <span class="btn btn-success">Diproses</span>
+                                @elseif (@$pengantarPkl->status == 'Tolak')
+                                    <span class="btn btn-danger">Ditolak</span>
+                                @elseif (@$pengantarPkl->status == 'Kendala')
+                                    <span class="btn btn-danger">Ada Kendala</span>
+                                @elseif (@$pengantarPkl->status == 'Review')
+                                    <span class="btn btn-warning">Direview</span>
+                                @elseif (@$pengantarPkl->status == 'Setuju')
+                                    <span class="btn btn-primary">Disetujui Koor.Pkl</span>
+                                @elseif (@$pengantarPkl->status == 'Diterima Perusahaan')
+                                    <span class="btn btn-primary">Diterima Perusahaan</span>
+                                @elseif (@$pengantarPkl->status == 'Ditolak Perusahaan')
+                                    <span class="btn btn-primary">Ditolak Perusahaan</span>
+                                @elseif (@$pengantarPkl->status == 'Selesai PKL')
+                                    <span class="btn btn-success">Selesai PKL</span>
+                                @else
+                                    <span class="btn btn-success">Selesai</span>
+                                @endif
                               </div>
                               
                           </div>
@@ -76,7 +78,7 @@
                                         <br>
                                         Nama: {{@$pengantarPkl->tempatPkl->name}}<br>
                                         Alamat: {{@$pengantarPkl->tempatPkl->alamat}}<br>
-                                        Link website: {{@$pengantarPkl->tempatPkl->web}}<br>
+                                        Link website: <a href="{{@$pengantarPkl->tempatPkl->web}}">{{@$pengantarPkl->tempatPkl->web}}</a><br>
                                         Telepon: {{@$pengantarPkl->tempatPkl->telepon}}<br>
                                         Ditujukan Kepada: {{@$pengantarPkl->tujuan_surat}}
                                       </address>
@@ -86,11 +88,11 @@
                                     <div class="col-md-6">
                                       <address>
                                         <strong>
-                                          Data PKL:
+                                          Tanggal PKL:
                                         </strong>
                                         <br>
-                                        Tanggal Mulai: {{@$pengantarPkl->tgl_mulai}}<br>
-                                        Tanggal Selesai: {{@$pengantarPkl->tgl_selesai}}
+                                        Tanggal Mulai: {{ Carbon\Carbon::parse(@$pengantarPkl->tgl_mulai)->translatedFormat('d F Y') }} <br>
+                                        Tanggal Selesai: {{ Carbon\Carbon::parse(@$pengantarPkl->tgl_selesai)->translatedFormat('d F Y') }}
                                       </address>
                                     </div>
                                     <div class="col-md-6 text-md-right">
@@ -99,7 +101,7 @@
                                           Tanggal Pengajuan:
                                         </strong>
                                         <br>
-                                        {{@$pengantarPkl->created_at}}<br><br>
+                                        {{ Carbon\Carbon::parse(@$pengantarPkl->created_at)->translatedFormat('d F Y H:i:s') }}<br><br>
                                       </address>
                                     </div>
                                   </div>
@@ -107,12 +109,27 @@
                                     <div class="col-md-6">
                                       <address>
                                         <strong>
-                                          Dokumen Permohonan: 
+                                          Dokumen Pendukung: 
                                         </strong>
                                         <br>
-                                        @if (@$pengantarPkl->dokumen_permohonan !== null)
-                                            <a class="btn btn-primary" href="{{ asset('storage/public/dokumen/dokumen-permohonan/'. @$pengantarPkl->dokumen_permohonan)}}" 
-                                                    download="{{@$pengantarPkl->dokumen_permohonan}}">
+                                        @if (@$pengantarPkl->link_pendukung !== null)
+                                            <a href="{{@$pengantarPkl->link_pendukung}}">
+                                              {{@$pengantarPkl->link_pendukung}}
+                                            </a>
+                                        @else
+                                            Tidak Ada Link Dokumen Pendukung
+                                        @endif
+                                      </address>
+                                    </div>
+                                    <div class="col-md-6 text-md-right">
+                                      <address>
+                                        <strong>
+                                          Dokumen Permohonan Admin Jurusan: 
+                                        </strong>
+                                        <br>
+                                        @if (@$dispensasi->dokumen_permohonan !== null)
+                                            <a class="btn btn-primary" href="{{ asset('storage/public/dokumen/dokumen-permohonan/'. @$dispensasi->dokumen_permohonan)}}" 
+                                                    download="{{@$dispensasi->dokumen_permohonan}}">
                                                         Download Dokumen
                                             </a>
                                         @else
@@ -123,44 +140,7 @@
                                   </div>
                                 </div>
                               </div>
-                              <hr>
-                              @role('bagian-akademik')
-                              <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST"
-                                  action="{{route('update-surat-aktif-kuliah', $pengantarPkl->id) }}">
-                                      @csrf
-  
-                                  <div class="form-group row">
-                                      <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                          Nomor Surat<sup class="text-danger">*</sup>
-                                      </label>
-      
-                                      <div class="col-sm-12 col-md-7">
-                                          <input type="text" class="form-control @error('no_surat')is-invalid @enderror"
-                                              id="no_surat" name="no_surat" placeholder="Masukkan Nomor Surat" 
-                                              value="{{ old('no_surat', @$pengantarPkl->no_surat) }}">
-  
-                                          @if ($errors->has('no_surat'))
-                                              <span class="text-danger">{{ $errors->first('no_surat') }}</span>
-                                          @endif
-                                      </div>
-                                  </div>
-                                  <div class="form-group row">
-                                      <div class="col-sm-12 col-md-7 offset-md-3">
-                                          <button type="submit" class="btn btn-primary" id="btnSubmit">
-                                              @if (@$pengantarPkl->no_surat == null)
-                                                  Tambah
-                                              @else
-                                                  Update
-                                              @endif
-                                              <span class="spinner-border ml-2 d-none" id="loader"
-                                                  style="width: 1rem; height: 1rem;" role="status">
-                                                  <span class="sr-only">Loading...</span>
-                                              </span>
-                                          </button>
-                                      </div>
-                                  </div>
-                              </form>
-                              @endrole
+        
                               <hr>
                               <div class="row mt-4">
                                 <div class="col-md-12">
@@ -216,6 +196,46 @@
                                   </div>
                                 </div>
                               </div>
+
+                              <hr>
+                              @role('bagian-akademik')
+                                <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST"
+                                    action="{{route('update-surat-aktif-kuliah', $pengantarPkl->id) }}">
+                                        @csrf
+    
+                                    <div class="form-group row">
+                                        <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
+                                            Nomor Surat<sup class="text-danger">*</sup>
+                                        </label>
+        
+                                        <div class="col-sm-12 col-md-9">
+                                            <input type="text" class="form-control @error('no_surat')is-invalid @enderror"
+                                                id="no_surat" name="no_surat" placeholder="Masukkan Nomor Surat" 
+                                                value="{{ old('no_surat', @$pengantarPkl->no_surat) }}">
+    
+                                            @if ($errors->has('no_surat'))
+                                                <span class="text-danger">{{ $errors->first('no_surat') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12 col-md-9 offset-md-3">
+                                            <button type="submit" class="btn btn-primary" id="btnSubmit">
+                                                @if (@$pengantarPkl->no_surat == null)
+                                                    Tambah
+                                                @else
+                                                    Update
+                                                @endif
+                                                <span class="spinner-border ml-2 d-none" id="loader"
+                                                    style="width: 1rem; height: 1rem;" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                              @endrole
+
                               <hr>
                               @if ($user->hasRole('admin-jurusan'))
                                 @if (@$pengantarPkl->status == "Menunggu Konfirmasi")
@@ -226,7 +246,7 @@
                                             Konfirmasi
                                         </button>
 
-                                        <button class="btn btn-success btn-icon icon-left" data-toggle="modal" data-target="#review{{$pengantarPkl->id}}">
+                                        <button class="btn btn-warning btn-icon icon-left" data-toggle="modal" data-target="#review{{$pengantarPkl->id}}">
                                           <i class="fas fa-share"></i> 
                                           Review
                                         </button>

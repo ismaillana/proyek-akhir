@@ -26,6 +26,10 @@
                             #
                         </th>
 
+                        <th class="text-center">
+                            Tanggal Pengajuan
+                        </th>
+
                         <th>
                             Nama Mahasiswa
                         </th>
@@ -53,6 +57,10 @@
                                 <tr>
                                     <td>
                                         {{$loop->iteration}}
+                                    </td>
+
+                                    <td class="text-center">
+                                        {{ Carbon\Carbon::parse(@$item->created_at)->translatedFormat('d F Y H:i:s') }}
                                     </td>
 
                                     <td>

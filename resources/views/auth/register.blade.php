@@ -87,18 +87,19 @@
                           </div>
                     </div>
 
-                  <div class="form-group col-12">
-                      <label for="alamat">{{ __('Alamat') }}</label>
+                    <div class="form-group col-12">
+                        <label for="alamat">{{ __('Alamat') }}</label>
 
-                          <input id="alamat" type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" 
-                            value="{{ old('alamat') }}" autocomplete="alamat" autofocus placeholder="Masukan Alamat">
+                            <input id="alamat" type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" 
+                              value="{{ old('alamat') }}" autocomplete="alamat" autofocus placeholder="Masukan Alamat">
 
-                          @error('alamat')
-                              <span class="invalid-feedback" role="alert">
-                                  <strong>{{ $message }}</strong>
-                              </span>
-                          @enderror
-                  </div>
+                            @error('alamat')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                    </div>
+                    
                     <div class="form-group col-12">
                         <label for="email">{{ __('Email Address') }}</label>
 

@@ -302,9 +302,6 @@ class AktifKuliahController extends Controller
     public function riwayat()
     {
         $aktifKuliah = Pengajuan::where('jenis_pengajuan_id', 1)
-            ->where('status', 'Selesai')
-            ->orWhere('jenis_pengajuan_id', 1)
-            ->where('status', 'Tolak')
             ->latest()
             ->get();
 
@@ -340,10 +337,11 @@ class AktifKuliahController extends Controller
     {
         $request->validate([
             'start_date' => 'required',
-            'end_date'   => 'required',
+            'end_date'   => 'required|after_or_equal:start_date',
         ], [
-            'start_date.required' => 'Masukkan Tanggal Mulai',
-            'end_date.required'   => 'Masukkan Tanggal Selesai',
+            'start_date.required' => 'Masukkan Tanggal Mulai!',
+            'end_date.required'   => 'Masukkan Tanggal Selesai!',
+            'end_date.after_or_equal'   => 'Pilih Tanggal Setelah Atau Sama Dengan Tanggal Mulai!',
         ]);
         
         $startDate = Carbon::parse($request->input('start_date'));
