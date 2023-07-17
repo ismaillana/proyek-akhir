@@ -28,7 +28,6 @@ class AktifKuliahRequest extends FormRequest
             'pekerjaan'          => 'required_if:status_data,Update Data',
             'pangkat'            => 'required_if:status_data,Update Data',
             'nip_nrp'            => 'required_if:status_data,Update Data',
-            'golongan'           => 'required_if:status_data,Update Data',
             'jabatan'            => 'required_if:status_data,Update Data',
             'instansi'           => 'required_if:status_data,Update Data',
             'semester'           => 'required_if:status_data,Update Data',
@@ -43,6 +42,7 @@ class AktifKuliahRequest extends FormRequest
     {
         return [
             'keperluan.required'     => 'Keperluan Wajib Diisi',
+            'status_data.required'   => 'Pilih Status Data',
             'orang_tua.required_if'  => 'Nama Orang Tua Wajib Diisi',
             'pekerjaan.required_if'  => 'Pekerjaan Orang Tua Wajib Diisi',
             'pangkat.required_if'    => 'Pangkat Wajib Diisi',
@@ -51,7 +51,6 @@ class AktifKuliahRequest extends FormRequest
             'instansi.required_if'   => 'Instansi Wajib Diisi',
             'semester.required_if'   => 'Semester Wajib Diisi',
             'tahun_ajaran.required_if'   => 'Tahun Ajaran Wajib Diisi',
-            'status_data.required'   => 'Pilih Status Data',
             'tempat_lahir.required_if'   => 'Tempat Lahir Wajib Diisi',
             'tanggal_lahir.required_if'   => 'Tanggal Lahir Wajib Diisi',
         ];

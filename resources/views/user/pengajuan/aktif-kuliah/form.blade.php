@@ -125,7 +125,7 @@
 
                       <div class="col-md-12" id="data10" style="display: none;">
                         <div class="form-floating mb-4">
-                          <input id="tanggal_lahir" type="text" name="tanggal_lahir" class="form-control @error('tanggal_lahir')is-invalid @enderror" 
+                          <input id="tanggal_lahir" type="date" name="tanggal_lahir" class="form-control @error('tanggal_lahir')is-invalid @enderror" 
                             value="{{ old('tanggal_lahir', @$aktifKuliah->mahasiswa->tanggal_lahir) }}" placeholder="Masukan Tanggal Lahir Mahasiswa">
                           
                           <label for="form_tujuan_surat">
