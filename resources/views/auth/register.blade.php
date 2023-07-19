@@ -58,7 +58,7 @@
                   @csrf
                   <div class="row">
                     <div class="form-group col-12">
-                        <label for="name">{{ __('Name') }}</label>
+                        <label for="name">{{ __('Nama Perusahaan') }}</label>
 
                             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" 
                               autocomplete="name" autofocus placeholder="Masukan Nama Perusahaan">
@@ -77,7 +77,7 @@
                               +62
                             </div>
                             
-                            <input id="wa" type="text" class="form-control @error('wa') is-invalid @enderror" name="wa" value="{{ old('wa',) }}" 
+                            <input id="wa" type="text" maxlength="13" class="form-control @error('wa') is-invalid @enderror" name="wa" value="{{ old('wa',) }}" 
                               autocomplete="wa" autofocus placeholder="Masukan No WhatsApp">
                             @error('wa')
                                 <span class="invalid-feedback" role="alert">
@@ -101,7 +101,7 @@
                     </div>
                     
                     <div class="form-group col-12">
-                        <label for="email">{{ __('Email Address') }}</label>
+                        <label for="email">{{ __('Email') }}</label>
 
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" 
                               autocomplete="email" placeholder="Masukan Email">
@@ -117,27 +117,37 @@
                   <div class="row">
                     <div class="form-group col-12">
                       <label for="password">{{ __('Password') }}</label>
-                                
+                              <div class="input-group">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" 
                                   autocomplete="new-password" placeholder="Masukan Password">
+
+                                <span class="input-group-text">
+                                  <i id="password-toggle" class="fa fa-eye-slash" onclick="togglePassword()"></i>
+                                </span>
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                              </div>
                     </div>
                     <div class="form-group col-12">
-                        <label for="password-confirm">{{ __('Confirm Password') }}</label>
-
+                        <label for="password-confirm">{{ __('Konfirmasi Password') }}</label>
+                          <div class="input-group">
                             <input id="password-confirm" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" 
                               autocomplete="new-password" placeholder="Masukan Konfirmasi Password">
-                        
+                            
+                            <span class="input-group-text">
+                              <i id="password-toggle2" class="fa fa-eye-slash" onclick="togglePassword2()"></i>
+                            </span>
+
                             @error('password_confirmation')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
+                          </div>
                     </div>
                   </div>
 
@@ -205,6 +215,36 @@
         var input = evt.target;
         input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
     });
+
+    function togglePassword() {
+        var passwordInput = document.getElementById("password");
+        var passwordToggle = document.getElementById("password-toggle");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            passwordToggle.classList.remove("fa-eye-slash");
+            passwordToggle.classList.add("fa-eye");
+        } else {
+            passwordInput.type = "password";
+            passwordToggle.classList.remove("fa-eye");
+            passwordToggle.classList.add("fa-eye-slash");
+        }
+    }
+
+    function togglePassword2() {
+        var passwordInput = document.getElementById("password-confirm");
+        var passwordToggle = document.getElementById("password-toggle2");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            passwordToggle.classList.remove("fa-eye-slash");
+            passwordToggle.classList.add("fa-eye");
+        } else {
+            passwordInput.type = "password";
+            passwordToggle.classList.remove("fa-eye");
+            passwordToggle.classList.add("fa-eye-slash");
+        }
+    }
   </script>
 </body>
 </html>

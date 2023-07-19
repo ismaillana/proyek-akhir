@@ -78,6 +78,20 @@ class AktifKuliahController extends Controller
 
         $waGateway = $user->wa; //get no wa
 
+        if ($mahasiswa->orang_tua == null ||
+        $mahasiswa->pekerjaan == null ||
+        $mahasiswa->nip_nrp == null ||
+        $mahasiswa->pangkat == null ||
+        $mahasiswa->jabatan == null ||
+        $mahasiswa->instansi == null ||
+        $mahasiswa->semester == null ||
+        $mahasiswa->tahun_ajaran == null ||
+        $mahasiswa->tempat_lahir == null ||
+        $mahasiswa->tanggal_lahir == null
+        ) {
+            return redirect()->back()->with('error', 'Harap lengkapi data pribadi anda sebelum melakukan pengajuan.');
+        }
+
         if ($request->status_data == 'Update Data') {
             $mahasiswa->update([
                 'orang_tua'     => $request->orang_tua,
@@ -162,6 +176,10 @@ class AktifKuliahController extends Controller
         $pengajuan = Pengajuan::where('id',$id)->first();
 
         $waGateway = $pengajuan->mahasiswa->user->wa; //get no wa
+
+        if ($pengajuan->no_surat == null) {
+            return redirect()->back()->with('error', 'Nomor Surat Belum Diisi!');
+        }
 
         $data = [
             'status'  =>  'Konfirmasi'
@@ -367,6 +385,10 @@ class AktifKuliahController extends Controller
         }
         
         $aktifKuliah = Pengajuan::find($id);
+        if ($aktifKuliah->no_surat == null) {
+            return redirect()->back()->with('error', 'Nomor Surat Belum Diisi!');
+        }
+
         if ($aktifKuliah->tanggal_surat == null) {
             $now   = Carbon::now()->locale('id');
             $currentDate =  $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
@@ -400,6 +422,6 @@ class AktifKuliahController extends Controller
 
         Pengajuan::where('id', $id)->update($data);
 
-        return redirect()->back()->with('success', 'No Surat Berhasil Diubah');
+        return redirect()->back()->with('success', 'No Surat Berhasil Diupdate');
     }
 }

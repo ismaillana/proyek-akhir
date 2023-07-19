@@ -53,7 +53,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($pengantarPkl as $item)
+                              {{-- {{$dataPengajuan->get_mahasiswa}} --}}
+                              @foreach ($pengantarPkl as $item) 
+    
+                                @foreach ($item->nama_mahasiswa as $id) 
+                                    @if ($id == $user->id)
                                     <tr>
                                         <th scope="row">
                                             {{$loop->iteration}}
@@ -110,19 +114,21 @@
                                             @endif
                                         </td>
                                     </tr>
-                                @empty
-                                    <tr>
-                                      <td colspan="4" class="text-center">
-                                          <img class="img-fluid mb-2" width="250" src="{{ asset('template/assets/img/illustrations/3d1.png')}}" 
-                                          srcset="{{ asset('template/assets/img/illustrations/3d1@2x.png 2x')}}" alt="" />
-                                          
-                                          <p>
-                                          Anda belum pernah melakukan pengajuan layanan akademik ini!
-                                          <span class="text-danger">*</span>
-                                          </p>
-                                      </td>
-                                    </tr>
-                                @endforelse
+                                    @else
+                                      {{-- <tr>
+                                        <td colspan="4" class="text-center">
+                                            <img class="img-fluid mb-2" width="250" src="{{ asset('template/assets/img/illustrations/3d1.png')}}" 
+                                            srcset="{{ asset('template/assets/img/illustrations/3d1@2x.png 2x')}}" alt="" />
+                                            
+                                            <p>
+                                            Anda belum pernah melakukan pengajuan layanan akademik ini!
+                                            <span class="text-danger">*</span>
+                                            </p>
+                                        </td>
+                                      </tr> --}}
+                                    @endif
+                                @endforeach
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -133,8 +139,8 @@
     </div>
   </div>
 </section>
-@foreach ($pengantarPkl as $pengantarPkl)
-  <div class="modal fade" id="modal-03-{{$pengantarPkl->id}}" tabindex="-1">
+{{-- @foreach ($dataPengajuan as $pengantarPkl)
+  <div class="modal fade" id="modal-03-{{@$pengantarPkl->id}}" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-sm">
       <div class="modal-content text-center">
         <div class="modal-body">
@@ -185,13 +191,13 @@
     </div>
   </div>
 
-  <div class="modal fade" id="modal-04-{{$pengantarPkl->id}}" tabindex="-1">
+  <div class="modal fade" id="modal-04-{{$dataPengajuan->id}}" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-sm">
       <div class="modal-content text-center">
         <div class="modal-body">
           <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           <h3 class="mb-4">Konfirmasi PKL Telah Selesai</h3>
-          <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{route('pengajuan.konfirmasi-selesai', $pengantarPkl->id)}}" method="POST">
+          <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{route('pengajuan.konfirmasi-selesai', @$pengantarPkl->id)}}" method="POST">
             @csrf
             <div class="form-floating mb-4" id="bukti">
               <div class="col-sm-12 col-md-12">
@@ -215,7 +221,7 @@
       </div>
     </div>
   </div>
-@endforeach
+@endforeach --}}
 
 @endsection
 

@@ -84,10 +84,28 @@ class PengantarPklController extends Controller
 
         $mahasiswa       = Mahasiswa::with(['pengajuan'])->whereUserId($pengaju->id)->first();
 
-        $pengajuan = Pengajuan::where('mahasiswa_id', $mahasiswa->id)
-            ->where('jenis_pengajuan_id', 2)
-            ->latest()
-            ->first();
+        // $pengajuan = Pengajuan::where('mahasiswa_id', $mahasiswa->id)
+        //     ->where('jenis_pengajuan_id', 2)
+        //     ->latest()
+        //     ->first();
+
+        $pengajuan = Pengajuan::where('jenis_pengajuan_id', 2)
+            ->get();
+        // dd($pengajuan);
+
+        foreach ($pengajuan as $item) {
+    
+            foreach ($item->nama_mahasiswa as $items) {
+                if ($items == $pengaju->id) {
+                    // ID pengguna yang login cocok dengan ID dalam atribut "nama_mahasiswa"
+                    // Dapatkan data pengajuan terkait
+                    $dataPengajuan = $item;
+                    
+                    // Lakukan tindakan yang diperlukan dengan data pengajuan
+                    // Contoh: Tampilkan data pengajuan
+                }
+            }
+        }
 
         $tempatPkl = TempatPkl::get();
 
@@ -105,6 +123,8 @@ class PengantarPklController extends Controller
             'user'      => $user,
             'pengajuan' => $pengajuan,
             'tempatPkl' => $tempatPkl,
+            'pengaju' => $pengaju,
+            'dataPengajuan' => $dataPengajuan,
             'title'     => 'Pengantar PKL'
         ]);
     }

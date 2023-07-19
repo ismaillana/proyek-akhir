@@ -37,7 +37,7 @@
 
                   <div class="card-body">
                     <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                      @if (@$pengajuan->status == 'Selesai PKL' || @$pengajuan->status == 'Ditolak Perusahaan' || @$pengajuan->status == 'Tolak' || @$pengajuan == null)
+                      @if (@$dataPengajuan->status == 'Selesai PKL' || @$dataPengajuan->status == 'Ditolak Perusahaan' || @$dataPengajuan->status == 'Tolak' || @$dataPengajuan == null)
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
                               <input id="tgl_mulai" type="date" name="tgl_mulai" class="form-control @error('tgl_mulai')is-invalid @enderror" 
@@ -142,8 +142,8 @@
 
                         <div class="col-md-12" id="data2" style="display: none;">
                             <div class="form-floating mb-4 mt-4">
-                              <input id="telepon" type="text" name="telepon" class="form-control @error('telepon')is-invalid @enderror" 
-                                value="{{ old('telepon', @$pengajuan->telepon) }}" placeholder="Nomor Telepon Perusahaan">
+                              <input id="telepon" type="text" name="telepon" maxlength="13" class="form-control @error('telepon')is-invalid @enderror" 
+                                value="{{ old('telepon', @$pengantarPkl->telepon) }}" placeholder="Nomor Telepon Perusahaan">
                               
                               <label for="form_nama_perusahaan">
                                 Nomor Telepon Perusahaan
@@ -158,7 +158,7 @@
                         <div class="col-12" id="data3" style="display: none;">
                             <div class="form-floating mb-4">
                               <textarea id="alamat" name="alamat" class="form-control @error('alamat')is-invalid @enderror" 
-                                style="height: 150px" placeholder="Alamat Lengkap">{{ old('alamat', @$pengajuan->alamat) }}</textarea>
+                                style="height: 150px" placeholder="Alamat Lengkap">{{ old('alamat', @$pengantarPkl->alamat) }}</textarea>
                               
                               <label for="form_message">
                                 Alamat Lengkap <span class="text-danger">*</span>
@@ -293,6 +293,18 @@
         document.getElementById('telepon').addEventListener('input', function(evt) {
             var input = evt.target;
             input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
+        });
+
+            // Mendapatkan tanggal hari ini dalam format YYYY-MM-DD
+        var today = new Date().toISOString().split('T')[0];
+        // Mengatur atribut min pada input field dengan tanggal hari ini
+        document.getElementById("tgl_mulai").setAttribute("min", today);
+        document.getElementById("tgl_selesai").setAttribute("min", today);
+
+            // Memperbarui atribut min pada input tanggal selesai saat input tanggal mulai berubah
+        document.getElementById("tgl_mulai").addEventListener("change", function() {
+            var mulai = this.value;
+            document.getElementById("tgl_selesai").setAttribute("min", mulai);
         });
 
   new MultiSelectTag('nama_mahasiswa')  // id
