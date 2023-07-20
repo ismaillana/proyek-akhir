@@ -70,7 +70,7 @@
 
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
-                              <input id="tgl_mulai" type="datetime-local" name="tgl_mulai" class="form-control @error('tgl_mulai')is-invalid @enderror" 
+                              <input id="tgl_mulai" type="date" name="tgl_mulai" class="form-control @error('tgl_mulai')is-invalid @enderror" 
                                 value="{{ old('tgl_mulai', @$dispensasi->tgl_mulai) }}" placeholder="Tanggal Mulai">
                               
                               <label for="form_nama_tempat">
@@ -85,7 +85,7 @@
 
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
-                              <input id="tgl_selesai" type="datetime-local" name="tgl_selesai" class="form-control @error('tgl_selesai')is-invalid @enderror" 
+                              <input id="tgl_selesai" type="date" name="tgl_selesai" class="form-control @error('tgl_selesai')is-invalid @enderror" 
                                   value="{{ old('tgl_selesai', @$dispensasi->tgl_selesai) }}" placeholder="Tanggal Selesai">
                               
                               <label for="form_nama_tempat">
@@ -203,5 +203,16 @@
                 }
             });
         }
+            // Mendapatkan tanggal hari ini dalam format YYYY-MM-DD
+        var today = new Date().toISOString().split('T')[0];
+        // Mengatur atribut min pada input field dengan tanggal hari ini
+        document.getElementById("tgl_mulai").setAttribute("min", today);
+        document.getElementById("tgl_selesai").setAttribute("min", today);
+
+            // Memperbarui atribut min pada input tanggal selesai saat input tanggal mulai berubah
+        document.getElementById("tgl_mulai").addEventListener("change", function() {
+            var mulai = this.value;
+            document.getElementById("tgl_selesai").setAttribute("min", mulai);
+        });
 </script>
 @endsection

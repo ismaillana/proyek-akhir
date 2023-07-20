@@ -451,6 +451,9 @@ class DispensasiController extends Controller
         }
         
         $dispensasi = Pengajuan::find($id);
+        if ($dispensasi->no_surat == null) {
+            return redirect()->back()->with('error', 'Nomor Surat Belum Diisi!');
+        }
         $mahasiswa = Mahasiswa::whereIn('user_id', $dispensasi['nama_mahasiswa'])->get();
 
         if ($dispensasi->tanggal_surat == null) {

@@ -32,19 +32,32 @@ class PengantarPklController extends Controller
     public function index()
     {
         $user = auth()->user();
+        $adminJurusan = $user->jurusan_id;
+        // dd($adminJurusan);
         
         if ($user->hasRole('admin-jurusan')) {
             $pengantarPkl = Pengajuan::latest()
+                ->select('tempat_pkl_id', 'created_at')
                 ->where('jenis_pengajuan_id', 2)
-                ->whereNot('status', 'Selesai')
-                ->whereNot('status', 'Tolak')
-                ->whereNot('status', 'Diterima Perusahaan')
-                ->whereNot('status', 'Ditolak Perusahaan')
+                ->whereHas('mahasiswa', function ($query) use ($adminJurusan) {
+                    $query->whereHas('programStudi', function ($query) use ($adminJurusan) {
+                        $query->where('jurusan_id', $adminJurusan);
+                    });
+                })
+                ->groupBy('tempat_pkl_id', 'created_at')
                 ->get();
+
+            $pengantar = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 2)
+                ->whereIn('created_at', $pengantarPkl->pluck('created_at'))
+                ->get();
+
+            
 
             return view ('admin.pengajuan.pengantar-pkl.index-admin-jurusan',[
                 'pengantarPkl' => $pengantarPkl,
                 'user' => $user,
+                'pengantar' => $pengantar,
                 'title'     => 'Pengantar PKL'
             ]);
 
@@ -93,38 +106,40 @@ class PengantarPklController extends Controller
             ->get();
         // dd($pengajuan);
 
-        foreach ($pengajuan as $item) {
+        // foreach ($pengajuan as $item) {
     
-            foreach ($item->nama_mahasiswa as $items) {
-                if ($items == $pengaju->id) {
-                    // ID pengguna yang login cocok dengan ID dalam atribut "nama_mahasiswa"
-                    // Dapatkan data pengajuan terkait
-                    $dataPengajuan = $item;
+        //     foreach ($item->nama_mahasiswa as $items) {
+        //         if ($items == $pengaju->id) {
+        //             // ID pengguna yang login cocok dengan ID dalam atribut "nama_mahasiswa"
+        //             // Dapatkan data pengajuan terkait
+        //             $dataPengajuan = $item;
                     
-                    // Lakukan tindakan yang diperlukan dengan data pengajuan
-                    // Contoh: Tampilkan data pengajuan
-                }
-            }
-        }
+        //             // Lakukan tindakan yang diperlukan dengan data pengajuan
+        //             // Contoh: Tampilkan data pengajuan
+        //         }
+        //     }
+        // }
 
         $tempatPkl = TempatPkl::get();
+        $mahasiswaLain = Mahasiswa::where('program_studi_id', $mahasiswa->program_studi_id)
+            ->get();
 
-        $user = User::whereIn('id', function ($query) use ($mahasiswa) {
-            $query->select('user_id')
-                ->from('mahasiswas')
-                ->where('program_studi_id', $mahasiswa->program_studi_id);
-        })
-        ->whereHas('roles', function ($q) {
-            $q->whereIn('name', ['mahasiswa']);
-        })
-        ->get();
+        // $user = User::whereIn('id', function ($query) use ($mahasiswa) {
+        //     $query->select('user_id')
+        //         ->from('mahasiswas')
+        //         ->where('program_studi_id', $mahasiswa->program_studi_id);
+        // })
+        // ->whereHas('roles', function ($q) {
+        //     $q->whereIn('name', ['mahasiswa']);
+        // })
+        // ->get();
 
         return view ('user.pengajuan.pengantar-pkl.form', [
-            'user'      => $user,
+            'mahasiswaLain'      => $mahasiswaLain,
             'pengajuan' => $pengajuan,
             'tempatPkl' => $tempatPkl,
             'pengaju' => $pengaju,
-            'dataPengajuan' => $dataPengajuan,
+            // 'dataPengajuan' => $dataPengajuan,
             'title'     => 'Pengantar PKL'
         ]);
     }
@@ -138,6 +153,8 @@ class PengantarPklController extends Controller
 
         $mahasiswa  = Mahasiswa::whereUserId($user->id)->first();
         $waGateway = $user->wa; //get no wa
+        
+        $mahasiswaId = $request->input('nama_mahasiswa');
 
         $adminJurusan = User::role('admin-jurusan')
             ->where('jurusan_id', $mahasiswa->programStudi->jurusan->id)
@@ -155,19 +172,32 @@ class PengantarPklController extends Controller
 
             $tempat_pkl_id = $tempatPkl->id;
         }
-        
-        $data = ([
-            'jenis_pengajuan_id' => '2',
-            'mahasiswa_id'     => $mahasiswa->id,
-            'tempat_pkl_id'    => $tempat_pkl_id,
-            'tgl_mulai'        => $request->tgl_mulai,
-            'tgl_selesai'      => $request->tgl_selesai,
-            'tujuan_surat'     => $request->tujuan_surat,
-            'nama_mahasiswa'   => $request->nama_mahasiswa,
-            'link_pendukung'   => $request->link_pendukung,
-        ]);
 
-        $pengajuan = Pengajuan::create($data);
+        foreach ($mahasiswaId as $item) {
+            $pengajuan = new Pengajuan();
+            $pengajuan->jenis_pengajuan_id = 2;
+            $pengajuan->mahasiswa_id = $item;
+            $pengajuan->tempat_pkl_id = $tempat_pkl_id;
+            $pengajuan->tgl_mulai = $request->tgl_mulai;
+            $pengajuan->tgl_selesai = $request->tgl_selesai;
+            $pengajuan->tujuan_surat = $request->tujuan_surat;
+            $pengajuan->link_pendukung = $request->link_pendukung;
+
+            $pengajuan->save();
+        }
+        
+        // $data = ([
+        //     'jenis_pengajuan_id' => '2',
+        //     'mahasiswa_id'     => $mahasiswa->id,
+        //     'tempat_pkl_id'    => $tempat_pkl_id,
+        //     'tgl_mulai'        => $request->tgl_mulai,
+        //     'tgl_selesai'      => $request->tgl_selesai,
+        //     'tujuan_surat'     => $request->tujuan_surat,
+        //     'nama_mahasiswa'   => $request->nama_mahasiswa,
+        //     'link_pendukung'   => $request->link_pendukung,
+        // ]);
+
+        // $pengajuan = Pengajuan::create($data);
 
         Riwayat::create([
             'pengajuan_id'  => $pengajuan->id,
@@ -203,6 +233,32 @@ class PengantarPklController extends Controller
     /**
      * Display the specified resource.
      */
+    public function detail($tempatPklId, $createdAt)
+    {
+        $user = auth()->user();
+
+        // try {
+        //     $id = Crypt::decryptString($id);
+        // } catch (DecryptException $e) {
+        //     abort(404);
+        // }
+
+        $pengantarPkl = Pengajuan::where('tempat_pkl_id', $tempatPklId)
+        ->where('created_at', $createdAt)
+        ->get();
+        // $data = Mahasiswa::whereIn('user_id', $pengantarPkl['nama_mahasiswa'])->get();
+        
+        return view ('admin.pengajuan.pengantar-pkl.show', [
+            'pengantarPkl'    =>  $pengantarPkl,
+            // 'data'          => $data,
+            'user'          => $user,
+            'title'         =>  'Detail Pengajuan Pengantar PKL'
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
     public function show(string $id)
     {
         $user = auth()->user();
@@ -214,11 +270,11 @@ class PengantarPklController extends Controller
         }
 
         $pengantarPkl = Pengajuan::find($id);
-        $data = Mahasiswa::whereIn('user_id', $pengantarPkl['nama_mahasiswa'])->get();
+        // $data = Mahasiswa::whereIn('user_id', $pengantarPkl['nama_mahasiswa'])->get();
         
         return view ('admin.pengajuan.pengantar-pkl.detail', [
             'pengantarPkl'    =>  $pengantarPkl,
-            'data'          => $data,
+            // 'data'          => $data,
             'user'          => $user,
             'title'         =>  'Detail Pengajuan Pengantar PKL'
         ]);

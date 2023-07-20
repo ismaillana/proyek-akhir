@@ -48,9 +48,9 @@ class LegalisirController extends Controller
 
         $mahasiswa       = Mahasiswa::with(['pengajuan'])->whereUserId($pengaju->id)->first();
 
-        $pengajuan = Pengajuan::where('mahasiswa_id', $mahasiswa->id)
+        $pengajuan = Pengajuan::latest()
+            ->where('mahasiswa_id', $mahasiswa->id)
             ->where('jenis_pengajuan_id', 5)
-            ->latest()
             ->first();
 
         return view ('user.pengajuan.legalisir.form',[

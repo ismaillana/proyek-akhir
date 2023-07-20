@@ -43,7 +43,7 @@
                                 Nama Mahasiswa: {{(@$mahasiswa->user->name)}}
                               </li>
                               <li>NIM: {{(@$mahasiswa->nim)}}</li>
-                              <li>Jurusan: {{@$mahasiswa->jurusan->name}}</li>
+                              <li>Jurusan: {{@$mahasiswa->programStudi->jurusan->name}}</li>
                               <li>Program Studi: {{@$mahasiswa->programStudi->name}}</li>
                             </ul>
                           </div>

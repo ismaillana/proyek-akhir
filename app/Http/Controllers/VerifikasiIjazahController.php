@@ -151,6 +151,10 @@ class VerifikasiIjazahController extends Controller
         
         $waGateway = $pengajuan->instansi->user->wa; //get no wa
 
+        if ($pengajuan->no_surat == null) {
+            return redirect()->back()->with('error', 'Nomor Surat Belum Diisi!');
+        }
+
         $data = [
             'status'  =>  'Konfirmasi'
         ];
@@ -345,12 +349,13 @@ class VerifikasiIjazahController extends Controller
         } catch (DecryptException $e) {
             abort(404);
         }
-        // $checkAngkatan = Mahasiswa::where('angkatan', $request->angkatan)->get();
-
-        
 
         $verifikasiIjazah = Pengajuan::find($id);
-        // dd($verifikasiIjazah->tanggal_surat);
+        
+        if ($verifikasiIjazah->no_surat == null) {
+            return redirect()->back()->with('error', 'Nomor Surat Belum Diisi!');
+        }
+
         if ($verifikasiIjazah->tanggal_surat == null) {
             $now   = Carbon::now()->locale('id');
             $currentDate =  $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia

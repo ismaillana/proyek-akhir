@@ -33,12 +33,29 @@ class DashboardController extends Controller
     {
         $akun = auth()->user();
         //Bagian Akademik & Super Admin
+        $bagianAkademik = User::role('bagian-akademik') 
+            ->get();
+        $numbers = $bagianAkademik->pluck('wa')->toArray();
+
         $oneDayAgo = Carbon::now()->subDay();
 
         $pengajuans = Pengajuan::where('status', 'Menunggu Konfirmasi')
         ->whereIn('jenis_pengajuan_id', [1,5,6])
         ->where('created_at', '<=', $oneDayAgo)
         ->get();
+
+        foreach ($pengajuans as $pengajuan) {
+            foreach ($numbers as $number) {
+                WhatsappGatewayService::sendMessage($number, 
+                    'Hai, Bagian Akademik!' . PHP_EOL .
+                        PHP_EOL .
+                        'Ada pengajuan Verifikasi Ijazah Yang Belum Diverifikasi Lebh Dari 1 hari'. PHP_EOL .
+                        'Segera lakukan pengecekan data pengajuan!'. PHP_EOL .
+                        PHP_EOL .
+                        '[Politeknik Negeri Subang]'
+                ); //->Kirim Chat
+            }
+        }
 
         $pengajuanJurusan = Pengajuan::where('status', 'Menunggu Konfirmasi')
         ->whereIn('jenis_pengajuan_id', [2,3,4])

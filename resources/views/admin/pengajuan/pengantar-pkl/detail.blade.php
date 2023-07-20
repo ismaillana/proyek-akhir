@@ -203,7 +203,7 @@
                                           Program Studi
                                         </th>
                                       </tr>
-                                      @foreach ($data as $item)
+                                      {{-- @foreach ($data as $item)
                                         <tr>
                                           <td>
                                             {{$loop->iteration}}
@@ -225,7 +225,7 @@
                                             {{$item->programStudi->name}}
                                           </td>
                                         </tr>
-                                      @endforeach
+                                      @endforeach --}}
                                     </table>
                                   </div>
                                 </div>

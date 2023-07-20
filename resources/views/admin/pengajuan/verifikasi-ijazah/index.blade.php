@@ -159,12 +159,12 @@
                                 <option selected disabled value="">
                                     Pilih Status
                                 </option>
-                                <option value="Konfirmasi"
+                                {{-- <option value="Konfirmasi"
                                     {{ old('status', @$verifikasiIjazah->status) == 'Konfirmasi' ? 'selected' : '' }}>
                                         Dikonfirmasi</option>
                                 <option value="Proses"
                                     {{ old('status', @$verifikasiIjazah->status) == 'Proses' ? 'selected' : '' }}>
-                                        Diproses</option>
+                                        Diproses</option> --}}
                                 <option value="Kendala"
                                     {{ old('status', @$verifikasiIjazah->status) == 'Kendala' ? 'selected' : '' }}>
                                         Ada Kendala</option>
@@ -216,3 +216,18 @@
   </div>
 @endforeach
 @endsection
+
+@section('script')
+    <script>
+        $("#dokumenHasil").hide();
+        $('#status').on('change', function(){
+            var selectedVal = $(this).val();
+            if (selectedVal == 'Selesai') {
+                $('#dokumenHasil').show();
+            } else {
+                $("#dokumenHasil").hide();
+            }
+        })
+    </script>
+@endsection
+

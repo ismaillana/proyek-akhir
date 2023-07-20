@@ -165,12 +165,12 @@
                                 <option selected disabled value="">
                                     Pilih Status
                                 </option>
-                                <option value="Konfirmasi"
+                                {{-- <option value="Konfirmasi"
                                     {{ old('status', @$izinPenelitian->status) == 'Konfirmasi' ? 'selected' : '' }}>
                                         Dikonfirmasi</option>
                                 <option value="Proses"
                                     {{ old('status', @$izinPenelitian->status) == 'Proses' ? 'selected' : '' }}>
-                                        Diproses</option>
+                                        Diproses</option> --}}
                                 <option value="Kendala"
                                     {{ old('status', @$izinPenelitian->status) == 'Kendala' ? 'selected' : '' }}>
                                         Ada Kendala</option>

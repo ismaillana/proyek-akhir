@@ -428,6 +428,10 @@ class IzinPenelitianController extends Controller
         
         $izinPenelitian = Pengajuan::find($id);
 
+        if ($izinPenelitian->no_surat == null) {
+            return redirect()->back()->with('error', 'Nomor Surat Belum Diisi!');
+        }
+
         if ($izinPenelitian->tanggal_surat == null) {
             $now   = Carbon::now()->locale('id');
             $currentDate =  $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia

@@ -183,12 +183,12 @@
                                 <option selected disabled value="">
                                     Pilih Status
                                 </option>
-                                <option value="Konfirmasi"
+                                {{-- <option value="Konfirmasi"
                                     {{ old('status', @$pengantarPkl->status) == 'Konfirmasi' ? 'selected' : '' }}>
                                         Dikonfirmasi</option>
                                 <option value="Proses"
                                     {{ old('status', @$pengantarPkl->status) == 'Proses' ? 'selected' : '' }}>
-                                        Diproses</option>
+                                        Diproses</option> --}}
                                 <option value="Kendala"
                                     {{ old('status', @$pengantarPkl->status) == 'Kendala' ? 'selected' : '' }}>
                                         Ada Kendala</option>
