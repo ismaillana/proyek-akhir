@@ -26,36 +26,32 @@
                                 <th>Tanggal Pengajuan</th>
                                 <th>Nama Perusahaan</th>
                                 <th>Nama Pengaju</th>
-                                <th>Status</th>
                                 <th>Jumlah Pengaju</th>
+                                <th>Status</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($pengantarPkl as $item)
                                 @php
-                                    $pengajuans = $pengantar->where('created_at', $item->created_at);
+                                    $pengajuans = $pengantar->where('kode_pkl', $item->kode_pkl);
                                     $jumlahPengaju = $pengajuans->count();
                                 @endphp
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y H:i:s') }}</td>
-                                    <td>{{ $item->tempatPkl->name }}</td>
+                                    <td>{{ @$item->tempatPkl->name }}</td>
                                     <td>
-                                        @foreach ($pengajuans as $pengaju)
-                                            {{ @$pengaju->mahasiswa->user->name }} 
+                                      @foreach ($pengajuans as $pengaju)
+                                            {{ @$pengaju->mahasiswa->user->name }}-{{ @$pengaju->mahasiswa->nim }}
                                             <br>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach ($pengajuans as $pengaju)
-                                            {{ @$pengaju->status }} 
-                                            <br>
-                                        @endforeach
+                                      @endforeach
                                     </td>
                                     <td>{{ $jumlahPengaju }}</td>
+
+                                    <td>{{ $item->status }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('detail-pengajuan-pkl', [$item->tempat_pkl_id, $item->created_at]) }}"
+                                        <a href="{{ url('menu-admin/detail-pengajuan-pkl', $item->kode_pkl) }}"
                                             class="btn btn-sm btn-outline-secondary" title="Detail">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="16" height="16"
                                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -69,7 +65,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+              </div>
             
             </div>
           </div>

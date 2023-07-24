@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Pengajuan;
@@ -33,26 +34,26 @@ class PengantarPklController extends Controller
     {
         $user = auth()->user();
         $adminJurusan = $user->jurusan_id;
-        // dd($adminJurusan);
         
         if ($user->hasRole('admin-jurusan')) {
             $pengantarPkl = Pengajuan::latest()
-                ->select('tempat_pkl_id', 'created_at')
+                ->select('kode_pkl','tempat_pkl_id','created_at','status')
                 ->where('jenis_pengajuan_id', 2)
+                ->where('status', 'Menunggu Konfirmasi')
+                ->orWhere('status', 'Review')
+                ->orWhere('status', 'Setuju')
                 ->whereHas('mahasiswa', function ($query) use ($adminJurusan) {
                     $query->whereHas('programStudi', function ($query) use ($adminJurusan) {
                         $query->where('jurusan_id', $adminJurusan);
                     });
                 })
-                ->groupBy('tempat_pkl_id', 'created_at')
+                ->groupBy('kode_pkl')
                 ->get();
 
             $pengantar = Pengajuan::latest()
                 ->where('jenis_pengajuan_id', 2)
-                ->whereIn('created_at', $pengantarPkl->pluck('created_at'))
+                ->whereIn('kode_pkl', $pengantarPkl->pluck('kode_pkl'))
                 ->get();
-
-            
 
             return view ('admin.pengajuan.pengantar-pkl.index-admin-jurusan',[
                 'pengantarPkl' => $pengantarPkl,
@@ -63,26 +64,46 @@ class PengantarPklController extends Controller
 
         } elseif ($user->hasRole('koor-pkl')) {
             $pengantarPkl = Pengajuan::latest()
+                ->select('kode_pkl','tempat_pkl_id','created_at','status')
                 ->where('jenis_pengajuan_id', 2)
                 ->where('status', 'Review')
+                ->whereHas('mahasiswa', function ($query) use ($adminJurusan) {
+                    $query->whereHas('programStudi', function ($query) use ($adminJurusan) {
+                        $query->where('jurusan_id', $adminJurusan);
+                    });
+                })
+                ->groupBy('kode_pkl')
+                ->get();
+
+            $pengantar = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 2)
+                ->whereIn('kode_pkl', $pengantarPkl->pluck('kode_pkl'))
                 ->get();
 
             return view ('admin.pengajuan.pengantar-pkl.index-koor-pkl',[
                 'pengantarPkl' => $pengantarPkl,
-                'user'      => $user,
-                'title'        => 'Pengantar PKL'
+                'user' => $user,
+                'pengantar' => $pengantar,
+                'title'     => 'Pengantar PKL'
             ]);
-        } else {
+        } elseif($user->hasRole('bagian-akademik')) {
             $pengantarPkl = Pengajuan::latest()
+                ->select('kode_pkl','tempat_pkl_id','created_at','status')
                 ->where('jenis_pengajuan_id', 2)
-                ->whereNot('status', 'Selesai')
-                ->whereNot('status', 'Tolak')
-                ->whereNot('status', 'Diterima Perusahaan')
-                ->whereNot('status', 'Ditolak Perusahaan')
+                ->where('status', 'Dikonfirmasi')
+                ->orWhere('status', 'Kendala')
+                ->groupBy('kode_pkl')
+                ->get();
+
+            $pengantar = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 2)
+                ->whereIn('kode_pkl', $pengantarPkl->pluck('kode_pkl'))
                 ->get();
 
             return view ('admin.pengajuan.pengantar-pkl.index',[
                 'pengantarPkl' => $pengantarPkl,
+                'user' => $user,
+                'pengantar' => $pengantar,
                 'title'     => 'Pengantar PKL'
             ]);
         }
@@ -97,49 +118,18 @@ class PengantarPklController extends Controller
 
         $mahasiswa       = Mahasiswa::with(['pengajuan'])->whereUserId($pengaju->id)->first();
 
-        // $pengajuan = Pengajuan::where('mahasiswa_id', $mahasiswa->id)
-        //     ->where('jenis_pengajuan_id', 2)
-        //     ->latest()
-        //     ->first();
-
-        $pengajuan = Pengajuan::where('jenis_pengajuan_id', 2)
-            ->get();
-        // dd($pengajuan);
-
-        // foreach ($pengajuan as $item) {
-    
-        //     foreach ($item->nama_mahasiswa as $items) {
-        //         if ($items == $pengaju->id) {
-        //             // ID pengguna yang login cocok dengan ID dalam atribut "nama_mahasiswa"
-        //             // Dapatkan data pengajuan terkait
-        //             $dataPengajuan = $item;
-                    
-        //             // Lakukan tindakan yang diperlukan dengan data pengajuan
-        //             // Contoh: Tampilkan data pengajuan
-        //         }
-        //     }
-        // }
+        $pengajuan = Pengajuan::latest()
+            ->where('jenis_pengajuan_id', 2)
+            ->where('mahasiswa_id', $mahasiswa->id)
+            ->first();
 
         $tempatPkl = TempatPkl::get();
-        $mahasiswaLain = Mahasiswa::where('program_studi_id', $mahasiswa->program_studi_id)
-            ->get();
-
-        // $user = User::whereIn('id', function ($query) use ($mahasiswa) {
-        //     $query->select('user_id')
-        //         ->from('mahasiswas')
-        //         ->where('program_studi_id', $mahasiswa->program_studi_id);
-        // })
-        // ->whereHas('roles', function ($q) {
-        //     $q->whereIn('name', ['mahasiswa']);
-        // })
-        // ->get();
 
         return view ('user.pengajuan.pengantar-pkl.form', [
-            'mahasiswaLain'      => $mahasiswaLain,
             'pengajuan' => $pengajuan,
             'tempatPkl' => $tempatPkl,
             'pengaju' => $pengaju,
-            // 'dataPengajuan' => $dataPengajuan,
+            'mahasiswa' => $mahasiswa,
             'title'     => 'Pengantar PKL'
         ]);
     }
@@ -153,100 +143,100 @@ class PengantarPklController extends Controller
 
         $mahasiswa  = Mahasiswa::whereUserId($user->id)->first();
         $waGateway = $user->wa; //get no wa
-        
-        $mahasiswaId = $request->input('nama_mahasiswa');
 
         $adminJurusan = User::role('admin-jurusan')
             ->where('jurusan_id', $mahasiswa->programStudi->jurusan->id)
             ->get();
         $numbers = $adminJurusan->pluck('wa')->toArray();
 
-        $tempat_pkl_id = $request->tempat_pkl_id;
-        if ($request->tempat_pkl_id == 'perusahaan_lainnya') {
-            $tempatPkl = TempatPkl::create([
-                'name'      => $request->name,
-                'alamat'    => $request->alamat,
-                'telepon'   => $request->telepon,
-                'web'       => $request->web
-            ]);
+        // Mulai transaksi database
+        DB::beginTransaction();
 
-            $tempat_pkl_id = $tempatPkl->id;
-        }
+        try {
+            $mahasiswaId = $request->input('nama_mahasiswa');
+            // Generate kode pengajuan
+            $latestPengajuan = Pengajuan::latest()->first();
+            $angkaUrut = $latestPengajuan ? intval(substr($latestPengajuan->kode_pkl, 4)) + 1 : 1;
+            $kodePengajuan = 'PKL_' . str_pad($angkaUrut, 2, '0', STR_PAD_LEFT);
 
-        foreach ($mahasiswaId as $item) {
-            $pengajuan = new Pengajuan();
-            $pengajuan->jenis_pengajuan_id = 2;
-            $pengajuan->mahasiswa_id = $item;
-            $pengajuan->tempat_pkl_id = $tempat_pkl_id;
-            $pengajuan->tgl_mulai = $request->tgl_mulai;
-            $pengajuan->tgl_selesai = $request->tgl_selesai;
-            $pengajuan->tujuan_surat = $request->tujuan_surat;
-            $pengajuan->link_pendukung = $request->link_pendukung;
+            $tempat_pkl_id = $request->tempat_pkl_id;
+            if ($request->tempat_pkl_id == 'perusahaan_lainnya') {
+                $tempatPkl = TempatPkl::create([
+                    'name'      => $request->name,
+                    'alamat'    => $request->alamat,
+                    'telepon'   => $request->telepon,
+                    'web'       => $request->web
+                ]);
 
-            $pengajuan->save();
-        }
-        
-        // $data = ([
-        //     'jenis_pengajuan_id' => '2',
-        //     'mahasiswa_id'     => $mahasiswa->id,
-        //     'tempat_pkl_id'    => $tempat_pkl_id,
-        //     'tgl_mulai'        => $request->tgl_mulai,
-        //     'tgl_selesai'      => $request->tgl_selesai,
-        //     'tujuan_surat'     => $request->tujuan_surat,
-        //     'nama_mahasiswa'   => $request->nama_mahasiswa,
-        //     'link_pendukung'   => $request->link_pendukung,
-        // ]);
+                $tempat_pkl_id = $tempatPkl->id;
+            }
 
-        // $pengajuan = Pengajuan::create($data);
+            foreach ($mahasiswaId as $item) {
+                $pengajuan = Pengajuan::create([
+                    'jenis_pengajuan_id' => '2',
+                    'mahasiswa_id' => $item,
+                    'kode_pkl' => $kodePengajuan, // Gunakan kode yang sama untuk setiap pengajuan
+                    'mahasiswa_id' => $item,
+                    'tempat_pkl_id'    => $tempat_pkl_id,
+                    'tgl_mulai'        => $request->tgl_mulai,
+                    'tgl_selesai'      => $request->tgl_selesai,
+                    'tujuan_surat'     => $request->tujuan_surat,
+                    'link_pendukung'   => $request->link_pendukung,
+                ]);
 
-        Riwayat::create([
-            'pengajuan_id'  => $pengajuan->id,
-            'status'        => 'Menunggu Konfirmasi',
-            'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
-        ]);
+                Riwayat::create([
+                    'pengajuan_id'  => $pengajuan->id,
+                    'status'        => 'Menunggu Konfirmasi',
+                    'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
+                ]);
+            }
 
-        WhatsappGatewayService::sendMessage($waGateway, 
-            'Hai, ' . $user->name . PHP_EOL .
-                PHP_EOL .
-                'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan Berhasil! ' . PHP_EOL .
-                'Harap tunggu Konfirmasi dari Admin Jurusan.' . PHP_EOL .
-                PHP_EOL .
-                'Terima Kasih' . PHP_EOL .
-                PHP_EOL .
-                '[Politeknik Negeri Subang]'
-        ); //->Kirim Chat
 
-        foreach ($numbers as $number) {
-            WhatsappGatewayService::sendMessage($number, 
-                'Hai, Admin Jurusan!' . PHP_EOL .
+            // Commit transaksi database
+            DB::commit();
+            
+    
+            WhatsappGatewayService::sendMessage($waGateway, 
+                'Hai, ' . $user->name . PHP_EOL .
                     PHP_EOL .
-                    'Ada pengajuan Surat Pengantar PKL baru dari '. $user->name . PHP_EOL .
-                    'Segera lakukan pengecekan data pengajuan!' . PHP_EOL .
+                    'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan Berhasil! ' . PHP_EOL .
+                    'Harap tunggu Konfirmasi dari Admin Jurusan.' . PHP_EOL .
+                    PHP_EOL .
+                    'Terima Kasih' . PHP_EOL .
                     PHP_EOL .
                     '[Politeknik Negeri Subang]'
             ); //->Kirim Chat
-        }
+    
+            foreach ($numbers as $number) {
+                WhatsappGatewayService::sendMessage($number, 
+                    'Hai, Admin Jurusan!' . PHP_EOL .
+                        PHP_EOL .
+                        'Ada pengajuan Surat Pengantar PKL baru dari '. $user->name . PHP_EOL .
+                        'Segera lakukan pengecekan data pengajuan!' . PHP_EOL .
+                        PHP_EOL .
+                        '[Politeknik Negeri Subang]'
+                ); //->Kirim Chat
+            }
+    
+            return redirect()->back()->with('success', 'Pengajuan Berhasil');
 
-        return redirect()->back()->with('success', 'Pengajuan Berhasil');
+        } catch (\Exception $e) {
+            // Jika terjadi error, rollback transaksi database
+            DB::rollback();
+
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan pengajuan PKL.');
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function detail($tempatPklId, $createdAt)
+    public function detail($kodePkl)
     {
         $user = auth()->user();
 
-        // try {
-        //     $id = Crypt::decryptString($id);
-        // } catch (DecryptException $e) {
-        //     abort(404);
-        // }
-
-        $pengantarPkl = Pengajuan::where('tempat_pkl_id', $tempatPklId)
-        ->where('created_at', $createdAt)
+        $pengantarPkl = Pengajuan::where('kode_pkl', $kodePkl)
         ->get();
-        // $data = Mahasiswa::whereIn('user_id', $pengantarPkl['nama_mahasiswa'])->get();
         
         return view ('admin.pengajuan.pengantar-pkl.show', [
             'pengantarPkl'    =>  $pengantarPkl,
@@ -270,11 +260,9 @@ class PengantarPklController extends Controller
         }
 
         $pengantarPkl = Pengajuan::find($id);
-        // $data = Mahasiswa::whereIn('user_id', $pengantarPkl['nama_mahasiswa'])->get();
         
         return view ('admin.pengajuan.pengantar-pkl.detail', [
             'pengantarPkl'    =>  $pengantarPkl,
-            // 'data'          => $data,
             'user'          => $user,
             'title'         =>  'Detail Pengajuan Pengantar PKL'
         ]);
@@ -295,27 +283,34 @@ class PengantarPklController extends Controller
             ->get();
         $numbers = $bagianAkademik->pluck('wa')->toArray();
 
-        $pengajuan = Pengajuan::where('id',$id)->first();
+        $pengajuan = Pengajuan::where('kode_pkl',$id)->get();
 
-        $waGateway = $pengajuan->mahasiswa->user->wa; //get no wa
+        $waGateway = [];
 
-        $dokumen = Pengajuan::saveDokumenPermohonan($request);
+        foreach ($pengajuan as $item) {
+            $waGateway[] = $item->mahasiswa->user->wa;
 
-        $data = [
-            'status'  =>  'Konfirmasi',
-            'dokumen_permohonan' => $dokumen
-        ];
+            $dokumen = Pengajuan::saveDokumenPermohonan($request);
 
-        Pengajuan::where('id', $id)->update($data);
+            $data = [
+                'status'  =>  'Konfirmasi',
+                'dokumen_permohonan' => $dokumen
+            ];
 
-        Riwayat::create([
-            'pengajuan_id'  => $id,
-            'status'        => 'Dikonfirmasi',
-            'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
-        ]);
+            //Update pengajuan sesuai id
+            Pengajuan::where('id', $item->id)->update($data);
 
-        WhatsappGatewayService::sendMessage($waGateway, 
-        'Hai, ' . $pengajuan->mahasiswa->user->name . ',' . PHP_EOL .
+            Riwayat::create([
+                'pengajuan_id'  => $item->id,
+                'status'        => 'Dikonfirmasi',
+                'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
+            ]);
+        }
+
+        foreach ($waGateway as $wa) {
+            WhatsappGatewayService::sendMessage($wa, 
+                // 'Hai, ' . $pengajuan[0]->mahasiswa->user->name. ',' . PHP_EOL .
+                'Hai, '. PHP_EOL .
                 PHP_EOL .
                 'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan telah dikonfirmasi oleh Admin Jurusan! ' . PHP_EOL .
                 'Harap tunggu pemberitahuan selanjutnya.' . PHP_EOL .
@@ -323,13 +318,14 @@ class PengantarPklController extends Controller
                 'Terima Kasih' . PHP_EOL .
                 PHP_EOL .
                 '[Politeknik Negeri Subang]'
-        ); //->Kirim Chat
+            ); //->Kirim Chat
+        }
 
         foreach ($numbers as $number) {
             WhatsappGatewayService::sendMessage($number, 
                 'Hai, Admin Jurusan!' . PHP_EOL .
                     PHP_EOL .
-                    'Ada pengajuan Surat Pengantar PKL baru Yang Telah Dikonfirmasi Admin Jurusan dari '. $pengajuan->mahasiswa->user->name . PHP_EOL .
+                    'Ada pengajuan Surat Pengantar PKL baru Yang Telah Dikonfirmasi Admin Jurusan ' . PHP_EOL .
                     'Segera lakukan pengecekan data pengajuan!' . PHP_EOL .
                     PHP_EOL .
                     '[Politeknik Negeri Subang]'
@@ -344,20 +340,20 @@ class PengantarPklController extends Controller
      */
     public function review(Request $request, string $id)
     {
-        $pengajuan = Pengajuan::where('id',$id)->first();
+        // $pengajuan = Pengajuan::where('id',$id)->first();
 
-        $waGateway = $pengajuan->mahasiswa->user->wa; //get no wa
+        // $waGateway = $pengajuan->mahasiswa->user->wa; //get no wa
 
-        $koorPKL = User::role('koor-pkl')
-            ->where('jurusan_id', $pengajuan->mahasiswa->programStudi->jurusan->id)
-            ->get();
-        $numbers = $koorPKL->pluck('wa')->toArray();
+        // $koorPKL = User::role('koor-pkl')
+        //     ->where('jurusan_id', $pengajuan->mahasiswa->programStudi->jurusan->id)
+        //     ->get();
+        // $numbers = $koorPKL->pluck('wa')->toArray();
 
         $data = [
             'status'  =>  'Review'
         ];
 
-        Pengajuan::where('id', $id)->update($data);
+        Pengajuan::where('kode_pkl', $id)->update($data);
 
         Riwayat::create([
             'pengajuan_id'  => $id,
@@ -365,27 +361,27 @@ class PengantarPklController extends Controller
             'catatan'       => 'Pengajuan Anda Sedang di review oleh Koordinator Pkl. Tunggu pemberitahuan selanjutnya'
         ]);
 
-        WhatsappGatewayService::sendMessage($waGateway, 
-        'Hai, ' . $pengajuan->mahasiswa->user->name . ',' . PHP_EOL .
-                PHP_EOL .
-                'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan telah sedang direview oleh Koordinator PKL! ' . PHP_EOL .
-                'Harap tunggu pemberitahuan selanjutnya.' . PHP_EOL .
-                PHP_EOL .
-                'Terima Kasih' . PHP_EOL .
-                PHP_EOL .
-                '[Politeknik Negeri Subang]'
-        ); //->Kirim Chat
+        // WhatsappGatewayService::sendMessage($waGateway, 
+        // 'Hai, ' . $pengajuan->mahasiswa->user->name . ',' . PHP_EOL .
+        //         PHP_EOL .
+        //         'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan telah sedang direview oleh Koordinator PKL! ' . PHP_EOL .
+        //         'Harap tunggu pemberitahuan selanjutnya.' . PHP_EOL .
+        //         PHP_EOL .
+        //         'Terima Kasih' . PHP_EOL .
+        //         PHP_EOL .
+        //         '[Politeknik Negeri Subang]'
+        // ); //->Kirim Chat
 
-        foreach ($numbers as $number) {
-            WhatsappGatewayService::sendMessage($number, 
-                'Hai, Koordinator PKL!' . PHP_EOL .
-                    PHP_EOL .
-                    'Ada pengajuan Surat Pengantar PKL baru Yang Telah Diajukan Admin Jurusan dari '. $pengajuan->mahasiswa->user->name . PHP_EOL .
-                    'Segera lakukan pengecekan data pengajuan!' . PHP_EOL .
-                    PHP_EOL .
-                    '[Politeknik Negeri Subang]'
-            ); //->Kirim Chat
-        }
+        // foreach ($numbers as $number) {
+        //     WhatsappGatewayService::sendMessage($number, 
+        //         'Hai, Koordinator PKL!' . PHP_EOL .
+        //             PHP_EOL .
+        //             'Ada pengajuan Surat Pengantar PKL baru Yang Telah Diajukan Admin Jurusan dari '. $pengajuan->mahasiswa->user->name . PHP_EOL .
+        //             'Segera lakukan pengecekan data pengajuan!' . PHP_EOL .
+        //             PHP_EOL .
+        //             '[Politeknik Negeri Subang]'
+        //     ); //->Kirim Chat
+        // }
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
@@ -395,20 +391,20 @@ class PengantarPklController extends Controller
      */
     public function setuju(Request $request, string $id)
     {
-        $pengajuan = Pengajuan::where('id',$id)->first();
+        // $pengajuan = Pengajuan::where('id',$id)->first();
 
-        $waGateway = $pengajuan->mahasiswa->user->wa; //get no wa
+        // $waGateway = $pengajuan->mahasiswa->user->wa; //get no wa
 
-        $adminJurusan = User::role('admin-jurusan')
-            ->where('jurusan_id', $pengajuan->mahasiswa->programStudi->jurusan->id)
-            ->get();
-        $numbers = $adminJurusan->pluck('wa')->toArray();
+        // $adminJurusan = User::role('admin-jurusan')
+        //     ->where('jurusan_id', $pengajuan->mahasiswa->programStudi->jurusan->id)
+        //     ->get();
+        // $numbers = $adminJurusan->pluck('wa')->toArray();
 
         $data = [
             'status'  =>  'Setuju'
         ];
 
-        Pengajuan::where('id', $id)->update($data);
+        Pengajuan::where('kode_pkl', $id)->update($data);
 
         Riwayat::create([
             'pengajuan_id'  => $id,
@@ -416,27 +412,27 @@ class PengantarPklController extends Controller
             'catatan'       => 'Pengajuan Anda Telah Disetujui oleh koordinator Pkls. Tunggu pemberitahuan selanjutnya'
         ]);
 
-        WhatsappGatewayService::sendMessage($waGateway, 
-        'Hai, ' . $pengajuan->mahasiswa->user->name . ',' . PHP_EOL .
-                PHP_EOL .
-                'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan telah sedang Disetujui oleh Koordinator PKL! ' . PHP_EOL .
-                'Harap tunggu pemberitahuan selanjutnya.' . PHP_EOL .
-                PHP_EOL .
-                'Terima Kasih' . PHP_EOL .
-                PHP_EOL .
-                '[Politeknik Negeri Subang]'
-        ); //->Kirim Chat
+        // WhatsappGatewayService::sendMessage($waGateway, 
+        // 'Hai, ' . $pengajuan->mahasiswa->user->name . ',' . PHP_EOL .
+        //         PHP_EOL .
+        //         'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan telah sedang Disetujui oleh Koordinator PKL! ' . PHP_EOL .
+        //         'Harap tunggu pemberitahuan selanjutnya.' . PHP_EOL .
+        //         PHP_EOL .
+        //         'Terima Kasih' . PHP_EOL .
+        //         PHP_EOL .
+        //         '[Politeknik Negeri Subang]'
+        // ); //->Kirim Chat
 
-        foreach ($numbers as $number) {
-            WhatsappGatewayService::sendMessage($number, 
-                'Hai, Admin Jurusan!' . PHP_EOL .
-                    PHP_EOL .
-                    'Ada pengajuan Surat Pengantar PKL baru Yang Telah Disetujui Koordinator PKL dari '. $pengajuan->mahasiswa->user->name . PHP_EOL .
-                    'Segera lakukan pengecekan data pengajuan!' . PHP_EOL .
-                    PHP_EOL .
-                    '[Politeknik Negeri Subang]'
-            ); //->Kirim Chat
-        }
+        // foreach ($numbers as $number) {
+        //     WhatsappGatewayService::sendMessage($number, 
+        //         'Hai, Admin Jurusan!' . PHP_EOL .
+        //             PHP_EOL .
+        //             'Ada pengajuan Surat Pengantar PKL baru Yang Telah Disetujui Koordinator PKL dari '. $pengajuan->mahasiswa->user->name . PHP_EOL .
+        //             'Segera lakukan pengecekan data pengajuan!' . PHP_EOL .
+        //             PHP_EOL .
+        //             '[Politeknik Negeri Subang]'
+        //     ); //->Kirim Chat
+        // }
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
@@ -446,14 +442,16 @@ class PengantarPklController extends Controller
      */
     public function tolak(KonfirmasiRequest $request, string $id)
     {
-        $pengajuan = Pengajuan::where('id',$id)->first();
+        // $pengajuan = Pengajuan::where('id',$id)->first();
         
-        $waGateway = $pengajuan->mahasiswa->user->wa; //get no wa
+        // $waGateway = $pengajuan->mahasiswa->user->wa; //get no wa
 
         $data = [
             'status'  =>  'Tolak',
             'catatan' =>  $request->catatan
         ];
+        
+        Pengajuan::where('kode_pkl', $id)->update($data);
 
         Riwayat::create([
             'pengajuan_id'  => $id,
@@ -461,19 +459,18 @@ class PengantarPklController extends Controller
             'catatan'       => $request->catatan
         ]);
 
-        Pengajuan::where('id', $id)->update($data);
 
-        WhatsappGatewayService::sendMessage($waGateway, 
-        'Hai, ' . $pengajuan->mahasiswa->user->name . ',' . PHP_EOL .
-                PHP_EOL .
-                'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan Ditolak oleh Admin Jurusan atau Koordinator PKL dengan alasan/catatan ' . PHP_EOL .
-                PHP_EOL .
-                '**' . $request->catatan . PHP_EOL .
-                PHP_EOL .
-                'Terima Kasih' . PHP_EOL .
-                PHP_EOL .
-                '[Politeknik Negeri Subang]'
-        ); //->Kirim Chat
+        // WhatsappGatewayService::sendMessage($waGateway, 
+        // 'Hai, ' . $pengajuan->mahasiswa->user->name . ',' . PHP_EOL .
+        //         PHP_EOL .
+        //         'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan Ditolak oleh Admin Jurusan atau Koordinator PKL dengan alasan/catatan ' . PHP_EOL .
+        //         PHP_EOL .
+        //         '**' . $request->catatan . PHP_EOL .
+        //         PHP_EOL .
+        //         'Terima Kasih' . PHP_EOL .
+        //         PHP_EOL .
+        //         '[Politeknik Negeri Subang]'
+        // ); //->Kirim Chat
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
@@ -483,68 +480,77 @@ class PengantarPklController extends Controller
      */
     public function updateStatus(Request $request, string $id)
     {
-        $data = [
-            'status'  =>  $request->status
-        ];
-
-        Pengajuan::where('id', $id)->update($data);
-
-        $pengajuan = Pengajuan::where('id',$id)->first();
         
-        $waGateway = $pengajuan->mahasiswa->user->wa; //get no wa
+        $pengajuanPklItems = pengajuan::where('kode_pkl', $id)->get();
 
-        if ($request->status == 'Proses' ) {
-            Riwayat::create([
-                'pengajuan_id'  => $id,
-                'status'        => 'Diproses',
-                'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
+        // Update the status for each pengajuan pkl item
+        foreach ($pengajuanPklItems as $pengajuanPklItem) {
+            $pengajuanPklItem->update([
+                'status' => $request->input('status'),
             ]);
-
-            WhatsappGatewayService::sendMessage($waGateway, 
-                'Hai, ' . $pengajuan->mahasiswa->user->name . ',' . PHP_EOL .
-                    PHP_EOL .
-                    'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan sedang Diproses oleh Bagian Akademik!' . PHP_EOL .
-                    'Proses dilakukan selama 3-5 hari kerja, namun bisa saja kurang atau melebihi waktu tersebut. Harap tunggu informasi selanjutnya' . PHP_EOL .
-                    PHP_EOL .
-                    'Terima Kasih' . PHP_EOL .
-                    PHP_EOL .
-                    '[Politeknik Negeri Subang]'
-            ); //->Kirim Chat
-        }elseif ($request->status == 'Kendala' ) {
-            Riwayat::create([
-                'pengajuan_id'  => $id,
-                'status'        => 'Ada Kendala',
-                'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
-            ]);
-
-            WhatsappGatewayService::sendMessage($waGateway, 
-                'Hai, ' . $pengajuan->mahasiswa->user->name . ',' . PHP_EOL .
-                    PHP_EOL .
-                    'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan sedang Dalam Kendala!' . PHP_EOL .
-                    'Harap menunggu pemberitahuan selanjutnya dikarenakan di lingkungan kampus sedang terdapat kegiatan yang melibatkan Bagian Akademik!' . PHP_EOL .
-                    PHP_EOL .
-                    'Terima Kasih' . PHP_EOL .
-                    PHP_EOL .
-                    '[Politeknik Negeri Subang]'
-            ); //->Kirim Chat
-        }elseif ($request->status == 'Selesai' ) {
-            Riwayat::create([
-                'pengajuan_id'  => $id,
-                'status'        => 'Selesai',
-                'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
-            ]);
-
-            WhatsappGatewayService::sendMessage($waGateway, 
-                'Hai, ' . $pengajuan->mahasiswa->user->name . ',' . PHP_EOL .
-                    PHP_EOL .
-                    'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan Telah Selesai!' . PHP_EOL .
-                    'Surat Pengantar PKL dapat diambil diruangan akademik dengan nomor surat ' . @$pengajuan->no_surat . PHP_EOL .
-                    PHP_EOL .
-                    'Terima Kasih' . PHP_EOL .
-                    PHP_EOL .
-                    '[Politeknik Negeri Subang]'
-            ); //->Kirim Chat
         }
+        // $data = [
+        //     'status'  =>  $request->status
+        // ];
+        // Find the pengajuan pkl items with the same kode_pkl
+        // Pengajuan::where('kode_pkl', $id)->update($data);
+
+        // $pengajuan = Pengajuan::where('id',$id)->first();
+        
+        // $waGateway = $pengajuan->mahasiswa->user->wa; //get no wa
+
+        // if ($request->status == 'Proses' ) {
+        //     Riwayat::create([
+        //         'pengajuan_id'  => $id,
+        //         'status'        => 'Diproses',
+        //         'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
+        //     ]);
+
+        //     WhatsappGatewayService::sendMessage($waGateway, 
+        //         'Hai, ' . $pengajuan->mahasiswa->user->name . ',' . PHP_EOL .
+        //             PHP_EOL .
+        //             'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan sedang Diproses oleh Bagian Akademik!' . PHP_EOL .
+        //             'Proses dilakukan selama 3-5 hari kerja, namun bisa saja kurang atau melebihi waktu tersebut. Harap tunggu informasi selanjutnya' . PHP_EOL .
+        //             PHP_EOL .
+        //             'Terima Kasih' . PHP_EOL .
+        //             PHP_EOL .
+        //             '[Politeknik Negeri Subang]'
+        //     ); //->Kirim Chat
+        // }elseif ($request->status == 'Kendala' ) {
+        //     Riwayat::create([
+        //         'pengajuan_id'  => $id,
+        //         'status'        => 'Ada Kendala',
+        //         'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
+        //     ]);
+
+        //     WhatsappGatewayService::sendMessage($waGateway, 
+        //         'Hai, ' . $pengajuan->mahasiswa->user->name . ',' . PHP_EOL .
+        //             PHP_EOL .
+        //             'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan sedang Dalam Kendala!' . PHP_EOL .
+        //             'Harap menunggu pemberitahuan selanjutnya dikarenakan di lingkungan kampus sedang terdapat kegiatan yang melibatkan Bagian Akademik!' . PHP_EOL .
+        //             PHP_EOL .
+        //             'Terima Kasih' . PHP_EOL .
+        //             PHP_EOL .
+        //             '[Politeknik Negeri Subang]'
+        //     ); //->Kirim Chat
+        // }elseif ($request->status == 'Selesai' ) {
+        //     Riwayat::create([
+        //         'pengajuan_id'  => $id,
+        //         'status'        => 'Selesai',
+        //         'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
+        //     ]);
+
+        //     WhatsappGatewayService::sendMessage($waGateway, 
+        //         'Hai, ' . $pengajuan->mahasiswa->user->name . ',' . PHP_EOL .
+        //             PHP_EOL .
+        //             'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan Telah Selesai!' . PHP_EOL .
+        //             'Surat Pengantar PKL dapat diambil diruangan akademik dengan nomor surat ' . @$pengajuan->no_surat . PHP_EOL .
+        //             PHP_EOL .
+        //             'Terima Kasih' . PHP_EOL .
+        //             PHP_EOL .
+        //             '[Politeknik Negeri Subang]'
+        //     ); //->Kirim Chat
+        // }
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
 
@@ -680,31 +686,46 @@ class PengantarPklController extends Controller
      */
     public function print($id)
     {
-        try {
-            $id = Crypt::decryptString($id);
-        } catch (DecryptException $e) {
-            abort(404);
-        }
-        
-        $pengantarPkl = Pengajuan::find($id);
-        $mahasiswa = Mahasiswa::whereIn('user_id', $pengantarPkl['nama_mahasiswa'])->get();
+        $pengantarPkl = Pengajuan::where('kode_pkl', $id)->get();
 
-        if ($pengantarPkl->tanggal_surat == null) {
-            $now   = Carbon::now()->locale('id');
-            $currentDate =  $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
-            
-            $pengantarPkl->update([
-                'tanggal_surat'            => $currentDate,
-            ]);
-        } 
+        // Cek apakah ada entri data yang memiliki no_surat kosong
+        $hasEmptyNoSurat = $pengantarPkl->contains(function ($item) {
+            return empty($item->no_surat);
+        });
+
+        // Jika ada entri data dengan no_surat kosong, langsung kembalikan pesan "Nomor Surat Kosong"
+        if ($hasEmptyNoSurat) {
+            return redirect()->back()->with('error', 'Nomor Surat Belum Diisi!');
+        }
+
+        // Cek apakah ada entri data yang memiliki tanggal_surat kosong
+        $hasNullTanggalSurat = $pengantarPkl->contains(function ($item) {
+            return $item->tanggal_surat === null;
+        });
+
+        // Jika ada entri data dengan tanggal_surat kosong, perbarui tanggal_surat dengan tanggal saat ini
+        if ($hasNullTanggalSurat) {
+            $now = Carbon::now()->locale('id');
+            $currentDate = $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
+
+            foreach ($pengantarPkl as $item) {
+                if ($item->tanggal_surat === null) {
+                    $item->update([
+                        'tanggal_surat' => $currentDate,
+                    ]);
+                }
+            }
+        }
+    
         //mengambil data dan tampilan dari halaman laporan_pdf
         $data = PDF::loadview('admin.pengajuan.pengantar-pkl.print', [
-            'pengantarPkl'=> $pengantarPkl,
-            'mahasiswa'   => $mahasiswa
+            'pengantarPkl' => $pengantarPkl,
         ]);
+        
         //mendownload laporan.pdf
-    	return $data->stream('Surat-pengantar-pkl.pdf');
+        return $data->stream('Surat-pengantar-pkl.pdf');
     }
+    
 
     /**
      * Update the specified resource in storage.
@@ -717,11 +738,17 @@ class PengantarPklController extends Controller
             'no_surat.required' => 'Masukkan Nomor Surat',
         ]);
         
-        $data = [
-            'no_surat'  =>  $request->no_surat
-        ];
+        // $data = [
+        //     'no_surat'  =>  $request->no_surat
+        // ];
 
-        Pengajuan::where('id', $id)->update($data);
+        // Get the data with the same kode_pkl
+        $pengajuanPkl = Pengajuan::where('kode_pkl', $id)->get();
+
+        // Update the "No Surat" for each data entry
+        foreach ($pengajuanPkl as $item) {
+            $item->update(['no_surat' => $request->no_surat]);
+        }
 
         return redirect()->back()->with('success', 'No Surat Berhasil Diubah');
     }

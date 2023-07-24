@@ -53,11 +53,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                              {{-- {{$dataPengajuan->get_mahasiswa}} --}}
-                              @foreach ($pengantarPkl as $item) 
-    
-                                @foreach ($item->nama_mahasiswa as $id) 
-                                    @if ($id == $user->id)
+                              @forelse ($pengantarPkl as $item) 
                                     <tr>
                                         <th scope="row">
                                             {{$loop->iteration}}
@@ -114,21 +110,19 @@
                                             @endif
                                         </td>
                                     </tr>
-                                    @else
-                                      {{-- <tr>
-                                        <td colspan="4" class="text-center">
-                                            <img class="img-fluid mb-2" width="250" src="{{ asset('template/assets/img/illustrations/3d1.png')}}" 
-                                            srcset="{{ asset('template/assets/img/illustrations/3d1@2x.png 2x')}}" alt="" />
-                                            
-                                            <p>
-                                            Anda belum pernah melakukan pengajuan layanan akademik ini!
-                                            <span class="text-danger">*</span>
-                                            </p>
-                                        </td>
-                                      </tr> --}}
-                                    @endif
-                                @endforeach
-                            @endforeach
+                              @empty
+                                <tr>
+                                  <td colspan="4" class="text-center">
+                                      <img class="img-fluid mb-2" width="250" src="{{ asset('template/assets/img/illustrations/3d1.png')}}" 
+                                      srcset="{{ asset('template/assets/img/illustrations/3d1@2x.png 2x')}}" alt="" />
+                                      
+                                      <p>
+                                      Anda belum pernah melakukan pengajuan layanan akademik ini!
+                                      <span class="text-danger">*</span>
+                                      </p>
+                                  </td>
+                                </tr>
+                              @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -139,7 +133,7 @@
     </div>
   </div>
 </section>
-{{-- @foreach ($dataPengajuan as $pengantarPkl)
+@foreach ($pengantarPkl as $pengantarPkl)
   <div class="modal fade" id="modal-03-{{@$pengantarPkl->id}}" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-sm">
       <div class="modal-content text-center">
@@ -191,7 +185,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="modal-04-{{$dataPengajuan->id}}" tabindex="-1">
+  <div class="modal fade" id="modal-04-{{$pengantarPkl->id}}" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-sm">
       <div class="modal-content text-center">
         <div class="modal-body">
@@ -221,7 +215,7 @@
       </div>
     </div>
   </div>
-@endforeach --}}
+@endforeach
 
 @endsection
 

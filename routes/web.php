@@ -159,7 +159,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::get('export-pengantar-pkl', [PengantarPklController::class, 'export'])->name('export-pengantar-pkl');
                 Route::get('print-pengantar-pkl/{id}', [PengantarPklController::class, 'print'])->name('print-pengantar-pkl');
                 Route::post('update-surat-pengantar-pkl/{id}', [PengantarPklController::class, 'updateNoSurat'])->name('update-surat-pengantar-pkl');
-                Route::get('detail-pengajuan-pkl/{tempatPklId}/{createdAt}', [PengantarPklController::class, 'detail'])->name('detail-pengajuan-pkl');
+                Route::get('/detail-pengajuan-pkl/{kodePkl}', [PengantarPklController::class, 'detail'])->name('detail-pengajuan-pkl');
 
                 Route::get('import-excel', [MahasiswaController::class, 'createImport'])->name('import-excel');
                 Route::post('import-excel-store', [MahasiswaController::class, 'import'])->name('import-excel-store');

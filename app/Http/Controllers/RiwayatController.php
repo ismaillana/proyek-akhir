@@ -230,29 +230,31 @@ class RiwayatController extends Controller
         //     ->latest()
         //     ->get();
 
-        $pengantarPkl = Pengajuan::where('jenis_pengajuan_id', 2)
+        $pengantarPkl = Pengajuan::latest()
+            ->where('jenis_pengajuan_id', 2)
+            ->where('mahasiswa_id', $mahasiswa->id)
             ->get();
         // dd($pengantarPkl);
 
-        foreach ($pengantarPkl as $item) {
+        // foreach ($pengantarPkl as $item) {
     
-            foreach ($item->nama_mahasiswa as $id) {
-                if ($id == $user->id) {
-                    // ID pengguna yang login cocok dengan ID dalam atribut "nama_mahasiswa"
-                    // Dapatkan data pengajuan terkait
-                    $dataPengajuan = $item;
-                    // return view('user.riwayat.pengantar-pkl.index', [
-                    //     // 'pengantarPkl'   => $pengantarPkl,
-                    //     'user'   => $user,
-                    //     'dataPengajuan' => $dataPengajuan,
-                    //     'title'            => $title,
-                    // ]);
-                    break 2;
-                    // Lakukan tindakan yang diperlukan dengan data pengajuan
-                    // Contoh: Tampilkan data pengajuan
-                }
-            }
-        }
+        //     foreach ($item->nama_mahasiswa as $id) {
+        //         if ($id == $user->id) {
+        //             // ID pengguna yang login cocok dengan ID dalam atribut "nama_mahasiswa"
+        //             // Dapatkan data pengajuan terkait
+        //             $dataPengajuan = $item;
+        //             // return view('user.riwayat.pengantar-pkl.index', [
+        //             //     // 'pengantarPkl'   => $pengantarPkl,
+        //             //     'user'   => $user,
+        //             //     'dataPengajuan' => $dataPengajuan,
+        //             //     'title'            => $title,
+        //             // ]);
+        //             break 2;
+        //             // Lakukan tindakan yang diperlukan dengan data pengajuan
+        //             // Contoh: Tampilkan data pengajuan
+        //         }
+        //     }
+        // }
 
         // dd($dataPengajuan);
         // $dataPengajuan = null;
@@ -260,7 +262,7 @@ class RiwayatController extends Controller
         return view('user.riwayat.pengantar-pkl.index', [
             'pengantarPkl'   => $pengantarPkl,
             'user'   => $user,
-            'dataPengajuan' => $dataPengajuan,
+            // 'dataPengajuan' => $dataPengajuan,
             'title'            => $title,
         ]);
     }

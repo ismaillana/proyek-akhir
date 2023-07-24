@@ -88,11 +88,11 @@
                   <tr>
                         <td style="width:20%"><p>Nomor</p></td>
                         <td style="width:2%"><p>:</p></td>
-                        <td style="width:48%"><p>{{@$pengantarPkl->no_surat}}</p></td>
-                        <td style="width:30%" class="right"><p>{{ @$pengantarPkl->tanggal_surat }}</p></td>
+                        <td style="width:48%"><p>{{ @$pengantarPkl[0]->no_surat }}</p></td>
+                        <td style="width:30%" class="right"><p>{{ @$pengantarPkl[0]->tanggal_surat }}</p></td>
                   </tr>
                   <tr>
-                        <td style="width:20%"><p>Lapiran</p></td>
+                        <td style="width:20%"><p>Lampiran</p></td>
                         <td style="width:2%"><p>:</p></td>
                         <td style="width:48%"><p>-</p></td>
                         <td style="width:30%"></td>
@@ -107,10 +107,10 @@
                         <td style="width:20%"><p>Yang Terhormat,</p></td>
                   </tr>
                   <tr>
-                        <td style="width:20%" colspan="4"><p>HRD {{@$pengantarPkl->tempatPkl->name}}</p></td>
+                        <td style="width:20%" colspan="4"><p>HRD {{ @$pengantarPkl[0]->tempatPkl->name }}</p></td>
                   </tr>
                   <tr>
-                        <td style="width:20%"><p>{{@$pengantarPkl->tempatPkl->alamat}}</p></td>
+                        <td style="width:20%"><p>{{ @$pengantarPkl[0]->tempatPkl->alamat }}</p></td>
                   </tr>
             </table>
 
@@ -125,8 +125,8 @@
             <table width="100%">
                   <tr align="justify">
                         <td>
-                              <p>Sehubungan dengan rencana Praktik Kerja Lapangan (PKL) bagi mahasiswa Jurusan {{@$pengantarPkl->mahasiswa->programStudi->jurusan->name}}
-                                 Program Studi {{@$pengantarPkl->mahasiswa->programStudi->name}} Politeknik Negeri Subang, kami mohon bantuan Bapak/Ibu agar mahasiswa tersebut dibawah:</p>
+                              <p>Sehubungan dengan rencana Praktik Kerja Lapangan (PKL) bagi mahasiswa Jurusan {{ @$pengantarPkl[0]->mahasiswa->programStudi->jurusan->name }}
+                                 Program Studi {{ @$pengantarPkl[0]->mahasiswa->programStudi->name }} Politeknik Negeri Subang, kami mohon bantuan Bapak/Ibu agar mahasiswa tersebut dibawah:</p>
                         </td>
                   </tr>
             </table>
@@ -137,12 +137,12 @@
                         <th class="th">Nama</th>
                         <th class="th"><p>NIM</p></th>
                   </tr>
-                  @foreach($mahasiswa as $item)
+                  @foreach($pengantarPkl as $item)
                   
                   <tr>
                         <td style="text-align:center;width:10%" class="td"><p>{{$loop->iteration}}</p></td>
-                        <td class="td" style="width:50%"><p>{{$item->user->name}}</p></td>
-                        <td class="td" style="text-align:center;width:40%"><p>{{$item->nim}}</p></td>
+                        <td class="td" style="width:50%"><p>{{$item->mahasiswa->user->name}}</p></td>
+                        <td class="td" style="text-align:center;width:40%"><p>{{$item->mahasiswa->nim}}</p></td>
                   </tr>
                   @endforeach
                   </table>
@@ -159,8 +159,8 @@
             <table width="100%" class="kegiatan">
                   <tr align="justify">
                         <td colspan="3"><p>Sesuai dengan jadwal akademik di Politeknik Negeri Subang, waktu pelaksanaan kerja praktik 
-                              berkisar pada tanggal {{ Carbon\Carbon::parse(@$pengantarPkl->tgl_mulai)->translatedFormat('d F Y') }} s.d 
-                              {{ Carbon\Carbon::parse(@$pengantarPkl->tgl_selesai)->translatedFormat('d F Y') }}.
+                              berkisar pada tanggal {{ Carbon\Carbon::parse(@$pengantarPkl[0]->tgl_mulai)->translatedFormat('d F Y') }} s.d 
+                              {{ Carbon\Carbon::parse(@$pengantarPkl[0]->tgl_selesai)->translatedFormat('d F Y') }}.
                               Demikian surat permohonan ini kami sampaikan, atas perhatian dan kerjasamanya diucapkan terima kasih.</p></td>
                   </tr>
             </table>

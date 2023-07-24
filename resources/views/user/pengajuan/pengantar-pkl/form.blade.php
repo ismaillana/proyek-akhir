@@ -37,7 +37,7 @@
 
                   <div class="card-body">
                     <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                      {{-- @if (@$dataPengajuan->status == 'Selesai PKL' || @$dataPengajuan->status == 'Ditolak Perusahaan' || @$dataPengajuan->status == 'Tolak' || @$dataPengajuan == null) --}}
+                      @if (@$pengajuan->status == 'Selesai PKL' || @$pengajuan->status == 'Ditolak Perusahaan' || @$pengajuan->status == 'Tolak' || @$pengajuan == null)
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
                               <input id="tgl_mulai" type="date" name="tgl_mulai" class="form-control @error('tgl_mulai')is-invalid @enderror" 
@@ -210,7 +210,7 @@
                             </span>
                           </button>
                         </div>
-                      {{-- @else
+                      @else
                         <div class="text-center">
                           <img class="img-fluid mb-2" width="250" src="{{ asset('template/assets/img/illustrations/3d1.png')}}" 
                           srcset="{{ asset('template/assets/img/illustrations/3d1@2x.png 2x')}}" alt="" />
@@ -220,7 +220,7 @@
                             <span class="text-danger">*</span>
                           </p>
                         </div>
-                      @endif --}}
+                      @endif
                     </div>
                   </div>
                 </div>

@@ -8,6 +8,7 @@ use App\Models\Pengajuan;
 use App\Models\TempatPkl;
 use App\Models\Instansi;
 use App\Models\Mahasiswa;
+use App\Services\WhatsappGatewayService;
 
 use Carbon\Carbon;
 
@@ -44,18 +45,18 @@ class DashboardController extends Controller
         ->where('created_at', '<=', $oneDayAgo)
         ->get();
 
-        foreach ($pengajuans as $pengajuan) {
-            foreach ($numbers as $number) {
-                WhatsappGatewayService::sendMessage($number, 
-                    'Hai, Bagian Akademik!' . PHP_EOL .
-                        PHP_EOL .
-                        'Ada pengajuan Verifikasi Ijazah Yang Belum Diverifikasi Lebh Dari 1 hari'. PHP_EOL .
-                        'Segera lakukan pengecekan data pengajuan!'. PHP_EOL .
-                        PHP_EOL .
-                        '[Politeknik Negeri Subang]'
-                ); //->Kirim Chat
-            }
-        }
+        // foreach ($pengajuans as $pengajuan) {
+        //     foreach ($numbers as $number) {
+        //         WhatsappGatewayService::sendMessage($number, 
+        //             'Hai, Bagian Akademik!' . PHP_EOL .
+        //                 PHP_EOL .
+        //                 'Ada pengajuan Verifikasi Ijazah Yang Belum Diverifikasi Lebh Dari 1 hari'. PHP_EOL .
+        //                 'Segera lakukan pengecekan data pengajuan!'. PHP_EOL .
+        //                 PHP_EOL .
+        //                 '[Politeknik Negeri Subang]'
+        //         ); //->Kirim Chat
+        //     }
+        // }
 
         $pengajuanJurusan = Pengajuan::where('status', 'Menunggu Konfirmasi')
         ->whereIn('jenis_pengajuan_id', [2,3,4])

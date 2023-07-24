@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('riwayats', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pengajuan_id')->nullable();
+            $table->foreignId('pengajuan_id')
+                ->nullable()
+                ->constrained();
             $table->string('status')->nullable();
             $table->text('catatan')->nullable();
             $table->timestamps();
