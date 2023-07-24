@@ -37,7 +37,7 @@ class PengantarPklController extends Controller
         
         if ($user->hasRole('admin-jurusan')) {
             $pengantarPkl = Pengajuan::latest()
-                ->select('kode_pkl', 'tempat_pkl_id', 'created_at', 'status')
+                ->select('kode_pkl', 'tempat_pkl_id', \DB::raw('MAX(created_at) as created_at'), 'status')
                 ->where('jenis_pengajuan_id', 2)
                 ->where(function ($query) {
                     $query->where('status', 'Menunggu Konfirmasi')
