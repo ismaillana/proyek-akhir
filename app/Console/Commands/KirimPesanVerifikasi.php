@@ -37,14 +37,16 @@ class KirimPesanVerifikasi extends Command
     
             $bagianAkademikNumbers = User::role('bagian-akademik')->pluck('wa')->toArray();
     
-            foreach ($bagianAkademikNumbers as $number) {
-                WhatsappGatewayService::sendMessage($number, 'Hai, Bagian Akademik!' . PHP_EOL .
-                    PHP_EOL .
-                    'Ada pengajuan Baru Yang Belum Dikonfirmasi Lebih Dari 1 hari' . PHP_EOL .
-                    'Segera lakukan pengecekan data pengajuan!' . PHP_EOL .
-                    PHP_EOL .
-                    '[Politeknik Negeri Subang]'
-                );
+            if (count($pengajuans) > 0) {
+                foreach ($bagianAkademikNumbers as $number) {
+                    WhatsappGatewayService::sendMessage($number, 'Hai, Bagian Akademik!' . PHP_EOL .
+                        PHP_EOL .
+                        'Ada pengajuan Baru Yang Belum Dikonfirmasi Lebih Dari 1 hari' . PHP_EOL .
+                        'Segera lakukan pengecekan data pengajuan!' . PHP_EOL .
+                        PHP_EOL .
+                        '[Politeknik Negeri Subang]'
+                    );
+                }
             }
         }
     
