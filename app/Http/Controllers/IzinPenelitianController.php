@@ -32,8 +32,19 @@ class IzinPenelitianController extends Controller
     public function index()
     {
         $user = auth()->user();
+        $oneDayAgo = Carbon::now()->subDay();
+        if ($user->hasRole('super-admin')){
+            $izinPenelitian = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 4)
+                ->where('status', 'Menunggu Konfirmasi')
+                ->where('created_at', '<=', $oneDayAgo)
+                ->get();
 
-        if ($user->hasRole('admin-jurusan')) {
+            return view ('admin.pengajuan.izin-penelitian.index', [
+                'izinPenelitian'   => $izinPenelitian,
+                'title'    => 'Izin Penelitian'
+            ]);
+        } elseif ($user->hasRole('admin-jurusan')) {
 
             $izinPenelitian = Pengajuan::latest()
                 ->where('jenis_pengajuan_id', 3)

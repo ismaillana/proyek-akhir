@@ -38,16 +38,23 @@ class AktifKuliahController extends Controller
                 ->where('status', 'Menunggu Konfirmasi')
                 ->where('created_at', '<=', $oneDayAgo)
                 ->get();
+                
+            return view ('admin.pengajuan.surat-aktif-kuliah.index', [
+                'aktifKuliah'   => $aktifKuliah,
+                'title'         => 'Surat Keterangan Aktif Kuliah'
+            ]);
+        } else{
+            $aktifKuliah = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 1)
+                ->whereNotIn('status', ['Selesai', 'Tolak'])
+                ->get();
+    
+            return view ('admin.pengajuan.surat-aktif-kuliah.index', [
+                'aktifKuliah'   => $aktifKuliah,
+                'title'         => 'Surat Keterangan Aktif Kuliah'
+            ]);
         }
-        $aktifKuliah = Pengajuan::latest()
-            ->where('jenis_pengajuan_id', 1)
-            ->whereNotIn('status', ['Selesai', 'Tolak'])
-            ->get();
 
-        return view ('admin.pengajuan.surat-aktif-kuliah.index', [
-            'aktifKuliah'   => $aktifKuliah,
-            'title'         => 'Surat Keterangan Aktif Kuliah'
-        ]);
     }
 
     /**

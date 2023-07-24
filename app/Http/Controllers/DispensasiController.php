@@ -32,8 +32,19 @@ class DispensasiController extends Controller
     public function index()
     {
         $user = auth()->user();
+        $oneDayAgo = Carbon::now()->subDay();
+        if ($user->hasRole('super-admin')){
+            $dispensasi = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 4)
+                ->where('status', 'Menunggu Konfirmasi')
+                ->where('created_at', '<=', $oneDayAgo)
+                ->get();
 
-        if ($user->hasRole('admin-jurusan')) {
+            return view ('admin.pengajuan.dispensasi.index', [
+                'dispensasi'    => $dispensasi,
+                'title'         => 'Dispensasi Perkuliahan'
+            ]);
+        }elseif($user->hasRole('admin-jurusan')) {
 
             $dispensasi = Pengajuan::latest()
                 ->where('jenis_pengajuan_id', 4)

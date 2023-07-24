@@ -29,15 +29,30 @@ class VerifikasiIjazahController extends Controller
      */
     public function index()
     {
-        $verifikasiIjazah = Pengajuan::latest()
-            ->where('jenis_pengajuan_id', 6)
-            ->whereNotIn('status', ['Selesai', 'Tolak'])
-            ->get();
+        $user = auth()->user();
+        $oneDayAgo = Carbon::now()->subDay();
+        if ($user->hasRole('super-admin')) {
+            $verifikasiIjazah = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 6)
+                ->where('status', 'Menunggu Konfirmasi')
+                ->where('created_at', '<=', $oneDayAgo)
+                ->get();
 
-        return view ('admin.pengajuan.verifikasi-ijazah.index', [
-            'verifikasiIjazah'  => $verifikasiIjazah,
-            'title'             => 'Verifikasi Ijazah'
-        ]);
+            return view ('admin.pengajuan.verifikasi-ijazah.index', [
+                'verifikasiIjazah'  => $verifikasiIjazah,
+                'title'             => 'Verifikasi Ijazah'
+            ]);
+        }else {
+            $verifikasiIjazah = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 6)
+                ->whereNotIn('status', ['Selesai', 'Tolak'])
+                ->get();
+    
+            return view ('admin.pengajuan.verifikasi-ijazah.index', [
+                'verifikasiIjazah'  => $verifikasiIjazah,
+                'title'             => 'Verifikasi Ijazah'
+            ]);
+        }
     }
 
     /**

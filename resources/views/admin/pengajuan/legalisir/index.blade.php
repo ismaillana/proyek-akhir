@@ -43,10 +43,11 @@
                         <th class="text-center">
                             Status
                         </th>
-
+                        @role('bagian-akademik')
                         <th class="text-center">
                             Aksi
                         </th>
+                        @endrole
                       </tr>
                     </thead>
                     <tbody>
@@ -87,7 +88,7 @@
                                         <span class="badge badge-success">Selesai</span>
                                     @endif
                                 </td>
-                                
+                                @role('bagian-akademik')
                                 <td class="text-center">
                                     @if (@$item->status == 'Tolak' || @$item->status == 'Selesai' || @$item->status == 'Menunggu Konfirmasi')
                                         <a href="{{ route('pengajuan-legalisir.show',  Crypt::encryptString($item->id)) }}"
@@ -123,6 +124,7 @@
                                         </a>
                                     @endif
                                 </td>
+                                @endrole
                             </tr>
                         @endforeach
                     </tbody>

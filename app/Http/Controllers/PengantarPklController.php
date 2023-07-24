@@ -34,8 +34,30 @@ class PengantarPklController extends Controller
     {
         $user = auth()->user();
         $adminJurusan = $user->jurusan_id;
-        
-        if ($user->hasRole('admin-jurusan')) {
+        $oneDayAgo = Carbon::now()->subDay();
+        if ($user->hasRole('super-admin')){
+            $pengantarPkl = Pengajuan::latest()
+                ->select('kode_pkl', 'tempat_pkl_id', \DB::raw('MAX(created_at) as created_at'), \DB::raw('MAX(status) as status'))
+                ->where('jenis_pengajuan_id', 2)
+                ->where(function ($query) {
+                    $query->where('status', 'Menunggu Konfirmasi');
+                })
+                ->where('created_at', '<=', $oneDayAgo)
+                ->groupBy('kode_pkl', 'tempat_pkl_id')
+                ->get();
+
+            $pengantar = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 2)
+                ->whereIn('kode_pkl', $pengantarPkl->pluck('kode_pkl'))
+                ->get();
+
+            return view ('admin.pengajuan.pengantar-pkl.index',[
+                'pengantarPkl' => $pengantarPkl,
+                'user' => $user,
+                'pengantar' => $pengantar,
+                'title'     => 'Pengantar PKL'
+            ]);
+        } elseif($user->hasRole('admin-jurusan')) {
             $pengantarPkl = Pengajuan::latest()
                 ->select('kode_pkl', 'tempat_pkl_id', \DB::raw('MAX(created_at) as created_at'), 'status')
                 ->where('jenis_pengajuan_id', 2)
@@ -49,7 +71,7 @@ class PengantarPklController extends Controller
                         $query->where('jurusan_id', $adminJurusan);
                     });
                 })
-                ->groupBy('kode_pkl', 'tempat_pkl_id', 'status') // Include tempat_pkl_id in GROUP BY
+                ->groupBy('kode_pkl', 'tempat_pkl_id', 'status')
                 ->get();
 
             $pengantar = Pengajuan::latest()
@@ -74,7 +96,7 @@ class PengantarPklController extends Controller
                         $query->where('jurusan_id', $adminJurusan);
                     });
                 })
-                ->groupBy('kode_pkl', 'tempat_pkl_id', 'created_at', 'status') // Include tempat_pkl_id in GROUP BY
+                ->groupBy('kode_pkl', 'tempat_pkl_id', 'status')
                 ->get();
 
             $pengantar = Pengajuan::latest()
@@ -96,7 +118,7 @@ class PengantarPklController extends Controller
                     $query->where('status', 'Dikonfirmasi')
                         ->orWhere('status', 'Kendala');
                 })
-                ->groupBy('kode_pkl', 'tempat_pkl_id', 'created_at', 'status') // Include tempat_pkl_id in GROUP BY
+                ->groupBy('kode_pkl', 'tempat_pkl_id', 'created_at', 'status')
                 ->get();
 
             $pengantar = Pengajuan::latest()
@@ -194,11 +216,8 @@ class PengantarPklController extends Controller
                     'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
                 ]);
             }
-
-
             // Commit transaksi database
             DB::commit();
-            
     
             WhatsappGatewayService::sendMessage($waGateway, 
                 'Hai, ' . $user->name . PHP_EOL .
@@ -244,7 +263,6 @@ class PengantarPklController extends Controller
         
         return view ('admin.pengajuan.pengantar-pkl.show', [
             'pengantarPkl'    =>  $pengantarPkl,
-            // 'data'          => $data,
             'user'          => $user,
             'title'         =>  'Detail Pengajuan Pengantar PKL'
         ]);
@@ -601,7 +619,7 @@ class PengantarPklController extends Controller
                         $query->where('jurusan_id', $adminJurusan);
                     });
                 })
-                ->groupBy('kode_pkl', 'tempat_pkl_id') // Include tempat_pkl_id in GROUP BY
+                ->groupBy('kode_pkl', 'tempat_pkl_id')
                 ->get();
 
             $pengantar = Pengajuan::latest()
@@ -625,7 +643,7 @@ class PengantarPklController extends Controller
                         $query->where('jurusan_id', $adminJurusan);
                     });
                 })
-                ->groupBy('kode_pkl', 'tempat_pkl_id') // Include tempat_pkl_id in GROUP BY
+                ->groupBy('kode_pkl', 'tempat_pkl_id')
                 ->get();
 
             $pengantar = Pengajuan::latest()
@@ -643,7 +661,7 @@ class PengantarPklController extends Controller
             $pengantarPkl = Pengajuan::latest()
                 ->select('kode_pkl', 'tempat_pkl_id', \DB::raw('MAX(created_at) as created_at'), \DB::raw('MAX(status) as status'))
                 ->where('jenis_pengajuan_id', 2)
-                ->groupBy('kode_pkl', 'tempat_pkl_id') // Include tempat_pkl_id in GROUP BY
+                ->groupBy('kode_pkl', 'tempat_pkl_id')
                 ->get();
 
             $pengantar = Pengajuan::latest()

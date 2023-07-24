@@ -26,15 +26,30 @@ class LegalisirController extends Controller
      */
     public function index()
     {
-        $legalisir = Pengajuan::latest()
-            ->where('jenis_pengajuan_id', 5)
-            ->whereNotIn('status', ['Selesai', 'Tolak'])
-            ->get();
-        
-        return view ('admin.pengajuan.legalisir.index', [
-            'legalisir' => $legalisir,
-            'title'     => 'Legalisir'
-        ]);
+        $user = auth()->user();
+        $oneDayAgo = Carbon::now()->subDay();
+        if ($user->hasRole('super-admin')) {
+            $legalisir = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 5)
+                ->where('status', 'Menunggu Konfirmasi')
+                ->where('created_at', '<=', $oneDayAgo)
+                ->get();
+                
+            return view ('admin.pengajuan.legalisir.index', [
+                'legalisir' => $legalisir,
+                'title'     => 'Legalisir'
+            ]);
+        }else {
+            $legalisir = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 5)
+                ->whereNotIn('status', ['Selesai', 'Tolak'])
+                ->get();
+            
+            return view ('admin.pengajuan.legalisir.index', [
+                'legalisir' => $legalisir,
+                'title'     => 'Legalisir'
+            ]);
+        }
     }
 
     /**

@@ -28,7 +28,9 @@
                             <th>Nama Pengaju</th>
                             <th>Jumlah Pengaju</th>
                             <th>Status</th>
+                            @role('bagian-akademik')
                             <th class="text-center">Aksi</th>
+                            @endrole
                         </tr>
                     </thead>
                     <tbody>
@@ -50,6 +52,7 @@
                                 <td>{{ $jumlahPengaju }}</td>
 
                                 <td>{{ $item->status }}</td>
+                                @role('bagian-akademik')
                                 <td class="text-center">
                                     @if (@$item->status == 'Tolak' || @$item->status == 'Selesai' || @$item->status == 'Menunggu Konfirmasi' || @$item->status == 'Review')
                                         <a href="{{ url('menu-admin/detail-pengajuan-pkl', $item->kode_pkl) }}) }}"
@@ -85,6 +88,7 @@
                                         </a>
                                     @endif
                                 </td>
+                                @endrole
                             </tr>
                         @endforeach
                     </tbody>
