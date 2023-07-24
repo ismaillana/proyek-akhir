@@ -323,7 +323,7 @@ class PengantarPklController extends Controller
 
         foreach ($numbers as $number) {
             WhatsappGatewayService::sendMessage($number, 
-                'Hai, Admin Jurusan!' . PHP_EOL .
+                'Hai, Bagian Akademik!' . PHP_EOL .
                     PHP_EOL .
                     'Ada pengajuan Surat Pengantar PKL baru Yang Telah Dikonfirmasi Admin Jurusan ' . PHP_EOL .
                     'Segera lakukan pengecekan data pengajuan!' . PHP_EOL .
