@@ -15,6 +15,16 @@
                     <h4>
                         Data Pengajuan Surat AKtif Kuliah
                     </h4>
+                    @role('super-admin')
+                    @if (count($aktifKuliah) > 0)
+                        <form action="{{ route('ingatkan') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-warning btn-lg d-flex align-items-center ">
+                                Ingatkan!
+                            </button> 
+                        </form>
+                    @endif
+                    @endrole
                 </div>
               </div>
 

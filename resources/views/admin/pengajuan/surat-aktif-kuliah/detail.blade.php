@@ -219,12 +219,14 @@
     
                                     <div class="col-sm-12 col-md-9">
                                         <input type="text" class="form-control @error('no_surat')is-invalid @enderror"
-                                            id="no_surat" name="no_surat" placeholder="Masukkan Nomor Surat" 
+                                            id="no_surat" name="no_surat" pattern="\d{4}/PL41\.R1/.+/\d{4}" placeholder="Masukkan Nomor Surat" 
                                             value="{{ old('no_surat', @$aktifKuliah->no_surat) }}">
     
-                                        @if ($errors->has('no_surat'))
-                                            <span class="text-danger">{{ $errors->first('no_surat') }}</span>
-                                        @endif
+                                            <span class="invalid-feedback" role="alert" id="no-surat-error">
+                                                @error('no_surat')
+                                                    {{ $message }}
+                                                @enderror
+                                            </span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -364,3 +366,35 @@
 </div>
 
 @endsection
+
+@section('script')
+<script>
+    document.getElementById('no_surat').addEventListener('focus', function() {
+        const inputElement = this;
+        const pattern = /^\d{4}\/PL41\.R1\/.+\/\d{4}$/; 
+        const errorMessage = 'Nomor surat harus sesuai format: 1300/PL41.R1/AL.02/2022';
+
+        const isValidFormat = pattern.test(inputElement.value);
+
+        const errorElement = document.getElementById('no-surat-error');
+        if (!isValidFormat) {
+            errorElement.textContent = errorMessage;
+            inputElement.classList.add('is-invalid');
+        } else {
+            errorElement.textContent = '';
+            inputElement.classList.remove('is-invalid');
+        }
+    });
+
+    // Fungsi untuk mengisi tahun sekarang secara otomatis saat input difokuskan
+    document.getElementById('no_surat').addEventListener('focus', function() {
+        const inputElement = this;
+        const currentYear = new Date().getFullYear();
+        const regex = /\d{4}$/;
+        if (!regex.test(inputElement.value)) {
+            inputElement.value = inputElement.value + '/' + currentYear;
+        }
+    });
+</script>
+@endsection
+

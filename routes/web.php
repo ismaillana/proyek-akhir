@@ -104,6 +104,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::get('export-aktif-kuliah', [AktifKuliahController::class, 'export'])->name('export-aktif-kuliah');
                 Route::get('print-aktif-kuliah/{id}', [AktifKuliahController::class, 'print'])->name('print-aktif-kuliah');
                 Route::post('update-surat-aktif-kuliah/{id}', [AktifKuliahController::class, 'updateNoSurat'])->name('update-surat-aktif-kuliah');
+                Route::post('ingatkan', [AktifKuliahController::class, 'ingatkan'])->name('ingatkan');
 
                 //Izin Penelitian
                 Route::resource('pengajuan-izin-penelitian', IzinPenelitianController::class);

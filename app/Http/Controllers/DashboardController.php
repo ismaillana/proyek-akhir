@@ -50,7 +50,7 @@ class DashboardController extends Controller
         //         WhatsappGatewayService::sendMessage($number, 
         //             'Hai, Bagian Akademik!' . PHP_EOL .
         //                 PHP_EOL .
-        //                 'Ada pengajuan Verifikasi Ijazah Yang Belum Diverifikasi Lebh Dari 1 hari'. PHP_EOL .
+        //                 'Ada pengajuan Baru Yang Belum Dikonfirmasi Lebh Dari 1 hari'. PHP_EOL .
         //                 'Segera lakukan pengecekan data pengajuan!'. PHP_EOL .
         //                 PHP_EOL .
         //                 '[Politeknik Negeri Subang]'

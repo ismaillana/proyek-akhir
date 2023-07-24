@@ -471,9 +471,10 @@ class IzinPenelitianController extends Controller
     public function updateNoSurat(Request $request, string $id)
     {
         $request->validate([
-            'no_surat' => 'required',
+            'no_surat' => 'required|unique:pengajuans,no_surat,' . $id,
         ], [
             'no_surat.required' => 'Masukkan Nomor Surat',
+            'no_surat.unique' => 'Nomor Surat Sudah Digunakan',
         ]);
         
         $data = [

@@ -426,9 +426,10 @@ class AktifKuliahController extends Controller
     public function updateNoSurat(Request $request, string $id)
     {
         $request->validate([
-            'no_surat' => 'required',
+            'no_surat' => 'required|unique:pengajuans,no_surat,' . $id,
         ], [
             'no_surat.required' => 'Masukkan Nomor Surat',
+            'no_surat.unique' => 'Nomor Surat Sudah Digunakan',
         ]);
 
         $data = [
@@ -438,5 +439,26 @@ class AktifKuliahController extends Controller
         Pengajuan::where('id', $id)->update($data);
 
         return redirect()->back()->with('success', 'No Surat Berhasil Diupdate');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function ingatkan(Request $request)
+    {
+        $bagianAkademikNumbers = User::role('bagian-akademik')->pluck('wa')->toArray();
+
+        foreach ($bagianAkademikNumbers as $number) {
+            WhatsappGatewayService::sendMessage($number, 
+                'Hai, Bagian Akademik!' . PHP_EOL .
+                    PHP_EOL .
+                    'Ada pengajuan Baru Yang Belum Konfirmasi Lebh Dari 1 hari'. PHP_EOL .
+                    'Segera lakukan pengecekan data pengajuan!'. PHP_EOL .
+                    PHP_EOL .
+                    '[Politeknik Negeri Subang]'
+            ); //->Kirim Chat
+        }
+
+        return redirect()->back()->with('success', 'Pesan Pengingat Telah Dikirim');
     }
 }
