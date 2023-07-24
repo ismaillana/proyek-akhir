@@ -30,6 +30,15 @@ class AktifKuliahController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
+        $oneDayAgo = Carbon::now()->subDay();
+        if ($user->hasRole('super-admin')) {
+            $aktifKuliah = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 1)
+                ->where('status', 'Menunggu Konfirmasi')
+                ->where('created_at', '<=', $oneDayAgo)
+                ->get();
+        }
         $aktifKuliah = Pengajuan::latest()
             ->where('jenis_pengajuan_id', 1)
             ->whereNot('status', 'Selesai')

@@ -81,7 +81,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
 
         Route::group(
             [
-                'middleware'    => ['role:bagian-akademik|admin-jurusan|koor-pkl'],
+                'middleware'    => ['role:super-admin|bagian-akademik|admin-jurusan|koor-pkl'],
                 'prefix'        => 'menu-admin'
             ],
             function () {

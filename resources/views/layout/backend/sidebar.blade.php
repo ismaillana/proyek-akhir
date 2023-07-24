@@ -62,6 +62,48 @@
                 </li>
               </ul>
             </li>
+          <li class="menu-header">Pengajuan</li>
+            <li class="nav-item dropdown
+            {{ request()->is('menu-admin/pengajuan-aktif-kuliah*') ? 'active' : ''}} ||
+            {{ request()->is('menu-admin/pengajuan-izin-penelitian*') ? 'active' : ''}} ||
+            {{ request()->is('menu-admin/pengajuan-verifikasi-ijazah*') ? 'active' : ''}} ||
+            {{ request()->is('menu-admin/pengajuan-legalisir*') ? 'active' : ''}} ||
+            {{ request()->is('menu-admin/pengajuan-dispensasi*') ? 'active' : ''}} ||
+            {{ request()->is('menu-admin/pengajuan-pengantar-pkl*') ? 'active' : ''}}">
+              <a href="#" class="nav-link has-dropdown"><i class="fas fa-th-large"></i> <span>Pengajuan</span></a>
+              <ul class="dropdown-menu">
+                <li class="{{ request()->is('menu-admin/pengajuan-aktif-kuliah*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('pengajuan-aktif-kuliah.index')}}">
+                    Surat Aktif Kuliah
+                  </a>
+                </li>
+                <li class="{{ request()->is('menu-admin/pengajuan-pengantar-pkl*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('pengajuan-pengantar-pkl.index')}}">
+                    Pengantar PKL
+                  </a>
+                </li>
+                <li class="{{ request()->is('menu-admin/pengajuan-izin-penelitian*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('pengajuan-izin-penelitian.index')}}">
+                    Izin Penelitian
+                  </a>
+                </li>
+                <li class="{{ request()->is('menu-admin/pengajuan-dispensasi*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('pengajuan-dispensasi.index')}}">
+                    Surat Dispensasi
+                  </a>
+                </li>
+                <li class="{{ request()->is('menu-admin/pengajuan-legalisir*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('pengajuan-legalisir.index')}}">
+                    Legalisir
+                  </a>
+                </li>
+                <li class="{{ request()->is('menu-admin/pengajuan-verifikasi-ijazah*') ? 'active' : ''}}">
+                  <a class="nav-link" href="{{route('pengajuan-verifikasi-ijazah.index')}}">
+                    Verifikasi Ijazah
+                  </a>
+                </li>
+              </ul>
+            </li>
           <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
             <a href="https://getstisla.com/docs" class="btn btn-primary btn-lg btn-block btn-icon-split">
               <i class="fas fa-rocket"></i> Documentation
@@ -70,7 +112,7 @@
         @endrole
 
         @role('bagian-akademik')
-          <li class="menu-header">Dashboard Bgian Akademik</li>
+          <li class="menu-header">Dashboard Bagian Akademik</li>
             <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
               <a href="{{route('dashboard')}}" class="nav-link"><i class="fas fa-home"></i>
                   <span>Dashboard</span></a>
