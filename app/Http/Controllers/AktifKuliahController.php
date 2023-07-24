@@ -41,8 +41,7 @@ class AktifKuliahController extends Controller
         }
         $aktifKuliah = Pengajuan::latest()
             ->where('jenis_pengajuan_id', 1)
-            ->whereNot('status', 'Selesai')
-            ->whereNot('status', 'Tolak')
+            ->whereNotIn('status', ['Selesai', 'Tolak'])
             ->get();
 
         return view ('admin.pengajuan.surat-aktif-kuliah.index', [

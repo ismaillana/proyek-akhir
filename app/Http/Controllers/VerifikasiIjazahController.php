@@ -31,8 +31,7 @@ class VerifikasiIjazahController extends Controller
     {
         $verifikasiIjazah = Pengajuan::latest()
             ->where('jenis_pengajuan_id', 6)
-            ->whereNot('status', 'Selesai')
-            ->whereNot('status', 'Tolak')
+            ->whereNotIn('status', ['Selesai', 'Tolak'])
             ->get();
 
         return view ('admin.pengajuan.verifikasi-ijazah.index', [

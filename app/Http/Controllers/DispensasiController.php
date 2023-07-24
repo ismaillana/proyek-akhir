@@ -33,19 +33,26 @@ class DispensasiController extends Controller
     {
         $user = auth()->user();
 
-        $dispensasi = Pengajuan::latest()
-            ->where('jenis_pengajuan_id', 4)
-            ->whereNot('status', 'Selesai')
-            ->whereNot('status', 'Tolak')
-            ->get();
-
         if ($user->hasRole('admin-jurusan')) {
+
+            $dispensasi = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 4)
+                ->where('status', 'Menunggu Konfirmasi')
+                ->get();
+
             return view ('admin.pengajuan.dispensasi.index-admin-jurusan', [
                 'dispensasi' => $dispensasi,
                 'user'       => $user,
                 'title'      => 'Dispensasi Perkuliahan'
             ]);
+
         } else {
+
+            $dispensasi = Pengajuan::latest()
+            ->where('jenis_pengajuan_id', 4)
+            ->whereNotIn('status', ['Selesai', 'Tolak', 'Menunggu Konfirmasi'])
+            ->get();
+
             return view ('admin.pengajuan.dispensasi.index', [
                 'dispensasi'    => $dispensasi,
                 'title'         => 'Dispensasi Perkuliahan'

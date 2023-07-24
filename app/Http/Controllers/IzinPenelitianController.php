@@ -33,19 +33,25 @@ class IzinPenelitianController extends Controller
     {
         $user = auth()->user();
 
-        $izinPenelitian = Pengajuan::latest()
-            ->where('jenis_pengajuan_id', 3)
-            ->whereNot('status', 'Selesai')
-            ->whereNot('status', 'Tolak')
-            ->get();
-
         if ($user->hasRole('admin-jurusan')) {
+
+            $izinPenelitian = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 3)
+                ->where('status', 'Menunggu Konfirmasi')
+                ->get();
+
             return view ('admin.pengajuan.izin-penelitian.index-admin-jurusan', [
                 'izinPenelitian'   => $izinPenelitian,
                 'user'     => $user,
                 'title'    => 'Izin Penelitian'
             ]);
         } else {
+
+            $izinPenelitian = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 3)
+                ->whereNotIn('status', ['Selesai', 'Tolak', 'Menunggu Konfirmasi'])
+                ->get();
+
             return view ('admin.pengajuan.izin-penelitian.index', [
                 'izinPenelitian'   => $izinPenelitian,
                 'title'    => 'Izin Penelitian'

@@ -49,7 +49,7 @@ class PengantarPklController extends Controller
                         $query->where('jurusan_id', $adminJurusan);
                     });
                 })
-                ->groupBy('kode_pkl', 'tempat_pkl_id', 'created_at', 'status') // Include tempat_pkl_id in GROUP BY
+                ->groupBy('kode_pkl', 'tempat_pkl_id', 'status') // Include tempat_pkl_id in GROUP BY
                 ->get();
 
             $pengantar = Pengajuan::latest()
@@ -563,29 +563,109 @@ class PengantarPklController extends Controller
      */
     public function riwayat()
     {
-        $user = auth()->user();
+        // $user = auth()->user();
 
-        $pengantarPkl = Pengajuan::latest()
-            ->where('jenis_pengajuan_id',2)
-            ->get();
+        // $pengantarPkl = Pengajuan::latest()
+        //     ->where('jenis_pengajuan_id',2)
+        //     ->get();
        
+        // if ($user->hasRole('admin-jurusan')) {
+        //     return view ('admin.riwayat.pengantar-pkl.index-admin-jurusan', [
+        //         'pengantarPkl'  => $pengantarPkl,
+        //         'user'          => $user,
+        //         'title'         => 'Surat Pengantar PKL'
+        //     ]);
+        // } elseif ($user->hasRole('koor-pkl')) {
+        //     return view ('admin.riwayat.pengantar-pkl.index-koor-pkl', [
+        //         'pengantarPkl'  => $pengantarPkl,
+        //         'user'          => $user,
+        //         'title'         => 'Surat Pengantar PKL'
+        //     ]);
+        // } else {
+        //     return view ('admin.riwayat.pengantar-pkl.index', [
+        //         'pengantarPkl'   => $pengantarPkl,
+        //         'user'          => $user,
+        //         'title'         => 'Surat Pengantar PKL'
+        //     ]);
+        // }
+
+        $user = auth()->user();
+        $adminJurusan = $user->jurusan_id;
+        
         if ($user->hasRole('admin-jurusan')) {
-            return view ('admin.riwayat.pengantar-pkl.index-admin-jurusan', [
-                'pengantarPkl'  => $pengantarPkl,
-                'user'          => $user,
-                'title'         => 'Surat Pengantar PKL'
+            $pengantarPkl = Pengajuan::latest()
+                ->select('kode_pkl', 'tempat_pkl_id', 'created_at', 'status')
+                ->where('jenis_pengajuan_id', 2)
+                ->where(function ($query) {
+                    $query->where('status', 'Menunggu Konfirmasi')
+                        ->orWhere('status', 'Review')
+                        ->orWhere('status', 'Setuju');
+                })
+                ->whereHas('mahasiswa', function ($query) use ($adminJurusan) {
+                    $query->whereHas('programStudi', function ($query) use ($adminJurusan) {
+                        $query->where('jurusan_id', $adminJurusan);
+                    });
+                })
+                ->groupBy('kode_pkl', 'tempat_pkl_id', 'created_at', 'status') // Include tempat_pkl_id in GROUP BY
+                ->get();
+
+            $pengantar = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 2)
+                ->whereIn('kode_pkl', $pengantarPkl->pluck('kode_pkl'))
+                ->get();
+
+            return view ('admin.riwayat.pengantar-pkl.index-admin-jurusan',[
+                'pengantarPkl' => $pengantarPkl,
+                'user' => $user,
+                'pengantar' => $pengantar,
+                'title'     => 'Pengantar PKL'
             ]);
+
         } elseif ($user->hasRole('koor-pkl')) {
-            return view ('admin.riwayat.pengantar-pkl.index-koor-pkl', [
-                'pengantarPkl'  => $pengantarPkl,
-                'user'          => $user,
-                'title'         => 'Surat Pengantar PKL'
+            $pengantarPkl = Pengajuan::latest()
+                ->select('kode_pkl', 'tempat_pkl_id', 'created_at', 'status')
+                ->where('jenis_pengajuan_id', 2)
+                ->where('status', 'Review')
+                ->whereHas('mahasiswa', function ($query) use ($adminJurusan) {
+                    $query->whereHas('programStudi', function ($query) use ($adminJurusan) {
+                        $query->where('jurusan_id', $adminJurusan);
+                    });
+                })
+                ->groupBy('kode_pkl', 'tempat_pkl_id', 'created_at', 'status') // Include tempat_pkl_id in GROUP BY
+                ->get();
+
+            $pengantar = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 2)
+                ->whereIn('kode_pkl', $pengantarPkl->pluck('kode_pkl'))
+                ->get();
+
+            return view ('admin.riwayat.pengantar-pkl.index-koor-pkl',[
+                'pengantarPkl' => $pengantarPkl,
+                'user' => $user,
+                'pengantar' => $pengantar,
+                'title'     => 'Pengantar PKL'
             ]);
-        } else {
-            return view ('admin.riwayat.pengantar-pkl.index', [
-                'pengantarPkl'   => $pengantarPkl,
-                'user'          => $user,
-                'title'         => 'Surat Pengantar PKL'
+        } elseif($user->hasRole('bagian-akademik')) {
+            $pengantarPkl = Pengajuan::latest()
+                ->select('kode_pkl', 'tempat_pkl_id', 'created_at', 'status')
+                ->where('jenis_pengajuan_id', 2)
+                ->where(function ($query) {
+                    $query->where('status', 'Dikonfirmasi')
+                        ->orWhere('status', 'Kendala');
+                })
+                ->groupBy('kode_pkl', 'tempat_pkl_id', 'created_at', 'status') // Include tempat_pkl_id in GROUP BY
+                ->get();
+
+            $pengantar = Pengajuan::latest()
+                ->where('jenis_pengajuan_id', 2)
+                ->whereIn('kode_pkl', $pengantarPkl->pluck('kode_pkl'))
+                ->get();
+
+            return view ('admin.riwayat.pengantar-pkl.index',[
+                'pengantarPkl' => $pengantarPkl,
+                'user' => $user,
+                'pengantar' => $pengantar,
+                'title'     => 'Pengantar PKL'
             ]);
         }
     }

@@ -28,8 +28,7 @@ class LegalisirController extends Controller
     {
         $legalisir = Pengajuan::latest()
             ->where('jenis_pengajuan_id', 5)
-            ->whereNot('status', 'Selesai')
-            ->whereNot('status', 'Tolak')
+            ->whereNotIn('status', ['Selesai', 'Tolak'])
             ->get();
         
         return view ('admin.pengajuan.legalisir.index', [
