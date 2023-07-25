@@ -93,20 +93,6 @@ class AktifKuliahController extends Controller
 
         $waGateway = $user->wa; //get no wa
 
-        if ($mahasiswa->orang_tua == null ||
-        $mahasiswa->pekerjaan == null ||
-        $mahasiswa->nip_nrp == null ||
-        $mahasiswa->pangkat == null ||
-        $mahasiswa->jabatan == null ||
-        $mahasiswa->instansi == null ||
-        $mahasiswa->semester == null ||
-        $mahasiswa->tahun_ajaran == null ||
-        $mahasiswa->tempat_lahir == null ||
-        $mahasiswa->tanggal_lahir == null
-        ) {
-            return redirect()->back()->with('error', 'Harap lengkapi data pribadi anda sebelum melakukan pengajuan.');
-        }
-
         if ($request->status_data == 'Update Data') {
             $mahasiswa->update([
                 'orang_tua'     => $request->orang_tua,
@@ -127,6 +113,20 @@ class AktifKuliahController extends Controller
                 'keperluan'     => $request->keperluan,
             ]);
         } else {
+            if ($mahasiswa->orang_tua == null ||
+            $mahasiswa->pekerjaan == null ||
+            $mahasiswa->nip_nrp == null ||
+            $mahasiswa->pangkat == null ||
+            $mahasiswa->jabatan == null ||
+            $mahasiswa->instansi == null ||
+            $mahasiswa->semester == null ||
+            $mahasiswa->tahun_ajaran == null ||
+            $mahasiswa->tempat_lahir == null ||
+            $mahasiswa->tanggal_lahir == null
+            ) {
+                return redirect()->back()->with('error', 'Harap lengkapi data pribadi anda sebelum melakukan pengajuan.');
+            }   
+
             $pengajuan = Pengajuan::create([
                 'jenis_pengajuan_id' => '1',
                 'mahasiswa_id'  => $mahasiswa->id,
