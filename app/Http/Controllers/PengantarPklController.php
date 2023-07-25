@@ -150,12 +150,15 @@ class PengantarPklController extends Controller
             ->first();
 
         $tempatPkl = TempatPkl::get();
+        $mahasiswaLain = Mahasiswa::where('program_studi_id', $mahasiswa->program_studi_id)
+            ->get();
 
         return view ('user.pengajuan.pengantar-pkl.form', [
             'pengajuan' => $pengajuan,
             'tempatPkl' => $tempatPkl,
             'pengaju' => $pengaju,
             'mahasiswa' => $mahasiswa,
+            'mahasiswaLain' => $mahasiswaLain,
             'title'     => 'Pengantar PKL'
         ]);
     }
