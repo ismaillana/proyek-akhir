@@ -83,7 +83,31 @@
                                     </td>
                                     <td>{{ $jumlahPengaju }}</td>
 
-                                    <td>{{ $item->status }}</td>
+                                    <td>
+                                        @if ($item->status == 'Menunggu Konfirmasi')
+                                            <span class="badge badge-warning">Menunggu Konfirmasi</span>
+                                        @elseif ($item->status == 'Konfirmasi')
+                                            <span class="badge badge-primary">Dikonfirmasi</span>
+                                        @elseif ($item->status == 'Proses')
+                                            <span class="badge badge-success">Diproses</span>
+                                        @elseif ($item->status == 'Tolak')
+                                            <span class="badge badge-danger">Ditolak</span>
+                                        @elseif ($item->status == 'Kendala')
+                                            <span class="badge badge-danger">Ada Kendala</span>
+                                        @elseif ($item->status == 'Review')
+                                            <span class="badge badge-warning">Direview</span>
+                                        @elseif ($item->status == 'Setuju')
+                                            <span class="badge badge-primary">Disetujui Koor.Pkl</span>
+                                        @elseif ($item->status == 'Diterima Perusahaan')
+                                            <span class="badge badge-primary">Diterima Perusahaan</span>
+                                        @elseif ($item->status == 'Ditolak Perusahaan')
+                                            <span class="badge badge-primary">Ditolak Perusahaan</span>
+                                        @elseif ($item->status == 'Selesai PKL')
+                                            <span class="badge badge-success">Selesai PKL</span>
+                                        @else
+                                            <span class="badge badge-success">Selesai</span>
+                                        @endif
+                                    </td>
                                     <td class="text-center">
                                         <a href="{{ url('menu-admin/riwayat-detail-pengajuan-pkl', $item->kode_pkl) }}"
                                             class="btn btn-sm btn-outline-secondary" title="Detail">

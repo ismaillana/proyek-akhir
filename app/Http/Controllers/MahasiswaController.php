@@ -161,8 +161,10 @@ class MahasiswaController extends Controller
             
             if ($request->status == 'Alumni') {
                 $user->assignRole('alumni');
-            }else {
+            }elseif ($request->status == 'Mahasiswa Aktif'){
                 $user->assignRole('mahasiswa');
+            }else{
+
             }
             
             DB::commit();
@@ -272,8 +274,12 @@ class MahasiswaController extends Controller
         $user = User::where('id',$mahasiswa->user_id)->first();
         if ($request->status == 'Alumni') {
             $user->syncRoles('alumni');
-        }else {
+        } elseif ($request->status == 'Mahasiswa Aktif') {
             $user->syncRoles('mahasiswa');
+        } elseif ($request->status == 'Keluar') {
+            // Menghapus role dari user
+            $user->removeRole('alumni');
+            $user->removeRole('mahasiswa');
         }
 
         return redirect()->route('mahasiswa.index')->with('success', 'Data Berhasil Diubah');

@@ -9,24 +9,24 @@
         </h1>
         @role('bagian-akademik')
           @if(count($pengajuans) > 0)
-              <div class="alert alert-warning ml-4 col-auto">
-                  <strong>Pemberitahuan:</strong> Terdapat {{ count($pengajuans) }} pengajuan yang belum dikonfirmasi lebih dari 1 hari.
+              <div class="alert alert-warning ml-4">
+                  <strong>Pemberitahuan:</strong> Terdapat {{ count($pengajuans) }} pengajuan (Surat Keterangan Aktif Kuliah, Cek Keaslian Ijazah, dan Legalisir) yang belum dikonfirmasi lebih dari 1 hari.
               </div>
           @endif
         @endrole
 
         @role('admin-jurusan')
           @if(count($pengajuanJurusan) > 0)
-              <div class="alert alert-warning ml-4 col-auto">
-                  <strong>Pemberitahuan:</strong> Terdapat {{ count($pengajuanJurusan) }} pengajuan yang belum dikonfirmasi lebih dari 1 hari.
+              <div class="alert alert-warning ml-4">
+                  <strong>Pemberitahuan:</strong> Terdapat {{ count($pengajuanJurusan) }} pengajuan (Surat Izin Penelitian, Surat Izin Dispensasi, dan Surat Pengantar PKL) yang belum dikonfirmasi lebih dari 1 hari.
               </div>
           @endif
         @endrole
 
         @role('koor-pkl')
           @if(count($pengajuanPkls) > 0)
-              <div class="alert alert-warning ml-4 col-auto">
-                  <strong>Pemberitahuan:</strong> Terdapat {{ count($pengajuanPkls) }} pengajuan yang belum dikonfirmasi lebih dari 1 hari.
+              <div class="alert alert-warning ml-4">
+                  <strong>Pemberitahuan:</strong> Terdapat {{ count($pengajuanPkls) }} pengajuan pembuatan surat pengantar PKL yang belum dikonfirmasi lebih dari 1 hari.
               </div>
           @endif
         @endrole
@@ -41,25 +41,10 @@
               </div>
               <div class="card-wrap">
                 <div class="card-header">
-                  <h4>Total User</h4>
+                  <h4>Total Bagian Akademik</h4>
                 </div>
                 <div class="card-body">
-                  {{$user}}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-            <div class="card card-statistic-1">
-              <div class="card-icon bg-danger">
-                <i class="far fa-newspaper"></i>
-              </div>
-              <div class="card-wrap">
-                <div class="card-header">
-                  <h4>Pengajuan Berlangsung</h4>
-                </div>
-                <div class="card-body">
-                  {{$pengajuan}}
+                  {{count($bagianAkademik)}}
                 </div>
               </div>
             </div>
@@ -67,14 +52,29 @@
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="card card-statistic-1">
               <div class="card-icon bg-warning">
-                <i class="far fa-file"></i>
+                <i class="far fa-user"></i>
               </div>
               <div class="card-wrap">
                 <div class="card-header">
-                  <h4>Riwayat Pengajuan</h4>
+                  <h4>Total Admin Jurusan</h4>
                 </div>
                 <div class="card-body">
-                  {{$riwayat}}
+                  {{count($adminJurusan)}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="card card-statistic-1">
+              <div class="card-icon bg-success">
+                <i class="far fa-newspaper"></i>
+              </div>
+              <div class="card-wrap">
+                <div class="card-header">
+                  <h4>Total Pengajuan</h4>
+                </div>
+                <div class="card-body">
+                  {{$pengajuan}}
                 </div>
               </div>
             </div>
@@ -131,7 +131,7 @@
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="card card-statistic-1">
-              <div class="card-icon bg-warning">
+              <div class="card-icon bg-info">
                 <i class="far fa-file"></i>
               </div>
               <div class="card-wrap">
@@ -151,12 +151,12 @@
             <div class="card">
               <div class="card-header">
                 <h4>
-                  Pengajuan Surat AKtif Kuliah Terbaru
+                  Pengajuan Surat Aktif Kuliah Terbaru
                 </h4>
 
                 <div class="card-header-action">
-                  <a href="{{route('pengajuan-aktif-kuliah.index')}}" class="btn btn-primary">
-                    View All
+                  <a href="{{route('pengajuan-aktif-kuliah.index')}}" class="btn btn-outline-primary">
+                    Lihat Semua >>
                   </a>
                 </div>
               </div>
@@ -165,6 +165,10 @@
                   <table class="table table-striped mb-0">
                     <thead>
                       <tr>
+                        <th>
+                          Tanggal Pengajuan
+                        </th>
+
                         <th>
                           Nama Pengaju
                         </th>
@@ -181,6 +185,10 @@
                     <tbody>
                       @forelse ($aktifKuliah as $item)
                         <tr>
+                          <td>
+                            {{$item->created_at}}
+                          </td>
+
                           <td>
                             {{@$item->mahasiswa->user->name}}
                           </td>
@@ -233,8 +241,8 @@
                 </h4>
 
                 <div class="card-header-action">
-                  <a href="{{route('pengajuan-pengantar-pkl.index')}}" class="btn btn-primary">
-                    View All
+                  <a href="{{route('pengajuan-pengantar-pkl.index')}}" class="btn btn-outline-primary">
+                    Lihat Semua >>
                   </a>
                 </div>
               </div>
@@ -243,6 +251,10 @@
                   <table class="table table-striped mb-0">
                     <thead>
                       <tr>
+                        <th>
+                          Tanggal Pengajuan
+                        </th>
+
                         <th>
                           Nama Pengaju
                         </th>
@@ -259,6 +271,10 @@
                     <tbody>
                       @forelse ($pengantarPkl as $item)
                         <tr>
+                          <td>
+                            {{$item->created_at}}
+                          </td>
+
                           <td>
                             {{@$item->mahasiswa->user->name}}
                           </td>
@@ -311,8 +327,8 @@
                 </h4>
 
                 <div class="card-header-action">
-                  <a href="{{route('pengajuan-izin-penelitian.index')}}" class="btn btn-primary">
-                    View All
+                  <a href="{{route('pengajuan-izin-penelitian.index')}}" class="btn btn-outline-primary">
+                    Lihat Semua >>
                   </a>
                 </div>
               </div>
@@ -321,6 +337,10 @@
                   <table class="table table-striped mb-0">
                     <thead>
                       <tr>
+                        <th>
+                          Tanggal Pengajuan
+                        </th>
+
                         <th>
                           Nama Pengaju
                         </th>
@@ -337,6 +357,10 @@
                     <tbody>
                       @forelse ($izinPenelitian as $item)
                         <tr>
+                          <td>
+                            {{$item->created_at}}
+                          </td>
+
                           <td>
                             {{@$item->mahasiswa->user->name}}
                           </td>
@@ -389,8 +413,8 @@
                 </h4>
 
                 <div class="card-header-action">
-                  <a href="{{route('pengajuan-dispensasi.index')}}" class="btn btn-primary">
-                    View All
+                  <a href="{{route('pengajuan-dispensasi.index')}}" class="btn btn-outline-primary">
+                    Lihat Semua >>
                   </a>
                 </div>
               </div>
@@ -399,6 +423,10 @@
                   <table class="table table-striped mb-0">
                     <thead>
                       <tr>
+                        <th>
+                          Tanggal Pengajuan
+                        </th>
+
                         <th>
                           Nama Pengaju
                         </th>
@@ -415,6 +443,10 @@
                     <tbody>
                       @forelse ($dispensasi as $item)
                         <tr>
+                          <td>
+                            {{$item->created_at}}
+                          </td>
+
                           <td>
                             {{@$item->mahasiswa->user->name}}
                           </td>
@@ -467,8 +499,8 @@
                 </h4>
 
                 <div class="card-header-action">
-                  <a href="{{route('pengajuan-legalisir.index')}}" class="btn btn-primary">
-                    View All
+                  <a href="{{route('pengajuan-legalisir.index')}}" class="btn btn-outline-primary">
+                    Lihat Semua >>
                   </a>
                 </div>
               </div>
@@ -477,6 +509,10 @@
                   <table class="table table-striped mb-0">
                     <thead>
                       <tr>
+                        <th>
+                          Tanggal Pengajuan
+                        </th>
+
                         <th>
                           Nama Pengaju
                         </th>
@@ -493,6 +529,10 @@
                     <tbody>
                       @forelse ($legalisir as $item)
                         <tr>
+                          <td>
+                            {{$item->created_at}}
+                          </td>
+
                           <td>
                             {{@$item->mahasiswa->user->name}}
                           </td>
@@ -545,8 +585,8 @@
                 </h4>
 
                 <div class="card-header-action">
-                  <a href="{{route('pengajuan-verifikasi-ijazah.index')}}" class="btn btn-primary">
-                    View All
+                  <a href="{{route('pengajuan-verifikasi-ijazah.index')}}" class="btn btn-outline-primary">
+                    Lihat Semua >>
                   </a>
                 </div>
               </div>
@@ -555,6 +595,10 @@
                   <table class="table table-striped mb-0">
                     <thead>
                       <tr>
+                        <th>
+                          Tanggal Pengajuan
+                        </th>
+
                         <th>
                           Nama Pengaju
                         </th>
@@ -571,6 +615,10 @@
                     <tbody>
                       @forelse ($verifikasiIjazah as $item)
                         <tr>
+                          <td>
+                            {{$item->created_at}}
+                          </td>
+
                           <td>
                             {{$item->instansi->nama_perusahaan}}
                           </td>
@@ -672,8 +720,8 @@
                 </h4>
 
                 <div class="card-header-action">
-                  <a href="{{route('pengajuan-pengantar-pkl.index')}}" class="btn btn-primary">
-                    View All
+                  <a href="{{route('pengajuan-pengantar-pkl.index')}}" class="btn btn-outline-primary">
+                    Lihat Semua >>
                   </a>
                 </div>
               </div>
@@ -682,6 +730,10 @@
                   <table class="table table-striped mb-0">
                     <thead>
                       <tr>
+                        <th>
+                          Tanggal Pengajuan
+                        </th>
+
                         <th>
                           Nama Pengaju
                         </th>
@@ -699,6 +751,10 @@
                       @forelse ($pengantarPkl as $item)
                         @if (@$item->mahasiswa->programStudi->jurusan->name == @$akun->jurusan->name)
                           <tr>
+                            <td>
+                              {{$item->created_at}}
+                            </td>
+
                             <td>
                               {{@$item->mahasiswa->user->name}}
                             </td>
@@ -754,8 +810,8 @@
                 </h4>
 
                 <div class="card-header-action">
-                  <a href="{{route('pengajuan-izin-penelitian.index')}}" class="btn btn-primary">
-                    View All
+                  <a href="{{route('pengajuan-izin-penelitian.index')}}" class="btn btn-outline-primary">
+                    Lihat Semua >>
                   </a>
                 </div>
               </div>
@@ -764,6 +820,10 @@
                   <table class="table table-striped mb-0">
                     <thead>
                       <tr>
+                        <th>
+                          Tanggal Pengajuan
+                        </th>
+
                         <th>
                           Nama Pengaju
                         </th>
@@ -781,6 +841,10 @@
                       @forelse ($izinPenelitian as $item)
                         @if (@$item->mahasiswa->programStudi->jurusan->name == @$akun->jurusan->name)
                           <tr>
+                            <td>
+                              {{$item->created_at}}
+                            </td>
+
                             <td>
                               {{@$item->mahasiswa->user->name}}
                             </td>
@@ -836,8 +900,8 @@
                 </h4>
 
                 <div class="card-header-action">
-                  <a href="{{route('pengajuan-dispensasi.index')}}" class="btn btn-primary">
-                    View All
+                  <a href="{{route('pengajuan-dispensasi.index')}}" class="btn btn-outline-primary">
+                    Lihat Semua >>
                   </a>
                 </div>
               </div>
@@ -846,6 +910,10 @@
                   <table class="table table-striped mb-0">
                     <thead>
                       <tr>
+                        <th>
+                          Tanggal Pengajuan
+                        </th>
+
                         <th>
                           Nama Pengaju
                         </th>
@@ -863,6 +931,10 @@
                       @forelse ($dispensasi as $item)
                         @if (@$item->mahasiswa->programStudi->jurusan->name == @$akun->jurusan->name)
                           <tr>
+                            <td>
+                              {{$item->created_at}}
+                            </td>
+                            
                             <td>
                               {{@$item->mahasiswa->user->name}}
                             </td>
@@ -968,8 +1040,8 @@
                 </h4>
 
                 <div class="card-header-action">
-                  <a href="{{route('pengajuan-pengantar-pkl.index')}}" class="btn btn-primary">
-                    View All
+                  <a href="{{route('pengajuan-pengantar-pkl.index')}}" class="btn btn-outline-primary">
+                    Lihat Semua >>
                   </a>
                 </div>
               </div>
@@ -978,6 +1050,10 @@
                   <table class="table table-striped mb-0">
                     <thead>
                       <tr>
+                        <th>
+                          Tanggal Pengajuan
+                        </th>
+
                         <th>
                           Nama Pengaju
                         </th>
@@ -995,6 +1071,10 @@
                       @forelse ($pengantarPkl as $item)
                       @if (@$item->mahasiswa->programStudi->jurusan->name == @$akun->jurusan->name)
                         <tr>
+                          <td>
+                            {{$item->created_at}}
+                          </td>
+
                           <td>
                             {{@$item->mahasiswa->user->name}}
                           </td>

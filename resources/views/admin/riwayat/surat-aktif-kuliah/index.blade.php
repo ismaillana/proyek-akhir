@@ -13,7 +13,7 @@
               <div class="card-header">
                 <div class="d-flex justify-content-between w-100">
                     <h4>
-                        Data Riwayat Pengajuan Surat AKtif Kuliah
+                        Data Riwayat Pengajuan Surat Aktif Kuliah
                     </h4>
                 </div>
               </div>

@@ -17,6 +17,16 @@
                     <h4>
                         Data Pengajuan Legalisir
                     </h4>
+                    @role('super-admin')
+                        @if (count($legalisir) > 0)
+                            <form action="{{ route('ingatkan') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-warning btn-lg d-flex align-items-center ">
+                                    Ingatkan!
+                                </button> 
+                            </form>
+                        @endif
+                    @endrole
                 </div>
               </div>
               <div class="card-body">

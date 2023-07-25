@@ -3,7 +3,13 @@
   <div class="main-content">
     <section class="section">
       <div class="section-header">
-        <h1>Tabel Data Pengajuan Surat Pengantar Pkl</h1>
+        <div class="section-header-back">
+            <a href="{{route('riwayat-pengajuan-pengantar-pkl')}}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+        </div>
+
+        <h1>
+            Tabel Data Riwayat Pengajuan Surat Pengantar Pkl
+        </h1>
       </div>
 
       <div class="section-body">
@@ -13,7 +19,7 @@
               <div class="card-header">
                 <div class="d-flex justify-content-between w-100">
                     <h4>
-                        Data Pengajuan Surat Pengantar Pkl
+                        Data Riwayat Pengajuan Surat Pengantar Pkl
                     </h4>
                 </div>
               </div>

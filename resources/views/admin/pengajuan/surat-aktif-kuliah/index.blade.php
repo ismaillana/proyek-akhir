@@ -13,17 +13,17 @@
               <div class="card-header">
                 <div class="d-flex justify-content-between w-100">
                     <h4>
-                        Data Pengajuan Surat AKtif Kuliah
+                        Data Pengajuan Surat Aktif Kuliah
                     </h4>
                     @role('super-admin')
-                    @if (count($aktifKuliah) > 0)
-                        <form action="{{ route('ingatkan') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-warning btn-lg d-flex align-items-center ">
-                                Ingatkan!
-                            </button> 
-                        </form>
-                    @endif
+                        @if (count($aktifKuliah) > 0)
+                            <form action="{{ route('ingatkan') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-warning btn-lg d-flex align-items-center ">
+                                    Ingatkan!
+                                </button> 
+                            </form>
+                        @endif
                     @endrole
                 </div>
               </div>

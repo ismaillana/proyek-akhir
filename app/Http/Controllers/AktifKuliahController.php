@@ -452,7 +452,7 @@ class AktifKuliahController extends Controller
             WhatsappGatewayService::sendMessage($number, 
                 'Hai, Bagian Akademik!' . PHP_EOL .
                     PHP_EOL .
-                    'Ada pengajuan Baru Yang Belum Konfirmasi Lebh Dari 1 hari'. PHP_EOL .
+                    'Ada pengajuan Baru Yang Belum Konfirmasi Lebih Dari 1 hari'. PHP_EOL .
                     'Segera lakukan pengecekan data pengajuan!'. PHP_EOL .
                     PHP_EOL .
                     '[Politeknik Negeri Subang]'

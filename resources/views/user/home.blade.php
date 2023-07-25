@@ -12,8 +12,8 @@
             <span class="cursor text-primary" data-owner="typer"></span>
         </h1>
         <p class="lead fs-24 lh-sm text-white mb-7 pe-md-18 pe-lg-0 pe-xxl-15">
-          Sistem ini dapat digunakan oleh Mahasiswa Aktif dan Alumni Politeknik Negeri Subang. 
-          Dan Instansi tempat Alumni bekerja untuk mengajukan beberapa pelayanan administrasi kepada bagian akademik.
+          Sistem ini dapat digunakan oleh Mahasiswa Aktif, Alumni Politeknik Negeri Subang
+          dan Instansi tempat Alumni bekerja untuk mengajukan beberapa pelayanan administrasi kepada bagian akademik.
         </p>
 
         <div>

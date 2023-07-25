@@ -33,41 +33,49 @@ class DashboardController extends Controller
     public function index()
     {
         $akun = auth()->user();
+        $jurusanId = $akun->jurusan_id;
+        $akun = auth()->user();
         //Bagian Akademik & Super Admin
         $bagianAkademik = User::role('bagian-akademik') 
             ->get();
-        $numbers = $bagianAkademik->pluck('wa')->toArray();
+
+        $adminJurusan = User::role('admin-jurusan') 
+            ->get();
 
         $oneDayAgo = Carbon::now()->subDay();
-
+        //cek pengajuan lebih dari 1 hari 
         $pengajuans = Pengajuan::where('status', 'Menunggu Konfirmasi')
         ->whereIn('jenis_pengajuan_id', [1,5,6])
         ->where('created_at', '<=', $oneDayAgo)
         ->get();
-
-        // foreach ($pengajuans as $pengajuan) {
-        //     foreach ($numbers as $number) {
-        //         WhatsappGatewayService::sendMessage($number, 
-        //             'Hai, Bagian Akademik!' . PHP_EOL .
-        //                 PHP_EOL .
-        //                 'Ada pengajuan Baru Yang Belum Dikonfirmasi Lebh Dari 1 hari'. PHP_EOL .
-        //                 'Segera lakukan pengecekan data pengajuan!'. PHP_EOL .
-        //                 PHP_EOL .
-        //                 '[Politeknik Negeri Subang]'
-        //         ); //->Kirim Chat
-        //     }
-        // }
 
         $pengajuanJurusan = Pengajuan::where('status', 'Menunggu Konfirmasi')
         ->whereIn('jenis_pengajuan_id', [2,3,4])
         ->where('created_at', '<=', $oneDayAgo)
         ->get();
 
+        // $pengantarPkll = Pengajuan::select('kode_pkl', 'tempat_pkl_id', \DB::raw('MAX(created_at) as created_at'), 'status')
+        //     ->where('jenis_pengajuan_id', 2)
+        //     ->where(function ($query) {
+        //         $query->where('status', 'Menunggu Konfirmasi');
+        //     })
+        //     ->whereHas('mahasiswa', function ($query) use ($jurusanId) {
+        //         $query->whereHas('programStudi', function ($query) use ($jurusanId) {
+        //             $query->where('jurusan_id', $jurusanId);
+        //         });
+        //     })
+        //     ->where('created_at', '<=', $oneDayAgo)
+        //     ->groupBy('kode_pkl', 'tempat_pkl_id', 'status')
+        //     ->get();
+
+        // dd($pengantarPkll);
+
         $pengajuanPkls = Pengajuan::where('status', 'Menunggu Konfirmasi')
         ->where('jenis_pengajuan_id', 2)
         ->where('created_at', '<=', $oneDayAgo)
         ->get();
 
+        //cek user
         $user = User::count();
 
         $mahasiswa = Mahasiswa::where('status', 'Mahasiswa Aktif')->count();
@@ -91,6 +99,7 @@ class DashboardController extends Controller
             ->orWhere('status', 'Tolak')
             ->count();
 
+        //cek pengajuan
         $pengajuan = Pengajuan::count();
 
         $tempatPkl = TempatPkl::count();
@@ -152,6 +161,8 @@ class DashboardController extends Controller
             'pengajuanPengantarPkl' => $pengajuanPengantarPkl,
             'pengajuanIzinPenelitian' => $pengajuanIzinPenelitian,
             'akun' => $akun,
+            'bagianAkademik' => $bagianAkademik,
+            'adminJurusan' => $adminJurusan,
             'title'         => 'Dashboard'
         ]);
     }
