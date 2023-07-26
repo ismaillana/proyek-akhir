@@ -25,7 +25,7 @@ class MahasiswaUpdateRequest extends FormRequest
         $rules = [
             'name'              => 'required',
             'email'             => 'required|email|unique:users,email,'  . $this->mahasiswa->user->id,
-            'nomor_induk'       => 'required|unique:users,nomor_induk,' . $this->mahasiswa->user->id,
+            'nomor_induk'       => 'required|min:8|unique:users,nomor_induk,' . $this->mahasiswa->user->id,
             'wa'                => 'required',
             'angkatan'          => 'required',
             'program_studi_id'  => 'required'
@@ -44,8 +44,8 @@ class MahasiswaUpdateRequest extends FormRequest
             'wa.required'           => 'No WhatsApp Wajib Diisi',
             'angkatan.required'     => 'Tahun Angkatan Wajib Diisi',
             'program_studi_id.required' => 'Program Studi Wajib Diisi',
-            'email.unique'          => 'Email Sudah Digunakan'
-
+            'email.unique'          => 'Email Sudah Digunakan',
+            'nomor_induk.min'       => 'Nomor Induk Minimal Terdiri Dari 8 Angka'
         ];
     }
 }

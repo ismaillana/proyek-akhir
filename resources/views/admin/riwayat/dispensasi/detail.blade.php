@@ -192,14 +192,15 @@
                                                 value="{{ old('no_surat', @$dispensasi->no_surat) }}" readonly disabled>
                                         </div>
                                     </div>
-                              @endrole
+                              
                               <hr>
                                   <div class="text-md-right">
-                                    <a href="{{ route('print-dispensasi', Crypt::encryptString($dispensasi->id)) }}" class="btn btn-warning btn-icon icon-left">
+                                    <a href="{{ route('print-dispensasi', Crypt::encryptString($dispensasi->id)) }}" target="_blank" class="btn btn-warning btn-icon icon-left">
                                       <i class="fas fa-print"></i> 
                                           Print
                                     </a>
                                   </div>
+                              @endrole
                         </div>
                     </div>
                 </div>

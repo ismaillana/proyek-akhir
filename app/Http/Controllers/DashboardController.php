@@ -30,11 +30,11 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
         $akun = auth()->user();
         $jurusanId = $akun->jurusan_id;
-        $akun = auth()->user();
+        
         //Bagian Akademik & Super Admin
         $bagianAkademik = User::role('bagian-akademik') 
             ->get();
@@ -90,12 +90,28 @@ class DashboardController extends Controller
             ->groupBy('kode_pkl', 'tempat_pkl_id', 'status')
             ->get();
 
+        //koorPkl Tempat Pkl
+        // Ambil data jumlah tempat PKL berdasarkan tahun pengajuan yang dipilih
+        $jumlahTempatPkl = Pengajuan::latest()
+            ->select('kode_pkl', 'tempat_pkl_id', \DB::raw('MAX(created_at) as created_at'))
+            ->where('jenis_pengajuan_id', 2)
+            ->whereHas('mahasiswa', function ($query) use ($jurusanId) {
+                $query->whereHas('programStudi', function ($query) use ($jurusanId) {
+                    $query->where('jurusan_id', $jurusanId);
+                });
+            })
+            ->groupBy('kode_pkl', 'tempat_pkl_id')
+            ->get();
+
+        // Ambil data pengajuan PKL berdasarkan tahun pengajuan yang dipilih
+        $namaNempatPkl = Pengajuan::latest()
+            ->where('jenis_pengajuan_id', 2)
+            ->whereIn('kode_pkl', $jumlahTempatPkl->pluck('kode_pkl'))
+            ->get();
+
         //jumlah pengajuan pengantarPkl admin jurusan
         $pengantarPkll = Pengajuan::select('kode_pkl', 'tempat_pkl_id')
             ->where('jenis_pengajuan_id', 2)
-            // ->where(function ($query) {
-            //     $query->where('status', 'Menunggu Konfirmasi');
-            // })
             ->whereHas('mahasiswa', function ($query) use ($jurusanId) {
                 $query->whereHas('programStudi', function ($query) use ($jurusanId) {
                     $query->where('jurusan_id', $jurusanId);
@@ -165,6 +181,11 @@ class DashboardController extends Controller
 
         $pengantarPkl = Pengajuan::latest()
             ->where('jenis_pengajuan_id', 2)
+            ->whereHas('mahasiswa', function ($query) use ($jurusanId) {
+                $query->whereHas('programStudi', function ($query) use ($jurusanId) {
+                    $query->where('jurusan_id', $jurusanId);
+                });
+            })
             ->get()
             ->take(3);
 
@@ -200,27 +221,42 @@ class DashboardController extends Controller
             'izinPenelitian'=> $izinPenelitian,
             'dispensasi'    => $dispensasi,
             'legalisir'     => $legalisir,
-            'verifikasiIjazah' => $verifikasiIjazah,
-            'pengajuan' => $pengajuan,
-            'pengajuans' => $pengajuans,
-            'pengajuanJurusan' => $pengajuanJurusan,
-            'pengajuanPkls' => $pengajuanPkls,
-            'tempatPkl' => $tempatPkl,
-            'instansi' => $instansi,
-            'alumni' => $alumni,
-            'mahasiswa' => $mahasiswa,
-            'pengajuanIzinDispensasi' => $pengajuanIzinDispensasi,
-            'pengajuanPengantarPkl' => $pengajuanPengantarPkl,
-            'pengajuanIzinPenelitian' => $pengajuanIzinPenelitian,
-            'akun' => $akun,
-            'bagianAkademik' => $bagianAkademik,
-            'adminJurusan' => $adminJurusan,
-            'pengantarPkll' => $pengantarPkll,
-            'pengantarPkllll' => $pengantarPkllll,
-            'izinPenelitiann' => $izinPenelitiann,
-            'dispensasii' => $dispensasii,
-            'total' => $total,
-            'title'         => 'Dashboard'
+            'verifikasiIjazah'  => $verifikasiIjazah,
+            'pengajuan'         => $pengajuan,
+            'pengajuans'        => $pengajuans,
+            'pengajuanJurusan'  => $pengajuanJurusan,
+            'pengajuanPkls'     => $pengajuanPkls,
+            'tempatPkl'         => $tempatPkl,
+            'instansi'          => $instansi,
+            'alumni'            => $alumni,
+            'mahasiswa'         => $mahasiswa,
+            'pengajuanIzinDispensasi'   => $pengajuanIzinDispensasi,
+            'pengajuanPengantarPkl'     => $pengajuanPengantarPkl,
+            'pengajuanIzinPenelitian'   => $pengajuanIzinPenelitian,
+            'akun'              => $akun,
+            'bagianAkademik'    => $bagianAkademik,
+            'adminJurusan'      => $adminJurusan,
+            'pengantarPkll'     => $pengantarPkll,
+            'pengantarPkllll'   => $pengantarPkllll,
+            'izinPenelitiann'   => $izinPenelitiann,
+            'dispensasii'       => $dispensasii,
+            'total'             => $total,
+            'jumlahTempatPkl'   => $jumlahTempatPkl,
+            'namaNempatPkl'     => $namaNempatPkl,
+            'title'             => 'Dashboard'
+        ]);
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function filter(Request $request)
+    {
+        $tahunPengajuan = $request->input('tahun_pengajuan');
+        return view('admin.dashboard', [
+            'tahun_pengajuan' => $tahunPengajuan
         ]);
     }
 }

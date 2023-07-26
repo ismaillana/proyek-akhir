@@ -749,7 +749,6 @@
                     </thead>
                     <tbody>
                       @forelse ($pengantarPkl as $item)
-                        @if (@$item->mahasiswa->programStudi->jurusan->name == @$akun->jurusan->name)
                           <tr>
                             <td>
                               {{$item->created_at}}
@@ -783,9 +782,6 @@
                               @endif
                             </td>
                           </tr>
-                        @else
-
-                        @endif
                       @empty
                         <tr>
                           <td colspan="3" class="text-center">
@@ -1015,7 +1011,7 @@
               </div>
             </div>
           </div>
-          {{-- <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="card card-statistic-1">
               <div class="card-icon bg-info">
                 <i class="far fa-file"></i>
@@ -1025,13 +1021,13 @@
                   <h4>Total Pengajuan (Direview)</h4>
                 </div>
                 <div class="card-body">
-                  {{$riwayat}}
+                  {{count($pengantarPkllll)}}
                 </div>
               </div>
             </div>
-          </div> --}}
+          </div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
           <div class="col-lg-12 col-md-12 col-12 col-sm-12">
             <div class="card">
               <div class="card-header">
@@ -1119,8 +1115,139 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> --}}
+
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-12 col-sm-12">
+              <div class="card">
+                  <div class="card-header">
+                      <h4>
+                          Tempat PKL
+                      </h4>
+                      {{-- <div class="card-header-action">
+                          <a href="{{ route('pengajuan-pengantar-pkl.index') }}" class="btn btn-outline-primary">
+                              Lihat Semua >>
+                          </a>
+                      </div> --}}
+                  </div>
+                  <div class="card-body p-0">
+                    <div class="col-md-4 mb-3">
+                      <label for="tahun_pengajuan">Tahun Pengajuan:</label>
+                      <select name="tahun_pengajuan" id="tahun_pengajuan" class="form-control">
+                          @php
+                              // Ambil tahun saat ini
+                              $currentYear = date('Y');
+                          @endphp
+                          @for ($year = $currentYear; $year >= 2020; $year--)
+                              <option value="{{ $year }}" @if(request('tahun_pengajuan', $currentYear) == $year) selected @endif>{{ $year }}</option>
+                          @endfor
+                      </select>
+                  </div>
+                      <div class="table-responsive">
+                          <table id="tabelPengajuan" class="table table-striped mb-0">
+                              <thead>
+                                  <tr>
+                                      <th class="text-center">Tanggal Pengajuan</th>
+                                      <th class="text-center">Nama Tempat PKL</th>
+                                      <th class="text-center">Nama Mahasiswa</th>
+                                      <th class="text-center">Status</th>
+                                      <th class="text-center">Jumlah Mahasiswa</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  @forelse ($jumlahTempatPkl as $item)
+                                      @php
+                                          $pengajuans = $namaNempatPkl->where('kode_pkl', $item->kode_pkl);
+                                          $jumlahPengaju = $namaNempatPkl->where('kode_pkl', $item->kode_pkl)->where('status', 'Diterima Perusahaan')->count();
+                                      @endphp
+                                      <tr data-tahun="{{ Carbon\Carbon::parse($item->created_at)->year }}">
+                                          <td>{{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y H:i:s') }}</td>
+                                          <td>{{ @$item->tempatPkl->name }}</td>
+                                          <td>
+                                            @foreach ($pengajuans as $pengaju)
+                                                  {{ @$pengaju->mahasiswa->user->name }}-{{ @$pengaju->mahasiswa->nim }}
+                                                  <br>
+                                            @endforeach
+                                          </td>
+                                          <td class="text-center">
+                                            @foreach ($pengajuans as $pengaju)
+                                                @if ($pengaju->status == 'Menunggu Konfirmasi')
+                                                    <span class="badge badge-warning mb-1">Menunggu Konfirmasi</span>
+                                                @elseif ($pengaju->status == 'Konfirmasi')
+                                                    <span class="badge badge-primary mb-1">Dikonfirmasi</span>
+                                                @elseif ($pengaju->status == 'Proses')
+                                                    <span class="badge badge-success mb-1">Diproses</span>
+                                                @elseif ($pengaju->status == 'Tolak')
+                                                    <span class="badge badge-danger mb-1">Ditolak</span>
+                                                @elseif ($pengaju->status == 'Kendala')
+                                                    <span class="badge badge-danger mb-1">Ada Kendala</span>
+                                                @elseif ($pengaju->status == 'Review')
+                                                    <span class="badge badge-warning mb-1">Direview</span>
+                                                @elseif ($pengaju->status == 'Setuju')
+                                                    <span class="badge badge-primary mb-1">Disetujui Koor.Pkl</span>
+                                                @elseif ($pengaju->status == 'Diterima Perusahaan')
+                                                    <span class="badge badge-primary mb-1">Diterima Perusahaan</span>
+                                                @elseif ($pengaju->status == 'Ditolak Perusahaan')
+                                                    <span class="badge badge-primary mb-1">Ditolak Perusahaan</span>
+                                                @elseif ($pengaju->status == 'Selesai PKL')
+                                                    <span class="badge badge-success mb-1">Selesai PKL</span>
+                                                @else
+                                                    <span class="badge badge-success mb-1">Selesai</span>
+                                                @endif
+                                                <br>
+                                            @endforeach
+                                          </td>
+                                          <td class="text-center">
+                                              @if ($jumlahPengaju > 0)
+                                                  {{ $jumlahPengaju }} Mahasiswa
+                                              @else
+                                                  <span>Belum Ada Yang Diterima</span>
+                                              @endif
+                                          </td>
+                                      </tr>
+                                  @empty
+                                      <tr>
+                                          <td colspan="5" class="text-center">
+                                              Data Kosong!
+                                          </td>
+                                      </tr>
+                                  @endforelse
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
       @endrole
     </section>
 </div>
+@endsection
+
+@section('script')
+<script>
+    // Ambil elemen select tahun pengajuan
+    const selectTahunPengajuan = document.getElementById('tahun_pengajuan');
+    const tabelPengajuan = document.getElementById('tabelPengajuan');
+
+    // Tambahkan event onchange untuk melakukan filter saat tahun pengajuan berubah
+    selectTahunPengajuan.addEventListener('change', function () {
+        // Ambil nilai tahun pengajuan yang dipilih
+        const tahunPengajuan = selectTahunPengajuan.value;
+
+        // Ambil semua baris tabel
+        const rows = tabelPengajuan.getElementsByTagName('tr');
+
+        // Lakukan filter berdasarkan tahun pengajuan
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            const tahunRow = row.getAttribute('data-tahun');
+            if (tahunRow === tahunPengajuan) {
+                row.style.display = 'table-row';
+            } else {
+                row.style.display = 'none';
+            }
+        }
+    });
+</script>
 @endsection

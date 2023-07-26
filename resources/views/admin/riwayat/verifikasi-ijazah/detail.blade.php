@@ -144,14 +144,15 @@
                                             value="{{ old('no_surat', @$verifikasiIjazah->no_surat) }}" readonly disabled>
                                     </div>
                                 </div>
-                            @endrole
-                            <hr>
+                            
+                                <hr>
                                 <div class="text-md-right">
-                                    <a href="{{ route('print-verifikasi-ijazah', Crypt::encryptString($verifikasiIjazah->id)) }}" class="btn btn-warning btn-icon icon-left">
+                                    <a href="{{ route('print-verifikasi-ijazah', Crypt::encryptString($verifikasiIjazah->id)) }}" target="_blank" class="btn btn-warning btn-icon icon-left">
                                         <i class="fas fa-print"></i> 
                                             Print
                                     </a>
                                 </div>
+                            @endrole
                         </div>
                     </div>
                 </div>

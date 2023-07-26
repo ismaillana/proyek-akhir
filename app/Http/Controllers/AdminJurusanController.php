@@ -134,7 +134,7 @@ class AdminJurusanController extends Controller
         $request->validate([
             'name'              => 'required',
             'email'             => 'required|email|unique:users,email,' . $id,
-            'nomor_induk'       => 'required|unique:users,nomor_induk,' .$id,
+            'nomor_induk'       => 'required|min:8|unique:users,nomor_induk,' .$id,
             'wa'                => 'required',
             'jurusan_id'        => 'required',
         ], [
@@ -145,7 +145,8 @@ class AdminJurusanController extends Controller
             'nomor_induk.unique'    => 'NIP Sudah Ada',
             'wa.required'           => 'No WhatsApp Wajib Diisi',
             'jurusan_id.required'   => 'Jurusan Wajib Diisi',
-            'email.unique'          => 'Email Sudah Digunakan'
+            'email.unique'          => 'Email Sudah Digunakan',
+            'nomor_induk.min'       => 'Nomor Induk Minimal Terdiri Dari 8 Angka'
         ]);
 
         $nomorWa = $request->input('wa');
