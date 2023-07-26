@@ -16,17 +16,17 @@
         @endrole
 
         @role('admin-jurusan')
-          @if(count($pengajuanJurusan) > 0)
-              <div class="alert alert-warning ml-4">
-                  <strong>Pemberitahuan:</strong> Terdapat {{ count($pengajuanJurusan) }} pengajuan (Surat Izin Penelitian, Surat Izin Dispensasi, dan Surat Pengantar PKL) yang belum dikonfirmasi lebih dari 1 hari.
-              </div>
-          @endif
+            @if($total > 0)
+                <div class="alert alert-warning ml-4">
+                    <strong>Pemberitahuan:</strong> Terdapat {{ $total }} pengajuan (Surat Izin Penelitian, Surat Izin Dispensasi, dan Surat Pengantar PKL) yang belum dikonfirmasi lebih dari 1 hari.
+                </div>
+            @endif
         @endrole
 
         @role('koor-pkl')
-          @if(count($pengajuanPkls) > 0)
+          @if(count($pengantarPkllll) > 0)
               <div class="alert alert-warning ml-4">
-                  <strong>Pemberitahuan:</strong> Terdapat {{ count($pengajuanPkls) }} pengajuan pembuatan surat pengantar PKL yang belum dikonfirmasi lebih dari 1 hari.
+                  <strong>Pemberitahuan:</strong> Terdapat {{ count($pengantarPkllll) }} pengajuan pembuatan surat pengantar PKL yang belum disetujui lebih dari 1 hari.
               </div>
           @endif
         @endrole
@@ -675,7 +675,7 @@
                   <h4>Izin Penelitian</h4>
                 </div>
                 <div class="card-body">
-                  {{$pengajuanIzinPenelitian}}
+                  {{count($izinPenelitiann)}}
                 </div>
               </div>
             </div>
@@ -690,14 +690,14 @@
                   <h4>Izin Dispensasi</h4>
                 </div>
                 <div class="card-body">
-                  {{$pengajuanIzinDispensasi}}
+                  {{count($dispensasii)}}
                 </div>
               </div>
             </div>
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="card card-statistic-1">
-              <div class="card-icon bg-warning">
+              <div class="card-icon bg-info">
                 <i class="far fa-file"></i>
               </div>
               <div class="card-wrap">
@@ -705,7 +705,7 @@
                   <h4>Pengantar PKL</h4>
                 </div>
                 <div class="card-body">
-                  {{$pengajuanPengantarPkl}}
+                  {{count($pengantarPkll)}}
                 </div>
               </div>
             </div>
@@ -984,7 +984,7 @@
       @endrole
 
       @role('koor-pkl')
-        <div class="row d-flex justify-content-between w-100">
+        <div class="row d-flex justify-content-center w-100">
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="card card-statistic-1">
               <div class="card-icon bg-primary">
@@ -1002,34 +1002,34 @@
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="card card-statistic-1">
-              <div class="card-icon bg-danger">
+              <div class="card-icon bg-success">
                 <i class="far fa-newspaper"></i>
               </div>
               <div class="card-wrap">
                 <div class="card-header">
-                  <h4>Pengajuan Berlangsung</h4>
+                  <h4>Total Pengajuan PKL</h4>
                 </div>
                 <div class="card-body">
-                  {{$pengajuan}}
+                  {{count($pengantarPkll)}}
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          {{-- <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="card card-statistic-1">
-              <div class="card-icon bg-warning">
+              <div class="card-icon bg-info">
                 <i class="far fa-file"></i>
               </div>
               <div class="card-wrap">
                 <div class="card-header">
-                  <h4>Riwayat Pengajuan</h4>
+                  <h4>Total Pengajuan (Direview)</h4>
                 </div>
                 <div class="card-body">
                   {{$riwayat}}
                 </div>
               </div>
             </div>
-          </div>
+          </div> --}}
         </div>
         <div class="row">
           <div class="col-lg-12 col-md-12 col-12 col-sm-12">

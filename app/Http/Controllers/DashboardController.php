@@ -50,25 +50,77 @@ class DashboardController extends Controller
         ->get();
 
         $pengajuanJurusan = Pengajuan::where('status', 'Menunggu Konfirmasi')
-        ->whereIn('jenis_pengajuan_id', [2,3,4])
+        ->whereIn('jenis_pengajuan_id', [3,4])
+        ->whereHas('mahasiswa', function ($query) use ($jurusanId) {
+            $query->whereHas('programStudi', function ($query) use ($jurusanId) {
+                $query->where('jurusan_id', $jurusanId);
+            });
+        })
         ->where('created_at', '<=', $oneDayAgo)
         ->get();
 
-        // $pengantarPkll = Pengajuan::select('kode_pkl', 'tempat_pkl_id', \DB::raw('MAX(created_at) as created_at'), 'status')
-        //     ->where('jenis_pengajuan_id', 2)
-        //     ->where(function ($query) {
-        //         $query->where('status', 'Menunggu Konfirmasi');
-        //     })
-        //     ->whereHas('mahasiswa', function ($query) use ($jurusanId) {
-        //         $query->whereHas('programStudi', function ($query) use ($jurusanId) {
-        //             $query->where('jurusan_id', $jurusanId);
-        //         });
-        //     })
-        //     ->where('created_at', '<=', $oneDayAgo)
-        //     ->groupBy('kode_pkl', 'tempat_pkl_id', 'status')
-        //     ->get();
+        $pengantarPklll = Pengajuan::select('kode_pkl', 'tempat_pkl_id', 'status')
+            ->where('jenis_pengajuan_id', 2)
+            ->where(function ($query) {
+                $query->where('status', 'Menunggu Konfirmasi');
+            })
+            ->whereHas('mahasiswa', function ($query) use ($jurusanId) {
+                $query->whereHas('programStudi', function ($query) use ($jurusanId) {
+                    $query->where('jurusan_id', $jurusanId);
+                });
+            })
+            ->where('created_at', '<=', $oneDayAgo)
+            ->groupBy('kode_pkl', 'tempat_pkl_id', 'status')
+            ->get();
 
-        // dd($pengantarPkll);
+        $total = count($pengantarPklll) +  count($pengajuanJurusan);
+
+        //Jumlah pengajuanPkl KoorPKL
+        $pengantarPkllll = Pengajuan::select('kode_pkl', 'tempat_pkl_id', 'status')
+            ->where('jenis_pengajuan_id', 2)
+            ->where(function ($query) {
+                $query->where('status', 'Review');
+            })
+            ->whereHas('mahasiswa', function ($query) use ($jurusanId) {
+                $query->whereHas('programStudi', function ($query) use ($jurusanId) {
+                    $query->where('jurusan_id', $jurusanId);
+                });
+            })
+            ->where('updated_at', '<=', $oneDayAgo)
+            ->groupBy('kode_pkl', 'tempat_pkl_id', 'status')
+            ->get();
+
+        //jumlah pengajuan pengantarPkl admin jurusan
+        $pengantarPkll = Pengajuan::select('kode_pkl', 'tempat_pkl_id')
+            ->where('jenis_pengajuan_id', 2)
+            // ->where(function ($query) {
+            //     $query->where('status', 'Menunggu Konfirmasi');
+            // })
+            ->whereHas('mahasiswa', function ($query) use ($jurusanId) {
+                $query->whereHas('programStudi', function ($query) use ($jurusanId) {
+                    $query->where('jurusan_id', $jurusanId);
+                });
+            })
+            ->groupBy('kode_pkl', 'tempat_pkl_id')
+            ->get();
+        
+        //jumlah pengajuan izinPenelitian admin jurusan
+        $izinPenelitiann = Pengajuan::where('jenis_pengajuan_id', 3)
+            ->whereHas('mahasiswa', function ($query) use ($jurusanId) {
+                $query->whereHas('programStudi', function ($query) use ($jurusanId) {
+                    $query->where('jurusan_id', $jurusanId);
+                });
+            })
+            ->get();
+        
+        //jumlah pengajuan dispensasi admin jurusan
+        $dispensasii = Pengajuan::where('jenis_pengajuan_id', 4)
+            ->whereHas('mahasiswa', function ($query) use ($jurusanId) {
+                $query->whereHas('programStudi', function ($query) use ($jurusanId) {
+                    $query->where('jurusan_id', $jurusanId);
+                });
+            })
+            ->get();
 
         $pengajuanPkls = Pengajuan::where('status', 'Menunggu Konfirmasi')
         ->where('jenis_pengajuan_id', 2)
@@ -163,6 +215,11 @@ class DashboardController extends Controller
             'akun' => $akun,
             'bagianAkademik' => $bagianAkademik,
             'adminJurusan' => $adminJurusan,
+            'pengantarPkll' => $pengantarPkll,
+            'pengantarPkllll' => $pengantarPkllll,
+            'izinPenelitiann' => $izinPenelitiann,
+            'dispensasii' => $dispensasii,
+            'total' => $total,
             'title'         => 'Dashboard'
         ]);
     }
