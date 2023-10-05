@@ -16,7 +16,7 @@
 
         <div class="col-lg-6 col-xl-5 offset-xl-1">
           <h2 class="display-4 mb-3">
-            Profil Instansi
+            Profil Mahasiswa/Alumni
           </h2>
           <p class="lead mb-8 pe-xl-10">
             Perbaiki informasi pribadi disini!

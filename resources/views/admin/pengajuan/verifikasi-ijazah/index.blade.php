@@ -233,14 +233,14 @@
 @section('script')
     <script>
         $("#dokumenHasil").hide();
-        $('#status').on('change', function(){
+            $('#status').on('change', function(){
             var selectedVal = $(this).val();
             if (selectedVal == 'Selesai') {
                 $('#dokumenHasil').show();
             } else {
                 $("#dokumenHasil").hide();
             }
-        })
+        });
     </script>
 @endsection
 

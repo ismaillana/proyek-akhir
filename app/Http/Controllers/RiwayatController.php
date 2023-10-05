@@ -93,6 +93,7 @@ class RiwayatController extends Controller
         
         $riwayat = Riwayat::where('pengajuan_id', $id)->latest()
             ->get();
+        // dd($riwayat);
 
         return view ('user.riwayat.aktif-kuliah.tracking', [
             'riwayat'   =>  $riwayat,
@@ -225,44 +226,14 @@ class RiwayatController extends Controller
 
         $title          = "Data Pengajuan Surat Pengantar PKL";
 
-        // $pengantarPkl = Pengajuan::where('mahasiswa_id', $mahasiswa->id)
-        //     ->Where('jenis_pengajuan_id', 2)
-        //     ->latest()
-        //     ->get();
-
         $pengantarPkl = Pengajuan::latest()
             ->where('jenis_pengajuan_id', 2)
             ->where('mahasiswa_id', $mahasiswa->id)
             ->get();
-        // dd($pengantarPkl);
-
-        // foreach ($pengantarPkl as $item) {
-    
-        //     foreach ($item->nama_mahasiswa as $id) {
-        //         if ($id == $user->id) {
-        //             // ID pengguna yang login cocok dengan ID dalam atribut "nama_mahasiswa"
-        //             // Dapatkan data pengajuan terkait
-        //             $dataPengajuan = $item;
-        //             // return view('user.riwayat.pengantar-pkl.index', [
-        //             //     // 'pengantarPkl'   => $pengantarPkl,
-        //             //     'user'   => $user,
-        //             //     'dataPengajuan' => $dataPengajuan,
-        //             //     'title'            => $title,
-        //             // ]);
-        //             break 2;
-        //             // Lakukan tindakan yang diperlukan dengan data pengajuan
-        //             // Contoh: Tampilkan data pengajuan
-        //         }
-        //     }
-        // }
-
-        // dd($dataPengajuan);
-        // $dataPengajuan = null;
         
         return view('user.riwayat.pengantar-pkl.index', [
             'pengantarPkl'   => $pengantarPkl,
             'user'   => $user,
-            // 'dataPengajuan' => $dataPengajuan,
             'title'            => $title,
         ]);
     }

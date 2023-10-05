@@ -202,7 +202,7 @@ class AktifKuliahController extends Controller
 
         Pengajuan::where('id', $id)->update($data);
 
-        Riwayat::create([
+        $riwayat = Riwayat::create([
             'pengajuan_id'  => $id,
             'status'        => 'Dikonfirmasi',
             'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
