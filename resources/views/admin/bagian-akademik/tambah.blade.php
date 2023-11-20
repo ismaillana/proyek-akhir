@@ -100,7 +100,7 @@
                                             +62
                                         </div>
 
-                                        <input type="text" class="form-control @error('wa') is-invalid @enderror"
+                                        <input type="text" maxlength="13" class="form-control @error('wa') is-invalid @enderror"
                                             id="wa" name="wa" placeholder="Masukan Nomer Whatsapp "
                                             value="{{ old('wa', Str::substr(@$bagianAkademik->wa, 2)) }}">
                                     </div>

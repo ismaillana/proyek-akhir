@@ -1,6 +1,11 @@
 @extends('layout.frontend.base')
 
 @section('content')
+<head>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css"
+      rel="stylesheet" />
+</head>
+
 <section class="wrapper bg-dark angled lower-start">
   <div class="container py-14 pt-md-10 pb-md-21">
     <div class="row gx-lg-8 gx-xl-12 gy-10 gy-lg-0 mb-2 align-items-end">
@@ -38,65 +43,71 @@
                 <div class="card-body">
                     <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
                       @if (@$pengajuan->status == 'Selesai' || @$pengajuan->status == 'Tolak' || @$pengajuan == null)
-                        <div class="col-md-12">
+                        <!-- Repeater container -->
+                        <div class="repeater-container">
+                          <!-- Repeated form fields -->
+                          <div class="repeater-item">
                             <div class="form-floating mb-4">
-                                <input id="nama" type="text" name="nama" class="form-control @error('nama')is-invalid @enderror" 
-                                  value="{{ old('nama', @$verifikasiIjazah->nama) }}" placeholder="Nama Mahasiswa">
-                                
-                                <label for="form_name">
-                                    Nama Mahasiswa <span class="text-danger">*</span>
-                                </label>
+                              <input id="nama" type="text" name="nama[]" class="form-control @error('nama')is-invalid @enderror" 
+                                 placeholder="Masukan Nama Mahasiswa">
+                              
+                              <label for="form_nama_mahasiswa">
+                                Nama Mahasiswa<span class="text-danger">*</span>
+                              </label>
 
-                                @if ($errors->has('nama'))
-                                    <span class="text-danger">{{ $errors->first('nama') }}</span>
-                                @endif
+                              @if ($errors->has('nama'))
+                                  <span class="text-danger">{{ $errors->first('nama') }}</span>
+                              @endif
                             </div>
-                        </div>
 
-                        <div class="col-md-12">
-                          <div class="form-floating mb-4">
-                              <input id="nim" type="text" name="nim" class="form-control @error('nim')is-invalid @enderror" 
-                                value="{{ old('nim', @$verifikasiIjazah->nim) }}" placeholder="NIM">
-
-                              <label for="form_name">
-                                  NIM<span class="text-danger">*</span>
+                            <div class="form-floating mb-4">
+                              <input id="nim" type="text" name="nim[]" class="form-control @error('nim')is-invalid @enderror" 
+                                 placeholder="Masukan NIM Mahasiswa">
+                              
+                              <label for="form_nim_mahasiswa">
+                                NIM Mahasiswa<span class="text-danger">*</span>
                               </label>
 
                               @if ($errors->has('nim'))
                                   <span class="text-danger">{{ $errors->first('nim') }}</span>
                               @endif
-                          </div>
-                        </div>
+                            </div>
 
-                        <div class="col-md-12">
-                          <div class="form-floating mb-4">
-                              <input id="no_ijazah" type="text" name="no_ijazah" class="form-control @error('no_ijazah')is-invalid @enderror" 
-                                value="{{ old('no_ijazah', @$verifikasiIjazah->no_ijazah) }}" placeholder="No_Ijazah">
-
-                              <label for="form_name">
-                                  No Ijazah<span class="text-danger">*</span>
+                            <div class="form-floating mb-4">
+                              <input id="no_ijazah" type="text" name="no_ijazah[]" class="form-control @error('no_ijazah')is-invalid @enderror" 
+                                 placeholder="Masukan Nomor Ijazah Mahasiswa">
+                              
+                              <label for="form_no_ijazah_mahasiswa">
+                                Nomor Ijazah Mahasiswa<span class="text-danger">*</span>
                               </label>
 
                               @if ($errors->has('no_ijazah'))
                                   <span class="text-danger">{{ $errors->first('no_ijazah') }}</span>
                               @endif
-                          </div>
-                        </div>
+                            </div>
 
-                        <div class="col-md-12">
-                          <div class="form-floating mb-4">
-                              <input id="tahun_lulus" type="text" name="tahun_lulus" class="form-control @error('tahun_lulus')is-invalid @enderror" 
-                                value="{{ old('tahun_lulus', @$verifikasiIjazah->tahun_lulus) }}" placeholder="Tahun Lulus">
-
-                              <label for="form_name">
-                                  Tahun Lulus<span class="text-danger">*</span>
+                            <div class="form-floating mb-4">
+                              <input id="tahun_lulus" type="text" name="tahun_lulus[]" class="form-control @error('tahun_lulus')is-invalid @enderror" 
+                                 placeholder="Masukan Tahun Lulus Mahasiswa">
+                              
+                              <label for="form_tahun_lulus_mahasiswa">
+                                Tahun Lulus Mahasiswa<span class="text-danger">*</span>
                               </label>
 
                               @if ($errors->has('tahun_lulus'))
                                   <span class="text-danger">{{ $errors->first('tahun_lulus') }}</span>
                               @endif
+                            </div>
+
+                            <button type="button" class="btn btn-danger btn-remove-repeater d-none mb-4">
+                              Hapus
+                            </button>
                           </div>
                         </div>
+
+                        <button type="button" class="btn btn-primary btn-add-repeater mb-4">
+                          Tambah Mahasiswa
+                        </button>
 
                         <div class="col-md-12">
                           <label for="form_name">
@@ -152,53 +163,73 @@
 @endsection
 
 @section('script')
-<script>
-  $('#myForm').submit(function(e) {
-      let form = this;
-      e.preventDefault();
+  <script>
+    $('#myForm').submit(function(e) {
+        let form = this;
+        e.preventDefault();
 
-      confirmSubmit(form);
-  });
-  // Form
-  function confirmSubmit(form, buttonId) {
-      Swal.fire({
-          icon: 'question',
-          text: 'Apakah anda yakin Data Sudah Benar ?',
-          showCancelButton: true,
-          buttonsStyling: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Simpan',
-          cancelButtonText: 'Batal',
-      }).then((result) => {
-          if (result.isConfirmed) {
-              let button = 'btnSubmit';
+        confirmSubmit(form);
+    });
+    // Form
+    function confirmSubmit(form, buttonId) {
+        Swal.fire({
+            icon: 'question',
+            text: 'Apakah anda yakin Data Sudah Benar ?',
+            showCancelButton: true,
+            buttonsStyling: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Simpan',
+            cancelButtonText: 'Batal',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let button = 'btnSubmit';
 
-              if (buttonId) {
-                  button = buttonId;
-              }
+                if (buttonId) {
+                    button = buttonId;
+                }
 
-              $('#' + button).attr('disabled', 'disabled');
-              $('#loader').removeClass('d-none');
+                $('#' + button).attr('disabled', 'disabled');
+                $('#loader').removeClass('d-none');
 
-              form.submit();
-          }
+                form.submit();
+            }
+        });
+    }
+
+    $(document).ready(function() {
+      // Add new repeater item
+      $(".btn-add-repeater").click(function() {
+        var newItem = $(".repeater-item").first().clone();
+        newItem.find("input").val(""); // Clear input values in the new item
+        newItem.find(".btn-remove-repeater").removeClass("d-none"); // Show the remove button
+        $(".repeater-container").append(newItem);
+        toggleDeleteButtons(); // Check and update delete buttons
       });
-  }
 
-  document.getElementById('nim').addEventListener('input', function(evt) {
-      var input = evt.target;
-      input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
-  });
+      // Remove repeater item
+      $(document).on("click", ".btn-remove-repeater", function() {
+        $(this).closest(".repeater-item").remove();
+        toggleDeleteButtons(); // Check and update delete buttons
+      });
 
-  document.getElementById('tahun_lulus').addEventListener('input', function(evt) {
-      var input = evt.target;
-      input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
-  });
+      function toggleDeleteButtons() {
+        var deleteButtons = $(".btn-remove-repeater");
+        if (deleteButtons.length > 1) {
+          deleteButtons.removeClass("d-none"); // Show all delete buttons when there is more than one repeated item
+        } else {
+          deleteButtons.addClass("d-none"); // Hide delete buttons when there is only one repeated item
+        }
+      }
 
-  document.getElementById('no_ijazah').addEventListener('input', function(evt) {
-      var input = evt.target;
-      input.value = input.value.replace(/[^0-9]/g, ''); // Hanya membiarkan angka
-  });
-</script>
+      $('#myForm').submit(function(e) {
+        let form = this;
+        e.preventDefault();
+
+        confirmSubmit(form);
+      });
+
+      // Rest of your JavaScript code...
+    });
+  </script>
 @endsection

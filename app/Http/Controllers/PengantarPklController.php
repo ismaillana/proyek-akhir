@@ -115,7 +115,7 @@ class PengantarPklController extends Controller
                 ->select('kode_pkl', 'tempat_pkl_id', \DB::raw('MAX(created_at) as created_at'), 'status')
                 ->where('jenis_pengajuan_id', 2)
                 ->where(function ($query) {
-                    $query->where('status', 'Dikonfirmasi')
+                    $query->where('status', 'Konfirmasi')
                         ->orWhere('status', 'Kendala');
                 })
                 ->groupBy('kode_pkl', 'tempat_pkl_id', 'created_at', 'status')
@@ -151,6 +151,7 @@ class PengantarPklController extends Controller
 
         $tempatPkl = TempatPkl::get();
         $mahasiswaLain = Mahasiswa::where('program_studi_id', $mahasiswa->program_studi_id)
+            ->where('angkatan', $mahasiswa->angkatan)
             ->get();
 
         return view ('user.pengajuan.pengantar-pkl.form', [
@@ -184,7 +185,9 @@ class PengantarPklController extends Controller
         try {
             $mahasiswaId = $request->input('nama_mahasiswa');
             // Generate kode pengajuan
-            $latestPengajuan = Pengajuan::latest()->first();
+            $latestPengajuan = Pengajuan::where('jenis_pengajuan_id', '2') // Sesuaikan dengan jenis pengajuan Anda
+                ->latest('kode_pkl')
+                ->first();
             $angkaUrut = $latestPengajuan ? intval(substr($latestPengajuan->kode_pkl, 4)) + 1 : 1;
             $kodePengajuan = 'PKL_' . str_pad($angkaUrut, 2, '0', STR_PAD_LEFT);
 

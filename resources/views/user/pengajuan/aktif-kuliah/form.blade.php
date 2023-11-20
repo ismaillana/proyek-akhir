@@ -61,6 +61,14 @@
                                 <li>
                                   Program Studi: {{@$mahasiswa->programStudi->name}}
                                 </li>
+
+                                <li>
+                                  Semester: {{@$mahasiswa->semester}}
+                                </li>
+
+                                <li>
+                                  Tahun Ajaran: {{@$mahasiswa->tahun_ajaran}}
+                                </li>
                               </ul>
                             </div>
                           </div>
@@ -81,7 +89,11 @@
                                 </li>
   
                                 <li>
-                                  Pangkat: {{@$mahasiswa->pangkat}}
+                                  Pangkat/Golongan: {{@$mahasiswa->pangkat}}
+                                </li>
+
+                                <li>
+                                  Jabatan: {{@$mahasiswa->jabatan}}
                                 </li>
                               </ul>
                             </div>
@@ -219,7 +231,7 @@
                             value="{{ old('nip_nrp', @$aktifKuliah->mahasiswa->nip_nrp) }}" placeholder="Masukan NIP/NRP">
                           
                           <label for="form_tujuan_surat">
-                            NIP/NRP<span class="text-danger">*</span>
+                            NIP/NRP
                           </label>
 
                           @if ($errors->has('nip_nrp'))
@@ -234,7 +246,7 @@
                             value="{{ old('pangkat', @$aktifKuliah->mahasiswa->pangkat) }}" placeholder="Masukan Pangkat/Golongan Orang Tua">
                           
                           <label for="form_tujuan_surat">
-                            Pangkat/Golongan Orang Tua<span class="text-danger">*</span>
+                            Pangkat/Golongan Orang Tua
                           </label>
 
                           @if ($errors->has('pangkat'))
@@ -249,7 +261,7 @@
                             value="{{ old('jabatan', @$aktifKuliah->mahasiswa->jabatan) }}" placeholder="Masukan Jabatan">
                           
                           <label for="form_tujuan_surat">
-                            Jabatan<span class="text-danger">*</span>
+                            Jabatan
                           </label>
 
                           @if ($errors->has('jabatan'))
@@ -264,7 +276,7 @@
                             value="{{ old('instansi', @$aktifKuliah->mahasiswa->instansi) }}" placeholder="Masukan Instansi">
                           
                           <label for="form_tujuan_surat">
-                            Instansi<span class="text-danger">*</span>
+                            Instansi
                           </label>
 
                           @if ($errors->has('instansi'))

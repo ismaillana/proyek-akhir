@@ -126,8 +126,8 @@ class DispensasiController extends Controller
             'mahasiswa_id'          => $mahasiswa->id,
             'kegiatan'              => $request->kegiatan,
             'nama_tempat'           => $request->nama_tempat,
-            'tgl_mulai'             => $request->tgl_mulai,
-            'tgl_selesai'           => $request->tgl_selesai,
+            'date_time_awal'        => $request->date_time_awal,
+            'date_time_akhir'       => $request->date_time_akhir,
             'dokumen'               => $dokumen,
             'nama_mahasiswa'        => $request->nama_mahasiswa
         ]);

@@ -133,6 +133,12 @@
                                 <input id="dokumen" type="file" name="dokumen" class="form-control @error('dokumen')is-invalid @enderror" 
                                 value="{{ old('dokumen', @$legalisir->dokumen) }}" placeholder="Tahun Lulus">
                                 
+                                <div class="text text-info">
+                                  <small>
+                                      Dokumen yang akan Dilegalisir discan dan disatukan dalam 1 file pdf.
+                                  </small>
+                                </div>
+
                                 @if ($errors->has('dokumen'))
                                     <span class="text-danger">{{ $errors->first('dokumen') }}</span>
                                 @endif

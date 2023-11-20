@@ -36,7 +36,7 @@
                 </div>  
                 
                 <h4>
-                  Form Registrasi
+                  Form Registrasi Instansi
                 </h4>
               </div>
 
@@ -50,6 +50,7 @@
                     <div class="alert-title">Informasi</div>
                     Untuk Mahasiswa dan Alumni yang belum memiliki akun dapat menghubungi 
                     <a href="https://api.whatsapp.com/send?phone=0{{Str::substr(@$user->wa, 2)}}">Admin. </a>
+                    Registrasi digunakan untuk Instansi Tempat Alumni Bekerja.
                     Untuk Instansi yang telah melakukan registrasi jangan lupa untuk melakukan verifikasi Email! Terima Kasih!
                   </div>
                 </div>

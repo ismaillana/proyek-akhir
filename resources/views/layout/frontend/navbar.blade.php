@@ -3,16 +3,16 @@
     <div class="container flex-lg-row flex-nowrap align-items-center">
       <div class="navbar-brand w-100">
         <a href="./index.html">
-          <img class="logo-dark" src="{{ asset('template/assets/img/logoPOLSUB.png')}}" srcset="{{ asset('template/assets/img/logoPOLSUB.png 2x')}}" alt="" width="10%" />
+          <img class="logo-dark" src="{{ asset('template/assets/img/logoPOLSUB.png')}}" srcset="{{ asset('template/assets/img/logoPOLSUB.png 2x')}}" alt="" width="15%" />
           
-          <img class="logo-light" src="{{ asset('template/assets/img/logoPOLSUB.png')}}" srcset="{{ asset('template/assets/img/logoPOLSUB.png 2x')}}" alt="" width="10%" />
+          <img class="logo-light" src="{{ asset('template/assets/img/logoPOLSUB.png')}}" srcset="{{ asset('template/assets/img/logoPOLSUB.png 2x')}}" alt="" width="15%" />
           POLSUB
         </a>
       </div>
       <div class="navbar-collapse offcanvas-nav">
         <div class="offcanvas-header d-lg-none d-xl-none">
           <a href="/index.html">
-            <img src="{{ asset('template/assets/img/logoPOLSUB.png')}}" srcset="{{ asset('template/assets/img/logoPOLSUB.png 2x')}}" alt="" width="10%" />
+            <img src="{{ asset('template/assets/img/logoPOLSUB.png')}}" srcset="{{ asset('template/assets/img/logoPOLSUB.png 2x')}}" alt="" width="15%" />
             POLSUB
           </a>
           <button type="button" class="btn-close btn-close-white offcanvas-close offcanvas-nav-close" aria-label="Close"></button>

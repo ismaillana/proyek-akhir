@@ -115,10 +115,6 @@ class AktifKuliahController extends Controller
         } else {
             if ($mahasiswa->orang_tua == null ||
             $mahasiswa->pekerjaan == null ||
-            $mahasiswa->nip_nrp == null ||
-            $mahasiswa->pangkat == null ||
-            $mahasiswa->jabatan == null ||
-            $mahasiswa->instansi == null ||
             $mahasiswa->semester == null ||
             $mahasiswa->tahun_ajaran == null ||
             $mahasiswa->tempat_lahir == null ||

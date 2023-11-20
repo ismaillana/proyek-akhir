@@ -70,30 +70,30 @@
 
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
-                              <input id="tgl_mulai" type="date" name="tgl_mulai" class="form-control @error('tgl_mulai')is-invalid @enderror" 
-                                value="{{ old('tgl_mulai', @$dispensasi->tgl_mulai) }}" placeholder="Tanggal Mulai">
+                              <input id="date_time_awal" type="datetime-local" name="date_time_awal" class="form-control @error('date_time_awal')is-invalid @enderror" 
+                                value="{{ old('date_time_awal', @$dispensasi->date_time_awal) }}" placeholder="Tanggaldan Waktu Mulai">
                               
                               <label for="form_nama_tempat">
-                                Tanggal Mulai<span class="text-danger">*</span>
+                                Tanggal dan Waktu Mulai<span class="text-danger">*</span>
                               </label>
 
-                              @if ($errors->has('tgl_mulai'))
-                                  <span class="text-danger">{{ $errors->first('tgl_mulai') }}</span>
+                              @if ($errors->has('date_time_awal'))
+                                  <span class="text-danger">{{ $errors->first('date_time_awal') }}</span>
                               @endif
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-floating mb-4">
-                              <input id="tgl_selesai" type="date" name="tgl_selesai" class="form-control @error('tgl_selesai')is-invalid @enderror" 
-                                  value="{{ old('tgl_selesai', @$dispensasi->tgl_selesai) }}" placeholder="Tanggal Selesai">
+                              <input id="date_time_akhir" type="datetime-local" name="date_time_akhir" class="form-control @error('date_time_akhir')is-invalid @enderror" 
+                                  value="{{ old('date_time_akhir', @$dispensasi->date_time_akhir) }}" placeholder="Tanggal dan Waktu Selesai">
                               
                               <label for="form_nama_tempat">
-                                  Tanggal Selesai<span class="text-danger">*</span>
+                                  Tanggal dan Waktu Selesai<span class="text-danger">*</span>
                               </label>
                               
-                              @if ($errors->has('tgl_selesai'))
-                                  <span class="text-danger">{{ $errors->first('tgl_selesai') }}</span>
+                              @if ($errors->has('date_time_akhir'))
+                                  <span class="text-danger">{{ $errors->first('date_time_akhir') }}</span>
                               @endif
                             </div>
                         </div>
@@ -130,6 +130,11 @@
                                   <input id="dokumen" type="file" name="dokumen" class="form-control @error('dokumen')is-invalid @enderror" 
                                     value="{{ old('dokumen', @$dispensasi->dokumen) }}" placeholder="Tahun Lulus">
                                   
+                                  <div class="text text-info">
+                                    <small>
+                                        Dokumen yang dilampirkan seperti surat undangan atau dokumen lainnya yang berkaitan.
+                                    </small>
+                                  </div>
                                   @if ($errors->has('dokumen'))
                                       <span class="text-danger">{{ $errors->first('dokumen') }}</span>
                                   @endif
@@ -205,14 +210,14 @@
         }
             // Mendapatkan tanggal hari ini dalam format YYYY-MM-DD
         var today = new Date().toISOString().split('T')[0];
-        // Mengatur atribut min pada input field dengan tanggal hari ini
-        document.getElementById("tgl_mulai").setAttribute("min", today);
-        document.getElementById("tgl_selesai").setAttribute("min", today);
 
-            // Memperbarui atribut min pada input tanggal selesai saat input tanggal mulai berubah
-        document.getElementById("tgl_mulai").addEventListener("change", function() {
-            var mulai = this.value;
-            document.getElementById("tgl_selesai").setAttribute("min", mulai);
+        // Mengatur atribut min pada input field dengan tanggal hari ini
+        document.getElementById("date_time_awal").setAttribute("min", today);
+
+        // Memperbarui atribut min pada input tanggal dan waktu selesai saat input tanggal dan waktu mulai berubah
+        document.getElementById("date_time_awal").addEventListener("change", function() {
+          var mulai = this.value;
+          document.getElementById("date_time_akhir").setAttribute("min", mulai);
         });
 </script>
 @endsection

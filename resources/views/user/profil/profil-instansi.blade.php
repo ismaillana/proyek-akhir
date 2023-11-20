@@ -44,7 +44,7 @@
             </div>
 
             <div class="form-floating mb-4">
-              <input id="wa" type="text" name="wa" class="form-control" placeholder="Masukkan No WhatsApp" value="{{ old('wa', Str::substr(@$user->wa, 2)) }}">
+              <input id="wa" type="text" maxlength="13" name="wa" class="form-control" placeholder="Masukkan No WhatsApp" value="{{ old('wa', Str::substr(@$user->wa, 2)) }}">
               <label for="wa">No WhatsApp *</label>
 
               @if ($errors->has('wa'))

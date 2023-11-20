@@ -29,7 +29,7 @@
                   <div class="col-md-12">
                     <div class="form-floating mb-4">
                       <input id="password" type="password" name="password" class="form-control border-0" placeholder="Password Baru">
-                      <label for="password">Password *</label>
+                      <label for="password">Password Baru*</label>
                       
                       @if ($errors->has('password'))
                         <span class="text-danger">{{ $errors->first('password') }}</span>

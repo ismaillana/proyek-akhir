@@ -116,29 +116,29 @@
 
       <table width="100%" class="kegiatan">
             <tr>
-                  <td style="width:20%"><p>Nama</p></td>
+                  <td style="width:25%"><p>Nama</p></td>
                   <td style="width:2%"><p>:</p></td>
-                  <td style="width:78%"><p>{{@$aktifKuliah->mahasiswa->user->name}}</p></td>
+                  <td style="width:73%"><p>{{@$aktifKuliah->mahasiswa->user->name}}</p></td>
             </tr>
             <tr>
-                  <td style="width:20%"><p>NIM</p></td>
+                  <td style="width:25%"><p>NIM</p></td>
                   <td style="width:2%"><p>:</p></td>
-                  <td style="width:78%"><p>{{@$aktifKuliah->mahasiswa->user->nomor_induk}}</p></td>
+                  <td style="width:73%"><p>{{@$aktifKuliah->mahasiswa->user->nomor_induk}}</p></td>
             </tr>
             <tr>
-                  <td style="width:20%"><p>Tempat /Tanggal Lahir</p></td>
+                  <td style="width:25%"><p>Tempat/Tanggal Lahir</p></td>
                   <td style="width:2%"><p>:</p></td>
-                  <td style="width:78%"><p>{{@$aktifKuliah->mahasiswa->tempat_lahir}}, {{ Carbon\Carbon::parse(@$aktifKuliah->tanggal_lahir)->translatedFormat('d F Y') }}</p></td>
+                  <td style="width:73%"><p>{{@$aktifKuliah->mahasiswa->tempat_lahir}}, {{ Carbon\Carbon::parse(@$aktifKuliah->tanggal_lahir)->translatedFormat('d F Y') }}</p></td>
             </tr>
             <tr>
-                  <td style="width:20%"><p>Jurusan /Prodi</p></td>
+                  <td style="width:25%"><p>Jurusan/Prodi</p></td>
                   <td style="width:2%"><p>:</p></td>
-                  <td style="width:78%"><p>{{@$aktifKuliah->mahasiswa->programStudi->name}}/{{@$aktifKuliah->mahasiswa->programStudi->jurusan->name}}</p></td>
+                  <td style="width:73%"><p>{{@$aktifKuliah->mahasiswa->programStudi->jurusan->name}}/{{@$aktifKuliah->mahasiswa->programStudi->name}}</p></td>
             </tr>
             <tr>
-                  <td style="width:20%"><p>Semester /TA</p></td>
+                  <td style="width:25%"><p>Semester/TA</p></td>
                   <td style="width:2%"><p>:</p></td>
-                  <td style="width:78%"><p>{{@$aktifKuliah->mahasiswa->semester}}/{{@$aktifKuliah->mahasiswa->tahun_ajaran}}</p></td>
+                  <td style="width:73%"><p>{{@$aktifKuliah->mahasiswa->semester}}/{{@$aktifKuliah->mahasiswa->tahun_ajaran}}</p></td>
             </tr>
       </table>
 

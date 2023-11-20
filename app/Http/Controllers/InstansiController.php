@@ -166,7 +166,7 @@ class InstansiController extends Controller
             'name'        => $request->name,
             'email'       => $request->email,
             'wa'          => $wa,
-            'password'    => Hash::make($request->nomor_induk)
+            'password'    => Hash::make($request->email)
         ]);
 
         return redirect()->route('instansi.index')->with('success', 'Data Berhasil Diubah');

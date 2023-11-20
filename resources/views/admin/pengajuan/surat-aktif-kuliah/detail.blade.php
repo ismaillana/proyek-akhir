@@ -84,13 +84,13 @@
 
                                 <div class="form-group col-12">
                                     <label class="col-sm-12 col-form-label">
-                                        Tempat/Tanggal Lahir<sup class="text-danger">*</sup>
+                                        Tempat, Tanggal Lahir<sup class="text-danger">*</sup>
                                     </label>
     
                                     <div class="col-sm-12">
                                         <input type="text" class="form-control @error('tempat_lahir')is-invalid @enderror"
                                             id="tempat_lahir" name="tempat_lahir" placeholder="-" 
-                                            value="{{ old('tempat_lahir', @$aktifKuliah->mahasiswa->tempat_lahir) }}/{{ \Carbon\Carbon::parse(@$aktifKuliah->mahasiswa->tanggal_lahir)->translatedFormat('d F Y') }}" disabled readonly>
+                                            value="{{ old('tempat_lahir', @$aktifKuliah->mahasiswa->tempat_lahir) }}, {{ \Carbon\Carbon::parse(@$aktifKuliah->mahasiswa->tanggal_lahir)->translatedFormat('d F Y') }}" disabled readonly>
                                     </div>
                                 </div>
 

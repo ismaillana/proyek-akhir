@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Carbon\Carbon;
 
 class DispensasiRequest extends FormRequest
 {
@@ -25,8 +26,8 @@ class DispensasiRequest extends FormRequest
             'nama_mahasiswa'    => 'required',
             'kegiatan'          => 'required',
             'nama_tempat'       => 'required',
-            'tgl_mulai'         => 'required',
-            'tgl_selesai'       => 'required|after_or_equal:tgl_mulai',
+            'date_time_awal'    => 'required|after_or_equal:' . Carbon::now()->toDateString(), // Hanya menerima tanggal hari ini atau setelahnya',
+            'date_time_akhir'   => 'required|after_or_equal:date_time_awal',
             'dokumen'           => 'required|mimes:pdf'
         ];
         return $rules;
@@ -38,11 +39,12 @@ class DispensasiRequest extends FormRequest
             'nama_mahasiswa.required'   => 'Nama Mahasiswa Wajib Diisi',
             'kegiatan.required'         => 'Nama Kegiatan Wajib Diisi',
             'nama_tempat.required'      => 'Tempat Kegiatan Wajib Diisi',
-            'tgl_mulai.required'        => 'Tanggal dan Waktu Mulai Wajib Diisi',
-            'tgl_selesai.required'      => 'Tanggal dan Waktu Selesai Wajib Diisi',
+            'date_time_awal.required'   => 'Tanggal dan Waktu Mulai Wajib Diisi',
+            'date_time_akhir.required'  => 'Tanggal dan Waktu Selesai Wajib Diisi',
             'dokumen.required'          => 'Dokumen Wajib Diisi',
             'dokumen.mimes'             => 'Dokumen yang diupload harus berupa pdf',
-            'tgl_selesai.after_or_equal'   => 'Pilih Tanggal Setelah Atau Sama Dengan Tanggal Mulai!',
+            'date_time_akhir.after_or_equal'   => 'Pilih Tanggal Setelah Atau Sama Dengan Tanggal Mulai!',
+            'date_time_awal.after_or_equal'   => 'Pilih Tanggal Hari Ini Atau Selanjutnya!',
         ];
     }
 }

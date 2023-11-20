@@ -1,10 +1,10 @@
 <footer class="bg-dark text-inverse">
-  <div class="container pt-15 md-19 md-15 pb-5">
+  <div class="container pt-15 md-18 md-15 pb-5">
     <div class="row gy-6 gy-lg-0">
       <div class="col-md-4 col-lg-3">
         <div class="widget">
-          <img class="mb-4" src="{{ asset('template/assets/img/logoPOLSUB.png')}}" srcset="{{ asset('/assets/img/logoPOLSUB.png 2x')}}" alt="" width="20%"/>
-          SIPAM
+          <img class="mb-4" src="{{ asset('template/assets/img/logoPOLSUB.png')}}" srcset="{{ asset('/assets/img/logoPOLSUB.png 2x')}}" alt="" width="10%"/>
+          <p>Sistem Informasi Pelayanan Administrasi Mahasiswa POLSUB (SIPAM-POLSUB)</p>
           <p class="mb-4">© {{ date('Y') }} POLSUB. <br class="d-none d-lg-block" />Politeknik Negeri Subang.</p>
         </div>
       </div>

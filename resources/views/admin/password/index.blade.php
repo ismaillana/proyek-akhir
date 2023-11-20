@@ -33,12 +33,12 @@
                 <div class="card-body">
                     <div class="form-group row mb-4">
                         <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                            Password<sup class="text-danger">*</sup>
+                            Password Baru<sup class="text-danger">*</sup>
                         </label>
 
                         <div class="col-sm-12 col-md-7">
                             <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
-                                name="password" autocomplete="new-password" placeholder="Masukkan Password">
+                                name="password" autocomplete="new-password" placeholder="Masukkan Password Baru">
 
                             @if ($errors->has('password'))
                                 <span class="text-danger">{{ $errors->first('password') }}</span>
