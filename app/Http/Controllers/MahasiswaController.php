@@ -131,7 +131,7 @@ class MahasiswaController extends Controller
                 'nomor_induk' => $request->nomor_induk,
                 'email'       => $request->email,
                 'wa'          => $wa,
-                'password'    => Hash::make($request->nomor_induk),
+                'password'    => Hash::make($request->password),
                 'email_verified_at' => now()
             ]);
 
@@ -153,9 +153,6 @@ class MahasiswaController extends Controller
                 'status'        => $request->status
             ];
 
-            $image = Mahasiswa::saveImage($request);
-
-            $data['image'] = $image;
 
             $mahasiswa = Mahasiswa::create($data);
             
@@ -248,28 +245,26 @@ class MahasiswaController extends Controller
             'status'        => $request->status,
         ];
         
-        $image = Mahasiswa::saveImage($request);
-        
-        if ($image) {
-            $data['image'] = $image;
-            
-            $param = (object) [
-                'type'  => 'image',
-                'id'    => $mahasiswa->id
-            ];
-            
-            Mahasiswa::deleteImage($param);
-        }
-        
         Mahasiswa::where('id', $mahasiswa->id)->update($data);
 
-        User::whereId($mahasiswa->user_id)->update([
+        $userData = [
             'name'        => $request->name,
             'nomor_induk' => $request->nomor_induk,
             'email'       => $request->email,
             'wa'          => $wa,
-            'password'    => Hash::make($request->nomor_induk)
-        ]);
+        ];
+
+        if ($request->filled('password')) {
+            $request->validate([
+                'password'      => 'min:3',
+            ], [
+                'password.min'  => 'Password minimal 3 huruf/angka',
+            ]);
+
+            $userData['password'] = Hash::make($request->password);
+        }
+    
+        User::whereId($mahasiswa->user_id)->update($userData);
 
         $user = User::where('id',$mahasiswa->user_id)->first();
         if ($request->status == 'Alumni') {

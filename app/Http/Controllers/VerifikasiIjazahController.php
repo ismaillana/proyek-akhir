@@ -59,7 +59,8 @@ class VerifikasiIjazahController extends Controller
     $user = auth()->user();
     $oneDayAgo = Carbon::now()->subDay();
     if ($user->hasRole('super-admin')) {
-        $verifikasiIjazah = Pengajuan::select('kode_verifikasi') // Memilih kolom kode_verifikasi
+        $verifikasiIjazah = Pengajuan::latest()
+            ->select('kode_verifikasi', 'instansi_id', \DB::raw('MAX(created_at) as created_at'), 'status') // Memilih kolom kode_verifikasi
             ->where('jenis_pengajuan_id', 6)
             ->where('status', 'Menunggu Konfirmasi')
             ->where('created_at', '<=', $oneDayAgo)
@@ -71,14 +72,23 @@ class VerifikasiIjazahController extends Controller
             'title' => 'Verifikasi Ijazah'
         ]);
     } else {
-        $verifikasiIjazah = Pengajuan::select('kode_verifikasi') // Memilih kolom kode_verifikasi
+        $verifikasiIjazah = Pengajuan::latest()
+            ->select('kode_verifikasi', 'instansi_id', \DB::raw('MAX(created_at) as created_at'), \DB::raw('MAX(status) as status')) // Memilih kolom kode_verifikasi
             ->where('jenis_pengajuan_id', 6)
             ->whereNotIn('status', ['Selesai', 'Tolak'])
-            ->distinct() // Menampilkan data yang unik berdasarkan kode_verifikasi
+            ->groupBy('kode_verifikasi', 'instansi_id', 'status')
             ->get();
+        // dd($verifikasiIjazah);
+            
 
+        $verifikasi = Pengajuan::latest()
+            ->where('jenis_pengajuan_id', 6)
+            ->whereIn('kode_verifikasi', $verifikasiIjazah->pluck('kode_verifikasi'))
+            ->get();
+        // return dd($verifikasiIjazah);
         return view('admin.pengajuan.verifikasi-ijazah.index', [
             'verifikasiIjazah' => $verifikasiIjazah,
+            'verifikasi'       => $verifikasi,
             'title' => 'Verifikasi Ijazah'
         ]);
     }
@@ -169,71 +179,90 @@ class VerifikasiIjazahController extends Controller
     // }
 
     public function store(VerifikasiIjazahRequest $request)
-{
-    $user = auth()->user();
-    $bagianAkademik = User::role('bagian-akademik')->get();
-    $numbers = $bagianAkademik->pluck('wa')->toArray();
-    $instansi = Instansi::whereUserId($user->id)->first();
-    // Logika untuk menghasilkan kode verifikasi otomatis
-    $latestPengajuan = Pengajuan::where('jenis_pengajuan_id', '6') // Sesuaikan dengan jenis pengajuan Anda
-        ->latest('kode_verifikasi')
-        ->first();
-    $angkaUrut = $latestPengajuan ? intval(substr($latestPengajuan->kode_verifikasi, 4)) + 1 : 1;
-    $kodeVerifikasi = 'VEI_' . str_pad($angkaUrut, 2, '0', STR_PAD_LEFT);
-    // Ambil data dari elemen input yang ada dalam repeater
-    $namaMahasiswa = $request->input('nama');
-    $nimMahasiswa = $request->input('nim');
-    $noIjazah = $request->input('no_ijazah');
-    $tahunLulus = $request->input('tahun_lulus');
+    {
+        $user = auth()->user();
+        $bagianAkademik = User::role('bagian-akademik')->get();
+        $numbers = $bagianAkademik->pluck('wa')->toArray();
+        $instansi = Instansi::whereUserId($user->id)->first();
+        // Logika untuk menghasilkan kode verifikasi otomatis
+        $latestPengajuan = Pengajuan::where('jenis_pengajuan_id', '6') // Sesuaikan dengan jenis pengajuan Anda
+            ->latest('kode_verifikasi')
+            ->first();
+        $angkaUrut = $latestPengajuan ? intval(substr($latestPengajuan->kode_verifikasi, 4)) + 1 : 1;
+        $kodeVerifikasi = 'VEI_' . str_pad($angkaUrut, 2, '0', STR_PAD_LEFT);
+        // Ambil data dari elemen input yang ada dalam repeater
+        $namaMahasiswa = $request->input('nama');
+        $nimMahasiswa = $request->input('nim');
+        $noIjazah = $request->input('no_ijazah');
+        $tahunLulus = $request->input('tahun_lulus');
 
-    // Loop melalui data-data mahasiswa yang diinputkan
-    foreach ($namaMahasiswa as $key => $nama) {
-        $data = [
-            'jenis_pengajuan_id' => 6,
-            'instansi_id'      => $instansi->id,
-            'nama'             => $nama,
-            'nim'              => $nimMahasiswa[$key],
-            'no_ijazah'        => $noIjazah[$key],
-            'tahun_lulus'      => $tahunLulus[$key],
-            'kode_verifikasi'  => $kodeVerifikasi,
-        ];
+        // Loop melalui data-data mahasiswa yang diinputkan
+        foreach ($namaMahasiswa as $key => $nama) {
+            $data = [
+                'jenis_pengajuan_id' => 6,
+                'instansi_id'      => $instansi->id,
+                'nama'             => $nama,
+                'nim'              => $nimMahasiswa[$key],
+                'no_ijazah'        => $noIjazah[$key],
+                'tahun_lulus'      => $tahunLulus[$key],
+                'kode_verifikasi'  => $kodeVerifikasi,
+            ];
 
-        // Simpan dokumen terkait pengajuan
-        $dokumen = Pengajuan::saveDokumen($request);
-        $data['dokumen'] = $dokumen;
+            // Simpan dokumen terkait pengajuan
+            $dokumen = Pengajuan::saveDokumen($request);
+            $data['dokumen'] = $dokumen;
 
-        // Buat pengajuan untuk setiap mahasiswa
-        $pengajuan = Pengajuan::create($data);
+            // Buat pengajuan untuk setiap mahasiswa
+            $pengajuan = Pengajuan::create($data);
 
-        // Tambahkan riwayat pengajuan
-        Riwayat::create([
-            'pengajuan_id'  => $pengajuan->id,
-            'status'        => 'Menunggu Konfirmasi',
-            'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
-        ]);
+            // Tambahkan riwayat pengajuan
+            Riwayat::create([
+                'pengajuan_id'  => $pengajuan->id,
+                'status'        => 'Menunggu Konfirmasi',
+                'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
+            ]);
+        }
+
+        // ... Sisanya tetap sama seperti kode sebelumnya
+
+        return redirect()->back()->with('success', 'Pengajuan Berhasil');
     }
 
-    // ... Sisanya tetap sama seperti kode sebelumnya
+    /**
+     * Display the specified resource.
+     */
+    public function detail($kodeVerifikasi)
+    {
+        $user = auth()->user();
 
-    return redirect()->back()->with('success', 'Pengajuan Berhasil');
-}
-
-
+        $verifikasiIjazah = Pengajuan::where('kode_verifikasi', $kodeVerifikasi)
+        ->get();
+        
+        return view ('admin.pengajuan.verifikasi-ijazah.show', [
+            'pengantarPkl'    =>  $pengantarPkl,
+            'user'          => $user,
+            'title'         =>  'Detail Pengajuan Pengantar PKL'
+        ]);
+    }
 
 
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $kodeVerifikasi)
     {
-        try {
-            $id = Crypt::decryptString($id);
-        } catch (DecryptException $e) {
-            abort(404);
-        }
+        // try {
+        //     $id = Crypt::decryptString($id);
+        // } catch (DecryptException $e) {
+        //     abort(404);
+        // }
 
-        $verifikasiIjazah = Pengajuan::find($id);
+        // $verifikasiIjazah = Pengajuan::find($id);
+        $verifikasiIjazah = Pengajuan::where('kode_verifikasi', $kodeVerifikasi)
+        ->get();
+
+        // return dd($verifikasiIjazah);
         return view ('admin.pengajuan.verifikasi-ijazah.detail', [
             'verifikasiIjazah'    =>  $verifikasiIjazah,
             'title'         =>  'Detail Pengajuan Verifikasi Ijazah'
@@ -243,38 +272,87 @@ class VerifikasiIjazahController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    // public function konfirmasi(Request $request, string $id)
+    // {
+    //     $pengajuan = Pengajuan::where('id',$id)->first();
+        
+    //     $waGateway = $pengajuan->instansi->user->wa; //get no wa
+
+    //     if ($pengajuan->no_surat == null) {
+    //         return redirect()->back()->with('error', 'Nomor Surat Belum Diisi!');
+    //     }
+
+    //     $data = [
+    //         'status'  =>  'Konfirmasi'
+    //     ];
+
+    //     Pengajuan::where('id', $id)->update($data);
+
+    //     Riwayat::create([
+    //         'pengajuan_id'  => $id,
+    //         'status'        => 'Dikonfirmasi',
+    //         'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
+    //     ]);
+
+    //     WhatsappGatewayService::sendMessage($waGateway, 
+    //     'Hai, ' . $pengajuan->instansi->user->name . ',' . PHP_EOL .
+    //             PHP_EOL .
+    //             'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan telah dikonfirmasi oleh Bagian Akademik! ' . PHP_EOL .
+    //             'Harap tunggu pemberitahuan selanjutnya.' . PHP_EOL .
+    //             PHP_EOL .
+    //             'Terima Kasih'. PHP_EOL .
+    //             PHP_EOL .
+    //             '[Politeknik Negeri Subang]'
+    //     ); //->Kirim Chat
+
+    //     return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    // }
+
+    /**
+     * Update the specified resource in storage.
+     */
     public function konfirmasi(Request $request, string $id)
     {
-        $pengajuan = Pengajuan::where('id',$id)->first();
-        
-        $waGateway = $pengajuan->instansi->user->wa; //get no wa
 
-        if ($pengajuan->no_surat == null) {
-            return redirect()->back()->with('error', 'Nomor Surat Belum Diisi!');
+        $pengajuan = Pengajuan::where('kode_verifikasi',$id)->get();
+
+        $waGateway = [];
+
+        foreach ($pengajuan as $item) {
+
+            if ($item->no_surat == null) {
+                return redirect()->back()->with('error', 'Nomor Surat Belum Diisi!');
+            }
+
+            $waGateway[] = $item->instansi->user->wa;
+
+            $data = [
+                'status'  =>  'Konfirmasi',
+            ];
+
+            //Update pengajuan sesuai id
+            Pengajuan::where('id', $item->id)->update($data);
+
+            Riwayat::create([
+                'pengajuan_id'  => $item->id,
+                'status'        => 'Dikonfirmasi',
+                'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
+            ]);
         }
 
-        $data = [
-            'status'  =>  'Konfirmasi'
-        ];
-
-        Pengajuan::where('id', $id)->update($data);
-
-        Riwayat::create([
-            'pengajuan_id'  => $id,
-            'status'        => 'Dikonfirmasi',
-            'catatan'       => 'Pengajuan Anda Telah Dikonfirmasi. Tunggu pemberitahuan selanjutnya'
-        ]);
-
-        WhatsappGatewayService::sendMessage($waGateway, 
-        'Hai, ' . $pengajuan->instansi->user->name . ',' . PHP_EOL .
+        foreach ($waGateway as $wa) {
+            WhatsappGatewayService::sendMessage($wa, 
+                // 'Hai, ' . $pengajuan[0]->mahasiswa->user->name. ',' . PHP_EOL .
+                'Hai, '. PHP_EOL .
                 PHP_EOL .
-                'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan telah dikonfirmasi oleh Bagian Akademik! ' . PHP_EOL .
+                'Pengajuan Pembuatan Surat Verifikasi ijazah yang kamu lakukan telah dikonfirmasi oleh Bagian Akademik! ' . PHP_EOL .
                 'Harap tunggu pemberitahuan selanjutnya.' . PHP_EOL .
                 PHP_EOL .
-                'Terima Kasih'. PHP_EOL .
+                'Terima Kasih' . PHP_EOL .
                 PHP_EOL .
                 '[Politeknik Negeri Subang]'
-        ); //->Kirim Chat
+            ); //->Kirim Chat
+        }
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
@@ -282,36 +360,85 @@ class VerifikasiIjazahController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function tolak(KonfirmasiRequest $request, string $id)
-    {
-        $pengajuan = Pengajuan::where('id',$id)->first();
+    // public function tolak(KonfirmasiRequest $request, string $id)
+    // {
+    //     $pengajuan = Pengajuan::where('id',$id)->first();
         
-        $waGateway = $pengajuan->instansi->user->wa; //get no wa
+    //     $waGateway = $pengajuan->instansi->user->wa; //get no wa
 
-        $data = [
-            'status'  =>  'Tolak',
-            'catatan' =>  $request->catatan
-        ];
+    //     $data = [
+    //         'status'  =>  'Tolak',
+    //         'catatan' =>  $request->catatan
+    //     ];
 
-        Riwayat::create([
-            'pengajuan_id'  => $id,
-            'status'        => 'Ditolak',
-            'catatan'       => $request->catatan
+    //     Riwayat::create([
+    //         'pengajuan_id'  => $id,
+    //         'status'        => 'Ditolak',
+    //         'catatan'       => $request->catatan
+    //     ]);
+
+    //     Pengajuan::where('id', $id)->update($data);
+
+    //     WhatsappGatewayService::sendMessage($waGateway, 
+    //     'Hai, ' . $pengajuan->instansi->user->name . ',' . PHP_EOL .
+    //             PHP_EOL .
+    //             'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan Ditolak oleh Bagian Akademik dengan alasan/catatan ' . PHP_EOL .
+    //             PHP_EOL .
+    //             '**' . $request->catatan . PHP_EOL .
+    //             PHP_EOL .
+    //             'Terima Kasih'. PHP_EOL .
+    //             PHP_EOL .
+    //             '[Politeknik Negeri Subang]'
+    //     ); //->Kirim Chat
+
+    //     return redirect()->back()->with('success', 'Status Berhasil Diubah');
+    // }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function tolak(Request $request, string $id)
+    {
+        $request->validate([
+            'catatan' => 'required',
+        ], [
+            'catatan.required' => 'Masukkan Catatan',
         ]);
 
-        Pengajuan::where('id', $id)->update($data);
+        $pengajuan = Pengajuan::where('kode_verifikasi',$id)->get();
 
-        WhatsappGatewayService::sendMessage($waGateway, 
-        'Hai, ' . $pengajuan->instansi->user->name . ',' . PHP_EOL .
-                PHP_EOL .
-                'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan Ditolak oleh Bagian Akademik dengan alasan/catatan ' . PHP_EOL .
-                PHP_EOL .
-                '**' . $request->catatan . PHP_EOL .
-                PHP_EOL .
-                'Terima Kasih'. PHP_EOL .
-                PHP_EOL .
-                '[Politeknik Negeri Subang]'
-        ); //->Kirim Chat
+        $waGateway = [];
+
+        foreach ($pengajuan as $item) {
+
+            $waGateway[] = $item->instansi->user->wa;
+
+            $data = [
+                'status'  =>  'Tolak',
+                'catatan' =>  $request->catatan
+            ];
+            
+            Pengajuan::where('id', $item->id)->update($data);
+    
+            Riwayat::create([
+                'pengajuan_id'  => $item->id,
+                'status'        => 'Ditolak',
+                'catatan'       => $request->catatan
+            ]);
+        }
+        foreach ($waGateway as $wa) {
+            WhatsappGatewayService::sendMessage($wa, 
+            'Hai, ' . PHP_EOL .
+                    PHP_EOL .
+                    'Pengajuan Pembuatan Surat Verifikasi Ijazah yang kamu lakukan Ditolak oleh Admin Jurusan atau Koordinator PKL dengan alasan/catatan ' . PHP_EOL .
+                    PHP_EOL .
+                    '**' . $request->catatan . PHP_EOL .
+                    PHP_EOL .
+                    'Terima Kasih' . PHP_EOL .
+                    PHP_EOL .
+                    '[Politeknik Negeri Subang]'
+            ); //->Kirim Chat
+        }
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
@@ -329,21 +456,30 @@ class VerifikasiIjazahController extends Controller
             'dokumen_hasil.required_if' => 'Masukkan Dokumen Hasil',
         ]);
 
-        if ($request->status == 'Selesai') {
+        $verifikasiIjazah = Pengajuan::where('kode_verifikasi', $id)->get();
+        dd(@$verifikasiIjazah[0]->instansi->user->wa);
 
-            $dokumen = Pengajuan::saveDokumenHasil($request);
+        $waGateway = [];
+        foreach ($verifikasiIjazah as $item) {
+            $waGateway[] = $item->instansi->user->wa;
+            
+            if ($request->status == 'Selesai') {
+    
+                $dokumen = Pengajuan::saveDokumenHasil($request);
+    
+                $data = [
+                    'status'  =>  $request->status,
+                    'dokumen_hasil' => $dokumen
+                ];
+            } else {
+                $data = [
+                    'status'  =>  $request->status
+                ];
+            }
 
-            $data = [
-                'status'  =>  $request->status,
-                'dokumen_hasil' => $dokumen
-            ];
-        } else {
-            $data = [
-                'status'  =>  $request->status
-            ];
+            Pengajuan::where('kode_verifikasi', $id)->update($data);
         }
 
-        Pengajuan::where('id', $id)->update($data);
 
         $pengajuan = Pengajuan::where('id',$id)->first();
         
@@ -442,29 +578,28 @@ class VerifikasiIjazahController extends Controller
      */
     public function print($id)
     {
-        try {
-            $id = Crypt::decryptString($id);
-        } catch (DecryptException $e) {
-            abort(404);
-        }
-
-        $verifikasiIjazah = Pengajuan::find($id);
         
-        if ($verifikasiIjazah->no_surat == null) {
-            return redirect()->back()->with('error', 'Nomor Surat Belum Diisi!');
+        $verifikasiIjazah = Pengajuan::where('kode_verifikasi', $id)->get();
+        
+        foreach ($verifikasiIjazah as $item) {
+            if ($item->no_surat == null) {
+                return redirect()->back()->with('error', 'Nomor Surat Belum Diisi!');
+            }
+
+            if ($item->tanggal_surat == null) {
+                $now   = Carbon::now()->locale('id');
+                $currentDate =  $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
+                
+                $item->update([
+                    'tanggal_surat'            => $currentDate,
+                ]);
+            }
         }
 
-        if ($verifikasiIjazah->tanggal_surat == null) {
-            $now   = Carbon::now()->locale('id');
-            $currentDate =  $now->translatedFormat('l, d F Y'); // Mendapatkan tanggal saat ini dengan nama hari dalam bahasa Indonesia
-            
-            $verifikasiIjazah->update([
-                'tanggal_surat'            => $currentDate,
-            ]);
-        }
         //mengambil data dan tampilan dari halaman laporan_pdf
         $data = PDF::loadview('admin.pengajuan.verifikasi-ijazah.print', [
-            'verifikasiIjazah' => $verifikasiIjazah
+            'verifikasiIjazah' => $verifikasiIjazah,
+            'cekIjazah'        => $cekIjazah
         ]);
         //mendownload laporan.pdf
     	return $data->stream('Surat-Verifikasi-Ijazah.pdf');
@@ -507,11 +642,14 @@ class VerifikasiIjazahController extends Controller
             'no_surat.unique' => 'Nomor Surat Sudah Digunakan',
         ]);
         
-        $data = [
-            'no_surat'  =>  $request->no_surat
-        ];
+        // Get the data with the same kode_pkl
+        $verifikasiIjazah = Pengajuan::where('kode_verifikasi', $id)->get();
+        // dd($verifikasiIjazah);
 
-        Pengajuan::where('id', $id)->update($data);
+        // Update the "No Surat" for each data entry
+        foreach ($verifikasiIjazah as $item) {
+            $item->update(['no_surat' => $request->no_surat]);
+        }
 
         return redirect()->back()->with('success', 'No Surat Berhasil Diubah');
     }

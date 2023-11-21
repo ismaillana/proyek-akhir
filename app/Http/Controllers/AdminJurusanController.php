@@ -61,16 +61,13 @@ class AdminJurusanController extends Controller
                 $wa = 62 . $nomorWa;
             }
             
-            $image = User::saveImage($request);
-
             $user = User::create([
                 'name'        => $request->name,
                 'nomor_induk' => $request->nomor_induk,
                 'email'       => $request->email,
                 'wa'          => $wa,
                 'jurusan_id'  => $request->jurusan_id,
-                'password'    => Hash::make($request->nomor_induk),
-                'image'       => $image
+                'password'    => Hash::make($request->password),
             ]);
 
             $user->assignRole('admin-jurusan');
@@ -163,15 +160,17 @@ class AdminJurusanController extends Controller
             'email'       => $request->email,
             'wa'          => $wa,
             'jurusan_id'  => $request->jurusan_id,
-            'password'    => Hash::make($request->nomor_induk),
         ];
 
-        $image = User::saveImage($request);
+        if ($request->password) {
 
-        if ($image) {
-            $data['image'] = $image;
+            $request->validate([
+                'password'      => 'min:3',
+            ], [
+                'password.min'  => 'Password minimal 3 huruf/angka',
+            ]);
 
-            User::deleteImage($id);
+            $data['password'] = Hash::make($request->password);
         }
 
         User::where('id', $id)->update($data);

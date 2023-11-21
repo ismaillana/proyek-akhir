@@ -88,8 +88,8 @@
                   <tr>
                         <td style="width:20%"><p>Nomor</p></td>
                         <td style="width:2%"><p>:</p></td>
-                        <td style="width:48%"><p>{{@$verifikasiIjazah->no_surat}}</p></td>
-                        <td style="width:30%" class="right"><p>{{ @$verifikasiIjazah->tanggal_surat }}</p></td>
+                        <td style="width:48%"><p>{{@$verifikasiIjazah[0]->no_surat}}</p></td>
+                        <td style="width:30%" class="right"><p>{{ @$verifikasiIjazah[0]->tanggal_surat }}</p></td>
                   </tr>
                   <tr>
                         <td style="width:20%"><p>Lapiran</p></td>
@@ -108,7 +108,7 @@
                         <td style="width:20%"><p>Kepada Yth</p></td>
                   </tr>
                   <tr>
-                        <td style="width:20%" colspan="4"><p>Direktur {{@$verifikasiIjazah->instansi->nama_perusahaan}}</p></td>
+                        <td style="width:20%" colspan="4"><p>Direktur {{@$verifikasiIjazah[0]->instansi->nama_perusahaan}}</p></td>
                   </tr>
                   <tr>
                         <td style="width:20%"><p>Ditempat </p></td>
@@ -116,20 +116,19 @@
                   <br>
                   <tr align="justify">
                         <td colspan="4">
-                              <p>Berdasarkan surat dari {{@$verifikasiIjazah->instansi->nama_perusahaan}} 
-                              pada tanggal {{ Carbon\Carbon::parse(@$verifikasiIjazah->created_at)->translatedFormat('d F Y') }} 
-                              perihal permohonan verifikasi ijazah untuk mahasiswa yang bekerja di Rumah Sakit
-                              tersebut.</p>
+                              <p>Berdasarkan surat dari {{@$verifikasiIjazah[0]->instansi->nama_perusahaan}} 
+                              pada tanggal {{ Carbon\Carbon::parse(@$verifikasiIjazah[0]->created_at)->translatedFormat('d F Y') }} 
+                              perihal permohonan verifikasi ijazah untuk mahasiswa yang bekerja di tempat tersebut.</p>
                         </td>
                   </tr>
                   <tr align="justify">
                         <td colspan="4">
                               <p>Maka dengan ini kami sampaikan data alumni tersebut adalah benar alumni dari Politeknik
-                                    Negeri Subang pada program studi D III Keperawatan atas nama :</p>
+                                    Negeri Subang atas nama :</p>
                         </td>
                   </tr>
-            </table>
-
+            </table>  
+            
             <table width="100%" class="list">
                   <tr>
                         <th class="th" rowspan="2">No</th>
@@ -142,19 +141,20 @@
                         <th class="th"><p>Ya</p></th>
                         <th class="th"><p>Tidak</p></th>
                   </tr>
-                  
-                  <tr>
-                        <td style="text-align:center;width:10%" class="td"><p>1</p></td>
-                        <td class="td" style="width:50%"><p>{{@$verifikasiIjazah->nama}}</p></td>
-                        <td class="td" style="text-align:center;width:30%"><p>{{@$verifikasiIjazah->nim}}</p></td>
-                        <td class="td" style="text-align:center;width:20%"><p>{{@$verifikasiIjazah->tahun_lulus}}</p></td>
-                        <td class="td" style="text-align:center;width:15%">
-                             
-                        </td>
-                        <td class="td" style="text-align:center;width:15%">
+                  @foreach ($verifikasiIjazah as $item)
+                        <tr>
+                              <td style="text-align:center;width:10%" class="td"><p>{{$loop->iteration}}</p></td>
+                              <td class="td" style="width:50%"><p>{{$item->nama}}</p></td>
+                              <td class="td" style="text-align:center;width:30%"><p>{{$item->nim}}</p></td>
+                              <td class="td" style="text-align:center;width:20%"><p>{{$item->tahun_lulus}}</p></td>
+                              <td class="td" style="text-align:center;width:15%">
                               
-                        </td>
-                  </tr>
+                              </td>
+                              <td class="td" style="text-align:center;width:15%">
+                                    
+                              </td>
+                        </tr>                      
+                  @endforeach
             </table>
 
             <table width="100%" class="kegiatan">

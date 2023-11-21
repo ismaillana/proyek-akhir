@@ -29,7 +29,8 @@ class MahasiswaRequest extends FormRequest
             'wa'                => 'required',
             'angkatan'          => 'required',
             'program_studi_id'  => 'required',
-            'status'            => 'required'
+            'status'            => 'required',
+            'password'          => 'required|min:3',
         ];
         return $rules;
     }
@@ -47,7 +48,9 @@ class MahasiswaRequest extends FormRequest
             'program_studi_id.required' => 'Program Studi Wajib Diisi',
             'email.unique'          => 'Email Sudah Digunakan',
             'status.required'       => 'Status Wajib Diisi',
-            'nomor_induk.min'       => 'Nomor Induk Minimal Terdiri Dari 8 Angka'
+            'nomor_induk.min'       => 'Nomor Induk Minimal Terdiri Dari 8 Angka',
+            'password.required'     => 'Password Wajib Diisi',
+            'password.min'          => 'Password minimal 3 huruf/angka',
         ];
     }
 }

@@ -354,17 +354,6 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="image" class="col-sm-12 col-form-label">
-                                        Foto Pribadi
-                                    </label>
-                                    <div class="col-sm-12">
-                                        <input class="dropify @error('image') is-invalid @enderror" 
-                                            data-height='250' type="file" name="image" id="image" 
-                                            data-default-file="{{ @$mahasiswa->image_url }}">
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
                                     <label class="col-sm-12 col-form-label">
                                         Status<sup class="text-danger">*</sup>
                                     </label>
@@ -389,6 +378,22 @@
                                             <span class="text-danger">
                                                 {{ $errors->first('status') }}
                                             </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-12 col-form-label">
+                                        Password<sup class="text-danger">*</sup>
+                                    </label>
+
+                                    <div class="col-sm-12">
+                                        <input type="password" class="form-control @error('password')is-invalid @enderror"
+                                            id="password" name="password" placeholder="Masukkan password" 
+                                            value="{{ old('password', @$mahasiswa->password) }}">
+
+                                        @if ($errors->has('password'))
+                                            <span class="text-danger">{{ $errors->first('password') }}</span>
                                         @endif
                                     </div>
                                 </div>

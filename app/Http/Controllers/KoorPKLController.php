@@ -61,16 +61,13 @@ class KoorPKLController extends Controller
 
             $user = auth()->user();
 
-            $image = User::saveImage($request);
-
             $user = User::create([
                 'name'        => $request->name,
                 'nomor_induk' => $request->nomor_induk,
                 'email'       => $request->email,
                 'wa'          => $wa,
                 'jurusan_id'  => $user->jurusan->id,
-                'password'    => Hash::make($request->nomor_induk),
-                'image'       => $image
+                'password'    => Hash::make($request->password),
             ]);
 
             $user->assignRole('koor-pkl');
@@ -166,14 +163,17 @@ class KoorPKLController extends Controller
             'password'    => Hash::make($request->nomor_induk),
         ];
         
-        $image = User::saveImage($request);
-        
-        if ($image) {
-            $data['image'] = $image;
+        if ($request->password) {
 
-            User::deleteImage($id);
+            $request->validate([
+                'password'      => 'min:3',
+            ], [
+                'password.min'  => 'Password minimal 3 huruf/angka',
+            ]);
+
+            $data['password'] = Hash::make($request->password);
         }
-
+        
         User::where('id', $id)->update($data);
             
         return redirect()->route('koorPkl.index')->with('success', 'Data Berhasil Diubah');

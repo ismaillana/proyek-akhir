@@ -66,14 +66,6 @@ class ProfilController extends Controller
             'email'       => $request->email,
         ];
 
-        $image = User::saveImage($request);
-
-        if ($image) {
-            $data['image'] = $image;
-
-            User::deleteImage($id);
-        }
-
         User::where('id', $id)->update($data);
 
         return redirect()->back()->with('success', 'Data Berhasil Diedit');

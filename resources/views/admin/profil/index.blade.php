@@ -103,17 +103,6 @@
                     </div>
 
                     <div class="form-group row mb-4">
-                        <label for="image" class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                            Foto Pribadi
-                        </label>
-                        <div class="col-sm-12 col-md-7">
-                            <input class="dropify @error('image') is-invalid @enderror" 
-                                data-height='250' type="file" name="image" id="image" 
-                                data-default-file="{{ @$user->image_url }}">
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-4">
                         <div class="col-sm-12 col-md-7 offset-md-3">
                             <button type="submit" class="btn btn-primary" id="btnSubmit">
                                 Simpan

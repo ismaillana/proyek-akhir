@@ -26,7 +26,7 @@
                                 <h4>
                                     Status Pengajuan
                                 </h4>
-                                    @if (@$verifikasiIjazah->status == 'Menunggu Konfirmasi')
+                                    {{-- @if (@$verifikasiIjazah->status == 'Menunggu Konfirmasi')
                                         <span class="btn btn-warning">Menunggu Konfirmasi</span>
                                     @elseif (@$verifikasiIjazah->status == 'Konfirmasi')
                                         <span class="btn btn-primary">Dikonfirmasi</span>
@@ -38,103 +38,67 @@
                                         <span class="btn btn-danger">Ada Kendala</span>
                                     @else
                                         <span class="btn btn-success">Selesai</span>
-                                    @endif
+                                    @endif --}}
                                 </div>
                                 
                             </div>
                         </div>
                         
                         <div class="card-body">
-                            <div class="form-group row">
-                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                    Tanggal Pengajuan<sup class="text-danger">*</sup>
-                                </label>
-
-                                <div class="col-sm-12 col-md-9">
-                                    <input type="text" class="form-control @error('tanggal_pengajuan')is-invalid @enderror"
-                                        id="tanggal_pengajuan" name="tanggal_pengajuan" placeholder="" 
-                                        value="{{ \Carbon\Carbon::parse(@$verifikasiIjazah->created_at)->translatedFormat('d F Y H:i:s') }}" disabled readonly>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                    Pengaju<sup class="text-danger">*</sup>
-                                </label>
-
-                                <div class="col-sm-12 col-md-9">
-                                    <input type="text" class="form-control @error('instansi_id')is-invalid @enderror"
-                                        id="instansi_id" name="instansi_id" placeholder="Masukkan Nama Instansi" 
-                                        value="{{ old('instansi_id', @$verifikasiIjazah->instansi->user->name) }}" disabled readonly>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                    Nama Mahasiswa<sup class="text-danger">*</sup>
-                                </label>
-
-                                <div class="col-sm-12 col-md-9">
-                                    <input type="text" class="form-control @error('name')is-invalid @enderror"
-                                        id="name" name="name" placeholder="Masukkan Nama Mahasiswa" 
-                                        value="{{ old('name', @$verifikasiIjazah->nama) }}" disabled readonly>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                    NIM Mahasiswa<sup class="text-danger">*</sup>
-                                </label>
-
-                                <div class="col-sm-12 col-md-9">
-                                    <input type="number" class="form-control @error('nomor_induk')is-invalid @enderror"
-                                        id="nomor_induk" name="nomor_induk" placeholder="" 
-                                        value="{{ old('nim', @$verifikasiIjazah->nim) }}" disabled readonly>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                    Nomor Ijazah<sup class="text-danger">*</sup>
-                                </label>
-
-                                <div class="col-sm-12 col-md-9">
-                                    <input type="text" class="form-control @error('no_ijazah')is-invalid @enderror"
-                                        id="no_ijazah" name="no_ijazah" placeholder="" 
-                                        value="{{ old('no_ijazah', @$verifikasiIjazah->no_ijazah) }}" disabled readonly>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                    Tahun Lulus<sup class="text-danger">*</sup>
-                                </label>
-
-                                <div class="col-sm-12 col-md-9">
-                                    <input type="number" class="form-control @error('tahun_lulus')is-invalid @enderror"
-                                        id="tahun_lulus" name="tahun_lulus" placeholder="" 
-                                        value="{{ old('tahun_lulus', @$verifikasiIjazah->tahun_lulus) }}" disabled readonly>
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-4">
-                                <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">
-                                    Dokumen Surat Pengajuan<sup class="text-danger">*</sup>
-                                </label>
-
-                                <div class="col-sm-9">
-                                    <label>
-                                        <a class="btn btn-primary" href="{{ asset('storage/public/dokumen/'. @$verifikasiIjazah->dokumen)}}" 
-                                                download="{{@$verifikasiIjazah->dokumen}}">
-                                                    Download Dokumen
-                                        </a>
-                                    </label>
-                                </div>
-                            </div>
+                            <table class="table table-striped" id="myTable">
+                                <thead>
+                                  <tr>
+                                    <th style="width: 10%">
+                                        #
+                                    </th>
+            
+                                    <th class="text-center">
+                                        Nama Mahasiswa
+                                    </th>
+            
+                                    <th>
+                                        NIM
+                                    </th>
+            
+                                    <th>
+                                        Nomor Ijazah
+                                    </th>
+            
+                                    <th class="text-center">
+                                        Tahun Lulus
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($verifikasiIjazah as $item)
+                                        <tr>
+                                            <td>
+                                                {{$loop->iteration}}
+                                            </td>
+            
+                                            <td>
+                                                {{ $item->nama }}
+                                            </td>
+            
+                                            <td>
+                                                {{$item->nim}}
+                                            </td>
+            
+                                            <td>
+                                                {{$item->no_ijazah}}
+                                            </td>
+                                            
+                                            <td class="text-center">
+                                                {{$item->tahun_lulus}}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                             <hr>
                             @role('bagian-akademik')
                             <form id="myForm" class="forms-sample" enctype="multipart/form-data" method="POST"
-                                action="{{route('update-surat-aktif-kuliah', $verifikasiIjazah->id) }}">
+                                action="{{ route('update-surat-verifikasi-ijazah', $item->kode_verifikasi) }}">
                                     @csrf
 
                                 <div class="form-group row">
@@ -145,7 +109,7 @@
                                     <div class="col-sm-12 col-md-9">
                                         <input type="text" class="form-control @error('no_surat')is-invalid @enderror"
                                             id="no_surat" name="no_surat" pattern="\d{4}/PL41\.R1/.+/\d{4}" placeholder="Masukkan Nomor Surat" 
-                                            value="{{ old('no_surat', @$verifikasiIjazah->no_surat) }}">
+                                            value="{{ old('no_surat', @$item->no_surat) }}">
 
                                             <span class="invalid-feedback" role="alert" id="no-surat-error">
                                                 @error('no_surat')
@@ -157,7 +121,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-12 col-md-9 offset-md-3">
                                         <button type="submit" class="btn btn-primary" id="btnSubmit">
-                                            @if (@$verifikasiIjazah->no_surat == null)
+                                            @if (@$item->no_surat == null)
                                                 Tambah
                                             @else
                                                 Update
@@ -172,28 +136,48 @@
                             </form>
                             @endrole
                             <hr>
-                            @if (@$verifikasiIjazah->status == "Menunggu Konfirmasi")
+                            @php
+                                $shownKodeVerifikasi = [];
+                                $allMenungguKonfirmasi = true;
+                                $allReview = true;
+                                $allSetuju = true;
+                            @endphp
+
+                            @foreach ($verifikasiIjazah as $item)
+                                @if (!in_array($item->kode_verifikasi, $shownKodeVerifikasi))
+                                    @if ($item->status != 'Menunggu Konfirmasi')
+                                        @php $allMenungguKonfirmasi = false; @endphp
+                                    @endif
+
+                                    @if ($item->status != 'Review')
+                                        @php $allReview = false; @endphp
+                                    @endif
+
+                                    @if ($item->status != 'Setuju')
+                                        @php $allSetuju = false; @endphp
+                                    @endif
+
+                                    @php $shownKodeVerifikasi[] = $item->kode_pkl; @endphp
+                                @endif
+                            @endforeach
+                            
+                            @if ($allMenungguKonfirmasi)
                                 <div class="text-md-right">
                                     <div class="float-lg-left mb-lg-0 mb-3">
-                                        <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi{{$verifikasiIjazah->id}}">
+                                        <button class="btn btn-primary btn-icon icon-left" data-toggle="modal" data-target="#konfirmasi">
                                             <i class="fas fa-check"></i> 
                                             Konfirmasi
                                         </button>
 
-                                        <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak{{$verifikasiIjazah->id}}">
+                                        <button class="btn btn-danger btn-icon icon-left" data-toggle="modal" data-target="#tolak">
                                             <i class="fas fa-times"></i> 
                                             Tolak
                                         </button>
                                     </div>
-
-                                    <a href="{{ route('print-verifikasi-ijazah', Crypt::encryptString($verifikasiIjazah->id)) }}" target="_blank" class="btn btn-warning btn-icon icon-left">
-                                        <i class="fas fa-print"></i> 
-                                            Print
-                                    </a>
                                 </div>
                             @else
                                 <div class="text-md-right">
-                                    <a href="{{ route('print-verifikasi-ijazah', Crypt::encryptString($verifikasiIjazah->id)) }}" target="_blank" class="btn btn-warning btn-icon icon-left">
+                                    <a href="{{ route('print-verifikasi-ijazah', $item->kode_verifikasi) }}" target="_blank" class="btn btn-warning btn-icon icon-left">
                                         <i class="fas fa-print"></i> 
                                             Print
                                     </a>
@@ -207,88 +191,93 @@
     </section>
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="konfirmasi{{$verifikasiIjazah->id}}">
-    <div class="modal-dialog" role="document">
-        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('konfirmasi-verifikasi-ijazah', $verifikasiIjazah->id)}}" method="POST">
-            @csrf
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        Konfirmasi Pengajuan
-                    </h5>
+@foreach ($verifikasiIjazah as $item)
+    <div class="modal fade" tabindex="-1" role="dialog" id="konfirmasi">
+        <div class="modal-dialog" role="document">
+            <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('konfirmasi-verifikasi-ijazah', $item->kode_verifikasi)}}" method="POST">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            Konfirmasi Pengajuan
+                        </h5>
 
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
-                <div class="modal-body">
-                    <p>
-                        Setujui Pengajuan ?
-                    </p>
-                </div>
+                    <div class="modal-body">
+                        <p>
+                            Setujui Pengajuan ?
+                        </p>
+                    </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        Batal
-                    </button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Batal
+                        </button>
 
-                    <button type="submit" class="btn btn-primary">
-                        Simpan
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="modal fade" tabindex="-1" role="dialog" id="tolak{{$verifikasiIjazah->id}}">
-    <div class="modal-dialog" role="document">
-        <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('tolak-verifikasi-ijazah', $verifikasiIjazah->id)}}" method="POST">
-            @csrf
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        Modal Catatan Penolakan
-                    </h5>
-
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <div class="form-group row" id="catatan">
-                        <label for="name" class="col-sm-3 col-form-label">
-                            Catatan Penolakan <sup class="text-danger">*</sup>
-                        </label>
-
-                        <div class="col-sm-9">
-                            <textarea name="catatan" class="summernote-simple" id="catatan" cols="30" rows="10"
-                                placeholder="Masukan Catatan">{{ old('catatan', @$verifikasiIjazah->catatan) }}</textarea>
-                            
-                            @if ($errors->has('catatan'))
-                                <span class="text-danger">
-                                    {{ $errors->first('catatan') }}
-                                </span>
-                            @endif
-                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            Simpan
+                        </button>
                     </div>
                 </div>
-
-                <div class="modal-footer br">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        Batal
-                    </button>
-
-                    <button type="submit" class="btn btn-primary">
-                        Simpan
-                    </button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
+@endforeach
+
+@foreach ($verifikasiIjazah as $item)
+    <div class="modal fade" tabindex="-1" role="dialog" id="tolak">
+        <div class="modal-dialog" role="document">
+            <form id="myForm" class="forms-sample" enctype="multipart/form-data" action="{{ route('tolak-verifikasi-ijazah', $item->kode_verifikasi)}}" method="POST">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            Modal Catatan Penolakan
+                        </h5>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-group row" id="catatan">
+                            <label for="name" class="col-sm-3 col-form-label">
+                                Catatan Penolakan <sup class="text-danger">*</sup>
+                            </label>
+
+                            <div class="col-sm-9">
+                                <textarea name="catatan" class="summernote-simple" id="catatan" cols="30" rows="10"
+                                    placeholder="Masukan Catatan">{{ old('catatan', @$item->catatan) }}</textarea>
+                                
+                                @if ($errors->has('catatan'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('catatan') }}
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer br">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Batal
+                        </button>
+
+                        <button type="submit" class="btn btn-primary">
+                            Simpan
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+@endforeach
+
 @endsection
 
 @section('script')

@@ -118,7 +118,7 @@ class PengantarPklController extends Controller
                     $query->where('status', 'Konfirmasi')
                         ->orWhere('status', 'Kendala');
                 })
-                ->groupBy('kode_pkl', 'tempat_pkl_id', 'created_at', 'status')
+                ->groupBy('kode_pkl', 'tempat_pkl_id', 'status')
                 ->get();
 
             $pengantar = Pengajuan::latest()
@@ -179,13 +179,12 @@ class PengantarPklController extends Controller
             ->get();
         $numbers = $adminJurusan->pluck('wa')->toArray();
 
-        // Mulai transaksi database
         DB::beginTransaction();
 
         try {
             $mahasiswaId = $request->input('nama_mahasiswa');
             // Generate kode pengajuan
-            $latestPengajuan = Pengajuan::where('jenis_pengajuan_id', '2') // Sesuaikan dengan jenis pengajuan Anda
+            $latestPengajuan = Pengajuan::where('jenis_pengajuan_id', '2') 
                 ->latest('kode_pkl')
                 ->first();
             $angkaUrut = $latestPengajuan ? intval(substr($latestPengajuan->kode_pkl, 4)) + 1 : 1;
@@ -207,7 +206,7 @@ class PengantarPklController extends Controller
                 $pengajuan = Pengajuan::create([
                     'jenis_pengajuan_id' => '2',
                     'mahasiswa_id' => $item,
-                    'kode_pkl' => $kodePengajuan, // Gunakan kode yang sama untuk setiap pengajuan
+                    'kode_pkl' => $kodePengajuan, 
                     'mahasiswa_id' => $item,
                     'tempat_pkl_id'    => $tempat_pkl_id,
                     'tgl_mulai'        => $request->tgl_mulai,
@@ -222,7 +221,7 @@ class PengantarPklController extends Controller
                     'catatan'       => 'Pengajuan Berhasil Dibuat. Tunggu pemberitahuan selanjutnya'
                 ]);
             }
-            // Commit transaksi database
+            
             DB::commit();
     
             WhatsappGatewayService::sendMessage($waGateway, 
@@ -234,7 +233,7 @@ class PengantarPklController extends Controller
                     'Terima Kasih' . PHP_EOL .
                     PHP_EOL .
                     '[Politeknik Negeri Subang]'
-            ); //->Kirim Chat
+            ); 
     
             foreach ($numbers as $number) {
                 WhatsappGatewayService::sendMessage($number, 
@@ -244,13 +243,13 @@ class PengantarPklController extends Controller
                         'Segera lakukan pengecekan data pengajuan!' . PHP_EOL .
                         PHP_EOL .
                         '[Politeknik Negeri Subang]'
-                ); //->Kirim Chat
+                ); 
             }
     
             return redirect()->back()->with('success', 'Pengajuan Berhasil');
 
         } catch (\Exception $e) {
-            // Jika terjadi error, rollback transaksi database
+            
             DB::rollback();
 
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan pengajuan PKL.');
@@ -325,7 +324,6 @@ class PengantarPklController extends Controller
                 'dokumen_permohonan' => $dokumen
             ];
 
-            //Update pengajuan sesuai id
             Pengajuan::where('id', $item->id)->update($data);
 
             Riwayat::create([
@@ -346,7 +344,7 @@ class PengantarPklController extends Controller
                 'Terima Kasih' . PHP_EOL .
                 PHP_EOL .
                 '[Politeknik Negeri Subang]'
-            ); //->Kirim Chat
+            ); 
         }
 
         foreach ($numbers as $number) {
@@ -357,7 +355,7 @@ class PengantarPklController extends Controller
                     'Segera lakukan pengecekan data pengajuan!' . PHP_EOL .
                     PHP_EOL .
                     '[Politeknik Negeri Subang]'
-            ); //->Kirim Chat
+            ); 
         }
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
@@ -402,7 +400,7 @@ class PengantarPklController extends Controller
                     'Terima Kasih' . PHP_EOL .
                     PHP_EOL .
                     '[Politeknik Negeri Subang]'
-            ); //->Kirim Chat
+            ); 
         }
 
         foreach ($numbers as $number) {
@@ -413,7 +411,7 @@ class PengantarPklController extends Controller
                     'Segera lakukan pengecekan data pengajuan!' . PHP_EOL .
                     PHP_EOL .
                     '[Politeknik Negeri Subang]'
-            ); //->Kirim Chat
+            );
         }
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
@@ -459,7 +457,7 @@ class PengantarPklController extends Controller
                     'Terima Kasih' . PHP_EOL .
                     PHP_EOL .
                     '[Politeknik Negeri Subang]'
-            ); //->Kirim Chat
+            ); 
         }
 
         foreach ($numbers as $number) {
@@ -470,7 +468,7 @@ class PengantarPklController extends Controller
                     'Segera lakukan pengecekan data pengajuan!' . PHP_EOL .
                     PHP_EOL .
                     '[Politeknik Negeri Subang]'
-            ); //->Kirim Chat
+            ); 
         }
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
@@ -512,7 +510,7 @@ class PengantarPklController extends Controller
                     'Terima Kasih' . PHP_EOL .
                     PHP_EOL .
                     '[Politeknik Negeri Subang]'
-            ); //->Kirim Chat
+            ); 
         }
 
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
@@ -525,7 +523,7 @@ class PengantarPklController extends Controller
     {
         
         $pengajuanPklItems = pengajuan::where('kode_pkl', $id)->get();
-        // Update the status for each pengajuan pkl item
+        
         $waGateway = [];
         foreach ($pengajuanPklItems as $item) {
             $waGateway[] = $item->mahasiswa->user->wa;
@@ -567,7 +565,7 @@ class PengantarPklController extends Controller
                         'Terima Kasih' . PHP_EOL .
                         PHP_EOL .
                         '[Politeknik Negeri Subang]'
-                ); //->Kirim Chat
+                ); 
             }
         }elseif ($request->status == 'Kendala' ) {
             foreach ($waGateway as $wa) {
@@ -580,7 +578,7 @@ class PengantarPklController extends Controller
                         'Terima Kasih' . PHP_EOL .
                         PHP_EOL .
                         '[Politeknik Negeri Subang]'
-                ); //->Kirim Chat
+                ); 
             }
         }elseif ($request->status == 'Selesai' ) {
             foreach ($waGateway as $wa) {
@@ -593,7 +591,7 @@ class PengantarPklController extends Controller
                         'Terima Kasih' . PHP_EOL .
                         PHP_EOL .
                         '[Politeknik Negeri Subang]'
-                ); //->Kirim Chat
+                ); 
             }
         }
 

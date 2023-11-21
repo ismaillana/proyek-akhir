@@ -338,17 +338,6 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="image" class="col-sm-12 col-form-label">
-                                        Foto Pribadi
-                                    </label>
-                                    <div class="col-sm-12">
-                                        <input class="dropify @error('image') is-invalid @enderror" 
-                                            data-height='250' type="file" name="image" id="image" 
-                                            data-default-file="{{ @$mahasiswa->image_url }}" readonly disabled>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
                                     <label class="col-sm-12 col-form-label">
                                         Status<sup class="text-danger">*</sup>
                                     </label>

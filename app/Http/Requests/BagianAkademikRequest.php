@@ -26,6 +26,7 @@ class BagianAkademikRequest extends FormRequest
             'email'             => 'required|email|unique:users,email',
             'nomor_induk'       => 'required|min:8|unique:users,nomor_induk',
             'wa'                => 'required',
+            'password'          => 'required|min:3',
         ];
         return $rules;
     }
@@ -40,7 +41,9 @@ class BagianAkademikRequest extends FormRequest
             'nomor_induk.unique'    => 'NIP Sudah Ada',
             'wa.required'           => 'No WhatsApp Wajib Diisi',
             'email.unique'          => 'Email Sudah Digunakan',
-            'nomor_induk.min'          => 'Nomor Induk Minimal Terdiri Dari 8 Angka'
+            'nomor_induk.min'          => 'Nomor Induk Minimal Terdiri Dari 8 Angka',
+            'password.required'     => 'Password Wajib Diisi',
+            'password.min'          => 'Password minimal 3 huruf/angka',
         ];
     }
 }

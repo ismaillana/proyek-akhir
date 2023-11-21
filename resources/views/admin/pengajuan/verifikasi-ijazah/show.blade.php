@@ -62,27 +62,21 @@
                     </thead>
                     <tbody>
                         @foreach ($verifikasiIjazah as $item)
-                            @php
-                                $pengajuans = $verifikasi->where('kode_verifikasi', $item->kode_verifikasi);
-                            @endphp
                             <tr>
                                 <td>
                                     {{$loop->iteration}}
                                 </td>
 
-                                <td>
+                                <td class="text-center">
                                     {{ Carbon\Carbon::parse(@$item->created_at)->translatedFormat('d F Y H:i:s') }}
                                 </td>
 
                                 <td>
-                                    {{@$item->instansi->nama_perusahaan}}
+                                    {{@$item->instansi->user->name}}
                                 </td>
 
                                 <td>
-                                    @foreach ($pengajuans as $pengaju)
-                                        {{ $pengaju->nama }} 
-                                        <br>                                       
-                                    @endforeach
+                                    {{$item->nama}}
                                 </td>
                                 
                                 <td class="text-center">
@@ -104,7 +98,7 @@
                                 @role('bagian-akademik')
                                 <td class="text-center">
                                     @if (@$item->status == 'Tolak' || @$item->status == 'Selesai' || @$item->status == 'Menunggu Konfirmasi')
-                                        <a href="{{ url('menu-admin/detail-verifikasi-ijazah', $item->kode_verifikasi) }}"
+                                        <a href="{{ route('pengajuan-verifikasi-ijazah.show',  Crypt::encryptString($item->id)) }}"
                                             class="btn btn-sm btn-outline-secondary" title="Detail">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 width="16" height="16" viewBox="0 0 24 24"
@@ -115,7 +109,7 @@
                                             </svg>
                                         </a>
                                     @else
-                                        <a href="{{ url('menu-admin/detail-verifikasi-ijazah', $item->kode_verifikasi) }}"
+                                        <a href="{{ route('pengajuan-verifikasi-ijazah.show',  Crypt::encryptString($item->id)) }}"
                                             class="btn btn-sm btn-outline-secondary" title="Detail">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 width="16" height="16" viewBox="0 0 24 24"
@@ -126,7 +120,7 @@
                                             </svg>
                                         </a>
 
-                                        <a href="" class="btn btn-sm btn-outline-warning" data-toggle="modal" data-target="#edit{{$item->kode_verifikasi}}"
+                                        <a href="" class="btn btn-sm btn-outline-warning" data-toggle="modal" data-target="#edit{{$item->id}}"
                                             title="update status">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                 height="16" fill="none" viewBox="0 0 24 24"

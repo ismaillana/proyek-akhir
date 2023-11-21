@@ -28,7 +28,7 @@ class MahasiswaUpdateRequest extends FormRequest
             'nomor_induk'       => 'required|min:8|unique:users,nomor_induk,' . $this->mahasiswa->user->id,
             'wa'                => 'required',
             'angkatan'          => 'required',
-            'program_studi_id'  => 'required'
+            'program_studi_id'  => 'required',
         ];
         return $rules;
     }
