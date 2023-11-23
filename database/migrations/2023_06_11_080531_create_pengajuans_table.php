@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('pengajuans', function (Blueprint $table) {
             $table->id();
+            $table->char('kode_pkl')->nullable();
+            $table->char('kode_verifikasi')->nullable();
             $table->foreignId('jenis_pengajuan_id')
                 ->nullable()
                 ->constrained()
