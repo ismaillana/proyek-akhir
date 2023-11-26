@@ -65,7 +65,8 @@ class InstansiController extends Controller
                 'email'       => $request->email,
                 'wa'          => $wa,
                 'password'    => Hash::make('123456'),
-                'email_verified_at' => now()
+                'email_verified_at' => now(),
+                'password'    => Hash::make($request->password)
             ]);
 
             $user->assignRole('instansi');
@@ -75,10 +76,6 @@ class InstansiController extends Controller
                 'nama_perusahaan'   => $user->name,
                 'alamat'            => $request->alamat,
             ];
-
-            $image = Instansi::saveImage($request);
-
-            $data['image'] = $image;
 
             $instansi = Instansi::create($data);
 
@@ -147,27 +144,25 @@ class InstansiController extends Controller
             'alamat'            => $request->alamat,
         ];
 
-        $image = Instansi::saveImage($request);
-
-        if ($image) {
-            $data['image'] = $image;
-
-            $param = (object) [
-                'type'  => 'image',
-                'id'    => $instansi->id
-            ];
-
-            Instansi::deleteImage($param);
-        }
-
         Instansi::where('id', $instansi->id)->update($data);
         
-        User::whereId($instansi->user_id)->update([
+        $userData = [
             'name'        => $request->name,
             'email'       => $request->email,
             'wa'          => $wa,
-            'password'    => Hash::make($request->email)
-        ]);
+        ];
+
+        if ($request->filled('password')) {
+            $request->validate([
+                'password'      => 'min:3',
+            ], [
+                'password.min'  => 'Password minimal 3 huruf/angka',
+            ]);
+
+            $userData['password'] = Hash::make($request->password);
+        }
+    
+        User::whereId($instansi->user_id)->update($userData);
 
         return redirect()->route('instansi.index')->with('success', 'Data Berhasil Diubah');
     }
@@ -180,13 +175,6 @@ class InstansiController extends Controller
 
             $instansi = Instansi::find($id);
             
-            $param = (object) [
-                'type'  => 'image',
-                'id'    => $instansi->id
-            ];
-    
-            Instansi::deleteImage($param);
-    
             $instansi->delete();
             
             $user = User::where('id', $instansi->user_id)->first();

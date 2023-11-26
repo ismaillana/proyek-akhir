@@ -85,13 +85,13 @@
 
                                         <td class="text-center">
                                           @if ($item->dokumen_hasil !== null )
-                                            <a href="{{ asset('storage/public/dokumen/dokumen-hasil/'. @$item->dokumen_hasil)}}" 
-                                              download="{{@$item->dokumen_hasil}}"
-                                                class="btn btn-sm btn-outline-primary" title="Download Hasil">
-                                                  Download Hasil
+                                            <a href="{{ asset('storage/public/dokumen/dokumen-hasil/'. $item->dokumen_hasil)}}" 
+                                              download="{{$item->dokumen_hasil}}"
+                                              class="btn btn-sm btn-outline-primary" title="Download Hasil">
+                                            Download Hasil
                                             </a>
                                           @else
-                                            Belum Selesai
+                                            Belum Ada Hasil
                                           @endif
                                         </td>
 

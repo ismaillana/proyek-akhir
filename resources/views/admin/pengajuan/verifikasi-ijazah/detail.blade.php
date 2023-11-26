@@ -26,19 +26,31 @@
                                 <h4>
                                     Status Pengajuan
                                 </h4>
-                                    {{-- @if (@$verifikasiIjazah->status == 'Menunggu Konfirmasi')
-                                        <span class="btn btn-warning">Menunggu Konfirmasi</span>
-                                    @elseif (@$verifikasiIjazah->status == 'Konfirmasi')
-                                        <span class="btn btn-primary">Dikonfirmasi</span>
-                                    @elseif (@$verifikasiIjazah->status == 'Proses')
-                                        <span class="btn btn-success">Diproses</span>
-                                    @elseif (@$verifikasiIjazah->status == 'Tolak')
-                                        <span class="btn btn-danger">Ditolak</span>
-                                    @elseif (@$verifikasiIjazah->status == 'Kendala')
-                                        <span class="btn btn-danger">Ada Kendala</span>
-                                    @else
-                                        <span class="btn btn-success">Selesai</span>
-                                    @endif --}}
+                                @php
+                                    $statusDisplayed = false;
+                                @endphp
+
+                                @foreach ($verifikasiIjazah as $item)
+                                    @if (!$statusDisplayed)
+                                        @if ($item->status == 'Menunggu Konfirmasi')
+                                            <span class="btn btn-warning">Menunggu Konfirmasi</span>
+                                        @elseif ($item->status == 'Konfirmasi')
+                                            <span class="btn btn-primary">Dikonfirmasi</span>
+                                        @elseif ($item->status == 'Proses')
+                                            <span class="btn btn-success">Diproses</span>
+                                        @elseif ($item->status == 'Tolak')
+                                            <span class="btn btn-danger">Ditolak</span>
+                                        @elseif ($item->status == 'Kendala')
+                                            <span class="btn btn-danger">Ada Kendala</span>
+                                        @else
+                                            <span class="btn btn-success">Selesai</span>
+                                        @endif
+                                        @php
+                                            $statusDisplayed = true;
+                                        @endphp
+                                    @endif
+                                @endforeach
+
                                 </div>
                                 
                             </div>

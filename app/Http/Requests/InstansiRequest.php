@@ -26,6 +26,7 @@ class InstansiRequest extends FormRequest
             'email'             => 'required|email|unique:users,email',
             'wa'                => 'required',
             'alamat'            => 'required',
+            'password'          => 'required|min:3',
         ];
         return $rules;
     }
@@ -38,8 +39,9 @@ class InstansiRequest extends FormRequest
             'email.email'           => 'Format Email Harus Sesuai',
             'wa.required'           => 'No WhatsApp Wajib Diisi',
             'alamat.required'       => 'Alamat Wajib Diisi',
-            'email.unique'          => 'Email Sudah Digunakan'
-
+            'email.unique'          => 'Email Sudah Digunakan',
+            'password.required'     => 'Password Wajib Diisi',
+            'password.min'          => 'Password minimal 3 huruf/angka',
         ];
     }
 }

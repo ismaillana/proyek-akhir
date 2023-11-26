@@ -151,20 +151,89 @@
     </section>
   </div>  
 
+  @foreach ($verifikasiIjazah as $item)
+  <div class="modal fade" tabindex="-1" role="dialog" id="edit{{ $item->kode_verifikasi }}">
+      <div class="modal-dialog" role="document">
+          <form id="myForm-{{ $item->kode_verifikasi }}" class="forms-sample" enctype="multipart/form-data" action="{{url('menu-admin/update-status-verifikasi-ijazah', $item->kode_verifikasi)}}" method="POST">
+              @csrf
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title">
+                          Form Ubah Status Pengajuan
+                      </h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
 
+                  <div class="modal-body">
+                      <div class="form-group">
+                          <label for="status" class="col-form-label">
+                              Status<sup class="text-danger">*</sup>
+                          </label>
+                          <div class="input-group">
+                              <select class="form-control @error('status') is-invalid @enderror" id="status-{{ $item->kode_verifikasi }}" name="status">
+                                  <option selected disabled value="">
+                                      Pilih Status
+                                  </option>
+                                  <option value="Kendala" {{ old('status', @$item->status) == 'Kendala' ? 'selected' : '' }}>
+                                      Ada Kendala</option>
+                                  <option value="Selesai" {{ old('status', @$item->status) == 'Selesai' ? 'selected' : '' }}>
+                                      Selesai</option>
+                              </select>
+                              @if ($errors->has('status'))
+                                  <span class="text-danger">
+                                      {{ $errors->first('status') }}
+                                  </span>
+                              @endif
+                          </div>
+                      </div>
+
+                      <div class="form-group" id="dokumenHasil-{{ $item->kode_verifikasi }}">
+                          <label for="dokumen_hasil" class="col-form-label">
+                              Dokumen Hasil<sup class="text-danger">*</sup>
+                          </label>
+                          <div class="input-group">
+                              <input type="file" class="form-control @error('dokumen_hasil') is-invalid @enderror" id="dokumen_hasil" name="dokumen_hasil">
+                              @if ($errors->has('dokumen_hasil'))
+                                  <span class="text-danger">
+                                      {{ $errors->first('dokumen_hasil') }}
+                                  </span>
+                              @endif
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="modal-footer br">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                          Batal
+                      </button>
+
+                      <button type="submit" class="btn btn-primary">
+                          Simpan
+                      </button>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+@endforeach
 @endsection
 
 @section('script')
-    <script>
-        $("#dokumenHasil").hide();
-            $('#status').on('change', function(){
-            var selectedVal = $(this).val();
-            if (selectedVal == 'Selesai') {
-                $('#dokumenHasil').show();
-            } else {
-                $("#dokumenHasil").hide();
-            }
-        });
-    </script>
+<script>
+    $(document).ready(function(){
+        @foreach ($verifikasiIjazah as $item)
+            $('#dokumenHasil-{{ $item->kode_verifikasi }}').hide();
+            $('#status-{{ $item->kode_verifikasi }}').on('change', function(){
+                var selectedVal = $(this).val();
+                if (selectedVal == 'Selesai') {
+                    $('#dokumenHasil-{{ $item->kode_verifikasi }}').show();
+                } else {
+                    $('#dokumenHasil-{{ $item->kode_verifikasi }}').hide();
+                }
+            });
+        @endforeach
+    });
+</script>
 @endsection
-

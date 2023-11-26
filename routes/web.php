@@ -123,7 +123,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::post('konfirmasi-verifikasi-ijazah/{id}', [VerifikasiIjazahController::class, 'konfirmasi'])->name('konfirmasi-verifikasi-ijazah');
                 Route::post('update-status-verifikasi-ijazah/{id}', [VerifikasiIjazahController::class, 'updateStatus'])->name('update-status-verifikasi-ijazah');
                 Route::get('riwayat-pengajuan-verifikasi-ijazah', [VerifikasiIjazahController::class, 'riwayat'])->name('riwayat-pengajuan-verifikasi-ijazah');
-                Route::get('riwayat-pengajuan-verifikasi-ijazah-detail/{id}', [VerifikasiIjazahController::class, 'showRiwayat'])->name('riwayat-pengajuan-verifikasi-ijazah-detail');
+                Route::get('riwayat-pengajuan-verifikasi-ijazah-detail/{kodeVerifikasi}', [VerifikasiIjazahController::class, 'showRiwayat'])->name('riwayat-pengajuan-verifikasi-ijazah-detail');
                 Route::get('print-verifikasi-ijazah/{id}', [VerifikasiIjazahController::class, 'print'])->name('print-verifikasi-ijazah');
                 Route::get('export-verifikasi-ijazah', [VerifikasiIjazahController::class, 'export'])->name('export-verifikasi-ijazah');
                 Route::post('update-surat-verifikasi-ijazah/{id}', [VerifikasiIjazahController::class, 'updateNoSurat'])->name('update-surat-verifikasi-ijazah');

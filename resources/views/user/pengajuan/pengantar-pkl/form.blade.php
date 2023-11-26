@@ -176,7 +176,7 @@
                               value="{{ old('tujuan_surat', @$pengantarPkl->tujuan_surat) }}" placeholder="Ditujakan Kepada">
                             
                             <label for="form_nama_tempat">
-                              Ditujakan Kepada<span class="text-danger">*</span>
+                              Ditujukan Kepada<span class="text-danger">*</span>
                             </label>
 
                             @if ($errors->has('tujuan_surat'))

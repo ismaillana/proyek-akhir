@@ -45,7 +45,7 @@ class VerifikasiIjazahExport implements FromCollection, WithHeadings, WithMappin
             $rowNumber,
             $pengajuan->created_at,
             $pengajuan->instansi->nama_perusahaan,
-            $pengajuan->nama,
+            $pengajuan->nama_concat,
             $pengajuan->status,
             // Tambahkan value-value lain yang ingin Anda ekspor
         ];

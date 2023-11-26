@@ -168,11 +168,17 @@
                 </label>
 
                 <input id="image" type="file" name="image" class="form-control @error('image')is-invalid @enderror" 
-                  value="{{ old('image', @$pengantarPkl->image) }}" placeholder="image">
+                  value="{{ old('image', @$pengantarPkl->image) }}" placeholder="image" accept="image/jpeg, image/jpg, image/png">
                 
                 @if ($errors->has('image'))
                     <span class="text-danger">{{ $errors->first('image') }}</span>
                 @endif
+              </div>
+
+              <div class="text text-info">
+                  <small>
+                      Bukti penolakan berupa gambar dengan format .jpg .jpeg atau .png!
+                  </small>
               </div>
             </div>
 
@@ -198,12 +204,18 @@
                 <label for="form_nama_tempat">
                   Bukti Selesai PKL<span class="text-danger">*</span>
                 </label>
-                <input id="bukti_selesai" type="file" name="bukti_selesai" class="form-control @error('bukti_selesai')is-invalid @enderror" 
+                <input id="bukti_selesai" type="file" name="bukti_selesai" class="form-control @error('bukti_selesai')is-invalid @enderror" accept="application/pdf" 
                   value="{{ old('bukti_selesai', @$pengantarPkl->bukti_selesai) }}" placeholder="bukti_selesai">
                 
                 @if ($errors->has('bukti_selesai'))
                     <span class="text-danger">{{ $errors->first('bukti_selesai') }}</span>
                 @endif
+              </div>
+
+              <div class="text text-info">
+                  <small>
+                      Bukti penolakan berupa file dengan format .pdf
+                  </small>
               </div>
             </div>
 

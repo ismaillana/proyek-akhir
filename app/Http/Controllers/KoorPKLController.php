@@ -186,8 +186,6 @@ class KoorPKLController extends Controller
     {
         $koorPkl = User::find($id);
 
-        User::deleteImage($id);
-
         $koorPkl->delete();
 
         return response()->json(['status' => 'Data Berhasil Dihapus']);

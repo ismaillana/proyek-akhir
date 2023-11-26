@@ -16,6 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use File;
 use Repsonse;
 use PDF;
@@ -448,95 +449,181 @@ class VerifikasiIjazahController extends Controller
      */
     public function updateStatus(Request $request, string $id)
     {
-        $request->validate([
-            'status' => 'required',
-            'dokumen_hasil' => 'required_if:status,Selesai',
-        ], [
-            'status.required' => 'Pilih Status',
-            'dokumen_hasil.required_if' => 'Masukkan Dokumen Hasil',
-        ]);
+        // $request->validate([
+        //     'status' => 'required',
+        //     'dokumen_hasil' => 'required_if:status,Selesai',
+        // ], [
+        //     'status.required' => 'Pilih Status',
+        //     'dokumen_hasil.required_if' => 'Masukkan Dokumen Hasil',
+        // ]);
 
-        $verifikasiIjazah = Pengajuan::where('kode_verifikasi', $id)->get();
-        dd(@$verifikasiIjazah[0]->instansi->user->wa);
+        // $verifikasiIjazah = Pengajuan::where('kode_verifikasi', $id)->get();
 
-        $waGateway = [];
-        foreach ($verifikasiIjazah as $item) {
-            $waGateway[] = $item->instansi->user->wa;
+        // $waGateway = [];
+        // foreach ($verifikasiIjazah as $item) {
+        //     $waGateway[] = $item->instansi->user->wa;
             
+        //     if ($request->status == 'Selesai') {
+    
+        //         // $dokumen = Pengajuan::saveDokumenHasil($request);
+    
+        //         $data = [
+        //             'status'  =>  $request->status,
+        //             // 'dokumen_hasil' => $dokumen
+        //         ];
+        //     } else {
+        //         $data = [
+        //             'status'  =>  $request->status
+        //         ];
+        //     }
+
+        //     Pengajuan::where('kode_verifikasi', $id)->update($data);
+        // }
+
+
+        // $pengajuan = Pengajuan::where('kode_verifikasi',$id)->get();
+        
+        // $waGateway = $pengajuan->instansi->user->wa; //get no wa
+
+        // if ($request->status == 'Proses' ) {
+        //     Riwayat::create([
+        //         'pengajuan_id'  => $id,
+        //         'status'        => 'Diproses',
+        //         'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
+        //     ]);
+
+        //     WhatsappGatewayService::sendMessage($waGateway, 
+        //         'Hai, ' . $pengajuan->instansi->user->name . ',' . PHP_EOL .
+        //             PHP_EOL .
+        //             'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan sedang Diproses oleh Bagian Akademik!' . PHP_EOL .
+        //             'Proses dilakukan selama 3-5 hari kerja, namun bisa saja kurang atau melebihi waktu tersebut. Harap tunggu informasi selanjutnya' . PHP_EOL .
+        //             PHP_EOL .
+        //             'Terima Kasih'. PHP_EOL .
+        //             PHP_EOL .
+        //             '[Politeknik Negeri Subang]'
+        //     ); //->Kirim Chat
+        // }elseif ($request->status == 'Kendala' ) {
+        //     Riwayat::create([
+        //         'pengajuan_id'  => $id,
+        //         'status'        => 'Ada Kendala',
+        //         'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
+        //     ]);
+
+        //     WhatsappGatewayService::sendMessage($waGateway, 
+        //         'Hai, ' . $pengajuan->instansi->user->name . ',' . PHP_EOL .
+        //             PHP_EOL .
+        //             'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan sedang Dalam Kendala!' . PHP_EOL .
+        //             'Harap menunggu pemberitahuan selanjutnya dikarenakan di lingkungan kampus sedang terdapat kegiatan yang melibatkan Bagian Akademik!' . PHP_EOL .
+        //             PHP_EOL .
+        //             'Terima Kasih'. PHP_EOL .
+        //             PHP_EOL .
+        //             '[Politeknik Negeri Subang]'
+        //     ); //->Kirim Chat
+        // }elseif ($request->status == 'Selesai' ) {
+        //     Riwayat::create([
+        //         'pengajuan_id'  => $id,
+        //         'status'        => 'Selesai',
+        //         'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
+        //     ]);
+
+        //     WhatsappGatewayService::sendMessage($waGateway, 
+        //         'Hai, ' . $pengajuan->instansi->user->name . ',' . PHP_EOL .
+        //             PHP_EOL .
+        //             'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan Telah Selesai!' . PHP_EOL .
+        //             'Silahkan login kembali ke website pengajuan kemudian buka menu Riwayat Pengajuan untuk mengunduh hasil pengajuan.' . PHP_EOL .
+        //             PHP_EOL .
+        //             'Terima Kasih'. PHP_EOL .
+        //             PHP_EOL .
+        //             '[Politeknik Negeri Subang]'
+        //     ); //->Kirim Chat
+        // }
+
+        $verifikasiIjazahItem = pengajuan::where('kode_verifikasi', $id)->get();
+        
+        // $waGateway = [];
+        foreach ($verifikasiIjazahItem as $item) {
+            // $waGateway[] = $item->mahasiswa->user->wa;
+            $nomor_surat = $item->no_surat;
             if ($request->status == 'Selesai') {
     
                 $dokumen = Pengajuan::saveDokumenHasil($request);
     
-                $data = [
-                    'status'  =>  $request->status,
+                $item->update([
+                    'status'  =>  $request->input('status'),
                     'dokumen_hasil' => $dokumen
-                ];
+                ]);
             } else {
-                $data = [
-                    'status'  =>  $request->status
-                ];
+                $item->update([
+                    'status'  =>  $request->input('status')
+                ]);
             }
 
-            Pengajuan::where('kode_verifikasi', $id)->update($data);
+            // $item->update([
+            //     'status' => $request->input('status'),
+            // ]);
+
+            if ($request->status == 'Proses' ) {
+                Riwayat::create([
+                    'pengajuan_id'  => $item->id,
+                    'status'        => 'Diproses',
+                    'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
+                ]);
+            }elseif ($request->status == 'Kendala' ) {
+                Riwayat::create([
+                    'pengajuan_id'  => $item->id,
+                    'status'        => 'Ada Kendala',
+                    'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
+                ]);
+            }elseif ($request->status == 'Selesai' ) {
+                Riwayat::create([
+                    'pengajuan_id'  => $item->id,
+                    'status'        => 'Selesai',
+                    'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
+                ]);
+            }
         }
 
+        // if ($request->status == 'Proses' ) {
+        //     foreach ($waGateway as $wa) {
+        //         WhatsappGatewayService::sendMessage($wa, 
+        //             'Hai, '. PHP_EOL .
+        //                 PHP_EOL .
+        //                 'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan sedang Diproses oleh Bagian Akademik!' . PHP_EOL .
+        //                 'Proses dilakukan selama 3-5 hari kerja, namun bisa saja kurang atau melebihi waktu tersebut. Harap tunggu informasi selanjutnya' . PHP_EOL .
+        //                 PHP_EOL .
+        //                 'Terima Kasih' . PHP_EOL .
+        //                 PHP_EOL .
+        //                 '[Politeknik Negeri Subang]'
+        //         ); 
+        //     }
+        // }elseif ($request->status == 'Kendala' ) {
+        //     foreach ($waGateway as $wa) {
+        //         WhatsappGatewayService::sendMessage($wa, 
+        //             'Hai, ' . PHP_EOL .
+        //                 PHP_EOL .
+        //                 'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan sedang Dalam Kendala!' . PHP_EOL .
+        //                 'Harap menunggu pemberitahuan selanjutnya dikarenakan di lingkungan kampus sedang terdapat kegiatan yang melibatkan Bagian Akademik!' . PHP_EOL .
+        //                 PHP_EOL .
+        //                 'Terima Kasih' . PHP_EOL .
+        //                 PHP_EOL .
+        //                 '[Politeknik Negeri Subang]'
+        //         ); 
+        //     }
+        // }elseif ($request->status == 'Selesai' ) {
+        //     foreach ($waGateway as $wa) {
+        //         WhatsappGatewayService::sendMessage($wa, 
+        //             'Hai, ' . PHP_EOL .
+        //                 PHP_EOL .
+        //                 'Pengajuan Pembuatan Surat Pengantar PKL yang kamu lakukan Telah Selesai!' . PHP_EOL .
+        //                 'Surat Pengantar PKL dapat diambil diruangan akademik dengan nomor surat ' . $nomor_surat . PHP_EOL .
+        //                 PHP_EOL .
+        //                 'Terima Kasih' . PHP_EOL .
+        //                 PHP_EOL .
+        //                 '[Politeknik Negeri Subang]'
+        //         ); 
+        //     }
+        // }
 
-        $pengajuan = Pengajuan::where('id',$id)->first();
-        
-        $waGateway = $pengajuan->instansi->user->wa; //get no wa
-
-        if ($request->status == 'Proses' ) {
-            Riwayat::create([
-                'pengajuan_id'  => $id,
-                'status'        => 'Diproses',
-                'catatan'       => 'Pengajuan Anda Sedang Diproses. Tunggu pemberitahuan selanjutnya'
-            ]);
-
-            WhatsappGatewayService::sendMessage($waGateway, 
-                'Hai, ' . $pengajuan->instansi->user->name . ',' . PHP_EOL .
-                    PHP_EOL .
-                    'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan sedang Diproses oleh Bagian Akademik!' . PHP_EOL .
-                    'Proses dilakukan selama 3-5 hari kerja, namun bisa saja kurang atau melebihi waktu tersebut. Harap tunggu informasi selanjutnya' . PHP_EOL .
-                    PHP_EOL .
-                    'Terima Kasih'. PHP_EOL .
-                    PHP_EOL .
-                    '[Politeknik Negeri Subang]'
-            ); //->Kirim Chat
-        }elseif ($request->status == 'Kendala' ) {
-            Riwayat::create([
-                'pengajuan_id'  => $id,
-                'status'        => 'Ada Kendala',
-                'catatan'       => 'Pengajuan Anda Sedang Dalam Kendala. Tunggu pemberitahuan selanjutnya'
-            ]);
-
-            WhatsappGatewayService::sendMessage($waGateway, 
-                'Hai, ' . $pengajuan->instansi->user->name . ',' . PHP_EOL .
-                    PHP_EOL .
-                    'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan sedang Dalam Kendala!' . PHP_EOL .
-                    'Harap menunggu pemberitahuan selanjutnya dikarenakan di lingkungan kampus sedang terdapat kegiatan yang melibatkan Bagian Akademik!' . PHP_EOL .
-                    PHP_EOL .
-                    'Terima Kasih'. PHP_EOL .
-                    PHP_EOL .
-                    '[Politeknik Negeri Subang]'
-            ); //->Kirim Chat
-        }elseif ($request->status == 'Selesai' ) {
-            Riwayat::create([
-                'pengajuan_id'  => $id,
-                'status'        => 'Selesai',
-                'catatan'       => 'Pengajuan Anda Sudah Selesai. Ambil Dokumen Di Ruangan AKademik'
-            ]);
-
-            WhatsappGatewayService::sendMessage($waGateway, 
-                'Hai, ' . $pengajuan->instansi->user->name . ',' . PHP_EOL .
-                    PHP_EOL .
-                    'Pengajuan Pengecekan keaslian ijazah yang kamu lakukan Telah Selesai!' . PHP_EOL .
-                    'Silahkan login kembali ke website pengajuan kemudian buka menu Riwayat Pengajuan untuk mengunduh hasil pengajuan.' . PHP_EOL .
-                    PHP_EOL .
-                    'Terima Kasih'. PHP_EOL .
-                    PHP_EOL .
-                    '[Politeknik Negeri Subang]'
-            ); //->Kirim Chat
-        }
         return redirect()->back()->with('success', 'Status Berhasil Diubah');
     }
 
@@ -546,11 +633,21 @@ class VerifikasiIjazahController extends Controller
     public function riwayat()
     {
         $verifikasiIjazah = Pengajuan::latest()
+            ->select('kode_verifikasi', 'instansi_id', \DB::raw('MAX(created_at) as created_at'), \DB::raw('MAX(status) as status')) // Memilih kolom kode_verifikasi
             ->where('jenis_pengajuan_id', 6)
+            // ->whereNotIn('status', ['Selesai', 'Tolak'])
+            ->groupBy('kode_verifikasi', 'instansi_id', 'status')
+            ->get();
+        // dd($verifikasiIjazah);
+
+        $verifikasi = Pengajuan::latest()
+            ->where('jenis_pengajuan_id', 6)
+            ->whereIn('kode_verifikasi', $verifikasiIjazah->pluck('kode_verifikasi'))
             ->get();
 
         return view ('admin.riwayat.verifikasi-ijazah.index', [
             'verifikasiIjazah'   => $verifikasiIjazah,
+            'verifikasi'         => $verifikasi,
             'title'         => 'Verifikasi Ijazah'
         ]);
     }
@@ -558,15 +655,17 @@ class VerifikasiIjazahController extends Controller
     /**
      * Display the specified resource.
      */
-    public function showRiwayat(string $id)
+    public function showRiwayat(string $kodeVerifikasi)
     {
-        try {
-            $id = Crypt::decryptString($id);
-        } catch (DecryptException $e) {
-            abort(404);
-        }
+        // try {
+        //     $id = Crypt::decryptString($id);
+        // } catch (DecryptException $e) {
+        //     abort(404);
+        // }
 
-        $verifikasiIjazah = Pengajuan::find($id);
+        $verifikasiIjazah = Pengajuan::where('kode_verifikasi', $kodeVerifikasi)
+        ->get();
+
         return view ('admin.riwayat.verifikasi-ijazah.detail', [
             'verifikasiIjazah'    =>  $verifikasiIjazah,
             'title'        =>  'Detail Pengajuan verifikasi Ijazah'
@@ -623,9 +722,12 @@ class VerifikasiIjazahController extends Controller
         $endDate = Carbon::parse($request->input('end_date'))->endOfDay();
 
         $data = Pengajuan::with(['instansi'])
+            ->select('kode_verifikasi', DB::raw('GROUP_CONCAT(nama SEPARATOR " - ") as nama_concat'), 'instansi_id', 'status', 'created_at')
             ->where('jenis_pengajuan_id', 6)
             ->whereBetween('created_at', [$startDate, $endDate])
+            ->groupBy('kode_verifikasi')
             ->get();
+            // dd($data);
 
         return Excel::download(new VerifikasiIjazahExport($data), 'Verifikasi-Ijazah-Export.xlsx');
     }
@@ -642,7 +744,7 @@ class VerifikasiIjazahController extends Controller
             'no_surat.unique' => 'Nomor Surat Sudah Digunakan',
         ]);
         
-        // Get the data with the same kode_pkl
+        // Get the data with the same kode_verifikasi
         $verifikasiIjazah = Pengajuan::where('kode_verifikasi', $id)->get();
         // dd($verifikasiIjazah);
 

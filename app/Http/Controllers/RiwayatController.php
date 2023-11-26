@@ -181,29 +181,33 @@ class RiwayatController extends Controller
      * Display a listing of the resource.
      */
     public function indexVerifikasiIjazah(Request $request)
-    {
-        $user = auth()->user();
+{
+    $user = auth()->user();
 
-        $instansi       = Instansi::with(['pengajuan'])->whereUserId($user->id)->first();
+    $instansi = Instansi::with(['pengajuan'])->whereUserId($user->id)->first();
 
-        $title          = "Data Pengajuan VerifikasiIjazah";
+    $title = "Data Pengajuan VerifikasiIjazah";
 
-        $verifikasiIjazah = Pengajuan::where('instansi_id', $instansi->id)
-            ->where('jenis_pengajuan_id', 6)
-            ->latest()
-            ->get();
+    $verifikasiIjazah = Pengajuan::latest()
+        // ->select('kode_verifikasi', 'instansi_id', \DB::raw('MAX(created_at) as created_at'), \DB::raw('MAX(status) as status'), \DB::raw('MAX(dokumen_hasil) as dokumen_hasil')) // Memilih kolom kode_verifikasi
+        ->where('jenis_pengajuan_id', 6)
+        ->where('instansi_id', $instansi->id)
+        ->groupBy('kode_verifikasi') // Group by kode_verifikasi
+        ->get();
+        // dd($verifikasiIjazah);
 
-        return view('user.riwayat.verifikasi-ijazah.index', [
-            'verifikasiIjazah'   => $verifikasiIjazah,
-            'title'            => $title,
-        ]);
-    }
+    return view('user.riwayat.verifikasi-ijazah.index', [
+        'verifikasiIjazah' => $verifikasiIjazah,
+        'title'            => $title,
+    ]);
+}
 
     /**
      * Show the form for editing the specified resource.
      */
     public function trackingVerifikasiIjazah(string $id)
     {
+        // dd($id);
         $jumlah = Riwayat::where('pengajuan_id', $id)->count();
         
         $riwayat = Riwayat::where('pengajuan_id', $id)->latest()

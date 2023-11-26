@@ -185,8 +185,6 @@ class AdminJurusanController extends Controller
     {
         $adminJurusan = User::find($id);
 
-        User::deleteImage($id);
-
         $adminJurusan->delete();
 
         return response()->json(['status' => 'Data Berhasil Dihapus']);

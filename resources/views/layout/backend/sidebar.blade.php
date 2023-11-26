@@ -148,6 +148,7 @@
             {{ request()->is('menu-admin/pengajuan-aktif-kuliah*') ? 'active' : ''}} ||
             {{ request()->is('menu-admin/pengajuan-izin-penelitian*') ? 'active' : ''}} ||
             {{ request()->is('menu-admin/pengajuan-verifikasi-ijazah*') ? 'active' : ''}} ||
+            {{ request()->is('menu-admin/detail-verifikasi-ijazah*') ? 'active' : ''}} ||
             {{ request()->is('menu-admin/pengajuan-legalisir*') ? 'active' : ''}} ||
             {{ request()->is('menu-admin/pengajuan-dispensasi*') ? 'active' : ''}} ||
             {{ request()->is('menu-admin/detail-pengajuan-pkl*') ? 'active' : ''}} ||
@@ -180,7 +181,8 @@
                     Legalisir
                   </a>
                 </li>
-                <li class="{{ request()->is('menu-admin/pengajuan-verifikasi-ijazah*') ? 'active' : ''}}">
+                <li class="{{ request()->is('menu-admin/pengajuan-verifikasi-ijazah*') ? 'active' : ''}} ||
+                  {{ request()->is('menu-admin/detail-verifikasi-ijazah*') ? 'active' : ''}}">
                   <a class="nav-link" href="{{route('pengajuan-verifikasi-ijazah.index')}}">
                     Verifikasi Ijazah
                   </a>

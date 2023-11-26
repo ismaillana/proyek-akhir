@@ -173,8 +173,6 @@ class BagianAkademikController extends Controller
     {
         $bagianAkademik = User::find($id);
 
-        User::deleteImage($id);
-
         $bagianAkademik->delete();
 
         return response()->json(['status' => 'Data Berhasil Dihapus']);
