@@ -698,7 +698,6 @@ class VerifikasiIjazahController extends Controller
         //mengambil data dan tampilan dari halaman laporan_pdf
         $data = PDF::loadview('admin.pengajuan.verifikasi-ijazah.print', [
             'verifikasiIjazah' => $verifikasiIjazah,
-            'cekIjazah'        => $cekIjazah
         ]);
         //mendownload laporan.pdf
     	return $data->stream('Surat-Verifikasi-Ijazah.pdf');
