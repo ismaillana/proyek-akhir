@@ -127,7 +127,6 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
                 Route::get('print-verifikasi-ijazah/{id}', [VerifikasiIjazahController::class, 'print'])->name('print-verifikasi-ijazah');
                 Route::get('export-verifikasi-ijazah', [VerifikasiIjazahController::class, 'export'])->name('export-verifikasi-ijazah');
                 Route::post('update-surat-verifikasi-ijazah/{id}', [VerifikasiIjazahController::class, 'updateNoSurat'])->name('update-surat-verifikasi-ijazah');
-                Route::get('/detail-verifikasi-ijazah/{kodeVerifikasi}', [VerifikasiIjazahController::class, 'show'])->name('detail-verifikasi-ijazah');
 
                 //Legalisir
                 Route::resource('pengajuan-legalisir', LegalisirController::class);

@@ -229,24 +229,6 @@ class VerifikasiIjazahController extends Controller
         return redirect()->back()->with('success', 'Pengajuan Berhasil');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function detail($kodeVerifikasi)
-    {
-        $user = auth()->user();
-
-        $verifikasiIjazah = Pengajuan::where('kode_verifikasi', $kodeVerifikasi)
-        ->get();
-        
-        return view ('admin.pengajuan.verifikasi-ijazah.show', [
-            'pengantarPkl'    =>  $pengantarPkl,
-            'user'          => $user,
-            'title'         =>  'Detail Pengajuan Pengantar PKL'
-        ]);
-    }
-
-
 
     /**
      * Display the specified resource.
